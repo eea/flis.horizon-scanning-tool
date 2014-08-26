@@ -45,7 +45,7 @@ class Figure(Model):
 
 class Source(Model):
     author_id = CharField(max_length=64)
-    title_en = CharField(max_length=512)
+    title = CharField(max_length=512)
     title_original = CharField(max_length=512)
     published_year = IntegerField()
     author = CharField(max_length=512)

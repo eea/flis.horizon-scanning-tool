@@ -1,0 +1,26 @@
+{% extends '_layout.html' %}
+
+{% block content %}
+  {% include '_nav.html' %}
+
+  <table class="table table-condensed table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Year</th>
+      <th>Author</th>
+      <th>Added by</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for source in object_list %}
+    <tr>
+      <td>{{ source.title }}</td>
+      <td>{{ source.published_year }}</td>
+      <td>{{ source.author }}</td>
+      <td>{{ source.author_id }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

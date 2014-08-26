@@ -1,0 +1,26 @@
+{% load utils %}
+
+<ul class="nav nav-tabs">
+
+  <li class="{% active '$' %}">
+    <a href="{% url 'home_view' %}">Home</a>
+  </li>
+
+  <li class="{% active 'docs/(.*)$' %}">
+    <a href="#">Drivers of Change</a>
+  </li>
+  <li class="{% active 'indicators/(.*)$' %}">
+    <a href="#">Indicators</a>
+  </li>
+  <li class="{% active 'sources/(.*)$' %}">
+    <a href="{% url 'sources_list' %}">Sources</a>
+  </li>
+  <li class="{% active 'figures/(.*)$' %}">
+    <a href="#">Facts & Figures</a>
+  </li>
+
+  <li class="pull-right {% active 'settings/(.*)$' %}">
+    <a href="#">Settings</a>
+  </li>
+
+</ul>
