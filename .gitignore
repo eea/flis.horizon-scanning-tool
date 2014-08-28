@@ -55,3 +55,4 @@ docs/_build/
 target/
 
 *.sqlite3
+local_settings.py
