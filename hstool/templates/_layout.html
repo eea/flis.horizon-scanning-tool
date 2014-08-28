@@ -1,6 +1,11 @@
 {% extends 'frame.html' %}
+{% load assets %}
 
 {% block head %}
+  {% assets "css" %}
+    <link href="{{ ASSET_URL }}" rel="stylesheet">
+  {% endassets %}
+
   <title>
     {% block title %}
       Horizon Scanning Tool
@@ -16,5 +21,9 @@
 
     {% block content %}{% endblock %}
   </div>
+
+  {% assets "js" %}
+    <script src="{{ ASSET_URL }}"></script>
+  {% endassets %}
 
 {% endblock %}
