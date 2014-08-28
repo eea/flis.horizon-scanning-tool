@@ -50,8 +50,8 @@ class Source(Model):
     published_year = IntegerField()
     author = CharField(max_length=512)
     url = CharField(max_length=256)
-    path = FilePathField(max_length=256, null=True)
-    summary = TextField(max_length=2048)
+    path = FilePathField(max_length=256, null=True, blank=True)
+    summary = TextField(max_length=2048, null=True, blank=True)
 
 
 class GenericElement(Model):
