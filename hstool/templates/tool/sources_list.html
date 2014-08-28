@@ -3,6 +3,12 @@
 {% block content %}
   {% include '_nav.html' %}
 
+	</br>
+	<form action="{% url 'sources_add' %}">
+    <input type="submit" value="Add source">
+  </form>
+	</br>
+
   <table id = 'sources_listing' class="table table-condensed table-bordered table-hover">
     <thead>
     <tr>
