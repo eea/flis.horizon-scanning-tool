@@ -5,7 +5,8 @@ from hstool.views import Home, SourcesListView
 
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^$', Home.as_view(), name='home_view'),
     url(r'^sources/list/$', SourcesListView.as_view(), name='sources_list'),
 
