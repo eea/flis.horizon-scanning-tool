@@ -51,7 +51,7 @@ class Source(Model):
     author = CharField(max_length=512)
     url = CharField(max_length=256)
     path = FilePathField(max_length=256, null=True, blank=True)
-    summary = TextField(max_length=2048, null=True, blank=True)
+    summary = TextField(max_length=2048)
 
     def __unicode__(self):
         return self.title
