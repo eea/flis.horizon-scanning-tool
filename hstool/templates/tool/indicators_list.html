@@ -1,0 +1,46 @@
+{% extends '_layout.html' %}
+
+{% block title %}Indicators list{% endblock %}
+
+{% block content %}
+  {% include '_nav.html' %}
+
+  <table id ="indicators_listing" class="table table-condensed table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Thematic category</th>
+      <th>Base year</th>
+      <th>End year</th>
+      <th>Timeline</th>
+      <th>Short name</th>
+      <th>Long name</th>
+      <th>Country</th>
+      <th>Added by</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for indicator in indicators %}
+    <tr>
+      <td>{{ indicator.theme }}</td>
+      <td>{{ indicator.year_base }}</td>
+      <td>{{ indicator.year_end }}</td>
+      <td>{{ indicator.timeline }}</td>
+      <td>{{ indicator.short_name }}</td>
+      <td>{{ indicator.name }}</td>
+      <td>{{ indicator.country }}</td>
+      <td>{{ indicator.author_Id }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block scripts %}
+
+   <script>
+     $(function () {
+     $('#sources_listing').dataTable();
+     });
+   </script>
+
+{% endblock %}
