@@ -32,7 +32,7 @@ class IndicatorsListView(ListView):
 
 
 class IndicatorsAddView(CreateView):
-    template_name = 'tool/indicator_add.html'
+    template_name = 'tool/indicators_add.html'
     form_class = IndicatorForm
     success_url = reverse_lazy('indicators_list')
 
