@@ -1,0 +1,52 @@
+{% extends '_layout.html' %}
+
+{% block title %}Add new Driver of Change{% endblock %}
+
+{% block content %}
+  {% include '_nav.html' %}
+
+	<form method="POST" class="form">
+		{% csrf_token %}
+    <div class="form-group">
+        {{ form.type.label_tag }}
+        {{ form.type }}&ensp;&ensp;&ensp;&ensp;
+        {{ form.trend_type.label_tag }}
+        {{ form.trend_type }}&ensp;&ensp;&ensp;&ensp;
+        {{ form.geographical_scope.label_tag }}
+        {{ form.geographical_scope }}
+    </div>
+		<div class="form-group">
+      {{ form.steep_category.label_tag }}
+      {{ form.steep_category }}
+    </div>
+    <div class="form-group">
+      {{ form.time_horizon.label_tag }}<br/>
+      {{ form.time_horizon }}
+    </div>
+    <div class="form-group">
+      {{ form.short_name.label_tag }}<br/>
+      {{ form.short_name }}
+    </div>
+    <div class="form-group">
+      {{ form.name.label_tag }}<br/>
+      {{ form.name }}
+    </div>
+    <div class="form-group">
+      {{ form.summary.label_tag }}<br/>
+      {{ form.summary }}
+    </div>
+    <div class="form-group">
+      {{ form.sources.label_tag }}<br/>
+      {{ form.sources }}
+    </div>
+    <div class="form-group">
+      {{ form.figures.label_tag }}<br/>
+      {{ form.figures }}
+    </div>
+    <div class="form-group">
+      {{ form.url.label_tag }}<br/>
+      {{ form.url }}
+    </div>
+	  <input type="submit" value="Publish">
+	</form>
+{% endblock %}

@@ -4,7 +4,9 @@ from django.core.urlresolvers import reverse_lazy
 from hstool.models import (
     Source, Indicator, DriverOfChange,
 )
-from hstool.forms import SourceForm, IndicatorForm
+from hstool.forms import (
+    SourceForm, IndicatorForm, DriverForm,
+)
 
 
 class Home(TemplateView):
@@ -39,3 +41,9 @@ class DriversListView(ListView):
     template_name = 'tool/drivers_list.html'
     model = DriverOfChange
     context_object_name = 'drivers'
+
+
+class DriversAddView(CreateView):
+    template_name = 'tool/drivers_add.html'
+    form_class = DriverForm
+    success_url = reverse_lazy('drivers_list')
