@@ -5,11 +5,49 @@
 {% block content %}
   {% include '_nav.html' %}
 
-	<form method="POST">
+	</br>
+
+	<form method="POST" class="form">
 		{% csrf_token %}
-		<table class="table">
-      {{ form.as_table }}
-		</table>
-	  <input type="submit" value="Publish">
+		<div class="form-group">
+      {{ form.theme.label_tag }}<br/>
+      {{ form.theme }}
+    </div>
+    <div class="form-group">
+      {{ form.short_name.label_tag }}<br/>
+      {{ form.short_name }}
+    </div>
+    <div class="form-group">
+      {{ form.name.label_tag }}<br/>
+      {{ form.name }}
+    </div>
+    <div class="form-group">
+      {{ form.geographical_scope.label_tag }}
+      {{ form.geographical_scope }}&ensp;&ensp;&ensp;&ensp;
+      {{ form.country.label_tag }}
+      {{ form.country }}
+    </div>
+    <div class="form-group">
+			<p><strong>Timeline*</strong></p>
+      {{ form.year_base.label_tag }}
+      {{ form.year_base }}&ensp;&ensp;&ensp;&ensp;
+      {{ form.year_end.label_tag }}
+      {{ form.year_end }}&ensp;&ensp;&ensp;&ensp;
+      {{ form.timeline.label_tag }}
+      {{ form.timeline }}
+    </div>
+    <div class="form-group">
+      {{ form.sources.label_tag }}<br/>
+      {{ form.sources }}
+    </div>
+    <div class="form-group">
+      {{ form.figures.label_tag }}<br/>
+      {{ form.figures }}
+    </div>
+    <div class="form-group">
+      {{ form.url.label_tag }}<br/>
+      {{ form.url }}
+    </div>
+	  <input type="submit" value="Save">
 	</form>
 {% endblock %}
