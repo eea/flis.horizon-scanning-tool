@@ -8,12 +8,31 @@ class SourceForm(ModelForm):
     class Meta:
         model = Source
         exclude = ['author_id']
+        labels = {
+            "title": _("Title in English"),
+            "title_original": _("Title in original language"),
+            "published_year": _("Year of publication"),
+            "path": _("Upload file"),
+            "url": _("URL"),
+        }
 
 
 class IndicatorForm(ModelForm):
     class Meta:
         model = Indicator
         exclude = ['author_id']
+        labels = {
+            "theme": _("Thematic category"),
+            "timeline": _("Time coverage*"),
+            "year_base": _("Base year*"),
+            "year_end": _("End year*"),
+            "geographical_scope": _("Georgaphical scale*"),
+            "short_name": _("Short name*"),
+            "name": _("Long name*"),
+            "sources": _("Source*"),
+            "figures": _("Figures"),
+            "url": _("URL"),
+        }
 
 
 class DriverForm(ModelForm):
@@ -31,4 +50,5 @@ class DriverForm(ModelForm):
             "sources": _("Sources*"),
             "figures": _("Figures*"),
             "summary": _("Summary*"),
+            "url": _("URL"),
         }
