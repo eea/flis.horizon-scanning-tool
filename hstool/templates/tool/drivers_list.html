@@ -1,0 +1,46 @@
+{% extends '_layout.html' %}
+
+{% block title %}Drivers list{% endblock %}
+
+{% block content %}
+  {% include '_nav.html' %}
+
+  <table id ="drivers_listing" class="table table-condensed table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Type of driver of change</th>
+      <th>Type of trend</th>
+      <th>STEEP category</th>
+      <th>Tome horizon</th>
+			<th>Short name</th>
+			<th>Long name</th>
+			<th>Country</th>
+			<th>Added by</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for driver in drivers %}
+    <tr>
+      <td>{{ driver.type }}</td>
+      <td>{{ driver.trend_type }}</td>
+      <td>{{ driver.steep_category }}</td>
+      <td>{{ driver.time_horizon }}</td>
+      <td>{{ driver.short_name }}</td>
+      <td>{{ driver.name }}</td>
+      <td>{{ driver.country }}</td>
+      <td>{{ driver.author_id }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block scripts %}
+
+   <script>
+     $(function () {
+     $('#drivers_listing').dataTable();
+     });
+   </script>
+
+{% endblock %}
