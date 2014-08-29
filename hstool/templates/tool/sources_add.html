@@ -5,7 +5,9 @@
 
 	<form method="POST">
 		{% csrf_token %}
-    {{ form.as_p }}
+		<table class="table">
+      {{ form.as_table }}
+		</table>
 	  <input type="submit" value="Save source">
 	</form>
 {% endblock %}
