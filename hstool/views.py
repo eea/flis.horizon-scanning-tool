@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse_lazy
 from hstool.models import (
     Source, Indicator,
 )
-from hstool.forms import SourceForm
+from hstool.forms import SourceForm, IndicatorForm
 
 
 class Home(TemplateView):
@@ -33,3 +33,9 @@ class IndicatorsListView(ListView):
 
     def get_queryset(self):
         return Indicator.objects.all()
+
+
+class IndicatorsAddView(CreateView):
+    template_name = 'tool/indicator_add.html'
+    form_class = IndicatorForm
+    success_url = reverse_lazy('indicators_list')

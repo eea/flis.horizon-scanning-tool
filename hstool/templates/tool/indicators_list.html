@@ -5,6 +5,12 @@
 {% block content %}
   {% include '_nav.html' %}
 
+	</br>
+	<form action="{% url 'indicators_add' %}">
+    <input type="submit" value="Add indicator">
+  </form>
+	</br>
+
   <table id ="indicators_listing" class="table table-condensed table-bordered table-hover">
     <thead>
     <tr>

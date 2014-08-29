@@ -1,0 +1,15 @@
+{% extends '_layout.html' %}
+
+{% block title %}Add new indicator{% endblock %}
+
+{% block content %}
+  {% include '_nav.html' %}
+
+	<form method="POST">
+		{% csrf_token %}
+		<table class="table">
+      {{ form.as_table }}
+		</table>
+	  <input type="submit" value="Publish">
+	</form>
+{% endblock %}

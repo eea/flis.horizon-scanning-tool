@@ -53,6 +53,9 @@ class Source(Model):
     path = FilePathField(max_length=256, null=True, blank=True)
     summary = TextField(max_length=2048, null=True, blank=True)
 
+    def __unicode__(self):
+        return self.title
+
 
 class GenericElement(Model):
     author_id = CharField(max_length=64)
