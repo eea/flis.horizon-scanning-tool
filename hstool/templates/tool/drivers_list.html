@@ -17,7 +17,7 @@
       <th>Type of driver of change</th>
       <th>Type of trend</th>
       <th>STEEP category</th>
-      <th>Tome horizon</th>
+      <th>Time horizon</th>
 			<th>Short name</th>
 			<th>Long name</th>
 			<th>Country</th>
@@ -27,10 +27,10 @@
     <tbody>
     {% for driver in drivers %}
     <tr>
-      <td>{{ driver.type }}</td>
-      <td>{{ driver.trend_type }}</td>
-      <td>{{ driver.steep_category }}</td>
-      <td>{{ driver.time_horizon }}</td>
+      <td>{{ driver.get_type_display }}</td>
+      <td>{{ driver.get_trend_type_display }}</td>
+      <td>{{ driver.get_steep_category_display }}</td>
+      <td>{{ driver.get_time_horizon_display }}</td>
       <td>{{ driver.short_name }}</td>
       <td>{{ driver.name }}</td>
       <td>{{ driver.country }}</td>
