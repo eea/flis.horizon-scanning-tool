@@ -16,9 +16,6 @@ class SourcesListView(ListView):
     model = Source
     context_object_name = 'sources'
 
-    def get_queryset(self):
-        return Source.objects.all()
-
 
 class SourcesAddView(CreateView):
     template_name = 'tool/sources_add.html'
@@ -30,9 +27,6 @@ class IndicatorsListView(ListView):
     template_name = 'tool/indicators_list.html'
     model = Indicator
     context_object_name = 'indicators'
-
-    def get_queryset(self):
-        return Indicator.objects.all()
 
 
 class IndicatorsAddView(CreateView):
