@@ -41,33 +41,37 @@ be run as an unprivileged user in the product directory:
 
 2.1. Create & activate a virtual environment:
 
+
     virtualenv --no-site-packages sandbox
     echo '*' > sandbox/.gitignore
     source sandbox/bin/activate
 
-2.2 Make sure setuptools >= 0.8 is installed:
+2.2. Make sure setuptools >= 0.8 is installed:
 
     pip install -U setuptools
 
 3. Install dependencies:
 
+
     pip install -r requirements-dep.txt
 
 4. Create a local configuration file:
+
 
     cd hstool
     cp local_settings.py.example local_settings.py
 
     # Follow instructions in local_settings.py to adapt it to your needs.
 
-5. Create initial database structure::
+5. Create initial database structure:
+
 
     ./manage.py syncdb
 
-6. Load fixtures data into the database::
+6. Load fixtures data into the database:
 
-   ./manage.py loadfixtures
 
+    ./manage.py loadfixtures
 
 Build production
 ----------------
