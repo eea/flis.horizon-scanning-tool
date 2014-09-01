@@ -58,7 +58,7 @@ class CountriesListView(ListView):
 class CountriesAddView(CreateView):
     template_name = 'tool/countries_add.html'
     form_class = CountryForm
-    success_url = reverse_lazy('countries_list')
+    success_url = reverse_lazy('settings:countries_list')
 
 
 class GeoScopesListView(ListView):

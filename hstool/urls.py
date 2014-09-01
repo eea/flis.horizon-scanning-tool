@@ -9,6 +9,18 @@ from hstool.views import (
 
 admin.autodiscover()
 
+settings_urls = patterns(
+    '',
+    url(r'^countries/list/$', CountriesListView.as_view(),
+        name='countries_list'),
+
+    url(r'^countries/add/$', CountriesAddView.as_view(), name='countries_add'),
+
+    url(r'^geographic_scopes/list/$', GeoScopesListView.as_view(),
+        name='geo_scopes_list'),
+
+)
+
 urlpatterns = patterns(
     '',
     url(r'^$', Home.as_view(), name='home_view'),
@@ -20,14 +32,8 @@ urlpatterns = patterns(
         name='indicators_add'),
     url(r'^docs/list/$', DriversListView.as_view(), name='drivers_list'),
     url(r'^docs/add/$', DriversAddView.as_view(), name='drivers_add'),
-    url(r'^settings/', include([
-        url(r'^countries/list/$', CountriesListView.as_view(),
-            name='countries_list'),
-        url(r'^countries/add/$', CountriesAddView.as_view(),
-            name='countries_add'),
-        url(r'^geographic_scopes/list/$', GeoScopesListView.as_view(),
-            name='geo_scopes_list'),
-        ])),
+
+    url(r'^settings/', include(settings_urls, namespace='settings')),
 
     url(r'^admin/', include(admin.site.urls)),
 )
