@@ -1,7 +1,7 @@
 from django.forms.models import ModelForm
 from django.utils.translation import ugettext_lazy as _
 
-from hstool.models import Source, Indicator, DriverOfChange
+from hstool.models import Source, Indicator, DriverOfChange, Country
 
 
 class SourceForm(ModelForm):
@@ -51,4 +51,12 @@ class DriverForm(ModelForm):
             "figures": _("Figures"),
             "summary": _("Summary"),
             "url": _("URL"),
+        }
+
+
+class CountryForm(ModelForm):
+    class Meta:
+        model = Country
+        labels = {
+            "iso": _("ISO"),
         }

@@ -5,6 +5,12 @@
 {% block content %}
 	{% include '_nav.html' %}
 
+	</br>
+	<form action="{% url 'countries_add' %}">
+    <input class="btn btn-success" type="submit" value="Add country">
+  </form>
+	</br>
+
 	<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
 		<thead>
 		<tr>

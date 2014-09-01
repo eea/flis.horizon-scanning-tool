@@ -4,6 +4,7 @@ from django.contrib import admin
 from hstool.views import (
     Home, SourcesListView, SourcesAddView, IndicatorsListView,
     IndicatorsAddView, DriversListView, DriversAddView, CountriesListView,
+    CountriesAddView,
 )
 
 admin.autodiscover()
@@ -22,6 +23,8 @@ urlpatterns = patterns(
     url(r'^settings/', include([
         url(r'^countries/list/$', CountriesListView.as_view(),
             name='countries_list'),
+        url(r'^countries/add/$', CountriesAddView.as_view(),
+            name='countries_add'),
         ])),
 
     url(r'^admin/', include(admin.site.urls)),

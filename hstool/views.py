@@ -5,7 +5,7 @@ from hstool.models import (
     Source, Indicator, DriverOfChange, Country,
 )
 from hstool.forms import (
-    SourceForm, IndicatorForm, DriverForm,
+    SourceForm, IndicatorForm, DriverForm, CountryForm,
 )
 
 
@@ -53,3 +53,9 @@ class CountriesListView(ListView):
     template_name = 'tool/countries_list.html'
     model = Country
     context_object_name = 'countries'
+
+
+class CountriesAddView(CreateView):
+    template_name = 'tool/countries_add.html'
+    form_class = CountryForm
+    success_url = reverse_lazy('countries_list')

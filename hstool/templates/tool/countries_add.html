@@ -1,0 +1,21 @@
+{% extends '_layout.html' %}
+{% load custom_filters %}
+
+{% block title %}Add new Country{% endblock %}
+
+{% block content %}
+  {% include '_nav.html' %}
+
+	<form method="POST" class="form">
+		{% csrf_token %}
+		<div class="form-group">
+      {{ form.iso|label }}<br/>
+      {{ form.iso }}
+    </div>
+    <div class="form-group">
+      {{ form.name|label }}<br/>
+      {{ form.name }}
+    </div>
+	  <input class="btn btn-success" type="submit" value="Save">
+	</form>
+{% endblock %}
