@@ -1,4 +1,4 @@
-{% extends '_layout.html' %}
+{% extends 'tool/_list_as_table.html' %}
 
 {% block title %}Indicators list{% endblock %}
 
@@ -11,7 +11,7 @@
   </form>
 	</br>
 
-  <table id ="indicators_listing" class="table table-condensed table-bordered table-hover">
+  <table id ="objects_listing" class="table table-condensed table-bordered table-hover">
     <thead>
     <tr>
       <th>Thematic category</th>
@@ -39,14 +39,4 @@
     {% endfor %}
     </tbody>
   </table>
-{% endblock %}
-
-{% block scripts %}
-
-   <script>
-     $(function () {
-     $('#indicators_listing').dataTable();
-     });
-   </script>
-
 {% endblock %}
