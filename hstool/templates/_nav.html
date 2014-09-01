@@ -19,14 +19,21 @@
     <a href="#">Facts & Figures</a>
   </li>
 
-  <div class="pull-right btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-      Settings <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-      <li><a href="{% url 'countries_list' %}">Countries</a></li>
-      <li><a href="{% url 'geo_scopes_list' %}">Geographical scales</a></li>
-    </ul>
-  </div>
+	<li class="{% active 'settings/(.+)$' %} pull-right">
+		<a class="dropdown-toggle" data-toggle="dropdown">
+			Settings <span class="caret"></span></a>
+		<ul class="dropdown-menu">
+			<li>
+				<a href="{% url 'countries_list' %}">
+					Countries
+				</a>
+			</li>
+			<li>
+				<a href="{% url 'geo_scopes_list' %}">
+					Geographical scales
+				</a>
+			</li>
+		</ul>
+	</li>
 
 </ul>
