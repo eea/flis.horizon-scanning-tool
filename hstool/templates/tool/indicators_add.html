@@ -1,4 +1,5 @@
 {% extends '_layout.html' %}
+{% load custom_filters %}
 
 {% block title %}Add new indicator{% endblock %}
 
@@ -10,42 +11,42 @@
 	<form method="POST" class="form">
 		{% csrf_token %}
 		<div class="form-group">
-      {{ form.theme.label_tag }}<br/>
+      {{ form.theme|label }}<br/>
       {{ form.theme }}
     </div>
     <div class="form-group">
-      {{ form.short_name.label_tag }}<br/>
+      {{ form.short_name|label }}<br/>
       {{ form.short_name }}
     </div>
     <div class="form-group">
-      {{ form.name.label_tag }}<br/>
+      {{ form.name|label }}<br/>
       {{ form.name }}
     </div>
     <div class="form-group">
-      {{ form.geographical_scope.label_tag }}
+      {{ form.geographical_scope|label }}
       {{ form.geographical_scope }}&ensp;&ensp;&ensp;&ensp;
-      {{ form.country.label_tag }}
+      {{ form.country|label }}
       {{ form.country }}
     </div>
     <div class="form-group">
 			<p><strong>Timeline*</strong></p>
-      {{ form.year_base.label_tag }}
+      {{ form.year_base|label }}
       {{ form.year_base }}&ensp;&ensp;&ensp;&ensp;
-      {{ form.year_end.label_tag }}
+      {{ form.year_end|label }}
       {{ form.year_end }}&ensp;&ensp;&ensp;&ensp;
-      {{ form.timeline.label_tag }}
+      {{ form.timeline|label }}
       {{ form.timeline }}
     </div>
     <div class="form-group">
-      {{ form.sources.label_tag }}<br/>
+      {{ form.sources|label }}<br/>
       {{ form.sources }}
     </div>
     <div class="form-group">
-      {{ form.figures.label_tag }}<br/>
+      {{ form.figures|label }}<br/>
       {{ form.figures }}
     </div>
     <div class="form-group">
-      {{ form.url.label_tag }}<br/>
+      {{ form.url|label }}<br/>
       {{ form.url }}
     </div>
 	  <input class="btn btn-success" type="submit" value="Save">
