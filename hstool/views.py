@@ -5,7 +5,7 @@ from hstool.models import (
     Source, Indicator, DriverOfChange, Country, GeographicalScope
 )
 from hstool.forms import (
-    SourceForm, IndicatorForm, DriverForm, CountryForm,
+    SourceForm, IndicatorForm, DriverForm, CountryForm, GeoScopeForm,
 )
 
 
@@ -65,3 +65,9 @@ class GeoScopesListView(ListView):
     template_name = 'tool/geo_scopes_list.html'
     model = GeographicalScope
     context_object_name = 'geo_scopes'
+
+
+class GeoScopesAddView(CreateView):
+    template_name = 'tool/geo_scopes_add.html'
+    form_class = GeoScopeForm
+    success_url = reverse_lazy('settings:geo_scopes_list')

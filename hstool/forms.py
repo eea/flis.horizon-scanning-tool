@@ -1,7 +1,9 @@
 from django.forms.models import ModelForm
 from django.utils.translation import ugettext_lazy as _
 
-from hstool.models import Source, Indicator, DriverOfChange, Country
+from hstool.models import (
+    Source, Indicator, DriverOfChange, Country, GeographicalScope,
+)
 
 
 class SourceForm(ModelForm):
@@ -60,3 +62,8 @@ class CountryForm(ModelForm):
         labels = {
             "iso": _("ISO"),
         }
+
+
+class GeoScopeForm(ModelForm):
+    class Meta:
+        model = GeographicalScope

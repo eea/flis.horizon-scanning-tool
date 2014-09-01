@@ -4,7 +4,7 @@ from django.contrib import admin
 from hstool.views import (
     Home, SourcesListView, SourcesAddView, IndicatorsListView,
     IndicatorsAddView, DriversListView, DriversAddView, CountriesListView,
-    CountriesAddView, GeoScopesListView,
+    CountriesAddView, GeoScopesListView, GeoScopesAddView,
 )
 
 admin.autodiscover()
@@ -18,6 +18,9 @@ settings_urls = patterns(
 
     url(r'^geographic_scopes/list/$', GeoScopesListView.as_view(),
         name='geo_scopes_list'),
+
+    url(r'^geographic_scopes/add/$', GeoScopesAddView.as_view(),
+        name='geo_scopes_add'),
 
 )
 
