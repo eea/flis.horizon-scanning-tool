@@ -1,0 +1,24 @@
+{% extends 'tool/_list_as_table.html' %}
+
+{% block title %}Geographical scopes list{% endblock %}
+
+{% block content %}
+	{% include '_nav.html' %}
+
+	<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+		<thead>
+		<tr>
+			<th>Title</th>
+			<th>Require country</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for geo_scope in geo_scopes %}
+			<tr>
+				<td>{{ geo_scope.title }}</td>
+				<td>{{ geo_scope.require_country }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

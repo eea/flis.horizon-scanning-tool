@@ -2,7 +2,7 @@ from django.views.generic import TemplateView, ListView, CreateView
 from django.core.urlresolvers import reverse_lazy
 
 from hstool.models import (
-    Source, Indicator, DriverOfChange, Country,
+    Source, Indicator, DriverOfChange, Country, GeographicalScope
 )
 from hstool.forms import (
     SourceForm, IndicatorForm, DriverForm, CountryForm,
@@ -59,3 +59,9 @@ class CountriesAddView(CreateView):
     template_name = 'tool/countries_add.html'
     form_class = CountryForm
     success_url = reverse_lazy('countries_list')
+
+
+class GeoScopesListView(ListView):
+    template_name = 'tool/geo_scopes_list.html'
+    model = GeographicalScope
+    context_object_name = 'geo_scopes'
