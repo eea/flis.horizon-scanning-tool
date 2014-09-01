@@ -2,7 +2,7 @@ from django.views.generic import TemplateView, ListView, CreateView
 from django.core.urlresolvers import reverse_lazy
 
 from hstool.models import (
-    Source, Indicator, DriverOfChange,
+    Source, Indicator, DriverOfChange, Country,
 )
 from hstool.forms import (
     SourceForm, IndicatorForm, DriverForm,
@@ -47,3 +47,9 @@ class DriversAddView(CreateView):
     template_name = 'tool/drivers_add.html'
     form_class = DriverForm
     success_url = reverse_lazy('drivers_list')
+
+
+class CountriesListView(ListView):
+    template_name = 'tool/countries_list.html'
+    model = Country
+    context_object_name = 'countries'

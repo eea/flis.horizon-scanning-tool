@@ -1,0 +1,24 @@
+{% extends 'tool/_list_as_table.html' %}
+
+{% block title %}Drivers list{% endblock %}
+
+{% block content %}
+	{% include '_nav.html' %}
+
+	<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+		<thead>
+		<tr>
+			<th>ISO</th>
+			<th>Name</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for country in countries %}
+			<tr>
+				<td>{{ country.iso }}</td>
+				<td>{{ country.name }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

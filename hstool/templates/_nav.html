@@ -19,8 +19,13 @@
     <a href="#">Facts & Figures</a>
   </li>
 
-  <li class="pull-right {% active 'settings/(.*)$' %}">
-    <a href="#">Settings</a>
-  </li>
+  <div class="pull-right btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      Settings <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="{% url 'countries_list' %}">Countries</a></li>
+    </ul>
+  </div>
 
 </ul>

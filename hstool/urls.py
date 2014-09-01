@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from hstool.views import (
     Home, SourcesListView, SourcesAddView, IndicatorsListView,
-    IndicatorsAddView, DriversListView, DriversAddView,
+    IndicatorsAddView, DriversListView, DriversAddView, CountriesListView,
 )
 
 admin.autodiscover()
@@ -17,8 +17,12 @@ urlpatterns = patterns(
         name='indicators_list'),
     url(r'^indicators/add/$', IndicatorsAddView.as_view(),
         name='indicators_add'),
-    url(r'^drivers/list/$', DriversListView.as_view(), name='drivers_list'),
-    url(r'^drivers/add/$', DriversAddView.as_view(), name='drivers_add'),
+    url(r'^docs/list/$', DriversListView.as_view(), name='drivers_list'),
+    url(r'^docs/add/$', DriversAddView.as_view(), name='drivers_add'),
+    url(r'^settings/', include([
+        url(r'^countries/list/$', CountriesListView.as_view(),
+            name='countries_list'),
+        ])),
 
     url(r'^admin/', include(admin.site.urls)),
 )
