@@ -20,6 +20,10 @@ class SourceForm(ModelForm):
 
 
 class IndicatorForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(IndicatorForm, self).__init__(*args, **kwargs)
+        self.fields['sources'].widget.attrs["size"] = 6
+
     class Meta:
         model = Indicator
         exclude = ['author_id']
@@ -31,7 +35,7 @@ class IndicatorForm(ModelForm):
             "geographical_scope": _("Georgaphical scale"),
             "short_name": _("Short name"),
             "name": _("Long name"),
-            "sources": _("Source"),
+            "sources": _("Sources"),
             "figures": _("Figures"),
             "url": _("URL"),
         }
