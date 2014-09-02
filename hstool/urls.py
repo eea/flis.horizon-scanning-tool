@@ -5,7 +5,7 @@ from hstool.views import (
     Home, SourcesListView, SourcesAddView, IndicatorsListView,
     IndicatorsAddView, DriversListView, DriversAddView, CountriesListView,
     CountriesAddView, GeoScopesListView, GeoScopesAddView,
-)
+    SourceAddModal, SourceAddModalSuccess)
 
 admin.autodiscover()
 
@@ -29,6 +29,10 @@ urlpatterns = patterns(
     url(r'^$', Home.as_view(), name='home_view'),
     url(r'^sources/list/$', SourcesListView.as_view(), name='sources_list'),
     url(r'^sources/add/$', SourcesAddView.as_view(), name='sources_add'),
+    url(r'^sources/add/modal/$', SourceAddModal.as_view(),
+        name='sources_add_modal'),
+    url(r'^sources/add/modal/success/(?P<pk>\d+)$',
+        SourceAddModalSuccess.as_view(), name='sources_add_modal_success'),
     url(r'^indicators/list/$', IndicatorsListView.as_view(),
         name='indicators_list'),
     url(r'^indicators/add/$', IndicatorsAddView.as_view(),

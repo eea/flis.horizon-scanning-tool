@@ -1,5 +1,5 @@
-from django.views.generic import TemplateView, ListView, CreateView
-from django.core.urlresolvers import reverse_lazy
+from django.views.generic import TemplateView, ListView, CreateView, DetailView
+from django.core.urlresolvers import reverse_lazy, reverse
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Country, GeographicalScope
@@ -36,6 +36,11 @@ class IndicatorsAddView(CreateView):
     form_class = IndicatorForm
     success_url = reverse_lazy('indicators_list')
 
+    def get_context_data(self, **kwargs):
+        context = super(IndicatorsAddView, self).get_context_data(**kwargs)
+        context.update({'source_form': SourceForm})
+        return context
+
 
 class DriversListView(ListView):
     template_name = 'tool/drivers_list.html'
@@ -71,3 +76,18 @@ class GeoScopesAddView(CreateView):
     template_name = 'tool/geo_scopes_add.html'
     form_class = GeoScopeForm
     success_url = reverse_lazy('settings:geo_scopes_list')
+
+
+class SourceAddModal(CreateView):
+    template_name = 'tool/sources_add_modal.html'
+    model = Source
+    form_class = SourceForm
+
+    def get_success_url(self):
+        source = self.object
+        return reverse('sources_add_modal_success', args=(source.id, ))
+
+
+class SourceAddModalSuccess(DetailView):
+    template_name = 'tool/sources_add_modal_success.html'
+    model = Source

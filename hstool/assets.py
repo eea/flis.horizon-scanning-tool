@@ -13,6 +13,7 @@ JS_ASSETS = (
     'js/lib/bootstrap.min.js',
     'js/lib/bootstrap-datetimepicker.min.js',
     'js/lib/jquery.dataTables.min.js',
+    'js/main.js',
 )
 
 
