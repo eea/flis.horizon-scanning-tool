@@ -79,6 +79,14 @@ class DriverOfChange(GenericElement):
     time_horizon = IntegerField(choices=DOC_TIME_HORIZON_CHOICES)
     summary = TextField(null=True, blank=True)
 
+    def __unicode__(self):
+        return '{0} - {1} - {2} - {3}'.format(
+            dict(DOC_TYPE_CHOICES).get(self.type, ''),
+            dict(DOC_TREND_TYPE_CHOICES).get(self.trend_type, ''),
+            dict(DOC_STEEP_CHOICES).get(self.steep_category, ''),
+            dict(DOC_TIME_HORIZON_CHOICES).get(self.time_horizon, ''),
+        )
+
 
 class Indicator(GenericElement):
     theme = ForeignKey('EnvironmentalTheme')

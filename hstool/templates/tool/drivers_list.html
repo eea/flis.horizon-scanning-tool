@@ -22,6 +22,7 @@
 			<th>Long name</th>
 			<th>Country</th>
 			<th>Added by</th>
+			<th></th>
     </tr>
     </thead>
     <tbody>
@@ -35,6 +36,9 @@
       <td>{{ driver.name }}</td>
       <td>{{ driver.country }}</td>
       <td>{{ driver.author_id }}</td>
+      <td>
+				<a href="{% url 'delete_record' 'DriverOfChange' driver.id %}?next={% url 'drivers_list' %}">DELETE</a>
+      </td>
     </tr>
     {% endfor %}
     </tbody>
