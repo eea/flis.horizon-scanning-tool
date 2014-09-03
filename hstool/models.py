@@ -94,6 +94,12 @@ class Indicator(GenericElement):
     year_end = IntegerField()
     timeline = IntegerField(choices=IND_TIMELINE_CHOICES)
 
+    def __unicode__(self):
+        return '{0} - {1} - {2} - {3}'.format(
+            self.theme, self.year_base, self.year_end,
+            dict(IND_TIMELINE_CHOICES).get(self.timeline, ''),
+        )
+
 
 class Relation(Model):
     assessment = ForeignKey('Assessment')

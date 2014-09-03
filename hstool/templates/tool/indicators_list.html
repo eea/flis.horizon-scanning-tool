@@ -22,6 +22,7 @@
       <th>Long name</th>
       <th>Country</th>
       <th>Added by</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
@@ -35,6 +36,9 @@
       <td>{{ indicator.name }}</td>
       <td>{{ indicator.country }}</td>
       <td>{{ indicator.author_Id }}</td>
+      <td>
+        <a href="{% url 'delete_record' 'Indicator' indicator.id %}?next={% url 'indicators_list' %}">DELETE</a>
+      </td>
     </tr>
     {% endfor %}
     </tbody>
