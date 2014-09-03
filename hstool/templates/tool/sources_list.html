@@ -3,36 +3,36 @@
 {% block title %}Sources list{% endblock %}
 
 {% block content %}
-  {% include '_nav.html' %}
+	<div class="container">
+		</br>
+		<form action="{% url 'sources_add' %}">
+			<input class="btn btn-success" type="submit" value="Add source">
+		</form>
+		</br>
 
-	</br>
-	<form action="{% url 'sources_add' %}">
-    <input class="btn btn-success" type="submit" value="Add source">
-  </form>
-	</br>
-
-  <table id = 'objects_listing' class="table table-condensed table-bordered table-hover">
-    <thead>
-    <tr>
-      <th>Title</th>
-      <th>Year</th>
-      <th>Author</th>
-      <th>Added by</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for source in sources %}
-    <tr>
-      <td>{{ source.title }}</td>
-      <td>{{ source.published_year }}</td>
-      <td>{{ source.author }}</td>
-      <td>{{ source.author_id }}</td>
-      <td>
-				<a href="{% url 'delete_record' 'Source' source.id %}?next={% url 'sources_list' %}">DELETE</a>
-			</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+		<table id = 'objects_listing' class="table table-condensed table-bordered table-hover">
+			<thead>
+			<tr>
+				<th>Title</th>
+				<th>Year</th>
+				<th>Author</th>
+				<th>Added by</th>
+				<th></th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for source in sources %}
+				<tr>
+					<td>{{ source.title }}</td>
+					<td>{{ source.published_year }}</td>
+					<td>{{ source.author }}</td>
+					<td>{{ source.author_id }}</td>
+					<td>
+						<a href="{% url 'delete_record' 'Source' source.id %}?next={% url 'sources_list' %}">DELETE</a>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}

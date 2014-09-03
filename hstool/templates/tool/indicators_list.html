@@ -3,44 +3,44 @@
 {% block title %}Indicators list{% endblock %}
 
 {% block content %}
-  {% include '_nav.html' %}
+	<div class="container">
+		</br>
+		<form action="{% url 'indicators_add' %}">
+			<input class="btn btn-success" type="submit" value="Add indicator">
+		</form>
+		</br>
 
-	</br>
-	<form action="{% url 'indicators_add' %}">
-    <input class="btn btn-success" type="submit" value="Add indicator">
-  </form>
-	</br>
-
-  <table id ="objects_listing" class="table table-condensed table-bordered table-hover">
-    <thead>
-    <tr>
-      <th>Thematic category</th>
-      <th>Base year</th>
-      <th>End year</th>
-      <th>Timeline</th>
-      <th>Short name</th>
-      <th>Long name</th>
-      <th>Country</th>
-      <th>Added by</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for indicator in indicators %}
-    <tr>
-      <td>{{ indicator.theme }}</td>
-      <td>{{ indicator.year_base }}</td>
-      <td>{{ indicator.year_end }}</td>
-      <td>{{ indicator.get_timeline_display }}</td>
-      <td>{{ indicator.short_name }}</td>
-      <td>{{ indicator.name }}</td>
-      <td>{{ indicator.country }}</td>
-      <td>{{ indicator.author_Id }}</td>
-      <td>
-        <a href="{% url 'delete_record' 'Indicator' indicator.id %}?next={% url 'indicators_list' %}">DELETE</a>
-      </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+			<thead>
+			<tr>
+				<th>Thematic category</th>
+				<th>Base year</th>
+				<th>End year</th>
+				<th>Timeline</th>
+				<th>Short name</th>
+				<th>Long name</th>
+				<th>Country</th>
+				<th>Added by</th>
+				<th></th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for indicator in indicators %}
+				<tr>
+					<td>{{ indicator.theme }}</td>
+					<td>{{ indicator.year_base }}</td>
+					<td>{{ indicator.year_end }}</td>
+					<td>{{ indicator.get_timeline_display }}</td>
+					<td>{{ indicator.short_name }}</td>
+					<td>{{ indicator.name }}</td>
+					<td>{{ indicator.country }}</td>
+					<td>{{ indicator.author_Id }}</td>
+					<td>
+						<a href="{% url 'delete_record' 'Indicator' indicator.id %}?next={% url 'indicators_list' %}">DELETE</a>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}

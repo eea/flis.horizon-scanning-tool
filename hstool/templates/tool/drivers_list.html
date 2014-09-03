@@ -3,44 +3,44 @@
 {% block title %}Drivers list{% endblock %}
 
 {% block content %}
-  {% include '_nav.html' %}
+	<div class="container">
+		</br>
+		<form action="{% url 'drivers_add' %}">
+			<input class="btn btn-success" type="submit" value="Add driver">
+		</form>
+		</br>
 
-	</br>
-	<form action="{% url 'drivers_add' %}">
-    <input class="btn btn-success" type="submit" value="Add driver">
-  </form>
-	</br>
-
-  <table id ="objects_listing" class="table table-condensed table-bordered table-hover">
-    <thead>
-    <tr>
-      <th>Type of driver of change</th>
-      <th>Type of trend</th>
-      <th>STEEP category</th>
-      <th>Time horizon</th>
-			<th>Short name</th>
-			<th>Long name</th>
-			<th>Country</th>
-			<th>Added by</th>
-			<th></th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for driver in drivers %}
-    <tr>
-      <td>{{ driver.get_type_display }}</td>
-      <td>{{ driver.get_trend_type_display }}</td>
-      <td>{{ driver.get_steep_category_display }}</td>
-      <td>{{ driver.get_time_horizon_display }}</td>
-      <td>{{ driver.short_name }}</td>
-      <td>{{ driver.name }}</td>
-      <td>{{ driver.country }}</td>
-      <td>{{ driver.author_id }}</td>
-      <td>
-				<a href="{% url 'delete_record' 'DriverOfChange' driver.id %}?next={% url 'drivers_list' %}">DELETE</a>
-      </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+			<thead>
+			<tr>
+				<th>Type of driver of change</th>
+				<th>Type of trend</th>
+				<th>STEEP category</th>
+				<th>Time horizon</th>
+				<th>Short name</th>
+				<th>Long name</th>
+				<th>Country</th>
+				<th>Added by</th>
+				<th></th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for driver in drivers %}
+				<tr>
+					<td>{{ driver.get_type_display }}</td>
+					<td>{{ driver.get_trend_type_display }}</td>
+					<td>{{ driver.get_steep_category_display }}</td>
+					<td>{{ driver.get_time_horizon_display }}</td>
+					<td>{{ driver.short_name }}</td>
+					<td>{{ driver.name }}</td>
+					<td>{{ driver.country }}</td>
+					<td>{{ driver.author_id }}</td>
+					<td>
+						<a href="{% url 'delete_record' 'DriverOfChange' driver.id %}?next={% url 'drivers_list' %}">DELETE</a>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}

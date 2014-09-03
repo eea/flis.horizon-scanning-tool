@@ -3,28 +3,29 @@
 {% block title %}Drivers list{% endblock %}
 
 {% block content %}
-	{% include '_nav.html' %}
 
-	</br>
-	<form action="{% url 'settings:countries_add' %}">
-    <input class="btn btn-success" type="submit" value="Add country">
-  </form>
-	</br>
+	<div class="container">
+		</br>
+		<form action="{% url 'settings:countries_add' %}">
+			<input class="btn btn-success" type="submit" value="Add country">
+		</form>
+		</br>
 
-	<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
-		<thead>
-		<tr>
-			<th>ISO</th>
-			<th>Name</th>
-		</tr>
-		</thead>
-		<tbody>
-		{% for country in countries %}
+		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+			<thead>
 			<tr>
-				<td>{{ country.iso }}</td>
-				<td>{{ country.name }}</td>
+				<th>ISO</th>
+				<th>Name</th>
 			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+			{% for country in countries %}
+				<tr>
+					<td>{{ country.iso }}</td>
+					<td>{{ country.name }}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}

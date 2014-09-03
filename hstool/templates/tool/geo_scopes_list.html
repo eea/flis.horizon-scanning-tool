@@ -1,30 +1,30 @@
 {% extends 'tool/_list_as_table.html' %}
 
-{% block title %}Geographical scopes list{% endblock %}
+{% block title %}Geographical Scales list{% endblock %}
 
 {% block content %}
-	{% include '_nav.html' %}
+	<div class="container">
+		</br>
+		<form action="{% url 'settings:geo_scopes_add' %}">
+			<input class="btn btn-success" type="submit" value="Add geographical scale">
+		</form>
+		</br>
 
-	</br>
-	<form action="{% url 'settings:geo_scopes_add' %}">
-    <input class="btn btn-success" type="submit" value="Add geographical scale">
-  </form>
-	</br>
-
-	<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
-		<thead>
-		<tr>
-			<th>Title</th>
-			<th>Require country</th>
-		</tr>
-		</thead>
-		<tbody>
-		{% for geo_scope in geo_scopes %}
+		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+			<thead>
 			<tr>
-				<td>{{ geo_scope.title }}</td>
-				<td>{{ geo_scope.require_country }}</td>
+				<th>Title</th>
+				<th>Require country</th>
 			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+			{% for geo_scope in geo_scopes %}
+				<tr>
+					<td>{{ geo_scope.title }}</td>
+					<td>{{ geo_scope.require_country }}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}
