@@ -5,7 +5,7 @@ from django.views.generic import (
 from django.core.urlresolvers import reverse_lazy, reverse
 
 from hstool.models import (
-    Source, Indicator, DriverOfChange, Country, GeographicalScope
+    Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
 )
 from hstool.forms import (
     SourceForm, IndicatorForm, DriverForm, CountryForm, GeoScopeForm,
@@ -55,6 +55,12 @@ class DriversAddView(CreateView):
     template_name = 'tool/drivers_add.html'
     form_class = DriverForm
     success_url = reverse_lazy('drivers_list')
+
+
+class FiguresListView(ListView):
+    template_name = 'tool/figures_list.html'
+    model = Figure
+    context_object_name = 'figures'
 
 
 class CountriesListView(ListView):

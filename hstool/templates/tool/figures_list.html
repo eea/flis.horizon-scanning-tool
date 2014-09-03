@@ -1,0 +1,25 @@
+{% extends 'tool/_list_as_table.html' %}
+
+{% block title %}Facts and Figures list{% endblock %}
+
+{% block content %}
+	{% include '_nav.html' %}
+	<div class="container">
+		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+			<thead>
+			<tr>
+				<th>Title</th>
+				<th>Added by</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for figure in figures %}
+				<tr>
+					<td>{{ figure.title }}</td>
+					<td>{{ figure.author_id }}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
