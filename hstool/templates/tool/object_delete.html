@@ -1,0 +1,17 @@
+{% extends '_layout.html' %}
+
+{% block title %}Confirm Deletion{% endblock %}
+
+{% block content %}
+	{% include '_nav.html' %}
+	<div class="container">
+    <br/><br/>
+    <form class="form-signin" role="form" method="POST">
+      {% csrf_token %}
+      <h4>Are you sure you want to delete <strong>{{ object }}</strong>?</h4>
+      <button class="btn btn-sm btn-primary" type="submit" name="cancel">Cancel</button>
+      <button class="btn btn-sm btn-primary" type="submit">Yes</button>
+    </form>
+
+  </div>
+{% endblock %}

@@ -1,4 +1,7 @@
-from django.views.generic import TemplateView, ListView, CreateView, DetailView
+from django.shortcuts import redirect
+from django.views.generic import (
+    TemplateView, ListView, CreateView, DetailView, DeleteView,
+)
 from django.core.urlresolvers import reverse_lazy, reverse
 
 from hstool.models import (
@@ -91,3 +94,27 @@ class SourceAddModal(CreateView):
 class SourceAddModalSuccess(DetailView):
     template_name = 'tool/sources_add_modal_success.html'
     model = Source
+
+
+class Delete(DeleteView):
+    models_dict = {
+        'Source': Source,
+        'DriverOfChange': DriverOfChange,
+        'Indicator': Indicator,
+    }
+
+    template_name = 'tool/object_delete.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        model = kwargs.pop('model', None)
+        self.model = self.models_dict.get(model)
+        return super(Delete, self).dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return self.request.GET.get('next', reverse('home_view'))
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return redirect(self.get_success_url())
+        else:
+            return super(Delete, self).post(request, *args, **kwargs)

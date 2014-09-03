@@ -5,7 +5,8 @@ from hstool.views import (
     Home, SourcesListView, SourcesAddView, IndicatorsListView,
     IndicatorsAddView, DriversListView, DriversAddView, CountriesListView,
     CountriesAddView, GeoScopesListView, GeoScopesAddView,
-    SourceAddModal, SourceAddModalSuccess)
+    SourceAddModal, SourceAddModalSuccess, Delete
+)
 
 admin.autodiscover()
 
@@ -39,6 +40,11 @@ urlpatterns = patterns(
         name='indicators_add'),
     url(r'^docs/list/$', DriversListView.as_view(), name='drivers_list'),
     url(r'^docs/add/$', DriversAddView.as_view(), name='drivers_add'),
+    url(r'^delete/(?P<model>'
+        'Source|'
+        'Indicator|'
+        'DriverOfChange|'
+        ')/(?P<pk>\d+)/$', Delete.as_view(), name='delete_record'),
 
     url(r'^settings/', include(settings_urls, namespace='settings')),
 
