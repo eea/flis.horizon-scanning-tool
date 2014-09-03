@@ -7,6 +7,11 @@ from hstool.models import (
 
 
 class SourceForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(SourceForm, self).__init__(*args, **kwargs)
+        self.fields['summary'].widget.attrs["cols"] = 70
+        self.fields['summary'].widget.attrs["rows"] = 6
+
     class Meta:
         model = Source
         exclude = ['author_id']
