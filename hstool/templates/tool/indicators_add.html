@@ -7,55 +7,67 @@
 	{% include '_nav.html' %}
 
 	</br>
-
-	<form method="POST">
-		{% csrf_token %}
-		<div class="form-group">
-			{{ form.theme|label }}<br/>
-			{{ form.theme }}
-		</div>
-		<div class="form-group">
-			{{ form.short_name|label }}<br/>
-			{{ form.short_name }}
-		</div>
-		<div class="form-group">
-			{{ form.name|label }}<br/>
-			{{ form.name }}
-		</div>
-		<div class="form-group">
-			{{ form.geographical_scope|label }}
-			{{ form.geographical_scope }}&ensp;&ensp;&ensp;&ensp;
-			{{ form.country|label }}
-			{{ form.country }}
-		</div>
-		<div class="form-group">
-			<p><strong>Timeline*</strong></p>
-			{{ form.year_base|label }}
-			{{ form.year_base }}&ensp;&ensp;&ensp;&ensp;
-			{{ form.year_end|label }}
-			{{ form.year_end }}&ensp;&ensp;&ensp;&ensp;
-			{{ form.timeline|label }}
-			{{ form.timeline }}
-		</div>
-		<div class="form-group">
-			{{ form.sources|label }}<br/>
-			{{ form.sources }}
-		</div>
-		<!-- Button trigger modal -->
-		<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"
-			 id="sources-add-modal" data-action="{% url 'sources_add_modal' %}">
-			Add new source
-		</a>
-		<div class="form-group">
-			{{ form.figures|label }}<br/>
-			{{ form.figures }}
-		</div>
-		<div class="form-group">
-			{{ form.url|label }}<br/>
-			{{ form.url }}
-		</div>
-		<input class="btn btn-success" type="submit" value="Save">
-	</form>
-{% include '_modal.html' with title='Add new source' submit_id='sources-add-modal-submit' action_url='sources_add_modal' %}
+	<div class="container">
+		<form method="POST">
+			{% csrf_token %}
+			<div class="form-group">
+				{{ form.theme.errors }}
+				{{ form.theme|label }}<br/>
+				{{ form.theme }}
+			</div>
+			<div class="form-group">
+				{{ form.short_name.errors }}
+				{{ form.short_name|label }}<br/>
+				{{ form.short_name }}
+			</div>
+			<div class="form-group">
+				{{ form.name.errors }}
+				{{ form.name|label }}<br/>
+				{{ form.name }}
+			</div>
+			<div class="form-group">
+				{{ form.geographical_scope.errors }}
+				{{ form.geographical_scope|label }}
+				{{ form.geographical_scope }}&ensp;&ensp;&ensp;&ensp;
+				{{ form.country.errors }}
+				{{ form.country|label }}
+				{{ form.country }}
+			</div>
+			<div class="form-group">
+				<p><strong>Timeline*</strong></p>
+				{{ form.year_base.errors }}
+				{{ form.year_base|label }}
+				{{ form.year_base }}&ensp;&ensp;&ensp;&ensp;
+				{{ form.year_end.errors }}
+				{{ form.year_end|label }}
+				{{ form.year_end }}&ensp;&ensp;&ensp;&ensp;
+				{{ form.timeline.errors }}
+				{{ form.timeline|label }}
+				{{ form.timeline }}
+			</div>
+			<div class="form-group">
+				{{ form.sources.errors }}
+				{{ form.sources|label }}<br/>
+				{{ form.sources }}
+			</div>
+			<!-- Button trigger modal -->
+			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"
+				 id="sources-add-modal" data-action="{% url 'sources_add_modal' %}">
+				Add new source
+			</a>
+			<div class="form-group">
+				{{ form.figures.errors }}
+				{{ form.figures|label }}<br/>
+				{{ form.figures }}
+			</div>
+			<div class="form-group">
+				{{ form.url.errors }}
+				{{ form.url|label }}<br/>
+				{{ form.url }}
+			</div>
+			<input class="btn btn-success" type="submit" value="Save">
+		</form>
+	</div>
+	{% include '_modal.html' with title='Add new source' submit_id='sources-add-modal-submit' action_url='sources_add_modal' %}
 
 {% endblock %}

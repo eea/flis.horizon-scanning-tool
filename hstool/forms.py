@@ -42,6 +42,11 @@ class IndicatorForm(ModelForm):
 
 
 class DriverForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(DriverForm, self).__init__(*args, **kwargs)
+        self.fields['summary'].widget.attrs["cols"] = 70
+        self.fields['summary'].widget.attrs["rows"] = 6
+
     class Meta:
         model = DriverOfChange
         exclude = ['author_id']

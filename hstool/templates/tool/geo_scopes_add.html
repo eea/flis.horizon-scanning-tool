@@ -5,17 +5,20 @@
 
 {% block content %}
 	{% include '_nav.html' %}
-
-	<form method="POST" class="form" role="form">
-		{% csrf_token %}
-		<div class="form-group">
-			{{ form.title|label }}<br/>
-			{{ form.title }}
-		</div>
-		<div class="form-group">
-			{{ form.require_country|label }}<br/>
-			{{ form.require_country }}
-		</div>
-		<input class="btn btn-success" type="submit" value="Save">
-	</form>
+	<div class="container">
+		<form method="POST" class="form" role="form">
+			{% csrf_token %}
+			<div class="form-group">
+        {{ form.title.errors }}<br/>
+				{{ form.title|label }}<br/>
+				{{ form.title }}
+			</div>
+			<div class="form-group">
+        {{ form.require_country.errors }}<br/>
+				{{ form.require_country|label }}<br/>
+				{{ form.require_country }}
+			</div>
+			<input class="btn btn-success" type="submit" value="Save">
+		</form>
+	</div>
 {% endblock %}

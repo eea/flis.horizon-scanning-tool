@@ -4,50 +4,61 @@
 {% block title %}Add new Driver of Change{% endblock %}
 
 {% block content %}
-  {% include '_nav.html' %}
-
-	<form method="POST" class="form">
-		{% csrf_token %}
-    <div class="form-group">
-        {{ form.type|label }}
-        {{ form.type }}&ensp;&ensp;&ensp;&ensp;
-        {{ form.trend_type|label }}
-        {{ form.trend_type }}&ensp;&ensp;&ensp;&ensp;
-        {{ form.geographical_scope|label }}
-        {{ form.geographical_scope }}
-    </div>
-		<div class="form-group">
-      {{ form.steep_category|label }}<br/>
-      {{ form.steep_category }}
-    </div>
-    <div class="form-group">
-      {{ form.time_horizon|label }}<br/>
-      {{ form.time_horizon }}
-    </div>
-    <div class="form-group">
-      {{ form.short_name|label }}<br/>
-      {{ form.short_name }}
-    </div>
-    <div class="form-group">
-      {{ form.name|label }}<br/>
-      {{ form.name }}
-    </div>
-    <div class="form-group">
-      {{ form.summary|label }}<br/>
-      {{ form.summary }}
-    </div>
-    <div class="form-group">
-      {{ form.sources|label }}<br/>
-      {{ form.sources }}
-    </div>
-    <div class="form-group">
-      {{ form.figures|label }}<br/>
-      {{ form.figures }}
-    </div>
-    <div class="form-group">
-      {{ form.url|label }}<br/>
-      {{ form.url }}
-    </div>
-	  <input class="btn btn-success" type="submit" value="Save">
-	</form>
+	{% include '_nav.html' %}
+	<br/>
+	<div class="container">
+		<form method="POST" class="form">
+			{% csrf_token %}
+			<div class="form-group">
+				{{ form.type.errors }}
+				{{ form.type|label }}
+				{{ form.type }}&ensp;&ensp;&ensp;&ensp;
+				{{ form.trend_type.errors }}
+				{{ form.trend_type|label }}
+				{{ form.trend_type }}&ensp;&ensp;&ensp;&ensp;
+				{{ form.geographical_scope.errors }}
+				{{ form.geographical_scope|label }}
+				{{ form.geographical_scope }}
+			</div>
+			<div class="form-group">
+				{{ form.steep_category.errors }}
+				{{ form.steep_category|label }}<br/>
+				{{ form.steep_category }}
+			</div>
+			<div class="form-group">
+				{{ form.time_horizon.errors }}
+				{{ form.time_horizon|label }}<br/>
+				{{ form.time_horizon }}
+			</div>
+			<div class="form-group">
+				{{ form.short_name.errors }}
+				{{ form.short_name|label }}
+				{{ form.short_name }}&ensp;&ensp;&ensp;&ensp;
+				{{ form.name.errors }}
+				{{ form.name|label }}
+				{{ form.name }}
+			</div>
+			<div class="form-group">
+				{{ form.summary.errors }}
+				{{ form.summary|label }}<br/>
+				{{ form.summary }}
+			</div>
+			<div class="form-group">
+				{{ form.sources.errors }}
+				{{ form.sources|label }}<br/>
+				{{ form.sources }}
+			</div>
+			<div class="form-group">
+				{{ form.figures.errors }}
+				{{ form.figures|label }}<br/>
+				{{ form.figures }}
+			</div>
+			<div class="form-group">
+				{{ form.url.errors }}
+				{{ form.url|label }}<br/>
+				{{ form.url }}
+			</div>
+			<input class="btn btn-success" type="submit" value="Save">
+		</form>
+	</div>
 {% endblock %}

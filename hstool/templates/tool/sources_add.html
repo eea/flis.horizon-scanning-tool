@@ -5,17 +5,19 @@
 
 {% block content %}
 	{% include '_nav.html' %}
-
-	<form method="POST" class="form">
-		{% csrf_token %}
-		{{ form.non_field_errors }}
-		{% for field in form %}
-			<div class="form-group">
-				{{ field.errors }}
-				{{ field|label }}
-				{{ field }}
-			</div>
-		{% endfor %}
-		<input class="btn btn-success" type="submit" value="Save">
-	</form>
+	<br/>
+	<div class="container">
+		<form class="form" method="POST">
+			{% csrf_token %}
+			{{ form.non_field_errors }}
+			{% for field in form %}
+				<div class="form-group">
+					{{ field.errors }}
+					{{ field|label }}
+					{{ field }}
+				</div>
+			{% endfor %}
+			<input class="btn btn-success" type="submit" value="Save">
+		</form>
+	</div>
 {% endblock %}
