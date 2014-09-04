@@ -5,9 +5,7 @@
 {% block content %}
 	<div class="container">
 		</br>
-		<form action="{% url 'settings:geo_scopes_add' %}">
-			<input class="btn btn-success" type="submit" value="Add geographical scale">
-		</form>
+    <a class="btn btn-success" href="{% url 'settings:geo_scopes_add' %}?next={% url 'settings:geo_scopes_list' %}">Add Geographical Scale</a>
 		</br>
 
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">

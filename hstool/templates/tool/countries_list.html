@@ -6,9 +6,7 @@
 
 	<div class="container">
 		</br>
-		<form action="{% url 'settings:countries_add' %}">
-			<input class="btn btn-success" type="submit" value="Add country">
-		</form>
+		<a class="btn btn-success" href="{% url 'settings:countries_add' %}?next={% url 'settings:countries_list' %}">Add Country</a>
 		</br>
 
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">

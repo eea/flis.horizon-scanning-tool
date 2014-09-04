@@ -34,7 +34,7 @@ class SourcesListView(ListView):
     context_object_name = 'sources'
 
 
-class SourcesAddView(CreateView):
+class SourcesAddView(PostMixin, CreateView):
     template_name = 'tool/sources_add.html'
     form_class = SourceForm
     success_url = reverse_lazy('sources_list')
@@ -46,7 +46,7 @@ class IndicatorsListView(ListView):
     context_object_name = 'indicators'
 
 
-class IndicatorsAddView(CreateView):
+class IndicatorsAddView(PostMixin, CreateView):
     template_name = 'tool/indicators_add.html'
     form_class = IndicatorForm
     success_url = reverse_lazy('indicators_list')
@@ -63,7 +63,7 @@ class DriversListView(ListView):
     context_object_name = 'drivers'
 
 
-class DriversAddView(CreateView):
+class DriversAddView(PostMixin, CreateView):
     template_name = 'tool/drivers_add.html'
     form_class = DriverForm
     success_url = reverse_lazy('drivers_list')
@@ -87,7 +87,7 @@ class CountriesListView(ListView):
     context_object_name = 'countries'
 
 
-class CountriesAddView(CreateView):
+class CountriesAddView(PostMixin, CreateView):
     template_name = 'tool/countries_add.html'
     form_class = CountryForm
     success_url = reverse_lazy('settings:countries_list')
@@ -99,7 +99,7 @@ class GeoScopesListView(ListView):
     context_object_name = 'geo_scopes'
 
 
-class GeoScopesAddView(CreateView):
+class GeoScopesAddView(PostMixin, CreateView):
     template_name = 'tool/geo_scopes_add.html'
     form_class = GeoScopeForm
     success_url = reverse_lazy('settings:geo_scopes_list')

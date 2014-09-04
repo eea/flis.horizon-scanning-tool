@@ -5,9 +5,7 @@
 {% block content %}
 	<div class="container">
 		</br>
-		<form action="{% url 'sources_add' %}">
-			<input class="btn btn-success" type="submit" value="Add source">
-		</form>
+		  <a class="btn btn-success" href="{% url 'sources_add' %}?next={% url 'sources_list' %}">Add Source</a>
 		</br>
 
 		<table id = 'objects_listing' class="table table-condensed table-bordered table-hover">

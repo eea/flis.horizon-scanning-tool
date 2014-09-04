@@ -64,7 +64,8 @@
 				{{ form.url|label }}<br/>
 				{{ form.url }}
 			</div>
-			<input class="btn btn-success" type="submit" value="Save">
+      <input class="btn btn-success" type="submit" value="Back" name="cancel">
+			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
 		</form>
 	</div>
 	{% include '_modal.html' with title='Add new source' submit_id='sources-add-modal-submit' action_url='sources_add_modal' %}
