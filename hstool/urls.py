@@ -51,6 +51,7 @@ urlpatterns = patterns(
         'Source|'
         'Indicator|'
         'DriverOfChange|'
+        'Figure|'
         ')/(?P<pk>\d+)/$', Delete.as_view(), name='delete_record'),
 
     url(r'^settings/', include(settings_urls, namespace='settings')),

@@ -42,6 +42,9 @@ class Figure(Model):
     title = CharField(max_length=512, default='')
     path = FilePathField(max_length=256)
 
+    def __unicode__(self):
+        return self.title
+
 
 class Source(Model):
     author_id = CharField(max_length=64)

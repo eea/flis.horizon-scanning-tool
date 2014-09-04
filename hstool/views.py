@@ -125,6 +125,7 @@ class Delete(PostMixin, DeleteView):
         'Source': Source,
         'DriverOfChange': DriverOfChange,
         'Indicator': Indicator,
+        'Figure': Figure,
     }
 
     template_name = 'tool/object_delete.html'
