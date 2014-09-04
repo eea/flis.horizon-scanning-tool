@@ -28,6 +28,7 @@ class IndicatorForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(IndicatorForm, self).__init__(*args, **kwargs)
         self.fields['sources'].widget.attrs["size"] = 6
+        self.fields['figures'].widget.attrs["size"] = 6
 
     class Meta:
         model = Indicator
@@ -51,6 +52,8 @@ class DriverForm(ModelForm):
         super(DriverForm, self).__init__(*args, **kwargs)
         self.fields['summary'].widget.attrs["cols"] = 70
         self.fields['summary'].widget.attrs["rows"] = 6
+        self.fields['sources'].widget.attrs["size"] = 6
+        self.fields['figures'].widget.attrs["size"] = 6
 
     class Meta:
         model = DriverOfChange

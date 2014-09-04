@@ -5,7 +5,7 @@
 
 {% block content %}
 	<div class="container">
-    <h3>Add new Indicator</h3>
+		<h3>Add new Indicator</h3>
 		<br/>
 		<form method="POST">
 			{% csrf_token %}
@@ -44,31 +44,37 @@
 				{{ form.timeline|label }}
 				{{ form.timeline }}
 			</div>
-			<div class="form-group">
-				{{ form.sources.errors }}
-				{{ form.sources|label }}<br/>
-				{{ form.sources }}
+			<div class="row">
+				<div class="col-sm-2">
+					<div class="form-group">
+						{{ form.sources.errors }}
+						{{ form.sources|label }}<br/>
+						{{ form.sources }}
+					</div>
+					<!-- Button trigger modal -->
+					<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sourceModal"
+						 id="add-modal-1" data-action="{% url 'add_modal' 'Source'%}">
+						Add new source
+					</a>
+				</div>
+				<div class="col-sm-2">
+					<div class="form-group">
+						{{ form.figures.errors }}
+						{{ form.figures|label }}<br/>
+						{{ form.figures }}
+					</div>
+					<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#figureModal"
+						 id="add-modal-2" data-action="{% url 'add_modal' 'Figure'%}">
+						Add new fact & figure
+					</a>
+				</div>
 			</div>
-			<!-- Button trigger modal -->
-			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sourceModal"
-				 id="add-modal-1" data-action="{% url 'add_modal' 'Source'%}">
-				Add new source
-			</a>
-			<div class="form-group">
-				{{ form.figures.errors }}
-				{{ form.figures|label }}<br/>
-				{{ form.figures }}
-			</div>
-			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#figureModal"
-				 id="add-modal-2" data-action="{% url 'add_modal' 'Figure'%}">
-				Add new fact & figure
-			</a>
 			<div class="form-group">
 				{{ form.url.errors }}
 				{{ form.url|label }}<br/>
 				{{ form.url }}
 			</div>
-      <input class="btn btn-success" type="submit" value="Back" name="cancel">
+			<input class="btn btn-success" type="submit" value="Back" name="cancel">
 			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
 		</form>
 	</div>

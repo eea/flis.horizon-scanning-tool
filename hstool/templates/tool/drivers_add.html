@@ -43,26 +43,32 @@
 				{{ form.summary|label }}<br/>
 				{{ form.summary }}
 			</div>
-			<div class="form-group">
-				{{ form.sources.errors }}
-				{{ form.sources|label }}<br/>
-				{{ form.sources }}
+			<div class="row">
+				<div class="col-sm-2">
+					<div class="form-group">
+						{{ form.sources.errors }}
+						{{ form.sources|label }}<br/>
+						{{ form.sources }}
+					</div>
+					<!-- Button trigger modal -->
+					<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sourceModal"
+						 id="add-modal-1" data-action="{% url 'add_modal' 'Source'%}">
+						Add new source
+					</a>
+				</div>
+				<div col="col-sm-2">
+					<div class="form-group">
+						{{ form.figures.errors }}
+						{{ form.figures|label }}<br/>
+						{{ form.figures }}
+					</div>
+					<!-- Button trigger modal -->
+					<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#figureModal"
+						 id="add-modal-2" data-action="{% url 'add_modal' 'Figure'%}">
+						Add new fact & figuref
+					</a>
+				</div>
 			</div>
-			<!-- Button trigger modal -->
-			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sourceModal"
-				 id="add-modal-1" data-action="{% url 'add_modal' 'Source'%}">
-				Add new source
-			</a>
-			<div class="form-group">
-				{{ form.figures.errors }}
-				{{ form.figures|label }}<br/>
-				{{ form.figures }}
-			</div>
-			<!-- Button trigger modal -->
-			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#figureModal"
-				 id="add-modal-2" data-action="{% url 'add_modal' 'Figure'%}">
-				Add new source
-			</a>
 			<div class="form-group">
 				{{ form.url.errors }}
 				{{ form.url|label }}<br/>
