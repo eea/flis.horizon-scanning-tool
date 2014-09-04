@@ -1,6 +1,6 @@
 {% load custom_filters %}
 
-<form method="POST" class="form" id="sources-add-form" action="">
+<form method="POST" class="form" id="add-form" action="">
 	{% csrf_token %}
   {{ form.non_field_errors }}
 	{% for field in form %}

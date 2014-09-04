@@ -51,7 +51,7 @@
 			</div>
 			<!-- Button trigger modal -->
 			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"
-				 id="sources-add-modal" data-action="{% url 'sources_add_modal' %}">
+				 id="add-modal" data-action="{% url 'add_modal' 'Source'%}">
 				Add new source
 			</a>
 			<div class="form-group">
@@ -68,6 +68,6 @@
 			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
 		</form>
 	</div>
-	{% include '_modal.html' with title='Add new source' submit_id='sources-add-modal-submit' action_url='sources_add_modal' %}
+	{% include '_modal.html' with title='Add new source' submit_id='add-modal-submit' action_url='add_modal' model='Source'%}
 
 {% endblock %}

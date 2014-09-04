@@ -105,19 +105,33 @@ class GeoScopesAddView(PostMixin, CreateView):
     success_url = reverse_lazy('settings:geo_scopes_list')
 
 
-class SourceAddModal(CreateView):
-    template_name = 'tool/sources_add_modal.html'
-    model = Source
-    form_class = SourceForm
+class AddModalMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        self.model_name = kwargs.pop('model', None)
+        self.model = eval(self.model_name)
+        return super(AddModalMixin, self).dispatch(request, *args, **kwargs)
+
+
+class AddModal(AddModalMixin, CreateView):
+    template_name = 'tool/add_modal.html'
+
+    def get_form_class(self):
+        self.form_class = eval(self.model_name+'Form')
+        return super(AddModal, self).get_form_class()
 
     def get_success_url(self):
-        source = self.object
-        return reverse('sources_add_modal_success', args=(source.id, ))
+        return reverse(
+            'add_modal_success', args=(self.model_name, self.object.id, )
+        )
 
 
-class SourceAddModalSuccess(DetailView):
-    template_name = 'tool/sources_add_modal_success.html'
-    model = Source
+class AddModalSuccess(AddModalMixin, DetailView):
+    template_name = 'tool/add_modal_success.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AddModalSuccess, self).get_context_data()
+        context.update({'id_field': '#id_'+self.model_name.lower()+'s'})
+        return context
 
 
 class Delete(PostMixin, DeleteView):

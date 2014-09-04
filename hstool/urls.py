@@ -5,8 +5,7 @@ from hstool.views import (
     Home, SourcesListView, SourcesAddView, IndicatorsListView,
     IndicatorsAddView, DriversListView, DriversAddView, CountriesListView,
     CountriesAddView, GeoScopesListView, GeoScopesAddView,
-    SourceAddModal, SourceAddModalSuccess, Delete, FiguresListView,
-    FiguresAddView,
+    AddModal, AddModalSuccess, Delete, FiguresListView, FiguresAddView,
 )
 
 admin.autodiscover()
@@ -31,10 +30,6 @@ urlpatterns = patterns(
     url(r'^$', Home.as_view(), name='home_view'),
     url(r'^sources/list/$', SourcesListView.as_view(), name='sources_list'),
     url(r'^sources/add/$', SourcesAddView.as_view(), name='sources_add'),
-    url(r'^sources/add/modal/$', SourceAddModal.as_view(),
-        name='sources_add_modal'),
-    url(r'^sources/add/modal/success/(?P<pk>\d+)$',
-        SourceAddModalSuccess.as_view(), name='sources_add_modal_success'),
 
     url(r'^indicators/list/$', IndicatorsListView.as_view(),
         name='indicators_list'),
@@ -46,6 +41,11 @@ urlpatterns = patterns(
 
     url(r'^facts/list/$', FiguresListView.as_view(), name='figures_list'),
     url(r'^facts/add/$', FiguresAddView.as_view(), name='figures_add'),
+
+    url(r'^(?P<model>Source|Figure)/add/modal/$', AddModal.as_view(),
+        name='add_modal'),
+    url(r'^(?P<model>Source|Figure)/add/modal/success/(?P<pk>\d+)$',
+        AddModalSuccess.as_view(), name='add_modal_success'),
 
     url(r'^delete/(?P<model>'
         'Source|'
