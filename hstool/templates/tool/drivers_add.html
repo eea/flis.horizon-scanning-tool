@@ -51,8 +51,10 @@
 						{{ form.sources }}
 					</div>
 					<!-- Button trigger modal -->
-					<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sourceModal"
-						 id="add-modal-1" data-action="{% url 'add_modal' 'Source'%}">
+					<a class="btn btn-primary btn-sm launch-modal" data-toggle="modal"
+						 data-target="#myModal"
+						 data-action="{% url 'add_modal' 'sources'%}"
+    				 data-title="Add new Source">
 						Add new source
 					</a>
 				</div>
@@ -63,9 +65,11 @@
 						{{ form.figures }}
 					</div>
 					<!-- Button trigger modal -->
-					<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#figureModal"
-						 id="add-modal-2" data-action="{% url 'add_modal' 'Figure'%}">
-						Add new fact & figuref
+					<a class="btn btn-primary btn-sm launch-modal" data-toggle="modal"
+						 data-target="#myModal"
+						 data-action="{% url 'add_modal' 'figures'%}"
+             data-title="Add new Fact & Figure">
+						Add new fact & figure
 					</a>
 				</div>
 			</div>
@@ -74,11 +78,10 @@
 				{{ form.url|label }}<br/>
 				{{ form.url }}
 			</div>
-			<input class="btn btn-default" type="submit" value="Back" name="cancel">
-			<input class="btn btn-primary col-sm-offset-1" type="submit" value="Save">
+			<a class="btn btn-default" href="{% url 'drivers_list' %}">Back</a>
+			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
 		</form>
 	</div>
-	{% include '_modal.html' with title='Add new source' modal_id='sourceModal' model='Source' %}
-	{% include '_modal.html' with title='Add new fact & figure' modal_id='figureModal' model='Figure' %}
+	{% include '_modal.html'%}
 
 {% endblock %}

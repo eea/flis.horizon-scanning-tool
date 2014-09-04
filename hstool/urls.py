@@ -39,24 +39,14 @@ urlpatterns = patterns(
     url(r'^docs/list/$', DriversListView.as_view(), name='drivers_list'),
     url(r'^docs/add/$', DriversAddView.as_view(), name='drivers_add'),
 
-    url(r'^facts/list/$', FiguresListView.as_view(), name='figures_list'),
-    url(r'^facts/add/$', FiguresAddView.as_view(), name='figures_add'),
+    url(r'^figures/list/$', FiguresListView.as_view(), name='figures_list'),
+    url(r'^figures/add/$', FiguresAddView.as_view(), name='figures_add'),
 
-    url(r'^(?P<model>Source|Figure)/add/modal/$', AddModal.as_view(),
-        name='add_modal'),
-    url(r'^(?P<model>Source|Figure)/add/modal/success/(?P<pk>\d+)$',
+    url(r'^(?P<model>\w+)/add/modal/$', AddModal.as_view(), name='add_modal'),
+    url(r'^(?P<model>\w+)/add/modal/success/(?P<pk>\d+)$',
         AddModalSuccess.as_view(), name='add_modal_success'),
 
-    url(r'^delete/(?P<model>'
-        'Source|'
-        'Indicator|'
-        'DriverOfChange|'
-        'Figure|'
-        'Country|'
-        'GeographicalScope|'
-        ')/(?P<pk>\d+)/$', Delete.as_view(), name='delete_record'),
-
-    url(r'^delete/(?P<model>Country)/(?P<pk>[a-z][a-z])/$', Delete.as_view(),
+    url(r'^delete/(?P<model>\w+)/(?P<pk>\w+)/$', Delete.as_view(),
         name='delete_record'),
 
     url(r'^settings/', include(settings_urls, namespace='settings')),

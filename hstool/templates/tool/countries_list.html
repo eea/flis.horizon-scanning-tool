@@ -23,7 +23,7 @@
 					<td>{{ country.iso }}</td>
 					<td>{{ country.name }}</td>
 					<td>
-						<a href="{% url 'delete_record' 'Country' country.pk %}?next={% url 'settings:countries_list' %}">DELETE</a>
+						<a href="{% url 'delete_record' 'countries' country.pk %}?next={% url 'settings:countries_list' %}">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}

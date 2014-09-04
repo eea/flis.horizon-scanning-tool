@@ -34,7 +34,7 @@
 					<td>{{ driver.country }}</td>
 					<td>{{ driver.author_id }}</td>
 					<td>
-						<a href="{% url 'delete_record' 'DriverOfChange' driver.id %}?next={% url 'drivers_list' %}">DELETE</a>
+						<a href="{% url 'delete_record' 'drivers' driver.id %}?next={% url 'drivers_list' %}">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}

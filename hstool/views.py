@@ -1,4 +1,3 @@
-from django.shortcuts import redirect
 from django.views.generic import (
     TemplateView, ListView, CreateView, DetailView, DeleteView,
 )
@@ -13,17 +12,6 @@ from hstool.forms import (
 )
 
 
-class PostMixin(object):
-    def get_success_url(self):
-        return self.request.GET.get('next', reverse('home_view'))
-
-    def post(self, request, *args, **kwargs):
-        if "cancel" in request.POST:
-            return redirect(self.get_success_url())
-        else:
-            return super(PostMixin, self).post(request, *args, **kwargs)
-
-
 class Home(TemplateView):
     template_name = 'home.html'
 
@@ -34,7 +22,7 @@ class SourcesListView(ListView):
     context_object_name = 'sources'
 
 
-class SourcesAddView(PostMixin, CreateView):
+class SourcesAddView(CreateView):
     template_name = 'tool/sources_add.html'
     form_class = SourceForm
     success_url = reverse_lazy('sources_list')
@@ -46,7 +34,7 @@ class IndicatorsListView(ListView):
     context_object_name = 'indicators'
 
 
-class IndicatorsAddView(PostMixin, CreateView):
+class IndicatorsAddView(CreateView):
     template_name = 'tool/indicators_add.html'
     form_class = IndicatorForm
     success_url = reverse_lazy('indicators_list')
@@ -58,7 +46,7 @@ class DriversListView(ListView):
     context_object_name = 'drivers'
 
 
-class DriversAddView(PostMixin, CreateView):
+class DriversAddView(CreateView):
     template_name = 'tool/drivers_add.html'
     form_class = DriverForm
     success_url = reverse_lazy('drivers_list')
@@ -70,7 +58,7 @@ class FiguresListView(ListView):
     context_object_name = 'figures'
 
 
-class FiguresAddView(PostMixin, CreateView):
+class FiguresAddView(CreateView):
     template_name = 'tool/figures_add.html'
     form_class = FigureForm
     success_url = reverse_lazy('figures_list')
@@ -82,7 +70,7 @@ class CountriesListView(ListView):
     context_object_name = 'countries'
 
 
-class CountriesAddView(PostMixin, CreateView):
+class CountriesAddView(CreateView):
     template_name = 'tool/countries_add.html'
     form_class = CountryForm
     success_url = reverse_lazy('settings:countries_list')
@@ -94,24 +82,39 @@ class GeoScopesListView(ListView):
     context_object_name = 'geo_scopes'
 
 
-class GeoScopesAddView(PostMixin, CreateView):
+class GeoScopesAddView(CreateView):
     template_name = 'tool/geo_scopes_add.html'
     form_class = GeoScopeForm
     success_url = reverse_lazy('settings:geo_scopes_list')
 
 
-class AddModalMixin(object):
+class ModelMixin(object):
+    url_to_models = {
+        'sources': Source,
+        'figures': Figure,
+        'indicators': Indicator,
+        'drivers': DriverOfChange,
+        'countries': Country,
+        'geo_scales': GeographicalScope,
+    }
+
     def dispatch(self, request, *args, **kwargs):
         self.model_name = kwargs.pop('model', None)
-        self.model = eval(self.model_name)
-        return super(AddModalMixin, self).dispatch(request, *args, **kwargs)
+        self.model = self.url_to_models.get(self.model_name)
+        return super(ModelMixin, self).dispatch(request, *args, **kwargs)
 
 
-class AddModal(AddModalMixin, CreateView):
+class AddModal(ModelMixin, CreateView):
     template_name = 'tool/add_modal.html'
 
+    urls_to_forms = {
+        'sources': SourceForm,
+        'figures': FigureForm,
+    }
+
     def get_form_class(self):
-        return eval(self.model_name+'Form')
+        self.model_name = self.kwargs.get('model')
+        return self.urls_to_forms.get(self.model_name)
 
     def get_success_url(self):
         return reverse(
@@ -119,19 +122,22 @@ class AddModal(AddModalMixin, CreateView):
         )
 
 
-class AddModalSuccess(AddModalMixin, DetailView):
+class AddModalSuccess(ModelMixin, DetailView):
     template_name = 'tool/add_modal_success.html'
 
     def get_context_data(self, **kwargs):
         context = super(AddModalSuccess, self).get_context_data()
-        context.update({'id_field': '#id_'+self.model_name.lower()+'s'})
+        context.update({'model_name': self.model_name})
         return context
 
 
-class Delete(PostMixin, DeleteView):
+class Delete(ModelMixin, DeleteView):
     template_name = 'tool/object_delete.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        model = kwargs.pop('model', None)
-        self.model = eval(model)
-        return super(Delete, self).dispatch(request, *args, **kwargs)
+    def get_success_url(self):
+        return self.request.GET.get('next', reverse('home_view'))
+
+    def get_context_data(self, **kwargs):
+        context = super(Delete, self).get_context_data()
+        context.update({'cancel_url': self.get_success_url()})
+        return context

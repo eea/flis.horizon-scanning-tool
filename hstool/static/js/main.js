@@ -1,14 +1,17 @@
 $(function () {
-    $('#add-modal-1, #add-modal-2').on('click', function () {
+    $('.launch-modal').on('click', function () {
         var url = $(this).data('action');
+        var title = $(this).data('title');
         $.ajax({
             type: "GET",
             url: url,
             success: function (data) {
                 $('.modal-body').html(data);
+                $('h4.modal-title').html(title)
+                $('#add-modal-submit').data('action', url)
             },
             error: function (data) {
-                alert('Error launching the modal');
+                alert('Error launching the modal')
             }
         })
     });

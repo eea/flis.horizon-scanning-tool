@@ -19,8 +19,8 @@
 				{{ form.require_country|label }}<br/>
 				{{ form.require_country }}
 			</div>
-			<input class="btn btn-default" type="submit" value="Back" name="cancel">
-			<input class="btn btn-primary col-sm-offset-1" type="submit" value="Save">
+			<a class="btn btn-success" href="{% url 'settings:geo_scopes_list' %}">Back</a>
+			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
 		</form>
 	</div>
 {% endblock %}

@@ -32,9 +32,9 @@
 					<td>{{ indicator.short_name }}</td>
 					<td>{{ indicator.name }}</td>
 					<td>{{ indicator.country }}</td>
-					<td>{{ indicator.author_Id }}</td>
+					<td>{{ indicator.author_id }}</td>
 					<td>
-						<a href="{% url 'delete_record' 'Indicator' indicator.id %}?next={% url 'indicators_list' %}">DELETE</a>
+						<a href="{% url 'delete_record' 'indicators' indicator.id %}?next={% url 'indicators_list' %}">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}

@@ -22,7 +22,7 @@
 					<td>{{ figure.title }}</td>
 					<td>{{ figure.author_id }}</td>
 					<td>
-						<a href="{% url 'delete_record' 'Figure' figure.id %}?next={% url 'figures_list' %}">DELETE</a>
+						<a href="{% url 'delete_record' 'figures' figure.id %}?next={% url 'figures_list' %}">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}

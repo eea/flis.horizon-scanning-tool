@@ -1,5 +1,4 @@
 <script>
-	$('{{ id_field }}').prepend('<option value="{{ object.id }}" selected>{{ object }}</option>');
-	$('#sourceModal').modal('hide');
-	$('#figureModal').modal('hide');
+	$('#id_{{ model_name }}').prepend('<option value="{{ object.id }}" selected>{{ object }}</option>');
+	$('#myModal').modal('hide');
 </script>

@@ -4,8 +4,13 @@
 {% block title %}Add new Country{% endblock %}
 
 {% block content %}
+<<<<<<< HEAD
 	<div class="container-fluid">
     <h3>Add new Country</h3>
+=======
+	<div class="container">
+		<h3>Add new Country</h3>
+>>>>>>> refactor + add add hrefs on back buttons instead of submitting
 		<br/>
 		<form method="POST" class="form">
 			{% csrf_token %}
@@ -19,8 +24,8 @@
 				{{ form.name|label }}<br/>
 				{{ form.name }}
 			</div>
-      <input class="btn btn-default" type="submit" value="Back" name="cancel">
-			<input class="btn btn-primary col-sm-offset-1" type="submit" value="Save">
+			<a class="btn btn-success" href="{% url 'settings:countries_list' %}">Back</a>
+			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
 		</form>
 	</div>
 {% endblock %}
