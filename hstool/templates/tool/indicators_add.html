@@ -50,8 +50,8 @@
 				{{ form.sources }}
 			</div>
 			<!-- Button trigger modal -->
-			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"
-				 id="add-modal" data-action="{% url 'add_modal' 'Source'%}">
+			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sourceModal"
+				 id="add-modal-1" data-action="{% url 'add_modal' 'Source'%}">
 				Add new source
 			</a>
 			<div class="form-group">
@@ -59,6 +59,10 @@
 				{{ form.figures|label }}<br/>
 				{{ form.figures }}
 			</div>
+			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#figureModal"
+				 id="add-modal-2" data-action="{% url 'add_modal' 'Figure'%}">
+				Add new fact & figure
+			</a>
 			<div class="form-group">
 				{{ form.url.errors }}
 				{{ form.url|label }}<br/>
@@ -68,6 +72,7 @@
 			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
 		</form>
 	</div>
-	{% include '_modal.html' with title='Add new source' submit_id='add-modal-submit' action_url='add_modal' model='Source'%}
+	{% include '_modal.html' with title='Add new source' modal_id='sourceModal' model='Source' %}
+	{% include '_modal.html' with title='Add new fact & figure' modal_id='figureModal' model='Figure' %}
 
 {% endblock %}

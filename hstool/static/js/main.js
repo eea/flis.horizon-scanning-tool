@@ -1,5 +1,5 @@
 $(function () {
-    $('#add-modal').on('click', function () {
+    $('#add-modal-1, #add-modal-2').on('click', function () {
         var url = $(this).data('action');
         $.ajax({
             type: "GET",
@@ -8,8 +8,6 @@ $(function () {
                 $('.modal-body').html(data);
             },
             error: function (data) {
-                alert(JSON.stringify(data))
-
                 alert('Error launching the modal');
             }
         })
@@ -25,7 +23,7 @@ $(function () {
                 $('.modal-body').html(data);
             },
             error: function (data) {
-                alert(JSON.stringify(data))
+                alert('Error saving the data')
             }
         });
     });

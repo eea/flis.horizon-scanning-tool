@@ -51,11 +51,6 @@ class IndicatorsAddView(PostMixin, CreateView):
     form_class = IndicatorForm
     success_url = reverse_lazy('indicators_list')
 
-    def get_context_data(self, **kwargs):
-        context = super(IndicatorsAddView, self).get_context_data(**kwargs)
-        context.update({'source_form': SourceForm})
-        return context
-
 
 class DriversListView(ListView):
     template_name = 'tool/drivers_list.html'
@@ -116,8 +111,7 @@ class AddModal(AddModalMixin, CreateView):
     template_name = 'tool/add_modal.html'
 
     def get_form_class(self):
-        self.form_class = eval(self.model_name+'Form')
-        return super(AddModal, self).get_form_class()
+        return eval(self.model_name+'Form')
 
     def get_success_url(self):
         return reverse(
