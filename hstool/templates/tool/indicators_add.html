@@ -1,12 +1,12 @@
 {% extends '_layout.html' %}
 {% load custom_filters %}
 
-{% block title %}Add new indicator{% endblock %}
+{% block title %}Add new Indicator{% endblock %}
 
 {% block content %}
-
-	</br>
 	<div class="container">
+    <h3>Add new Indicator</h3>
+		<br/>
 		<form method="POST">
 			{% csrf_token %}
 			<div class="form-group">

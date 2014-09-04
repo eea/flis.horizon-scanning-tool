@@ -4,8 +4,9 @@
 {% block title %}Add new Driver of Change{% endblock %}
 
 {% block content %}
-	<br/>
 	<div class="container">
+		<h3>Add new Driver of Change</h3>
+		<br/>
 		<form method="POST" class="form">
 			{% csrf_token %}
 			<div class="form-group">
@@ -62,7 +63,7 @@
 				{{ form.url|label }}<br/>
 				{{ form.url }}
 			</div>
-      <input class="btn btn-success" type="submit" value="Back" name="cancel">
+			<input class="btn btn-success" type="submit" value="Back" name="cancel">
 			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
 		</form>
 	</div>

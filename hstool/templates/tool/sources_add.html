@@ -1,11 +1,12 @@
 {% extends '_layout.html' %}
 {% load custom_filters %}
 
-{% block title %}Add new source{% endblock %}
+{% block title %}Add new Source{% endblock %}
 
 {% block content %}
-	<br/>
 	<div class="container">
+		<h3>Add new Source</h3>
+		<br/>
 		<form class="form" method="POST">
 			{% csrf_token %}
 			{{ form.non_field_errors }}
