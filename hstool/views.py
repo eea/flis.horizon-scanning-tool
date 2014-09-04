@@ -9,7 +9,19 @@ from hstool.models import (
 )
 from hstool.forms import (
     SourceForm, IndicatorForm, DriverForm, CountryForm, GeoScopeForm,
+    FigureForm,
 )
+
+
+class PostMixin(object):
+    def get_success_url(self):
+        return self.request.GET.get('next', reverse('home_view'))
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            return redirect(self.get_success_url())
+        else:
+            return super(PostMixin, self).post(request, *args, **kwargs)
 
 
 class Home(TemplateView):
@@ -63,6 +75,12 @@ class FiguresListView(ListView):
     context_object_name = 'figures'
 
 
+class FiguresAddView(PostMixin, CreateView):
+    template_name = 'tool/figures_add.html'
+    form_class = FigureForm
+    success_url = reverse_lazy('figures_list')
+
+
 class CountriesListView(ListView):
     template_name = 'tool/countries_list.html'
     model = Country
@@ -102,7 +120,7 @@ class SourceAddModalSuccess(DetailView):
     model = Source
 
 
-class Delete(DeleteView):
+class Delete(PostMixin, DeleteView):
     models_dict = {
         'Source': Source,
         'DriverOfChange': DriverOfChange,
@@ -115,12 +133,3 @@ class Delete(DeleteView):
         model = kwargs.pop('model', None)
         self.model = self.models_dict.get(model)
         return super(Delete, self).dispatch(request, *args, **kwargs)
-
-    def get_success_url(self):
-        return self.request.GET.get('next', reverse('home_view'))
-
-    def post(self, request, *args, **kwargs):
-        if "cancel" in request.POST:
-            return redirect(self.get_success_url())
-        else:
-            return super(Delete, self).post(request, *args, **kwargs)

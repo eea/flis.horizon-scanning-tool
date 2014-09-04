@@ -1,0 +1,27 @@
+{% extends '_layout.html' %}
+{% load custom_filters %}
+
+{% block title %}Add new Fact & Figure{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<h3>Add new Fact and Figure</h3>
+		<br/>
+		<form method="POST" class="form">
+			{% csrf_token %}
+			<div class="form-group">
+				{{ form.title.errors }}
+				{{ form.title|label }}<br/>
+				{{ form.title }}
+			</div>
+			<div class="form-group">
+				{{ form.path.errors }}
+				{{ form.path|label }}<br/>
+				{{ form.path }}
+			</div>
+			<input class="btn btn-success" type="submit" value="Back" name="cancel">
+			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
+		</form>
+	</div>
+
+{% endblock %}

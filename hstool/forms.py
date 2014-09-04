@@ -2,7 +2,7 @@ from django.forms.models import ModelForm
 from django.utils.translation import ugettext_lazy as _
 
 from hstool.models import (
-    Source, Indicator, DriverOfChange, Country, GeographicalScope,
+    Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
 )
 
 
@@ -67,6 +67,15 @@ class DriverForm(ModelForm):
             "figures": _("Figures"),
             "summary": _("Summary"),
             "url": _("URL"),
+        }
+
+
+class FigureForm(ModelForm):
+    class Meta:
+        model = Figure
+        exclude = ['author_id']
+        labels = {
+            "path": _("Upload file"),
         }
 
 
