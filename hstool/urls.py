@@ -52,7 +52,12 @@ urlpatterns = patterns(
         'Indicator|'
         'DriverOfChange|'
         'Figure|'
+        'Country|'
+        'GeographicalScope|'
         ')/(?P<pk>\d+)/$', Delete.as_view(), name='delete_record'),
+
+    url(r'^delete/(?P<model>Country)/(?P<pk>[a-z][a-z])/$', Delete.as_view(),
+        name='delete_record'),
 
     url(r'^settings/', include(settings_urls, namespace='settings')),
 

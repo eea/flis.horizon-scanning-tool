@@ -121,16 +121,9 @@ class SourceAddModalSuccess(DetailView):
 
 
 class Delete(PostMixin, DeleteView):
-    models_dict = {
-        'Source': Source,
-        'DriverOfChange': DriverOfChange,
-        'Indicator': Indicator,
-        'Figure': Figure,
-    }
-
     template_name = 'tool/object_delete.html'
 
     def dispatch(self, request, *args, **kwargs):
         model = kwargs.pop('model', None)
-        self.model = self.models_dict.get(model)
+        self.model = eval(model)
         return super(Delete, self).dispatch(request, *args, **kwargs)
