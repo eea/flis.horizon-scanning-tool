@@ -20,6 +20,7 @@
 				<th>Country</th>
 				<th>Added by</th>
 				<th></th>
+				<th></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -33,6 +34,9 @@
 					<td>{{ driver.name }}</td>
 					<td>{{ driver.country }}</td>
 					<td>{{ driver.author_id }}</td>
+					<td>
+						<a href="{% url 'drivers_update' driver.id %}?next={% url 'drivers_list' %}">EDIT</a>
+					</td>
 					<td>
 						<a href="{% url 'delete_record' 'drivers' driver.id %}?next={% url 'drivers_list' %}">DELETE</a>
 					</td>

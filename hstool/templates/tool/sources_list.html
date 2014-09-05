@@ -16,6 +16,7 @@
 				<th>Author</th>
 				<th>Added by</th>
 				<th></th>
+				<th></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -25,6 +26,9 @@
 					<td>{{ source.published_year }}</td>
 					<td>{{ source.author }}</td>
 					<td>{{ source.author_id }}</td>
+					<td>
+						<a href="{% url 'sources_update' source.id %}?next={% url 'sources_list' %}">EDIT</a>
+					</td>
 					<td>
 						<a href="{% url 'delete_record' 'sources' source.id %}?next={% url 'sources_list' %}">DELETE</a>
 					</td>

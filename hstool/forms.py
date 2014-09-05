@@ -86,6 +86,12 @@ class CountryForm(ModelForm):
         }
 
 
+class CountryUpdateForm(ModelForm):
+    class Meta:
+        model = Country
+        exclude = ['iso']
+
+
 class GeoScopeForm(ModelForm):
     class Meta:
         model = GeographicalScope

@@ -1,11 +1,11 @@
 {% extends '_layout.html' %}
 {% load custom_filters %}
 
-{% block title %}Add new Fact & Figure{% endblock %}
+{% block title %}Add/Edit Fact & Figure{% endblock %}
 
 {% block content %}
 	<div class="container-fluid">
-		<h3>Add new Fact and Figure</h3>
+		<h3>Add/Edit Fact and Figure</h3>
 		<br/>
 		<form method="POST" class="form" enctype="multipart/form-data">
 			{% csrf_token %}

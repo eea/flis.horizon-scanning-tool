@@ -1,11 +1,11 @@
 {% extends '_layout.html' %}
 {% load custom_filters %}
 
-{% block title %}Add new Source{% endblock %}
+{% block title %}Add/Edit Source{% endblock %}
 
 {% block content %}
 	<div class="container-fluid">
-		<h3>Add new Source</h3>
+		<h3>Add/Edit Source</h3>
 		<br/>
 		<form class="form" method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
