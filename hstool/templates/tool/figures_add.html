@@ -7,7 +7,7 @@
 	<div class="container-fluid">
 		<h3>Add new Fact and Figure</h3>
 		<br/>
-		<form method="POST" class="form">
+		<form method="POST" class="form" enctype="multipart/form-data">
 			{% csrf_token %}
 			<div class="form-group">
 				{{ form.title.errors }}
@@ -15,9 +15,9 @@
 				{{ form.title }}
 			</div>
 			<div class="form-group">
-				{{ form.path.errors }}
-				{{ form.path|label }}<br/>
-				{{ form.path }}
+				{{ form.file.errors }}
+				{{ form.file|label }}<br/>
+				{{ form.file }}
 			</div>
 			<a class="btn btn-success" href="{% url 'figures_list' %}">Back</a>
 			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">

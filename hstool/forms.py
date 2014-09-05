@@ -19,7 +19,6 @@ class SourceForm(ModelForm):
             "title": _("Title in English"),
             "title_original": _("Title in original language"),
             "published_year": _("Year of publication"),
-            "path": _("Upload file"),
             "url": _("URL"),
         }
 
@@ -77,9 +76,6 @@ class FigureForm(ModelForm):
     class Meta:
         model = Figure
         exclude = ['author_id']
-        labels = {
-            "path": _("Upload file"),
-        }
 
 
 class CountryForm(ModelForm):
