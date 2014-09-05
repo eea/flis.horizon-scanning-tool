@@ -35,6 +35,18 @@ class AssessmentsAddView(CreateView):
     success_url = reverse_lazy('home_view')
 
 
+class AssessmentsUpdate(ContextMixin, UpdateView):
+    template_name = 'tool/assessments_add.html'
+    model = Assessment
+    form_class = AssessmentForm
+    success_url = reverse_lazy('home_view')
+
+
+class AssessmentsDelete(ContextMixin, DeleteView):
+    template_name = 'tool/object_delete.html'
+    model = Assessment
+
+
 class SourcesListView(ListView):
     template_name = 'tool/sources_list.html'
     model = Source

@@ -14,6 +14,8 @@
 				<th>Title</th>
 				<th>Description</th>
 				<th>Added by</th>
+				<th></th>
+				<th></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -22,6 +24,12 @@
 					<td>{{ assessment.title }}</td>
 					<td>{{ assessment.description }}</td>
 					<td>{{ assessment.author_id }}</td>
+					<td>
+						<a href="{% url 'assessments:update' assessment.id %}?next={% url 'home_view' %}">EDIT</a>
+					</td>
+					<td>
+						<a href="{% url 'assessments:delete' assessment.id %}?next={% url 'home_view' %}">DELETE</a>
+					</td>
 				</tr>
 			{% endfor %}
 			</tbody>
