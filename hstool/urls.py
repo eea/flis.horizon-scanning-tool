@@ -4,31 +4,30 @@ from django.conf.urls.static import static
 
 from django.contrib import admin
 from hstool.views import (
-    SourcesListView, SourcesAddView, IndicatorsListView,
-    IndicatorsAddView, DriversListView, DriversAddView, CountriesListView,
-    CountriesAddView, GeoScopesListView, GeoScopesAddView, AddModal,
-    AddModalSuccess, FiguresListView, FiguresAddView, SourcesUpdate,
+    SourcesList, SourcesAdd, IndicatorsList, IndicatorsAdd, DriversList,
+    DriversAdd, CountriesList, CountriesAdd, GeoScopesList, GeoScopesAdd,
+    AddModal, AddModalSuccess, FiguresList, FiguresAdd, SourcesUpdate,
     IndicatorsUpdate, DriversUpdate, FiguresUpdate, CountriesUpdate,
     GeoScopesUpdate, SourcesDelete, IndicatorsDelete, FiguresDelete,
-    DriversDelete, CountriesDelete, GeoScopesDelete, AssessmentsListView,
-    AssessmentsAddView, AssessmentsUpdate, AssessmentsDelete,
+    DriversDelete, CountriesDelete, GeoScopesDelete, AssessmentsList,
+    AssessmentsAdd, AssessmentsUpdate, AssessmentsDelete,
 )
 
 admin.autodiscover()
 
 settings_urls = patterns(
     '',
-    url(r'^countries/list/$', CountriesListView.as_view(),
+    url(r'^countries/list/$', CountriesList.as_view(),
         name='countries_list'),
-    url(r'^countries/add/$', CountriesAddView.as_view(), name='countries_add'),
+    url(r'^countries/add/$', CountriesAdd.as_view(), name='countries_add'),
     url(r'^countries/update/(?P<pk>\w+)$', CountriesUpdate.as_view(),
         name='countries_update'),
     url(r'^countries/delete/(?P<pk>\w+)$', CountriesDelete.as_view(),
         name='countries_delete'),
 
-    url(r'^geographic_scopes/list/$', GeoScopesListView.as_view(),
+    url(r'^geographic_scopes/list/$', GeoScopesList.as_view(),
         name='geo_scopes_list'),
-    url(r'^geographic_scopes/add/$', GeoScopesAddView.as_view(),
+    url(r'^geographic_scopes/add/$', GeoScopesAdd.as_view(),
         name='geo_scopes_add'),
     url(r'^geographic_scopes/update/(?P<pk>\d+)/$', GeoScopesUpdate.as_view(),
         name='geo_scopes_update'),
@@ -39,46 +38,46 @@ settings_urls = patterns(
 
 sources_urls = patterns(
     '',
-    url(r'^list/$', SourcesListView.as_view(), name='list'),
-    url(r'^add/$', SourcesAddView.as_view(), name='add'),
+    url(r'^list/$', SourcesList.as_view(), name='list'),
+    url(r'^add/$', SourcesAdd.as_view(), name='add'),
     url(r'^update/(?P<pk>\d+)/$', SourcesUpdate.as_view(), name='update'),
     url(r'^delete/(?P<pk>\d+)/$', SourcesDelete.as_view(), name='delete'),
 )
 
 indicators_urls = patterns(
     '',
-    url(r'^list/$', IndicatorsListView.as_view(), name='list'),
-    url(r'^add/$', IndicatorsAddView.as_view(), name='add'),
+    url(r'^list/$', IndicatorsList.as_view(), name='list'),
+    url(r'^add/$', IndicatorsAdd.as_view(), name='add'),
     url(r'^update/(?P<pk>\d+)/$', IndicatorsUpdate.as_view(), name='update'),
     url(r'^delete/(?P<pk>\d+)/$', IndicatorsDelete.as_view(), name='delete'),
 )
 
 drivers_urls = patterns(
     '',
-    url(r'^list/$', DriversListView.as_view(), name='list'),
-    url(r'^add/$', DriversAddView.as_view(), name='add'),
+    url(r'^list/$', DriversList.as_view(), name='list'),
+    url(r'^add/$', DriversAdd.as_view(), name='add'),
     url(r'^update/(?P<pk>\d+)/$', DriversUpdate.as_view(), name='update'),
     url(r'^delete/(?P<pk>\d+)/$', DriversDelete.as_view(), name='delete'),
 )
 
 figures_urls = patterns(
     '',
-    url(r'^list/$', FiguresListView.as_view(), name='list'),
-    url(r'^add/$', FiguresAddView.as_view(), name='add'),
+    url(r'^list/$', FiguresList.as_view(), name='list'),
+    url(r'^add/$', FiguresAdd.as_view(), name='add'),
     url(r'^update/(?P<pk>\d+)/$', FiguresUpdate.as_view(), name='update'),
     url(r'^delete/(?P<pk>\d+)/$', FiguresDelete.as_view(), name='delete'),
 )
 
 assessments_urls = patterns(
     '',
-    url(r'^add/$', AssessmentsAddView.as_view(), name='add'),
+    url(r'^add/$', AssessmentsAdd.as_view(), name='add'),
     url(r'^update/(?P<pk>\d+)/$', AssessmentsUpdate.as_view(), name='update'),
     url(r'^delete/(?P<pk>\d+)/$', AssessmentsDelete.as_view(), name='delete'),
 )
 
 urlpatterns = patterns(
     '',
-    url(r'^$', AssessmentsListView.as_view(), name='home_view'),
+    url(r'^$', AssessmentsList.as_view(), name='home_view'),
 
     url(r'^assessment/', include(assessments_urls, namespace='assessments')),
 
