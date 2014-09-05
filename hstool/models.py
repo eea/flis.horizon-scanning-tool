@@ -1,11 +1,13 @@
 from django.db.models import (
-    Model, CharField, IntegerField, FilePathField, TextField,
-    ForeignKey, BooleanField, ManyToManyField)
+    Model, CharField, IntegerField, TextField, ForeignKey, BooleanField,
+    ManyToManyField, FileField,
+)
 from hstool.definitions import (
     DOC_TYPE_CHOICES, DOC_TREND_TYPE_CHOICES, DOC_STEEP_CHOICES,
     DOC_TIME_HORIZON_CHOICES, IND_TIMELINE_CHOICES,
     RELATION_TYPE_CHOICES,
 )
+from hstool.utils import path_and_rename
 
 
 class EnvironmentalTheme(Model):
@@ -40,7 +42,7 @@ class Country(Model):
 class Figure(Model):
     author_id = CharField(max_length=64)
     title = CharField(max_length=512, default='')
-    path = FilePathField(max_length=256)
+    file = FileField(upload_to=path_and_rename('files/figures'))
 
     def __unicode__(self):
         return self.title
@@ -53,7 +55,7 @@ class Source(Model):
     published_year = IntegerField()
     author = CharField(max_length=512)
     url = CharField(max_length=256)
-    path = FilePathField(max_length=256, null=True, blank=True)
+    file = FileField(upload_to=path_and_rename('files/sources'))
     summary = TextField(max_length=2048)
 
     def __unicode__(self):
