@@ -34,14 +34,10 @@ class IndicatorForm(ModelForm):
         exclude = ['author_id']
         labels = {
             "theme": _("Thematic category"),
-            "timeline": _("Time coverage"),
             "year_base": _("Base year*"),
             "year_end": _("End year"),
             "geographical_scope": _("Georgaphical scale"),
-            "short_name": _("Short name"),
             "name": _("Long name"),
-            "sources": _("Sources"),
-            "figures": _("Figures"),
             "url": _("URL"),
         }
 
@@ -61,13 +57,8 @@ class DriverForm(ModelForm):
             "type": _("Type of Driver of Change"),
             "trend_type": _("Type of trend"),
             "steep_category": _("STEEP category"),
-            "time_horizon": _("Time horizon"),
             "geographical_scope": _("Georgaphical scale"),
-            "short_name": _("Short name"),
             "name": _("Long name"),
-            "sources": _("Sources"),
-            "figures": _("Figures"),
-            "summary": _("Summary"),
             "url": _("URL"),
         }
 
