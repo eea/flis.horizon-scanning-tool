@@ -1,0 +1,30 @@
+{% extends 'tool/_list_as_table.html' %}
+
+{% block title %}Assessments list{% endblock %}
+
+{% block content %}
+	<div class="container-fluid">
+		</br>
+		<a class="btn btn-primary" href="{% url 'assessments:add' %}?next={% url 'home_view' %}">Add Assessment</a>
+		</br>
+
+		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+			<thead>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Added by</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for assessment in assessments %}
+				<tr>
+					<td>{{ assessment.title }}</td>
+					<td>{{ assessment.description }}</td>
+					<td>{{ assessment.author_id }}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

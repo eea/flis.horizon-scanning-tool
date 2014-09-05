@@ -1,14 +1,15 @@
 from django.views.generic import (
-    TemplateView, ListView, CreateView, DetailView, DeleteView, UpdateView,
+    ListView, CreateView, DetailView, DeleteView, UpdateView,
 )
 from django.core.urlresolvers import reverse_lazy, reverse
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
+    Assessment,
 )
 from hstool.forms import (
     SourceForm, IndicatorForm, DriverForm, CountryForm, GeoScopeForm,
-    FigureForm, CountryUpdateForm,
+    FigureForm, CountryUpdateForm, AssessmentForm,
 )
 
 
@@ -22,8 +23,16 @@ class ContextMixin(object):
         return context
 
 
-class Home(TemplateView):
-    template_name = 'home.html'
+class AssessmentsListView(ListView):
+    template_name = 'tool/assessments_list.html'
+    model = Assessment
+    context_object_name = 'assessments'
+
+
+class AssessmentsAddView(CreateView):
+    template_name = 'tool/assessments_add.html'
+    form_class = AssessmentForm
+    success_url = reverse_lazy('home_view')
 
 
 class SourcesListView(ListView):

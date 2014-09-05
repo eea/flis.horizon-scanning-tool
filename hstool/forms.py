@@ -3,7 +3,19 @@ from django.utils.translation import ugettext_lazy as _
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
+    Assessment,
 )
+
+
+class AssessmentForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AssessmentForm, self).__init__(*args, **kwargs)
+        self.fields['description'].widget.attrs["cols"] = 70
+        self.fields['description'].widget.attrs["rows"] = 6
+
+    class Meta:
+        model = Assessment
+        exclude = ['author_id']
 
 
 class SourceForm(ModelForm):

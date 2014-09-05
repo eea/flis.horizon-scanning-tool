@@ -1,0 +1,26 @@
+{% extends '_layout.html' %}
+{% load custom_filters %}
+
+{% block title %}Add/Edit Assessment{% endblock %}
+
+{% block content %}
+	<div class="container-fluid">
+		<h3>Add/Edit Assessment</h3>
+		<br/>
+		<form method="POST" class="form">
+			{% csrf_token %}
+			<div class="form-group">
+				{{ form.title.errors }}<br/>
+				{{ form.title|label }}<br/>
+				{{ form.title }}
+			</div>
+			<div class="form-group">
+				{{ form.description.errors }}<br/>
+				{{ form.description|label }}<br/>
+				{{ form.description }}
+			</div>
+      <a class="btn btn-success" href="{% url 'home_view' %}">Back</a>
+			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
+		</form>
+	</div>
+{% endblock %}

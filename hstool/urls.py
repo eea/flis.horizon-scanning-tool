@@ -4,12 +4,14 @@ from django.conf.urls.static import static
 
 from django.contrib import admin
 from hstool.views import (
-    Home, SourcesListView, SourcesAddView, IndicatorsListView,
+    SourcesListView, SourcesAddView, IndicatorsListView,
     IndicatorsAddView, DriversListView, DriversAddView, CountriesListView,
     CountriesAddView, GeoScopesListView, GeoScopesAddView, AddModal,
     AddModalSuccess, FiguresListView, FiguresAddView, SourcesUpdate,
     IndicatorsUpdate, DriversUpdate, FiguresUpdate, CountriesUpdate,
-    GeoScopesUpdate, SourcesDelete, IndicatorsDelete, FiguresDelete, DriversDelete, CountriesDelete, GeoScopesDelete,
+    GeoScopesUpdate, SourcesDelete, IndicatorsDelete, FiguresDelete,
+    DriversDelete, CountriesDelete, GeoScopesDelete, AssessmentsListView,
+    AssessmentsAddView,
 )
 
 admin.autodiscover()
@@ -67,9 +69,16 @@ figures_urls = patterns(
     url(r'^delete/(?P<pk>\d+)/$', FiguresDelete.as_view(), name='delete'),
 )
 
+assessments_urls = patterns(
+    '',
+    url(r'^add/$', AssessmentsAddView.as_view(), name='add'),
+)
+
 urlpatterns = patterns(
     '',
-    url(r'^$', Home.as_view(), name='home_view'),
+    url(r'^$', AssessmentsListView.as_view(), name='home_view'),
+
+    url(r'^assessment/', include(assessments_urls, namespace='assessments')),
 
     url(r'^settings/', include(settings_urls, namespace='settings')),
 
