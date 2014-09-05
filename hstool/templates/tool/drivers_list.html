@@ -5,7 +5,7 @@
 {% block content %}
 	<div class="container-fluid">
 		</br>
-	  <a class="btn btn-primary" href="{% url 'drivers_add' %}?next={% url 'drivers_list' %}">Add Driver of Change</a>
+	  <a class="btn btn-primary" href="{% url 'drivers:add' %}?next={% url 'drivers:list' %}">Add Driver of Change</a>
 		</br>
 
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
@@ -35,10 +35,10 @@
 					<td>{{ driver.country }}</td>
 					<td>{{ driver.author_id }}</td>
 					<td>
-						<a href="{% url 'drivers_update' driver.id %}?next={% url 'drivers_list' %}">EDIT</a>
+						<a href="{% url 'drivers:update' driver.id %}?next={% url 'drivers:list' %}">EDIT</a>
 					</td>
 					<td>
-						<a href="{% url 'drivers_delete' driver.id %}?next={% url 'drivers_list' %}">DELETE</a>
+						<a href="{% url 'drivers:delete' driver.id %}?next={% url 'drivers:list' %}">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}

@@ -5,7 +5,7 @@
 {% block content %}
 	<div class="container-fluid">
 		</br>
-		<a class="btn btn-primary" href="{% url 'indicators_add' %}?next={% url 'indicators_list' %}">Add Indicator</a>
+		<a class="btn btn-primary" href="{% url 'indicators:add' %}?next={% url 'indicators:list' %}">Add Indicator</a>
 		</br>
 
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
@@ -35,10 +35,10 @@
 					<td>{{ indicator.country }}</td>
 					<td>{{ indicator.author_id }}</td>
 					<td>
-						<a href="{% url 'indicators_update' indicator.id %}?next={% url 'indicators_list' %}">EDIT</a>
+						<a href="{% url 'indicators:update' indicator.id %}?next={% url 'indicators:list' %}">EDIT</a>
 					</td>
 					<td>
-						<a href="{% url 'indicators_delete' indicator.id %}?next={% url 'indicators_list' %}">DELETE</a>
+						<a href="{% url 'indicators:delete' indicator.id %}?next={% url 'indicators:list' %}">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}

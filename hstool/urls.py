@@ -35,44 +35,56 @@ settings_urls = patterns(
 
 )
 
+sources_urls = patterns(
+    '',
+    url(r'^list/$', SourcesListView.as_view(), name='list'),
+    url(r'^add/$', SourcesAddView.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', SourcesUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', SourcesDelete.as_view(), name='delete'),
+)
+
+indicators_urls = patterns(
+    '',
+    url(r'^list/$', IndicatorsListView.as_view(), name='list'),
+    url(r'^add/$', IndicatorsAddView.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', IndicatorsUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', IndicatorsDelete.as_view(), name='delete'),
+)
+
+drivers_urls = patterns(
+    '',
+    url(r'^list/$', DriversListView.as_view(), name='list'),
+    url(r'^add/$', DriversAddView.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', DriversUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', DriversDelete.as_view(), name='delete'),
+)
+
+figures_urls = patterns(
+    '',
+    url(r'^list/$', FiguresListView.as_view(), name='list'),
+    url(r'^add/$', FiguresAddView.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', FiguresUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', FiguresDelete.as_view(), name='delete'),
+)
+
 urlpatterns = patterns(
     '',
     url(r'^$', Home.as_view(), name='home_view'),
-    url(r'^sources/list/$', SourcesListView.as_view(), name='sources_list'),
-    url(r'^sources/add/$', SourcesAddView.as_view(), name='sources_add'),
-    url(r'^sources/update/(?P<pk>\d+)/$', SourcesUpdate.as_view(),
-        name='sources_update'),
-    url(r'^sources/delete/(?P<pk>\d+)/$', SourcesDelete.as_view(),
-        name='sources_delete'),
 
-    url(r'^indicators/list/$', IndicatorsListView.as_view(),
-        name='indicators_list'),
-    url(r'^indicators/add/$', IndicatorsAddView.as_view(),
-        name='indicators_add'),
-    url(r'^indicators/update/(?P<pk>\d+)/$', IndicatorsUpdate.as_view(),
-        name='indicators_update'),
-    url(r'^indicators/delete/(?P<pk>\d+)/$', IndicatorsDelete.as_view(),
-        name='indicators_delete'),
+    url(r'^settings/', include(settings_urls, namespace='settings')),
 
-    url(r'^docs/list/$', DriversListView.as_view(), name='drivers_list'),
-    url(r'^docs/add/$', DriversAddView.as_view(), name='drivers_add'),
-    url(r'^docs/update/(?P<pk>\d+)/$', DriversUpdate.as_view(),
-        name='drivers_update'),
-    url(r'^docs/delete/(?P<pk>\d+)/$', DriversDelete.as_view(),
-        name='drivers_delete'),
 
-    url(r'^figures/list/$', FiguresListView.as_view(), name='figures_list'),
-    url(r'^figures/add/$', FiguresAddView.as_view(), name='figures_add'),
-    url(r'^figures/update/(?P<pk>\d+)/$', FiguresUpdate.as_view(),
-        name='figures_update'),
-    url(r'^figures/delete/(?P<pk>\d+)/$', FiguresDelete.as_view(),
-        name='figures_delete'),
+    url(r'^sources/', include(sources_urls, namespace='sources')),
+
+    url(r'^indicators/', include(indicators_urls, namespace='indicators')),
+
+    url(r'^docs/', include(drivers_urls, namespace='drivers')),
+
+    url(r'^figures/', include(figures_urls, namespace='figures')),
 
     url(r'^(?P<model>\w+)/add/modal/$', AddModal.as_view(), name='add_modal'),
     url(r'^(?P<model>\w+)/add/modal/success/(?P<pk>\d+)$',
         AddModalSuccess.as_view(), name='add_modal_success'),
-
-    url(r'^settings/', include(settings_urls, namespace='settings')),
 
     url(r'^admin/', include(admin.site.urls)),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -7,16 +7,16 @@
   </li>
 
   <li class="{% active 'docs/(.*)$' %}">
-    <a href="{%  url 'drivers_list' %}">Drivers of Change</a>
+    <a href="{%  url 'drivers:list' %}">Drivers of Change</a>
   </li>
   <li class="{% active 'indicators/(.*)$' %}">
-    <a href="{% url 'indicators_list' %}">Indicators</a>
+    <a href="{% url 'indicators:list' %}">Indicators</a>
   </li>
   <li class="{% active 'sources/(.*)$' %}">
-    <a href="{% url 'sources_list' %}">Sources</a>
+    <a href="{% url 'sources:list' %}">Sources</a>
   </li>
   <li class="{% active 'figures/(.*)$' %}">
-    <a href="{% url 'figures_list' %}">Facts & Figures</a>
+    <a href="{% url 'figures:list' %}">Facts & Figures</a>
   </li>
 
 	<li class="{% active 'settings/(.+)$' %} pull-right">

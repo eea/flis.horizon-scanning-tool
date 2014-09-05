@@ -35,14 +35,14 @@ class SourcesListView(ListView):
 class SourcesAddView(CreateView):
     template_name = 'tool/sources_add.html'
     form_class = SourceForm
-    success_url = reverse_lazy('sources_list')
+    success_url = reverse_lazy('sources:list')
 
 
 class SourcesUpdate(ContextMixin, UpdateView):
     template_name = 'tool/sources_add.html'
     model = Source
     form_class = SourceForm
-    success_url = reverse_lazy('sources_list')
+    success_url = reverse_lazy('sources:list')
 
 
 class SourcesDelete(ContextMixin, DeleteView):
@@ -83,14 +83,14 @@ class DriversListView(ListView):
 class DriversAddView(CreateView):
     template_name = 'tool/drivers_add.html'
     form_class = DriverForm
-    success_url = reverse_lazy('drivers_list')
+    success_url = reverse_lazy('drivers:list')
 
 
 class DriversUpdate(ContextMixin, UpdateView):
     template_name = 'tool/drivers_add.html'
     model = DriverOfChange
     form_class = DriverForm
-    success_url = reverse_lazy('drivers_list')
+    success_url = reverse_lazy('drivers:list')
 
 
 class DriversDelete(ContextMixin, DeleteView):
@@ -107,14 +107,14 @@ class FiguresListView(ListView):
 class FiguresAddView(CreateView):
     template_name = 'tool/figures_add.html'
     form_class = FigureForm
-    success_url = reverse_lazy('figures_list')
+    success_url = reverse_lazy('figures:list')
 
 
 class FiguresUpdate(ContextMixin, UpdateView):
     template_name = 'tool/figures_add.html'
     model = Figure
     form_class = FigureForm
-    success_url = reverse_lazy('figures_list')
+    success_url = reverse_lazy('figures:list')
 
 
 class FiguresDelete(ContextMixin, DeleteView):
