@@ -4,7 +4,7 @@
 {% block title %}Add new Geographical Scale{% endblock %}
 
 {% block content %}
-	<div class="container">
+	<div class="container-fluid">
     <h3>Add new Geographical Scale</h3>
 		<br/>
 		<form method="POST" class="form" role="form">
@@ -19,8 +19,8 @@
 				{{ form.require_country|label }}<br/>
 				{{ form.require_country }}
 			</div>
-			<input class="btn btn-success" type="submit" value="Back" name="cancel">
-			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
+			<input class="btn btn-default" type="submit" value="Back" name="cancel">
+			<input class="btn btn-primary col-sm-offset-1" type="submit" value="Save">
 		</form>
 	</div>
 {% endblock %}

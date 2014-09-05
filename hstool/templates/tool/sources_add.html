@@ -4,7 +4,7 @@
 {% block title %}Add new Source{% endblock %}
 
 {% block content %}
-	<div class="container">
+	<div class="container-fluid">
 		<h3>Add new Source</h3>
 		<br/>
 		<form class="form" method="POST">
@@ -17,8 +17,8 @@
 					{{ field }}
 				</div>
 			{% endfor %}
-			<input class="btn btn-success" type="submit" value="Back" name="cancel">
-			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
+			<input class="btn btn-default" type="submit" value="Back" name="cancel">
+			<input class="btn btn-primary col-sm-offset-1" type="submit" value="Save">
 		</form>
 	</div>
 {% endblock %}

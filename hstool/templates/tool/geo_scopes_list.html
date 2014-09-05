@@ -3,9 +3,9 @@
 {% block title %}Geographical Scales list{% endblock %}
 
 {% block content %}
-	<div class="container">
+	<div class="container-fluid">
 		</br>
-    <a class="btn btn-success" href="{% url 'settings:geo_scopes_add' %}?next={% url 'settings:geo_scopes_list' %}">Add Geographical Scale</a>
+    <a class="btn btn-primary" href="{% url 'settings:geo_scopes_add' %}?next={% url 'settings:geo_scopes_list' %}">Add Geographical Scale</a>
 		</br>
 
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">

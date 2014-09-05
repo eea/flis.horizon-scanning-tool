@@ -4,7 +4,7 @@
 {% block title %}Add new Country{% endblock %}
 
 {% block content %}
-	<div class="container">
+	<div class="container-fluid">
     <h3>Add new Country</h3>
 		<br/>
 		<form method="POST" class="form">
@@ -19,8 +19,8 @@
 				{{ form.name|label }}<br/>
 				{{ form.name }}
 			</div>
-      <input class="btn btn-success" type="submit" value="Back" name="cancel">
-			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
+      <input class="btn btn-default" type="submit" value="Back" name="cancel">
+			<input class="btn btn-primary col-sm-offset-1" type="submit" value="Save">
 		</form>
 	</div>
 {% endblock %}

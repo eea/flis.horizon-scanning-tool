@@ -3,9 +3,9 @@
 {% block title %}Sources list{% endblock %}
 
 {% block content %}
-	<div class="container">
+	<div class="container-fluid">
 		</br>
-		  <a class="btn btn-success" href="{% url 'sources_add' %}?next={% url 'sources_list' %}">Add Source</a>
+		  <a class="btn btn-primary" href="{% url 'sources_add' %}?next={% url 'sources_list' %}">Add Source</a>
 		</br>
 
 		<table id = 'objects_listing' class="table table-condensed table-bordered table-hover">

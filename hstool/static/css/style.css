@@ -1,0 +1,19 @@
+#middle_port h1 {
+    padding: 40px 0 0 5px !important;
+    margin-top: 0;
+}
+
+.dataTables_filter {
+    float: right;
+}
+
+.filters .first-filter {
+    margin-left: 20px;
+}
+.filters .form-group {
+    padding-right: 20px;
+}
+
+a.btn-primary{
+  color: white !important;
+}

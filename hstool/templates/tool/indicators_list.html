@@ -3,9 +3,9 @@
 {% block title %}Indicators list{% endblock %}
 
 {% block content %}
-	<div class="container">
+	<div class="container-fluid">
 		</br>
-		<a class="btn btn-success" href="{% url 'indicators_add' %}?next={% url 'indicators_list' %}">Add Indicator</a>
+		<a class="btn btn-primary" href="{% url 'indicators_add' %}?next={% url 'indicators_list' %}">Add Indicator</a>
 		</br>
 
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">

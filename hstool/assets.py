@@ -5,6 +5,7 @@ CSS_ASSETS = (
     'css/bootstrap.min.css',
     'css/bootstrap-datetimepicker.css',
     'css/jquery.dataTables.css',
+    'css/style.css',
 )
 
 

@@ -3,12 +3,12 @@
 {% block title %}Confirm Deletion{% endblock %}
 
 {% block content %}
-	<div class="container">
+	<div class="container-fluid">
     <br/><br/>
     <form class="form-signin" role="form" method="POST">
       {% csrf_token %}
       <h4>Are you sure you want to delete <strong>{{ object }}</strong>?</h4>
-      <button class="btn btn-sm btn-primary col-sm-1" type="submit" name="cancel">Cancel</button>
+      <button class="btn btn-sm btn-default col-sm-1" type="submit" name="cancel">Cancel</button>
       <button class="btn btn-sm btn-primary col-sm-1 col-sm-offset-1" type="submit">Yes</button>
     </form>
 

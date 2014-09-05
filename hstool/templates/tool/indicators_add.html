@@ -4,7 +4,7 @@
 {% block title %}Add new Indicator{% endblock %}
 
 {% block content %}
-	<div class="container">
+	<div class="container-fluid">
 		<h3>Add new Indicator</h3>
 		<br/>
 		<form method="POST">
@@ -74,8 +74,8 @@
 				{{ form.url|label }}<br/>
 				{{ form.url }}
 			</div>
-			<input class="btn btn-success" type="submit" value="Back" name="cancel">
-			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
+			<input class="btn btn-default" type="submit" value="Back" name="cancel">
+			<input class="btn btn-primary col-sm-offset-1" type="submit" value="Save">
 		</form>
 	</div>
 	{% include '_modal.html' with title='Add new source' modal_id='sourceModal' model='Source' %}

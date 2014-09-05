@@ -1,1 +1,3 @@
 # ASSETS_DEBUG = True
+
+# FRAME_URL = 'http://example.com/flis_templates/frame'

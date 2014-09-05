@@ -3,9 +3,9 @@
 {% block title %}Drivers list{% endblock %}
 
 {% block content %}
-	<div class="container">
+	<div class="container-fluid">
 		</br>
-	  <a class="btn btn-success" href="{% url 'drivers_add' %}?next={% url 'drivers_list' %}">Add Driver of Change</a>
+	  <a class="btn btn-primary" href="{% url 'drivers_add' %}?next={% url 'drivers_list' %}">Add Driver of Change</a>
 		</br>
 
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
