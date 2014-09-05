@@ -27,7 +27,7 @@
 						<a href="{% url 'settings:countries_update' country.iso %}?next={% url 'settings:countries_list' %}">EDIT</a>
 					</td>
 					<td>
-						<a href="{% url 'delete_record' 'countries' country.pk %}?next={% url 'settings:countries_list' %}">DELETE</a>
+						<a href="{% url 'settings:countries_delete' country.pk %}?next={% url 'settings:countries_list' %}">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}

@@ -26,7 +26,7 @@
 						<a href="{% url 'figures_update' figure.id %}?next={% url 'figures_list' %}">EDIT</a>
 					</td>
 					<td>
-						<a href="{% url 'delete_record' 'figures' figure.id %}?next={% url 'figures_list' %}">DELETE</a>
+						<a href="{% url 'figures_delete' figure.id %}?next={% url 'figures_list' %}">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}

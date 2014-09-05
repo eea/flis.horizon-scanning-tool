@@ -30,7 +30,7 @@
 						<a href="{% url 'sources_update' source.id %}?next={% url 'sources_list' %}">EDIT</a>
 					</td>
 					<td>
-						<a href="{% url 'delete_record' 'sources' source.id %}?next={% url 'sources_list' %}">DELETE</a>
+						<a href="{% url 'sources_delete' source.id %}?next={% url 'sources_list' %}">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}

@@ -45,6 +45,11 @@ class SourcesUpdate(ContextMixin, UpdateView):
     success_url = reverse_lazy('sources_list')
 
 
+class SourcesDelete(ContextMixin, DeleteView):
+    template_name = 'tool/object_delete.html'
+    model = Source
+
+
 class IndicatorsListView(ListView):
     template_name = 'tool/indicators_list.html'
     model = Indicator
@@ -62,6 +67,11 @@ class IndicatorsUpdate(ContextMixin, UpdateView):
     model = Indicator
     form_class = IndicatorForm
     success_url = reverse_lazy('indicators_list')
+
+
+class IndicatorsDelete(ContextMixin, DeleteView):
+    template_name = 'tool/object_delete.html'
+    model = Indicator
 
 
 class DriversListView(ListView):
@@ -83,6 +93,11 @@ class DriversUpdate(ContextMixin, UpdateView):
     success_url = reverse_lazy('drivers_list')
 
 
+class DriversDelete(ContextMixin, DeleteView):
+    template_name = 'tool/object_delete.html'
+    model = DriverOfChange
+
+
 class FiguresListView(ListView):
     template_name = 'tool/figures_list.html'
     model = Figure
@@ -102,6 +117,11 @@ class FiguresUpdate(ContextMixin, UpdateView):
     success_url = reverse_lazy('figures_list')
 
 
+class FiguresDelete(ContextMixin, DeleteView):
+    template_name = 'tool/object_delete.html'
+    model = Figure
+
+
 class CountriesListView(ListView):
     template_name = 'tool/countries_list.html'
     model = Country
@@ -119,7 +139,11 @@ class CountriesUpdate(ContextMixin, UpdateView):
     model = Country
     form_class = CountryUpdateForm
     success_url = reverse_lazy('settings:countries_list')
-    pk_url_kwarg = 'iso'
+
+
+class CountriesDelete(ContextMixin, DeleteView):
+    template_name = 'tool/object_delete.html'
+    model = Country
 
 
 class GeoScopesListView(ListView):
@@ -139,6 +163,11 @@ class GeoScopesUpdate(ContextMixin, UpdateView):
     model = GeographicalScope
     form_class = GeoScopeForm
     success_url = reverse_lazy('settings:geo_scopes_list')
+
+
+class GeoScopesDelete(ContextMixin, DeleteView):
+    template_name = 'tool/object_delete.html'
+    model = GeographicalScope
 
 
 class ModelMixin(object):
@@ -181,16 +210,4 @@ class AddModalSuccess(ModelMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(AddModalSuccess, self).get_context_data()
         context.update({'model_name': self.model_name})
-        return context
-
-
-class Delete(ModelMixin, DeleteView):
-    template_name = 'tool/object_delete.html'
-
-    def get_success_url(self):
-        return self.request.GET.get('next', reverse('home_view'))
-
-    def get_context_data(self, **kwargs):
-        context = super(Delete, self).get_context_data(**kwargs)
-        context.update({'cancel_url': self.get_success_url()})
         return context

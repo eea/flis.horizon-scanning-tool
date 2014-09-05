@@ -38,7 +38,7 @@
 						<a href="{% url 'indicators_update' indicator.id %}?next={% url 'indicators_list' %}">EDIT</a>
 					</td>
 					<td>
-						<a href="{% url 'delete_record' 'indicators' indicator.id %}?next={% url 'indicators_list' %}">DELETE</a>
+						<a href="{% url 'indicators_delete' indicator.id %}?next={% url 'indicators_list' %}">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}

@@ -26,7 +26,7 @@
 						<a href="{% url 'settings:geo_scopes_update' geo_scope.id %}?next={% url 'settings:geo_scopes_list' %}">EDIT</a>
 					</td>
 					<td>
-						<a href="{% url 'delete_record' 'geo_scales' geo_scope.id %}?next={% url 'settings:geo_scopes_list' %}">DELETE</a>
+						<a href="{% url 'settings:geo_scopes_delete' geo_scope.id %}?next={% url 'settings:geo_scopes_list' %}">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}

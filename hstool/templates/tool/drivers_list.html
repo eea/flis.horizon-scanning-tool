@@ -38,7 +38,7 @@
 						<a href="{% url 'drivers_update' driver.id %}?next={% url 'drivers_list' %}">EDIT</a>
 					</td>
 					<td>
-						<a href="{% url 'delete_record' 'drivers' driver.id %}?next={% url 'drivers_list' %}">DELETE</a>
+						<a href="{% url 'drivers_delete' driver.id %}?next={% url 'drivers_list' %}">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}
