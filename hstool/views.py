@@ -29,6 +29,12 @@ class AssessmentsList(ListView):
     context_object_name = 'assessments'
 
 
+class AssessmentsDetail(DetailView):
+    template_name = 'tool/assessments_detail.html'
+    model = Assessment
+    context_object_name = 'assessment'
+
+
 class AssessmentsAdd(CreateView):
     template_name = 'tool/assessments_add.html'
     form_class = AssessmentForm

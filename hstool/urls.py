@@ -10,7 +10,7 @@ from hstool.views import (
     IndicatorsUpdate, DriversUpdate, FiguresUpdate, CountriesUpdate,
     GeoScopesUpdate, SourcesDelete, IndicatorsDelete, FiguresDelete,
     DriversDelete, CountriesDelete, GeoScopesDelete, AssessmentsList,
-    AssessmentsAdd, AssessmentsUpdate, AssessmentsDelete,
+    AssessmentsAdd, AssessmentsUpdate, AssessmentsDelete, AssessmentsDetail,
 )
 
 admin.autodiscover()
@@ -71,6 +71,7 @@ figures_urls = patterns(
 assessments_urls = patterns(
     '',
     url(r'^add/$', AssessmentsAdd.as_view(), name='add'),
+    url(r'^detail/(?P<pk>\d+)/$', AssessmentsDetail.as_view(), name='detail'),
     url(r'^update/(?P<pk>\d+)/$', AssessmentsUpdate.as_view(), name='update'),
     url(r'^delete/(?P<pk>\d+)/$', AssessmentsDelete.as_view(), name='delete'),
 )

@@ -12,21 +12,19 @@
 			<thead>
 			<tr>
 				<th>Title</th>
-				<th>Description</th>
+				<th style="width: 60%;">Description</th>
 				<th>Added by</th>
-				<th></th>
 				<th></th>
 			</tr>
 			</thead>
 			<tbody>
 			{% for assessment in assessments %}
 				<tr>
-					<td>{{ assessment.title }}</td>
+					<td>
+						<a href="{% url 'assessments:detail' assessment.id %}">{{ assessment.title }}</a>
+					</td>
 					<td>{{ assessment.description }}</td>
 					<td>{{ assessment.author_id }}</td>
-					<td>
-						<a href="{% url 'assessments:update' assessment.id %}?next={% url 'home_view' %}">EDIT</a>
-					</td>
 					<td>
 						<a href="{% url 'assessments:delete' assessment.id %}?next={% url 'home_view' %}">DELETE</a>
 					</td>
