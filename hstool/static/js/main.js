@@ -17,11 +17,19 @@ $(function () {
     });
 
     $('#add-modal-submit').on('click', function () {
+        var form = $('#add-form');
         var url = $(this).data('action');
+        var formdata = false;
+        if (window.FormData){
+            formdata = new FormData(form[0]);
+        }
         $.ajax({
-            type: "POST",
             url: url,
-            data: $('#add-form').serialize(),
+            data: formdata ? formdata : form.serialize(),
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: "POST",
             success: function (data) {
                 $('.modal-body').html(data);
             },
