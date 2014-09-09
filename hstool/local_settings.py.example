@@ -8,3 +8,12 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
+
+# Don't set the following while running on production. Only use these for
+# testing purposes.
+
+# USER_ID = 'admin'
+# USER_ROLES = ['Administrator']
+# USER_GROUPS = []
+
+# SKIP_EDIT_AUTH = False
