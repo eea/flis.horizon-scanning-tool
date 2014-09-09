@@ -109,7 +109,7 @@ class SourcesAdd(CreateView):
     success_url = reverse_lazy('sources:list')
 
 
-class SourcesUpdate(ContextMixin, UpdateView):
+class SourcesUpdate(UpdateView):
     template_name = 'tool/sources_add.html'
     model = Source
     form_class = SourceForm
@@ -133,7 +133,7 @@ class IndicatorsAdd(CreateView):
     success_url = reverse_lazy('indicators_list')
 
 
-class IndicatorsUpdate(ContextMixin, UpdateView):
+class IndicatorsUpdate(UpdateView):
     template_name = 'tool/indicators_add.html'
     model = Indicator
     form_class = IndicatorForm
@@ -157,7 +157,7 @@ class DriversAdd(CreateView):
     success_url = reverse_lazy('drivers:list')
 
 
-class DriversUpdate(ContextMixin, UpdateView):
+class DriversUpdate(UpdateView):
     template_name = 'tool/drivers_add.html'
     model = DriverOfChange
     form_class = DriverForm
@@ -181,7 +181,7 @@ class FiguresAdd(CreateView):
     success_url = reverse_lazy('figures:list')
 
 
-class FiguresUpdate(ContextMixin, UpdateView):
+class FiguresUpdate(UpdateView):
     template_name = 'tool/figures_add.html'
     model = Figure
     form_class = FigureForm
@@ -205,7 +205,7 @@ class CountriesAdd(CreateView):
     success_url = reverse_lazy('settings:countries_list')
 
 
-class CountriesUpdate(ContextMixin, UpdateView):
+class CountriesUpdate(UpdateView):
     template_name = 'tool/countries_update.html'
     model = Country
     form_class = CountryUpdateForm
@@ -229,7 +229,7 @@ class GeoScopesAdd(CreateView):
     success_url = reverse_lazy('settings:geo_scopes_list')
 
 
-class GeoScopesUpdate(ContextMixin, UpdateView):
+class GeoScopesUpdate(UpdateView):
     template_name = 'tool/geo_scopes_add.html'
     model = GeographicalScope
     form_class = GeoScopeForm
