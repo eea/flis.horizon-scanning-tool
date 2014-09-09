@@ -1,0 +1,9 @@
+{% extends '_layout.html' %}
+{% block content %}
+	<h3 id="restricted-title" class="text-danger">Restricted</h3>
+	{% if request.user_id %}
+		<div class="alert alert-warning">Your account doesn't have edit credentials.</div>
+	{% else %}
+		<div class="alert alert-warning">This page is restricted. Please logon to check credentials.</div>
+	{% endif %}
+{% endblock %}
