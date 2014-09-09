@@ -5,11 +5,11 @@
 {% block content %}
 	<div class="container-fluid">
     <br/><br/>
-    <form class="form-signin" role="form" method="POST">
+		<h4>Are you sure you want to delete "<strong>{{ object }}</strong>" permanently?</h4>
+		<form class="form-signin" role="form" method="POST">
       {% csrf_token %}
-      <h4>Are you sure you want to delete <strong>{{ object }}</strong> permanently?</h4>
-      <a class="btn btn-sm btn-default col-sm-1" href="{{ cancel_url }}" type="submit" name="cancel">Cancel</a>
-      <button class="btn btn-sm btn-primary col-sm-1 col-sm-offset-1" type="submit">Yes</button>
+			<button class="btn btn-primary" type="submit">Yes</button>
+			<a  class="btn btn-link" href="{{ cancel_url }}" type="submit" name="cancel">Cancel</a>
     </form>
 
   </div>
