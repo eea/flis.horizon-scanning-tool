@@ -19,8 +19,8 @@
 				{{ form.name|label }}<br/>
 				{{ form.name }}
 			</div>
-      <a class="btn btn-success" href="{% url 'settings:countries_list' %}">Back</a>
-			<input class="btn btn-success col-sm-offset-1" type="submit" value="Save">
+			<input class="btn btn-success" type="submit" value="Save">
+			<a class="btn btn-link" href="{% url 'settings:countries_list' %}">Back</a>
 		</form>
 	</div>
 {% endblock %}
