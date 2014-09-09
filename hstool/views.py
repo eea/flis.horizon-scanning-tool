@@ -17,6 +17,16 @@ from auth.views import (
 )
 
 
+class AuthorMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        self.author_id = request.user_id
+        return super(AuthorMixin, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.author_id = self.author_id
+        return super(AuthorMixin, self).form_valid(form)
+
+
 class ContextMixin(object):
     def get_success_url(self):
         return self.request.GET.get('next', reverse('home_view'))
@@ -39,8 +49,7 @@ class AssessmentsDetail(DetailView):
     context_object_name = 'assessment'
 
 
-class AssessmentsAdd(CreateView):
-
+class AssessmentsAdd(AuthorMixin, CreateView):
     template_name = 'tool/assessments_add.html'
     form_class = AssessmentForm
 
@@ -61,8 +70,7 @@ class AssessmentsDelete(ContextMixin, DeleteView):
     model = Assessment
 
 
-class RelationAdd(CreateView):
-
+class RelationAdd(AuthorMixin, CreateView):
     template_name = 'tool/relation_add.html'
     form_class = RelationForm
     model = Relation
@@ -87,7 +95,6 @@ class RelationAdd(CreateView):
 
 
 class RelationList(ListView):
-
     template_name = 'tool/relation_list.html'
     model = Relation
     context_object_name = 'relations'
@@ -106,7 +113,7 @@ class SourcesList(ListView):
     context_object_name = 'sources'
 
 
-class SourcesAdd(CreateView):
+class SourcesAdd(AuthorMixin, CreateView):
     template_name = 'tool/sources_add.html'
     form_class = SourceForm
     success_url = reverse_lazy('sources:list')
@@ -130,17 +137,17 @@ class IndicatorsList(ListView):
     context_object_name = 'indicators'
 
 
-class IndicatorsAdd(CreateView):
+class IndicatorsAdd(AuthorMixin, CreateView):
     template_name = 'tool/indicators_add.html'
     form_class = IndicatorForm
-    success_url = reverse_lazy('indicators_list')
+    success_url = reverse_lazy('indicators:list')
 
 
 class IndicatorsUpdate(EditPermissionRequiredMixin, UpdateView):
     template_name = 'tool/indicators_add.html'
     model = Indicator
     form_class = IndicatorForm
-    success_url = reverse_lazy('indicators_list')
+    success_url = reverse_lazy('indicators:list')
 
 
 class IndicatorsDelete(ContextMixin, DeleteView):
@@ -154,7 +161,7 @@ class DriversList(ListView):
     context_object_name = 'drivers'
 
 
-class DriversAdd(CreateView):
+class DriversAdd(AuthorMixin, CreateView):
     template_name = 'tool/drivers_add.html'
     form_class = DriverForm
     success_url = reverse_lazy('drivers:list')
@@ -178,7 +185,7 @@ class FiguresList(ListView):
     context_object_name = 'figures'
 
 
-class FiguresAdd(CreateView):
+class FiguresAdd(AuthorMixin, CreateView):
     template_name = 'tool/figures_add.html'
     form_class = FigureForm
     success_url = reverse_lazy('figures:list')
@@ -261,7 +268,7 @@ class ModelMixin(object):
         return super(ModelMixin, self).dispatch(request, *args, **kwargs)
 
 
-class AddModal(ModelMixin, CreateView):
+class AddModal(ModelMixin, AuthorMixin, CreateView):
     template_name = 'tool/add_modal.html'
 
     urls_to_forms = {
@@ -279,7 +286,7 @@ class AddModal(ModelMixin, CreateView):
         )
 
 
-class AddModalSuccess(ModelMixin, DetailView):
+class AddModalSuccess(ModelMixin, AuthorMixin, DetailView):
     template_name = 'tool/add_modal_success.html'
 
     def get_context_data(self, **kwargs):
