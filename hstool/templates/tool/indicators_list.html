@@ -35,10 +35,15 @@
 					<td>{{ indicator.country }}</td>
 					<td>{{ indicator.author_id }}</td>
 					<td>
-						<a href="{% url 'indicators:update' indicator.id %}?next={% url 'indicators:list' %}">EDIT</a>
+						<a href="{% url 'indicators:update' indicator.id %}?next={% url 'indicators:list' %}">
+							<span class="glyphicon glyphicon-pencil"></span> &nbsp;
+							Edit
+						</a>
 					</td>
 					<td>
-						<a href="{% url 'indicators:delete' indicator.id %}?next={% url 'indicators:list' %}">DELETE</a>
+						<a href="{% url 'indicators:delete' indicator.id %}?next={% url 'indicators:list' %}">
+							<span class="glyphicon glyphicon-remove"></span> Delete
+						</a>
 					</td>
 				</tr>
 			{% endfor %}

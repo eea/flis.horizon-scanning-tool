@@ -35,10 +35,15 @@
 					<td>{{ driver.country }}</td>
 					<td>{{ driver.author_id }}</td>
 					<td>
-						<a href="{% url 'drivers:update' driver.id %}?next={% url 'drivers:list' %}">EDIT</a>
+						<a href="{% url 'drivers:update' driver.id %}?next={% url 'drivers:list' %}">
+							<span class="glyphicon glyphicon-pencil"></span> &nbsp;
+							Edit
+						</a>
 					</td>
 					<td>
-						<a href="{% url 'drivers:delete' driver.id %}?next={% url 'drivers:list' %}">DELETE</a>
+						<a href="{% url 'drivers:delete' driver.id %}?next={% url 'drivers:list' %}">
+							<span class="glyphicon glyphicon-remove"></span> Delete
+						</a>
 					</td>
 				</tr>
 			{% endfor %}

@@ -26,7 +26,9 @@
 					<td>{{ assessment.description }}</td>
 					<td>{{ assessment.author_id }}</td>
 					<td>
-						<a href="{% url 'assessments:delete' assessment.id %}?next={% url 'home_view' %}">DELETE</a>
+						<a href="{% url 'assessments:delete' assessment.id %}?next={% url 'home_view' %}">
+							<span class="glyphicon glyphicon-remove"></span> Delete
+						</a>
 					</td>
 				</tr>
 			{% endfor %}

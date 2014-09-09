@@ -27,10 +27,14 @@
 					<td>{{ source.author }}</td>
 					<td>{{ source.author_id }}</td>
 					<td>
-						<a href="{% url 'sources:update' source.id %}?next={% url 'sources:list' %}">EDIT</a>
+						<a href="{% url 'sources:update' source.id %}?next={% url 'sources:list' %}">
+							<span class="glyphicon glyphicon-pencil"></span> &nbsp;Edit
+						</a>
 					</td>
 					<td>
-						<a href="{% url 'sources:delete' source.id %}?next={% url 'sources:list' %}">DELETE</a>
+						<a href="{% url 'sources:delete' source.id %}?next={% url 'sources:list' %}">
+							<span class="glyphicon glyphicon-remove"></span> Delete
+						</a>
 					</td>
 				</tr>
 			{% endfor %}

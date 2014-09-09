@@ -24,10 +24,15 @@
 					<td>{{ country.iso }}</td>
 					<td>{{ country.name }}</td>
 					<td>
-						<a href="{% url 'settings:countries_update' country.iso %}?next={% url 'settings:countries_list' %}">EDIT</a>
+						<a href="{% url 'settings:countries_update' country.iso %}?next={% url 'settings:countries_list' %}">
+							<span class="glyphicon glyphicon-pencil"></span> &nbsp;
+							Edit
+						</a>
 					</td>
 					<td>
-						<a href="{% url 'settings:countries_delete' country.pk %}?next={% url 'settings:countries_list' %}">DELETE</a>
+						<a href="{% url 'settings:countries_delete' country.pk %}?next={% url 'settings:countries_list' %}">
+							<span class="glyphicon glyphicon-remove"></span> Delete
+						</a>
 					</td>
 				</tr>
 			{% endfor %}

@@ -23,10 +23,15 @@
 					<td>{{ geo_scope.title }}</td>
 					<td>{{ geo_scope.require_country }}</td>
 					<td>
-						<a href="{% url 'settings:geo_scopes_update' geo_scope.id %}?next={% url 'settings:geo_scopes_list' %}">EDIT</a>
+						<a href="{% url 'settings:geo_scopes_update' geo_scope.id %}?next={% url 'settings:geo_scopes_list' %}">
+							<span class="glyphicon glyphicon-pencil"></span> &nbsp;
+							Edit
+						</a>
 					</td>
 					<td>
-						<a href="{% url 'settings:geo_scopes_delete' geo_scope.id %}?next={% url 'settings:geo_scopes_list' %}">DELETE</a>
+						<a href="{% url 'settings:geo_scopes_delete' geo_scope.id %}?next={% url 'settings:geo_scopes_list' %}">
+							<span class="glyphicon glyphicon-remove"></span> Delete
+						</a>
 					</td>
 				</tr>
 			{% endfor %}

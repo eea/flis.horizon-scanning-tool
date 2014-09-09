@@ -23,10 +23,15 @@
 					<td>{{ figure.title }}</td>
 					<td>{{ figure.author_id }}</td>
 					<td>
-						<a href="{% url 'figures:update' figure.id %}?next={% url 'figures:list' %}">EDIT</a>
+						<a href="{% url 'figures:update' figure.id %}?next={% url 'figures:list' %}">
+							<span class="glyphicon glyphicon-pencil"></span> &nbsp;
+							Edit
+						</a>
 					</td>
 					<td>
-						<a href="{% url 'figures:delete' figure.id %}?next={% url 'figures:list' %}">DELETE</a>
+						<a href="{% url 'figures:delete' figure.id %}?next={% url 'figures:list' %}">
+							<span class="glyphicon glyphicon-remove"></span> Delete
+						</a>
 					</td>
 				</tr>
 			{% endfor %}
