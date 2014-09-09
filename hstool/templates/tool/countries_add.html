@@ -5,19 +5,22 @@
 
 {% block content %}
 	<div class="container-fluid">
-		<h3>Add/Edit Country</h3>
-		<br/>
+		<h2>Add/Edit Country</h2>
 		<form method="POST" class="form">
 			{% csrf_token %}
-			<div class="form-group">
-				{{ form.iso.errors }}<br/>
-				{{ form.iso|label }}<br/>
-				{{ form.iso }}
-			</div>
-			<div class="form-group">
-				{{ form.name.errors }}<br/>
-				{{ form.name|label }}<br/>
-				{{ form.name }}
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="form-group">
+						{{ form.iso.errors }}<br/>
+						{{ form.iso|label }}<br/>
+						{{ form.iso }}
+					</div>
+					<div class="form-group">
+						{{ form.name.errors }}<br/>
+						{{ form.name|label }}<br/>
+						{{ form.name }}
+					</div>
+				</div>
 			</div>
 			<input class="btn btn-success" type="submit" value="Save">
 			<a class="btn btn-link" href="{% url 'settings:countries_list' %}">Back</a>

@@ -12,6 +12,7 @@ class AssessmentForm(ModelForm):
         super(AssessmentForm, self).__init__(*args, **kwargs)
         self.fields['description'].widget.attrs["cols"] = 70
         self.fields['description'].widget.attrs["rows"] = 6
+        self.fields['title'].widget.attrs["size"] = 30
 
     class Meta:
         model = Assessment
@@ -23,6 +24,10 @@ class SourceForm(ModelForm):
         super(SourceForm, self).__init__(*args, **kwargs)
         self.fields['summary'].widget.attrs["cols"] = 70
         self.fields['summary'].widget.attrs["rows"] = 6
+        self.fields['title'].widget.attrs["size"] = 30
+        self.fields['title_original'].widget.attrs["size"] = 60
+        self.fields['author'].widget.attrs["size"] = 30
+        self.fields['url'].widget.attrs["size"] = 60
 
     class Meta:
         model = Source
@@ -40,6 +45,9 @@ class IndicatorForm(ModelForm):
         super(IndicatorForm, self).__init__(*args, **kwargs)
         self.fields['sources'].widget.attrs["size"] = 6
         self.fields['figures'].widget.attrs["size"] = 6
+        self.fields['url'].widget.attrs["size"] = 100
+        self.fields['short_name'].widget.attrs["size"] = 30
+        self.fields['name'].widget.attrs["size"] = 60
 
     class Meta:
         model = Indicator
@@ -61,6 +69,9 @@ class DriverForm(ModelForm):
         self.fields['summary'].widget.attrs["rows"] = 6
         self.fields['sources'].widget.attrs["size"] = 6
         self.fields['figures'].widget.attrs["size"] = 6
+        self.fields['short_name'].widget.attrs["size"] = 30
+        self.fields['name'].widget.attrs["size"] = 60
+        self.fields['url'].widget.attrs["size"] = 100
 
     class Meta:
         model = DriverOfChange

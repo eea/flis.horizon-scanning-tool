@@ -5,8 +5,7 @@
 
 {% block content %}
 	<div class="container-fluid">
-		<h3>Add/Edit Indicator</h3>
-		<br/>
+		<h2>Add/Edit Indicator</h2>
 		<form method="POST">
 			{% csrf_token %}
 			<div class="form-group">
@@ -14,63 +13,99 @@
 				{{ form.theme|label }}<br/>
 				{{ form.theme }}
 			</div>
-			<div class="form-group">
-				{{ form.short_name.errors }}
-				{{ form.short_name|label }}<br/>
-				{{ form.short_name }}
-			</div>
-			<div class="form-group">
-				{{ form.name.errors }}
-				{{ form.name|label }}<br/>
-				{{ form.name }}
-			</div>
-			<div class="form-group">
-				{{ form.geographical_scope.errors }}
-				{{ form.geographical_scope|label }}
-				{{ form.geographical_scope }}&ensp;&ensp;&ensp;&ensp;
-				{{ form.country.errors }}
-				{{ form.country|label }}
-				{{ form.country }}
-			</div>
-			<div class="form-group">
-				<p><strong>Time coverage*</strong></p>
-				{{ form.year_base.errors }}
-				{{ form.year_base|label }}
-				{{ form.year_base }}&ensp;&ensp;&ensp;&ensp;
-				{{ form.year_end.errors }}
-				{{ form.year_end|label }}
-				{{ form.year_end }}&ensp;&ensp;&ensp;&ensp;
-				{{ form.timeline.errors }}
-				{{ form.timeline|label }}
-				{{ form.timeline }}
-			</div>
-			<div class="row">
-				<div class="col-sm-2">
+			<div class="panel panel-default">
+				<div class="panel-body">
 					<div class="form-group">
-						{{ form.sources.errors }}
-						{{ form.sources|label }}<br/>
-						{{ form.sources }}
+						<div class="row">
+							<div class="col-md-4">
+								{{ form.short_name.errors }}
+								{{ form.short_name|label }}<br/>
+								{{ form.short_name }}
+							</div>
+							<div class="col-md-6">
+								{{ form.name.errors }}
+								{{ form.name|label }}<br/>
+								{{ form.name }}
+							</div>
+						</div>
 					</div>
-					<!-- Button trigger modal -->
-					<a class="btn btn-primary btn-sm launch-modal" data-toggle="modal"
-						 data-target="#myModal"
-						 data-action="{% url 'add_modal' 'sources' %}"
-						 data-title="Add new Source">
-						Add new source
-					</a>
 				</div>
-				<div class="col-sm-2">
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-body">
 					<div class="form-group">
-						{{ form.figures.errors }}
-						{{ form.figures|label }}<br/>
-						{{ form.figures }}
+						<div class="row">
+							<div class="col-md-6">
+								{{ form.geographical_scope.errors }}
+								{{ form.geographical_scope|label }}
+								{{ form.geographical_scope }}
+							</div>
+							<div class="col-md-6">
+								{{ form.country.errors }}
+								{{ form.country|label }}
+								{{ form.country }}
+							</div>
+						</div>
 					</div>
-					<a class="btn btn-primary btn-sm launch-modal" data-toggle="modal"
-						 data-target="#myModal"
-						 data-action="{% url 'add_modal' 'figures' %}"
-						 data-title="Add new Fact & Figure">
-						Add new fact & figure
-					</a>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Time coverage</h3>
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-4">
+								{{ form.year_base.errors }}
+								{{ form.year_base|label }}
+								{{ form.year_base }}
+							</div>
+							<div class="col-md-4">
+								{{ form.year_end.errors }}
+								{{ form.year_end|label }}
+								{{ form.year_end }}
+							</div>
+							<div class="col-md-4">
+								{{ form.timeline.errors }}
+								{{ form.timeline|label }}
+								{{ form.timeline }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-5">
+							<div class="form-group">
+								{{ form.sources.errors }}
+								{{ form.sources|label }}<br/>
+								{{ form.sources }}
+							</div>
+							<!-- Button trigger modal -->
+							<a class="btn btn-link launch-modal" data-toggle="modal"
+								 data-target="#myModal"
+								 data-action="{% url 'add_modal' 'sources' %}"
+								 data-title="Add new Source">
+								Add new source
+							</a>
+						</div>
+						<div class="col-sm-5">
+							<div class="form-group">
+								{{ form.figures.errors }}
+								{{ form.figures|label }}<br/>
+								{{ form.figures }}
+							</div>
+							<a class="btn btn-link launch-modal" data-toggle="modal"
+								 data-target="#myModal"
+								 data-action="{% url 'add_modal' 'figures' %}"
+								 data-title="Add new Fact & Figure">
+								Add new fact & figure
+							</a>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
