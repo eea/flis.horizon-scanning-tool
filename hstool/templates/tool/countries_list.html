@@ -6,7 +6,7 @@
 
 	<div class="container-fluid">
 		</br>
-		<a class="btn btn-primary" href="{% url 'settings:countries_add' %}?next={% url 'settings:countries_list' %}">Add Country</a>
+		<a class="btn btn-primary" href="{% url 'settings:countries_add' %}">Add Country</a>
 		</br>
 
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
@@ -24,7 +24,7 @@
 					<td>{{ country.iso }}</td>
 					<td>{{ country.name }}</td>
 					<td>
-						<a href="{% url 'settings:countries_update' country.iso %}?next={% url 'settings:countries_list' %}">
+						<a href="{% url 'settings:countries_update' country.iso %}">
 							<span class="glyphicon glyphicon-pencil"></span> &nbsp;
 							Edit
 						</a>

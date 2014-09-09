@@ -5,7 +5,7 @@
 {% block content %}
 	<div class="container-fluid">
 		</br>
-		  <a class="btn btn-primary" href="{% url 'sources:add' %}?next={% url 'sources:list' %}">Add Source</a>
+		  <a class="btn btn-primary" href="{% url 'sources:add' %}">Add Source</a>
 		</br>
 
 		<table id = 'objects_listing' class="table table-condensed table-bordered table-hover">
@@ -27,7 +27,7 @@
 					<td>{{ source.author }}</td>
 					<td>{{ source.author_id }}</td>
 					<td>
-						<a href="{% url 'sources:update' source.id %}?next={% url 'sources:list' %}">
+						<a href="{% url 'sources:update' source.id %}">
 							<span class="glyphicon glyphicon-pencil"></span> &nbsp;Edit
 						</a>
 					</td>
