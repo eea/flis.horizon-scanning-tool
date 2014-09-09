@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
-    Assessment,
+    Assessment, Relation
 )
 
 
@@ -38,6 +38,23 @@ class SourceForm(ModelForm):
             "published_year": _("Year of publication"),
             "url": _("URL"),
         }
+
+
+class RelationForm(ModelForm):
+
+    class Meta:
+        model = Relation
+        exclude = ['assessment']
+
+    def __init__(self, *args, **kwargs):
+        self.assessment = kwargs.pop('assessment')
+        super(RelationForm, self).__init__(*args, **kwargs)
+
+    def save(self):
+        relation = super(RelationForm, self).save(commit=False)
+        relation.assessment = self.assessment
+        relation.save()
+        return relation
 
 
 class IndicatorForm(ModelForm):

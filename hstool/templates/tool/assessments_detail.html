@@ -1,16 +1,16 @@
 {% extends '_layout.html' %}
 
 {% block content %}
-  <div class="container">
+  <div class="container-fluid">
     <h1>{{ assessment.title }}</h1>
 
     <div class="row">
 
-      <div class="col-sm-6">
+      <div class="col-sm-8">
         <p>{{ assessment.description }}</p>
       </div>
 
-      <div class="col-sm-6">
+      <div class="col-sm-4">
           <a href="{% url 'assessments:update' assessment.id %}?next={% url 'home_view' %}" class="btn btn-primary btn-sm">
             <span class="glyphicon glyphicon-pencil"></span> &nbsp;
             Edit </a>
@@ -18,10 +18,10 @@
     </div>
 
     <div class="actions">
-      <a href="#" class="btn btn-primary btn-sm">
+      <a href="{% url 'relations:add' assessment.id %}" class="btn btn-primary btn-sm">
         <span class="glyphicon glyphicon-plus"></span> &nbsp;
           Add relation</a>
-      <a href="#" class="btn btn-primary btn-sm">
+      <a href="{% url 'relations:list' assessment.id %}" class="btn btn-primary btn-sm">
         <span class="glyphicon glyphicon-th-list"></span> &nbsp;
           List relations</a>
     </div>

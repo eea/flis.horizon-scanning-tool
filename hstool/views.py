@@ -2,14 +2,15 @@ from django.views.generic import (
     ListView, CreateView, DetailView, DeleteView, UpdateView,
 )
 from django.core.urlresolvers import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
-    Assessment,
+    Assessment, Relation
 )
 from hstool.forms import (
     SourceForm, IndicatorForm, DriverForm, CountryForm, GeoScopeForm,
-    FigureForm, CountryUpdateForm, AssessmentForm,
+    FigureForm, CountryUpdateForm, AssessmentForm, RelationForm
 )
 
 
@@ -51,6 +52,45 @@ class AssessmentsUpdate(ContextMixin, UpdateView):
 class AssessmentsDelete(ContextMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Assessment
+
+
+class RelationAdd(CreateView):
+
+    template_name = 'tool/relation_add.html'
+    form_class = RelationForm
+    model = Relation
+
+    def dispatch(self, request, assessment_pk):
+        self.assessment = get_object_or_404(Assessment, pk=assessment_pk)
+        return super(RelationAdd, self).dispatch(request, assessment_pk)
+
+    def get_context_data(self, **kwargs):
+        context = super(RelationAdd, self).get_context_data(**kwargs)
+        context['assessment'] = self.assessment
+        return context
+
+    def get_form_kwargs(self):
+        data = super(RelationAdd, self).get_form_kwargs()
+        data['assessment'] = self.assessment
+        return data
+
+    def get_success_url(self):
+        return reverse_lazy('assessments:detail',
+                            kwargs={'pk': self.assessment.id})
+
+
+class RelationList(ListView):
+
+    template_name = 'tool/relation_list.html'
+    model = Relation
+    context_object_name = 'relations'
+
+    def dispatch(self, request, assessment_pk):
+        self.assessment = get_object_or_404(Assessment, pk=assessment_pk)
+        return super(RelationList, self).dispatch(request, assessment_pk)
+
+    def get_queryset(self):
+        return Relation.objects.filter(assessment=self.assessment)
 
 
 class SourcesList(ListView):

@@ -1,0 +1,30 @@
+{% extends 'tool/_list_as_table.html' %}
+
+{% block title %}Relation list{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for relation in relations %}
+                <tr>
+                    <td>{{ relation.source }}</td>
+                    <td>{{ relation.destination }}</td>
+                    <td>{{ relation.relationship_type }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
