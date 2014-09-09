@@ -49,6 +49,7 @@ class RelationForm(ModelForm):
     def __init__(self, *args, **kwargs):
         self.assessment = kwargs.pop('assessment')
         super(RelationForm, self).__init__(*args, **kwargs)
+        self.fields['figures'].widget.attrs["style"] = "width: 200px"
 
     def save(self):
         relation = super(RelationForm, self).save(commit=False)
