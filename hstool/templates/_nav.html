@@ -2,38 +2,41 @@
 
 <ul class="nav nav-tabs">
 
-  <li class="{% active '$' %}">
-    <a href="{% url 'home_view' %}">Assessments</a>
-  </li>
-
-  <li class="{% active 'docs/(.*)$' %}">
-    <a href="{%  url 'drivers:list' %}">Drivers of Change</a>
-  </li>
-  <li class="{% active 'indicators/(.*)$' %}">
-    <a href="{% url 'indicators:list' %}">Indicators</a>
-  </li>
-  <li class="{% active 'sources/(.*)$' %}">
-    <a href="{% url 'sources:list' %}">Sources</a>
-  </li>
-  <li class="{% active 'figures/(.*)$' %}">
-    <a href="{% url 'figures:list' %}">Facts & Figures</a>
-  </li>
-
-	<li class="{% active 'settings/(.+)$' %} pull-right">
-		<a class="dropdown-toggle btn" data-toggle="dropdown">
-			Settings <span class="caret"></span></a>
-		<ul class="dropdown-menu">
-			<li>
-				<a href="{% url 'settings:countries_list' %}">
-					Countries
-				</a>
-			</li>
-			<li>
-				<a href="{% url 'settings:geo_scopes_list' %}">
-					Geographical scales
-				</a>
-			</li>
-		</ul>
+	<li class="{% active '$' %}">
+		<a href="{% url 'home_view' %}">Assessments</a>
 	</li>
+
+	<li class="{% active 'docs/(.*)$' %}">
+		<a href="{%  url 'drivers:list' %}">Drivers of Change</a>
+	</li>
+	<li class="{% active 'indicators/(.*)$' %}">
+		<a href="{% url 'indicators:list' %}">Indicators</a>
+	</li>
+	<li class="{% active 'sources/(.*)$' %}">
+		<a href="{% url 'sources:list' %}">Sources</a>
+	</li>
+	<li class="{% active 'figures/(.*)$' %}">
+		<a href="{% url 'figures:list' %}">Facts & Figures</a>
+	</li>
+
+	{% is_admin as is_admin %}
+	{% if is_admin %}
+		<li class="{% active 'settings/(.+)$' %} pull-right">
+			<a class="dropdown-toggle btn" data-toggle="dropdown">
+				Settings <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li>
+					<a href="{% url 'settings:countries_list' %}">
+						Countries
+					</a>
+				</li>
+				<li>
+					<a href="{% url 'settings:geo_scopes_list' %}">
+						Geographical scales
+					</a>
+				</li>
+			</ul>
+		</li>
+	{% endif %}
 
 </ul>
