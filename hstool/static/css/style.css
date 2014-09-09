@@ -17,3 +17,12 @@
 a.btn-primary{
   color: white !important;
 }
+
+div.container-fluid {
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+div.assessment-content {
+    margin-bottom: 25px;
+}

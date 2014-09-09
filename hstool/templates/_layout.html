@@ -3,7 +3,8 @@
 
 {% block head %}
   {% assets "css" %}
-    <link href="{{ ASSET_URL }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" />
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
   {% endassets %}
 
   <title>

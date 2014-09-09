@@ -37,9 +37,13 @@ class AssessmentsDetail(DetailView):
 
 
 class AssessmentsAdd(CreateView):
+
     template_name = 'tool/assessments_add.html'
     form_class = AssessmentForm
-    success_url = reverse_lazy('home_view')
+
+    def get_success_url(self):
+        return reverse_lazy('assessments:detail',
+                            kwargs={'pk': self.object.pk})
 
 
 class AssessmentsUpdate(ContextMixin, UpdateView):
