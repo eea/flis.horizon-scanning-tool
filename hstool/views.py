@@ -210,7 +210,7 @@ class FiguresList(LoginRequiredMixin, ListView):
     context_object_name = 'figures'
 
 
-class FiguresAdd(AuthorMixin, CreateView):
+class FiguresAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/figures_add.html'
     form_class = FigureForm
     success_url = reverse_lazy('figures:list')
