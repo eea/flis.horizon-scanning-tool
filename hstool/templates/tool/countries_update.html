@@ -1,24 +1,34 @@
 {% extends '_layout.html' %}
 {% load custom_filters %}
+{% load widget_tweaks %}
 
-{% block title %}Add/Edit Country{% endblock %}
+{% block title %}Edit Country{% endblock %}
 
 {% block content %}
-	<div class="container-fluid">
-		<h2>Add/Edit Country</h2>
-		<form method="POST" class="form">
+	<div class="container-fluid" id="view">
+
+		<h2 class="page-header">Edit Country</h2>
+		<form method="POST" class="form-horizontal">
 			{% csrf_token %}
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<div class="form-group">
-						{{ form.name.errors }}<br/>
-						{{ form.name|label }}<br/>
-						{{ form.name }}
-					</div>
-				</div>
-			</div>
-			<input class="btn btn-success" type="submit" value="Save">
-			<a class="btn btn-link" href="{% url 'settings:countries_list' %}">Back</a>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{ form.name|label }}
+                </label>
+                <div class="col-sm-4">
+                    {% render_field form.name class='form-control' %}
+                    {{ form.name.errors }}
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <div class="col-sm-offset-2">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <small>or
+                        <a href="{% url 'settings:countries_list' %}">Cancel</a>
+                    </small>
+                </div>
+            </div>
+
 		</form>
 	</div>
 {% endblock %}

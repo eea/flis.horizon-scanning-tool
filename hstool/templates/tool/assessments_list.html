@@ -29,10 +29,10 @@
             <td>
               <a href="{% url 'assessments:detail' assessment.id %}">{{ assessment.title }}</a>
             </td>
-            <td>{{ assessment.description }}</td>
+            <td>{{ assessment.description|truncatewords:12 }}</td>
             <td>{{ assessment.author_id }}</td>
             <td>
-              <a href="{% url 'assessments:delete' assessment.id %}?next={% url 'home_view' %}">
+              <a id="delete" href="{% url 'assessments:delete' assessment.id %}?next={% url 'home_view' %}">
                 <span class="glyphicon glyphicon-remove"></span> Delete
               </a>
             </td>

@@ -12,3 +12,8 @@ def render_label(field):
             else ''
         )
     )
+
+
+@register.filter(name='is_filefield')
+def is_filefield(field):
+    return field.label == 'File'

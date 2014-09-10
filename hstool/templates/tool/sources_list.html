@@ -27,7 +27,7 @@
 					<td>{{ source.author }}</td>
 					<td>{{ source.author_id }}</td>
 					<td>
-						<a href="{% url 'sources:delete' source.id %}?next={% url 'sources:list' %}">
+						<a id="delete" href="{% url 'sources:delete' source.id %}?next={% url 'sources:list' %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete
 						</a>
 					</td>

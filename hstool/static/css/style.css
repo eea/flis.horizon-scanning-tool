@@ -31,3 +31,7 @@ div.assessment-content {
     padding: 0;
     font-size: 20px;
 }
+
+a#delete {
+    color: #A94442 !important;
+}
