@@ -18,11 +18,16 @@ a.btn-primary{
   color: white !important;
 }
 
-div.container-fluid {
-    margin-bottom: 25px;
-    margin-top: 25px;
-}
-
 div.assessment-content {
     margin-bottom: 25px;
+}
+
+#view h2 {
+    padding: 0;
+    font-size: 28px;
+}
+
+#view h3 {
+    padding: 0;
+    font-size: 20px;
 }

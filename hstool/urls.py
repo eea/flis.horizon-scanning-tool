@@ -11,7 +11,7 @@ from hstool.views import (
     GeoScopesUpdate, SourcesDelete, IndicatorsDelete, FiguresDelete,
     DriversDelete, CountriesDelete, GeoScopesDelete, AssessmentsList,
     AssessmentsAdd, AssessmentsUpdate, AssessmentsDelete, AssessmentsDetail,
-    RelationAdd, RelationList
+    RelationAdd, AssessmentsPreview
 )
 
 admin.autodiscover()
@@ -73,6 +73,8 @@ assessments_urls = patterns(
     '',
     url(r'^add/$', AssessmentsAdd.as_view(), name='add'),
     url(r'^detail/(?P<pk>\d+)/$', AssessmentsDetail.as_view(), name='detail'),
+    url(r'^preview/(?P<pk>\d+)/$',
+        AssessmentsPreview.as_view(), name='preview'),
     url(r'^update/(?P<pk>\d+)/$', AssessmentsUpdate.as_view(), name='update'),
     url(r'^delete/(?P<pk>\d+)/$', AssessmentsDelete.as_view(), name='delete'),
 )
@@ -80,7 +82,6 @@ assessments_urls = patterns(
 relations_urls = patterns(
     '',
     url(r'(?P<assessment_pk>\d+)/add/$', RelationAdd.as_view(), name='add'),
-    url(r'(?P<assessment_pk>\d+)/list/$', RelationList.as_view(), name='list')
 )
 
 urlpatterns = patterns(

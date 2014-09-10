@@ -6,22 +6,9 @@
     <h2 class="page-header">{{ assessment.title }}</h2>
 
     <div class="row assessment-content">
-
       <div class="col-sm-8">
         <p>{{ assessment.description }}</p>
       </div>
-
-      <div class="col-sm-4">
-          <a href="{% url 'assessments:update' assessment.id %}?next={% url 'home_view' %}" class="btn btn-primary btn-sm">
-            <span class="glyphicon glyphicon-pencil"></span> &nbsp;
-            Edit </a>
-      </div>
-    </div>
-
-    <div class="actions">
-      <a href="{% url 'relations:add' assessment.id %}" class="btn btn-primary btn-sm">
-        <span class="glyphicon glyphicon-plus"></span> &nbsp;
-          Add relation</a>
     </div>
 
     <div>

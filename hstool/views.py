@@ -61,6 +61,16 @@ class AssessmentsDetail(DetailView):
     model = Assessment
     context_object_name = 'assessment'
 
+    def get_context_data(self, **kwargs):
+        context = super(AssessmentsDetail, self).get_context_data(**kwargs)
+        context['relations'] = Relation.objects.filter(assessment=self.object)
+        return context
+
+
+class AssessmentsPreview(AssessmentsDetail):
+
+    template_name = 'tool/assessments_preview.html'
+
 
 class AssessmentsAdd(AuthorMixin, CreateView):
     template_name = 'tool/assessments_add.html'
@@ -105,19 +115,6 @@ class RelationAdd(AuthorMixin, CreateView):
     def get_success_url(self):
         return reverse_lazy('assessments:detail',
                             kwargs={'pk': self.assessment.id})
-
-
-class RelationList(ListView):
-    template_name = 'tool/relation_list.html'
-    model = Relation
-    context_object_name = 'relations'
-
-    def dispatch(self, request, assessment_pk):
-        self.assessment = get_object_or_404(Assessment, pk=assessment_pk)
-        return super(RelationList, self).dispatch(request, assessment_pk)
-
-    def get_queryset(self):
-        return Relation.objects.filter(assessment=self.assessment)
 
 
 class SourcesList(LoginRequiredMixin, ListView):

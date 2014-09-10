@@ -10,7 +10,7 @@
         <form method="POST" class="form-horizontal">
             {% csrf_token %}
             <div class="form-group">
-                <label class="col-sm-2 control-label">{{ form.source.label }}
+                <label class="col-sm-2 control-label">{{ form.source|label }}
                 </label>
                 <div class="col-sm-2">
                     {% render_field form.source class='form-control' %}
@@ -19,7 +19,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">{{ form.destination.label }}
+                <label class="col-sm-2 control-label">{{ form.destination|label }}
                 </label>
                 <div class="col-sm-2">
                     {% render_field form.destination class='form-control' %}
@@ -28,7 +28,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">{{ form.relationship_type.label }}
+                <label class="col-sm-2 control-label">{{ form.relationship_type|label }}
                 </label>
                 <div class="col-sm-2">
                     {% render_field form.relationship_type class='form-control' %}
@@ -37,7 +37,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">{{ form.description.label }}
+                <label class="col-sm-2 control-label">{{ form.description|label }}
                 </label>
                 <div class="col-sm-3">
                     {% render_field form.description class='form-control' %}
@@ -46,11 +46,21 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">{{ form.figures.label }}
+                <label class="col-sm-2 control-label">{{ form.figures|label }}
                 </label>
                 <div class="col-sm-3">
                     {% render_field form.figures class='form-control' %}
                     {{ form.figures.errors}}
+                </div>
+
+                <div class="col-sm-2">
+                    <a class="btn btn-primary launch-modal" data-toggle="modal"
+                             data-target="#myModal"
+                             data-action="{% url 'add_modal' 'figures'%}"
+                             data-title="Add new Figure">
+                    <span class="glyphicon glyphicon-plus"></span> &nbsp;
+                        Add new fact & figure
+                    </a>
                 </div>
             </div>
 
@@ -66,4 +76,5 @@
         </form>
 
     </div>
+    {% include '_modal.html'%}
 {% endblock %}
