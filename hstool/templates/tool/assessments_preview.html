@@ -1,14 +1,13 @@
 {% extends '_layout.html' %}
+{% load custom_filters %}
 
 {% block content %}
   <div class="container-fluid" id="view">
 
     <h2 class="page-header">{{ assessment.title }}</h2>
 
-    <div class="row assessment-content">
-      <div class="col-sm-8">
+    <div class="assessment-content">
         <p>{{ assessment.description }}</p>
-      </div>
     </div>
 
     <div>
@@ -28,7 +27,7 @@
             <tr>
                 <td>{{ relation.source }}</td>
                 <td>{{ relation.destination }}</td>
-                <td>{{ relation.relationship_type }}</td>
+                <td>{{ relation.relationship_type|verbose }}</td>
             </tr>
         {% endfor %}
         </tbody>
