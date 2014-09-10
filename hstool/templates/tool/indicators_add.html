@@ -1,10 +1,11 @@
 {% extends '_layout.html' %}
+{% load custom_filters %}
 {% load widget_tweaks %}
 
 {% block title %}Add/Edit Indicator{% endblock %}
 
 {% block content %}
-	<div class="container-fluid">
+	<div class="container-fluid" id="view">
 
 		<h2 class="page-header">Add/Edit Indicator</h2>
 
@@ -12,7 +13,7 @@
 			{% csrf_token %}
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.theme.label }}
+				<label class="col-sm-2 control-label">{{ form.theme|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.theme class='form-control' %}
@@ -21,7 +22,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.short_name.label }}
+				<label class="col-sm-2 control-label">{{ form.short_name|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.short_name class='form-control' %}
@@ -30,7 +31,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.name.label }}
+				<label class="col-sm-2 control-label">{{ form.name|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.name class='form-control' %}
@@ -39,7 +40,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.geographical_scope.label }}
+				<label class="col-sm-2 control-label">{{ form.geographical_scope|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.geographical_scope class='form-control' %}
@@ -48,7 +49,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.country.label }}
+				<label class="col-sm-2 control-label">{{ form.country|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.country class='form-control' %}
@@ -57,7 +58,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.year_base.label }}
+				<label class="col-sm-2 control-label">{{ form.year_base|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.year_base class='form-control' %}
@@ -66,7 +67,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.year_end.label }}
+				<label class="col-sm-2 control-label">{{ form.year_end|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.year_end class='form-control' %}
@@ -75,7 +76,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.timeline.label }}
+				<label class="col-sm-2 control-label">{{ form.timeline|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.timeline class='form-control' %}
@@ -84,7 +85,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.sources.label }}
+				<label class="col-sm-2 control-label">{{ form.sources|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.sources class='form-control' %}
@@ -102,7 +103,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.figures.label }}
+				<label class="col-sm-2 control-label">{{ form.figures|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.figures class='form-control' %}
@@ -112,7 +113,7 @@
 					<a class="btn btn-primary launch-modal" data-toggle="modal"
 							 data-target="#myModal"
 							 data-action="{% url 'add_modal' 'figures'%}"
-							 data-title="Add new Source">
+							 data-title="Add new Fact">
 						<span class="glyphicon glyphicon-plus"></span>  &nbsp;
 						Add new fact & figure
 					</a>
@@ -120,7 +121,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.url.label }}
+				<label class="col-sm-2 control-label">{{ form.url|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.url class='form-control' %}

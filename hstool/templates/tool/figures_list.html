@@ -14,20 +14,15 @@
 				<th>Title</th>
 				<th>Added by</th>
 				<th></th>
-				<th></th>
 			</tr>
 			</thead>
 			<tbody>
 			{% for figure in figures %}
 				<tr>
-					<td>{{ figure.title }}</td>
-					<td>{{ figure.author_id }}</td>
 					<td>
 						<a href="{% url 'figures:update' figure.id %}">
-							<span class="glyphicon glyphicon-pencil"></span> &nbsp;
-							Edit
-						</a>
-					</td>
+						{{ figure.title }}</a></td>
+					<td>{{ figure.author_id }}</td>
 					<td>
 						<a href="{% url 'figures:delete' figure.id %}?next={% url 'figures:list' %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete
