@@ -29,8 +29,13 @@ class AdminRequiredMixin(object):
         return super(AdminRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
-
-
+class OwnerRequiredMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        is_admin = request.user.has_perm('hstool.config')
+        obj = self.get_object()
+        if not is_admin and obj.author_id != request.user.username:
+            return HttpResponseForbidden()
+        return super(OwnerRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
 class AuthorMixin(object):
@@ -84,14 +89,14 @@ class AssessmentsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
                             kwargs={'pk': self.object.pk})
 
 
-class AssessmentsUpdate(ContextMixin, LoginRequiredMixin, UpdateView):
+class AssessmentsUpdate(ContextMixin, OwnerRequiredMixin, UpdateView):
     template_name = 'tool/assessments_add.html'
     model = Assessment
     form_class = AssessmentForm
     success_url = reverse_lazy('home_view')
 
 
-class AssessmentsDelete(ContextMixin, LoginRequiredMixin, DeleteView):
+class AssessmentsDelete(ContextMixin, OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Assessment
 
@@ -145,14 +150,14 @@ class SourcesAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('sources:list')
 
 
-class SourcesUpdate(LoginRequiredMixin, UpdateView):
+class SourcesUpdate(OwnerRequiredMixin, UpdateView):
     template_name = 'tool/sources_add.html'
     model = Source
     form_class = SourceForm
     success_url = reverse_lazy('sources:list')
 
 
-class SourcesDelete(ContextMixin, LoginRequiredMixin, DeleteView):
+class SourcesDelete(ContextMixin, OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Source
 
@@ -169,14 +174,14 @@ class IndicatorsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('indicators:list')
 
 
-class IndicatorsUpdate(LoginRequiredMixin, UpdateView):
+class IndicatorsUpdate(OwnerRequiredMixin, UpdateView):
     template_name = 'tool/indicators_add.html'
     model = Indicator
     form_class = IndicatorForm
     success_url = reverse_lazy('indicators:list')
 
 
-class IndicatorsDelete(ContextMixin, LoginRequiredMixin, DeleteView):
+class IndicatorsDelete(ContextMixin, OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Indicator
 
@@ -193,14 +198,14 @@ class DriversAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('drivers:list')
 
 
-class DriversUpdate(LoginRequiredMixin, UpdateView):
+class DriversUpdate(OwnerRequiredMixin, UpdateView):
     template_name = 'tool/drivers_add.html'
     model = DriverOfChange
     form_class = DriverForm
     success_url = reverse_lazy('drivers:list')
 
 
-class DriversDelete(ContextMixin, LoginRequiredMixin, DeleteView):
+class DriversDelete(ContextMixin, OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = DriverOfChange
 
@@ -217,14 +222,14 @@ class FiguresAdd(AuthorMixin, CreateView):
     success_url = reverse_lazy('figures:list')
 
 
-class FiguresUpdate(LoginRequiredMixin, UpdateView):
+class FiguresUpdate(OwnerRequiredMixin, UpdateView):
     template_name = 'tool/figures_add.html'
     model = Figure
     form_class = FigureForm
     success_url = reverse_lazy('figures:list')
 
 
-class FiguresDelete(ContextMixin, LoginRequiredMixin, DeleteView):
+class FiguresDelete(ContextMixin, OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Figure
 
