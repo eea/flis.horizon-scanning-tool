@@ -7,10 +7,11 @@
     {% if not user.is_authenticated %}
       <p class="lead">The application is not available to anonymous users, please login.</p>
     {% else %}
+      {% if perms.hstool.create %}
+      <a class="btn btn-primary" href="{% url 'assessments:add' %}">
+        AddAssessment</a>
       </br>
-      <a class="btn btn-primary" href="{% url 'assessments:add' %}">Add
-        Assessment</a>
-      </br>
+      {% endif %}
 
       <table id="objects_listing"
              class="table table-condensed table-bordered table-hover">

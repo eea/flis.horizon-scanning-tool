@@ -127,5 +127,10 @@ class Assessment(Model):
     title = CharField(max_length=512)
     description = TextField(null=True, blank=True)
 
+    class Meta:
+        permissions = (
+            ('create', 'Create an assessment'),
+        )
+
     def __unicode__(self):
         return self.title
