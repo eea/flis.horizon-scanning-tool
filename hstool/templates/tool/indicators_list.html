@@ -20,13 +20,13 @@
 				<th>Country</th>
 				<th>Added by</th>
 				<th></th>
-				<th></th>
 			</tr>
 			</thead>
 			<tbody>
 			{% for indicator in indicators %}
 				<tr>
-					<td>{{ indicator.theme }}</td>
+					<td><a href="{% url 'indicators:update' indicator.id %}">
+						{{ indicator.theme }}</a></td>
 					<td>{{ indicator.year_base }}</td>
 					<td>{{ indicator.year_end }}</td>
 					<td>{{ indicator.get_timeline_display }}</td>
@@ -34,12 +34,6 @@
 					<td>{{ indicator.name }}</td>
 					<td>{{ indicator.country }}</td>
 					<td>{{ indicator.author_id }}</td>
-					<td>
-						<a href="{% url 'indicators:update' indicator.id %}">
-							<span class="glyphicon glyphicon-pencil"></span> &nbsp;
-							Edit
-						</a>
-					</td>
 					<td>
 						<a href="{% url 'indicators:delete' indicator.id %}?next={% url 'indicators:list' %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete

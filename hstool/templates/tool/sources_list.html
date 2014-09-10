@@ -16,21 +16,16 @@
 				<th>Author</th>
 				<th>Added by</th>
 				<th></th>
-				<th></th>
 			</tr>
 			</thead>
 			<tbody>
 			{% for source in sources %}
 				<tr>
-					<td>{{ source.title }}</td>
+					<td><a href="{% url 'sources:update' source.id %}">
+						{{ source.title }}</a></td>
 					<td>{{ source.published_year }}</td>
 					<td>{{ source.author }}</td>
 					<td>{{ source.author_id }}</td>
-					<td>
-						<a href="{% url 'sources:update' source.id %}">
-							<span class="glyphicon glyphicon-pencil"></span> &nbsp;Edit
-						</a>
-					</td>
 					<td>
 						<a href="{% url 'sources:delete' source.id %}?next={% url 'sources:list' %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete

@@ -20,13 +20,14 @@
 				<th>Country</th>
 				<th>Added by</th>
 				<th></th>
-				<th></th>
 			</tr>
 			</thead>
 			<tbody>
 			{% for driver in drivers %}
 				<tr>
-					<td>{{ driver.get_type_display }}</td>
+					<td>
+						<a href="{% url 'drivers:update' driver.id %}">{{ driver.get_type_display }}</a>
+					</td>
 					<td>{{ driver.get_trend_type_display }}</td>
 					<td>{{ driver.get_steep_category_display }}</td>
 					<td>{{ driver.get_time_horizon_display }}</td>
@@ -34,12 +35,6 @@
 					<td>{{ driver.name }}</td>
 					<td>{{ driver.country }}</td>
 					<td>{{ driver.author_id }}</td>
-					<td>
-						<a href="{% url 'drivers:update' driver.id %}">
-							<span class="glyphicon glyphicon-pencil"></span> &nbsp;
-							Edit
-						</a>
-					</td>
 					<td>
 						<a href="{% url 'drivers:delete' driver.id %}?next={% url 'drivers:list' %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete

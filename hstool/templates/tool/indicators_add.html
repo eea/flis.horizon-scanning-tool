@@ -1,120 +1,142 @@
 {% extends '_layout.html' %}
-{% load custom_filters %}
+{% load widget_tweaks %}
 
 {% block title %}Add/Edit Indicator{% endblock %}
 
 {% block content %}
 	<div class="container-fluid">
-		<h2>Add/Edit Indicator</h2>
-		<form method="POST">
+
+		<h2 class="page-header">Add/Edit Indicator</h2>
+
+		<form method="POST" class="form-horizontal">
 			{% csrf_token %}
+
 			<div class="form-group">
-				{{ form.theme.errors }}
-				{{ form.theme|label }}<br/>
-				{{ form.theme }}
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<div class="form-group">
-						<div class="row">
-							<div class="col-md-4">
-								{{ form.short_name.errors }}
-								{{ form.short_name|label }}<br/>
-								{{ form.short_name }}
-							</div>
-							<div class="col-md-6">
-								{{ form.name.errors }}
-								{{ form.name|label }}<br/>
-								{{ form.name }}
-							</div>
-						</div>
-					</div>
+				<label class="col-sm-2 control-label">{{ form.theme.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.theme class='form-control' %}
+					{{ form.theme.errors }}
 				</div>
 			</div>
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<div class="form-group">
-						<div class="row">
-							<div class="col-md-6">
-								{{ form.geographical_scope.errors }}
-								{{ form.geographical_scope|label }}
-								{{ form.geographical_scope }}
-							</div>
-							<div class="col-md-6">
-								{{ form.country.errors }}
-								{{ form.country|label }}
-								{{ form.country }}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Time coverage</h3>
-				</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<div class="row">
-							<div class="col-md-4">
-								{{ form.year_base.errors }}
-								{{ form.year_base|label }}
-								{{ form.year_base }}
-							</div>
-							<div class="col-md-4">
-								{{ form.year_end.errors }}
-								{{ form.year_end|label }}
-								{{ form.year_end }}
-							</div>
-							<div class="col-md-4">
-								{{ form.timeline.errors }}
-								{{ form.timeline|label }}
-								{{ form.timeline }}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<div class="row">
-						<div class="col-sm-5">
-							<div class="form-group">
-								{{ form.sources.errors }}
-								{{ form.sources|label }}<br/>
-								{{ form.sources }}
-							</div>
-							<!-- Button trigger modal -->
-							<a class="btn btn-link launch-modal" data-toggle="modal"
-								 data-target="#myModal"
-								 data-action="{% url 'add_modal' 'sources' %}"
-								 data-title="Add new Source">
-								Add new source
-							</a>
-						</div>
-						<div class="col-sm-5">
-							<div class="form-group">
-								{{ form.figures.errors }}
-								{{ form.figures|label }}<br/>
-								{{ form.figures }}
-							</div>
-							<a class="btn btn-link launch-modal" data-toggle="modal"
-								 data-target="#myModal"
-								 data-action="{% url 'add_modal' 'figures' %}"
-								 data-title="Add new Fact & Figure">
-								Add new fact & figure
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
+
 			<div class="form-group">
-				{{ form.url.errors }}
-				{{ form.url|label }}<br/>
-				{{ form.url }}
+				<label class="col-sm-2 control-label">{{ form.short_name.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.short_name class='form-control' %}
+					{{ form.short_name.errors }}
+				</div>
 			</div>
-			<input class="btn btn-success" type="submit" value="Save">
-			<a class="btn btn-link" href="{% url 'indicators:list' %}">Back</a>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.name.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.name class='form-control' %}
+					{{ form.name.errors }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.geographical_scope.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.geographical_scope class='form-control' %}
+					{{ form.geographical_scope.errors }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.country.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.country class='form-control' %}
+					{{ form.country.errors }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.year_base.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.year_base class='form-control' %}
+					{{ form.year_base.errors }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.year_end.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.year_end class='form-control' %}
+					{{ form.year_end.errors }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.timeline.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.timeline class='form-control' %}
+					{{ form.timeline.errors }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.sources.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.sources class='form-control' %}
+					{{ form.sources.errors }}
+				</div>
+				<div class="col-sm-2">
+					<a class="btn btn-primary launch-modal" data-toggle="modal"
+							 data-target="#myModal"
+							 data-action="{% url 'add_modal' 'sources'%}"
+							 data-title="Add new Source">
+						<span class="glyphicon glyphicon-plus"></span>  &nbsp;
+						Add new source
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.figures.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.figures class='form-control' %}
+					{{ form.figures.errors }}
+				</div>
+				<div class="col-sm-2">
+					<a class="btn btn-primary launch-modal" data-toggle="modal"
+							 data-target="#myModal"
+							 data-action="{% url 'add_modal' 'figures'%}"
+							 data-title="Add new Source">
+						<span class="glyphicon glyphicon-plus"></span>  &nbsp;
+						Add new fact & figure
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.url.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.url class='form-control' %}
+					{{ form.url.errors }}
+				</div>
+			</div>
+
+			<div class="form-actions">
+				<div class="col-sm-offset-2">
+					<button class="btn btn-primary" type="submit">Save</button>
+					<small>or
+						<a href="{% url 'indicators:list' %}">Cancel</a>
+					</small>
+				</div>
+			</div>
+
 		</form>
 	</div>
 	{% include '_modal.html' %}
