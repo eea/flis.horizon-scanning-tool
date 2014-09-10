@@ -9,7 +9,7 @@
 		<form class="form-signin" role="form" method="POST">
       {% csrf_token %}
 			<button class="btn btn-primary" type="submit">Yes</button>
-			<a  class="btn btn-link" href="{{ cancel_url }}" type="submit" name="cancel">Cancel</a>
+			<a  class="btn btn-link" href="{{ view.get_success_url }}" type="submit" name="cancel">Cancel</a>
     </form>
 
   </div>

@@ -48,16 +48,6 @@ class AuthorMixin(object):
         return super(AuthorMixin, self).form_valid(form)
 
 
-class ContextMixin(object):
-    def get_success_url(self):
-        return self.request.GET.get('next', reverse('home_view'))
-
-    def get_context_data(self, **kwargs):
-        context = super(ContextMixin, self).get_context_data(**kwargs)
-        context.update({'cancel_url': self.get_success_url()})
-        return context
-
-
 class AssessmentsList(LoginRequiredMixin, ListView):
     template_name = 'tool/assessments_list.html'
     model = Assessment
@@ -89,16 +79,17 @@ class AssessmentsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
                             kwargs={'pk': self.object.pk})
 
 
-class AssessmentsUpdate(ContextMixin, OwnerRequiredMixin, UpdateView):
+class AssessmentsUpdate( OwnerRequiredMixin, UpdateView):
     template_name = 'tool/assessments_add.html'
     model = Assessment
     form_class = AssessmentForm
     success_url = reverse_lazy('home_view')
 
 
-class AssessmentsDelete(ContextMixin, OwnerRequiredMixin, DeleteView):
+class AssessmentsDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Assessment
+    success_url = reverse_lazy('assessments:list')
 
 
 class RelationAdd(AuthorMixin, LoginRequiredMixin, CreateView):
@@ -157,9 +148,10 @@ class SourcesUpdate(OwnerRequiredMixin, UpdateView):
     success_url = reverse_lazy('sources:list')
 
 
-class SourcesDelete(ContextMixin, OwnerRequiredMixin, DeleteView):
+class SourcesDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Source
+    success_url = reverse_lazy('sources:list')
 
 
 class IndicatorsList(LoginRequiredMixin, ListView):
@@ -181,9 +173,10 @@ class IndicatorsUpdate(OwnerRequiredMixin, UpdateView):
     success_url = reverse_lazy('indicators:list')
 
 
-class IndicatorsDelete(ContextMixin, OwnerRequiredMixin, DeleteView):
+class IndicatorsDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Indicator
+    success_url = reverse_lazy('indicators:list')
 
 
 class DriversList(LoginRequiredMixin, ListView):
@@ -205,9 +198,10 @@ class DriversUpdate(OwnerRequiredMixin, UpdateView):
     success_url = reverse_lazy('drivers:list')
 
 
-class DriversDelete(ContextMixin, OwnerRequiredMixin, DeleteView):
+class DriversDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = DriverOfChange
+    success_url = reverse_lazy('drivers:list')
 
 
 class FiguresList(LoginRequiredMixin, ListView):
@@ -229,9 +223,10 @@ class FiguresUpdate(OwnerRequiredMixin, UpdateView):
     success_url = reverse_lazy('figures:list')
 
 
-class FiguresDelete(ContextMixin, OwnerRequiredMixin, DeleteView):
+class FiguresDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Figure
+    success_url = reverse_lazy('figures:list')
 
 
 class CountriesList(AdminRequiredMixin, ListView):
@@ -254,9 +249,10 @@ class CountriesUpdate(AdminRequiredMixin, UpdateView):
     success_url = reverse_lazy('settings:countries_list')
 
 
-class CountriesDelete(ContextMixin, AdminRequiredMixin, DeleteView):
+class CountriesDelete(AdminRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Country
+    success_url = reverse_lazy('settings:countries_list')
 
 
 class GeoScopesList(AdminRequiredMixin, ListView):
@@ -278,9 +274,10 @@ class GeoScopesUpdate(AdminRequiredMixin, UpdateView):
     success_url = reverse_lazy('settings:geo_scopes_list')
 
 
-class GeoScopesDelete(ContextMixin, AdminRequiredMixin, DeleteView):
+class GeoScopesDelete(AdminRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = GeographicalScope
+    success_url = reverse_lazy('settings:geo_scopes_list')
 
 
 class ModelMixin(object):
