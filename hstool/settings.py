@@ -32,7 +32,6 @@ INSTALLED_APPS = (
     'gunicorn',
     'django_assets',
     'widget_tweaks',
-    'auth',
     'frame',
     'hstool',
 )

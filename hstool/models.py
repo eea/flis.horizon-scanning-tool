@@ -15,6 +15,9 @@ class EnvironmentalTheme(Model):
 
     class Meta:
         ordering = ('-pk',)
+        permissions = (
+            ('config', 'Can change configuration'),
+        )
 
     def __unicode__(self):
         return self.title
