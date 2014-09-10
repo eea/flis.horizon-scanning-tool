@@ -50,8 +50,8 @@ MIDDLEWARE_CLASSES = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'frame.backends.FrameUserBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'frame.backends.FrameUserBackend',
 )
 
 TEMPLATE_LOADERS = (
