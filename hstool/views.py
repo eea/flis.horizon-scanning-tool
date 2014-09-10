@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.views.generic import (
     ListView, CreateView, DetailView, DeleteView, UpdateView,
@@ -30,9 +29,13 @@ class AdminRequiredMixin(object):
         return super(AdminRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
+
+
+
+
 class AuthorMixin(object):
     def dispatch(self, request, *args, **kwargs):
-        self.author_id = request.user_id
+        self.author_id = request.user.username
         return super(AuthorMixin, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -50,7 +53,7 @@ class ContextMixin(object):
         return context
 
 
-class AssessmentsList(ListView):
+class AssessmentsList(LoginRequiredMixin, ListView):
     template_name = 'tool/assessments_list.html'
     model = Assessment
     context_object_name = 'assessments'
@@ -72,7 +75,7 @@ class AssessmentsPreview(AssessmentsDetail):
     template_name = 'tool/assessments_preview.html'
 
 
-class AssessmentsAdd(AuthorMixin, CreateView):
+class AssessmentsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/assessments_add.html'
     form_class = AssessmentForm
 
@@ -88,12 +91,12 @@ class AssessmentsUpdate(ContextMixin, LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('home_view')
 
 
-class AssessmentsDelete(ContextMixin, DeleteView):
+class AssessmentsDelete(ContextMixin, LoginRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Assessment
 
 
-class RelationAdd(AuthorMixin, CreateView):
+class RelationAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/relation_add.html'
     form_class = RelationForm
     model = Relation
@@ -117,13 +120,26 @@ class RelationAdd(AuthorMixin, CreateView):
                             kwargs={'pk': self.assessment.id})
 
 
+class RelationList(LoginRequiredMixin, ListView):
+    template_name = 'tool/relation_list.html'
+    model = Relation
+    context_object_name = 'relations'
+
+    def dispatch(self, request, assessment_pk):
+        self.assessment = get_object_or_404(Assessment, pk=assessment_pk)
+        return super(RelationList, self).dispatch(request, assessment_pk)
+
+    def get_queryset(self):
+        return Relation.objects.filter(assessment=self.assessment)
+
+
 class SourcesList(LoginRequiredMixin, ListView):
     template_name = 'tool/sources_list.html'
     model = Source
     context_object_name = 'sources'
 
 
-class SourcesAdd(AuthorMixin, CreateView):
+class SourcesAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/sources_add.html'
     form_class = SourceForm
     success_url = reverse_lazy('sources:list')
@@ -136,18 +152,18 @@ class SourcesUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('sources:list')
 
 
-class SourcesDelete(ContextMixin, DeleteView):
+class SourcesDelete(ContextMixin, LoginRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Source
 
 
-class IndicatorsList(ListView):
+class IndicatorsList(LoginRequiredMixin, ListView):
     template_name = 'tool/indicators_list.html'
     model = Indicator
     context_object_name = 'indicators'
 
 
-class IndicatorsAdd(AuthorMixin, CreateView):
+class IndicatorsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/indicators_add.html'
     form_class = IndicatorForm
     success_url = reverse_lazy('indicators:list')
@@ -160,18 +176,18 @@ class IndicatorsUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('indicators:list')
 
 
-class IndicatorsDelete(ContextMixin, DeleteView):
+class IndicatorsDelete(ContextMixin, LoginRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Indicator
 
 
-class DriversList(ListView):
+class DriversList(LoginRequiredMixin, ListView):
     template_name = 'tool/drivers_list.html'
     model = DriverOfChange
     context_object_name = 'drivers'
 
 
-class DriversAdd(AuthorMixin, CreateView):
+class DriversAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/drivers_add.html'
     form_class = DriverForm
     success_url = reverse_lazy('drivers:list')
@@ -184,12 +200,12 @@ class DriversUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('drivers:list')
 
 
-class DriversDelete(ContextMixin, DeleteView):
+class DriversDelete(ContextMixin, LoginRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = DriverOfChange
 
 
-class FiguresList(ListView):
+class FiguresList(LoginRequiredMixin, ListView):
     template_name = 'tool/figures_list.html'
     model = Figure
     context_object_name = 'figures'
@@ -208,7 +224,7 @@ class FiguresUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('figures:list')
 
 
-class FiguresDelete(ContextMixin, DeleteView):
+class FiguresDelete(ContextMixin, LoginRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Figure
 
@@ -278,7 +294,7 @@ class ModelMixin(object):
         return super(ModelMixin, self).dispatch(request, *args, **kwargs)
 
 
-class AddModal(ModelMixin, AuthorMixin, CreateView):
+class AddModal(ModelMixin, AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/add_modal.html'
 
     urls_to_forms = {
@@ -296,7 +312,7 @@ class AddModal(ModelMixin, AuthorMixin, CreateView):
         )
 
 
-class AddModalSuccess(ModelMixin, AuthorMixin, DetailView):
+class AddModalSuccess(ModelMixin, AuthorMixin, LoginRequiredMixin, DetailView):
     template_name = 'tool/add_modal_success.html'
 
     def get_context_data(self, **kwargs):
