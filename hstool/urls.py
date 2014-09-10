@@ -91,7 +91,8 @@ urlpatterns = patterns(
 
     url(r'^settings/', include(settings_urls, namespace='settings')),
 
-    url(r'^relation/', include(relations_urls, namespace='relations')),
+    url(r'^assessment/relation/',
+        include(relations_urls, namespace='relations')),
 
     url(r'^sources/', include(sources_urls, namespace='sources')),
 

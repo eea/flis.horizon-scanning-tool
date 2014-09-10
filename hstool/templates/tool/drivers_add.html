@@ -1,110 +1,143 @@
 {% extends '_layout.html' %}
 {% load custom_filters %}
+{% load widget_tweaks %}
 
 {% block title %}Add/Edit Driver of Change{% endblock %}
 
 {% block content %}
 	<div class="container-fluid">
-		<h2>Add/Edit Driver of Change</h2>
-		<form method="POST" class="form">
+
+		<h2 class="page-header">Add/Edit Driver of Change</h2>
+
+		<form method="POST" class="form-horizontal">
 			{% csrf_token %}
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<div class="form-group">
-						<div class="row">
-							<div class="col-md-4">
-								{{ form.type.errors }}
-								{{ form.type|label }}
-								{{ form.type }}
-							</div>
-							<div class="col-md-4">
-								{{ form.trend_type.errors }}
-								{{ form.trend_type|label }}
-								{{ form.trend_type }}
-							</div>
-							<div class="col-md-4">
-								{{ form.geographical_scope.errors }}
-								{{ form.geographical_scope|label }}
-								{{ form.geographical_scope }}
-							</div>
-						</div>
-					</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.type.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.type class='form-control' %}
+					{{ form.type.errors }}
 				</div>
 			</div>
+
 			<div class="form-group">
-				{{ form.steep_category.errors }}
-				{{ form.steep_category|label }}<br/>
-				{{ form.steep_category }}
-			</div>
-			<div class="form-group">
-				{{ form.time_horizon.errors }}
-				{{ form.time_horizon|label }}<br/>
-				{{ form.time_horizon }}
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<div class="form-group">
-						<div class="row">
-							<div class="col-md-4">
-								{{ form.short_name.errors }}
-								{{ form.short_name|label }}
-								{{ form.short_name }}
-							</div>
-							<div class="col-md-7">
-								{{ form.name.errors }}
-								{{ form.name|label }}
-								{{ form.name }}
-							</div>
-						</div>
-					</div>
+				<label class="col-sm-2 control-label">{{ form.trend_type.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.trend_type class='form-control' %}
+					{{ form.trend_type.errors }}
 				</div>
 			</div>
+
 			<div class="form-group">
-				{{ form.summary.errors }}
-				{{ form.summary|label }}<br/>
-				{{ form.summary }}
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<div class="row">
-						<div class="col-md-5">
-							<div class="form-group">
-								{{ form.sources.errors }}
-								{{ form.sources|label }}<br/>
-								{{ form.sources }}
-							</div>
-							<!-- Button trigger modal -->
-							<a class="btn btn-link launch-modal" data-toggle="modal"
-								 data-target="#myModal"
-								 data-action="{% url 'add_modal' 'sources'%}"
-								 data-title="Add new Source">
-								Add new source
-							</a>
-						</div>
-						<div class="col-md-5">
-							<div class="form-group">
-								{{ form.figures.errors }}
-								{{ form.figures|label }}<br/>
-								{{ form.figures }}
-							</div>
-							<!-- Button trigger modal -->
-							<a class="btn btn-link launch-modal" data-toggle="modal"
-								 data-target="#myModal"
-								 data-action="{% url 'add_modal' 'figures'%}"
-								 data-title="Add new Fact & Figure">
-								Add new fact & figure
-							</a>
-						</div>
-					</div>
+				<label class="col-sm-2 control-label">{{ form.geographical_scope.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.geographical_scope class='form-control' %}
+					{{ form.geographical_scope.errors }}
 				</div>
 			</div>
+
 			<div class="form-group">
-				{{ form.url.errors }}
-				{{ form.url|label }}<br/>
-				{{ form.url }}
+				<label class="col-sm-2 control-label">{{ form.steep_category.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.steep_category class='form-control' %}
+					{{ form.steep_category.errors }}
+				</div>
 			</div>
-			<input class="btn btn-success" type="submit" value="Save">
-			<a class="btn btn-link" href="{% url 'drivers:list' %}">Back</a>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.time_horizon.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.time_horizon class='form-control' %}
+					{{ form.time_horizon.errors }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.short_name.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.short_name class='form-control' %}
+					{{ form.short_name.errors }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.name.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.name class='form-control' %}
+					{{ form.name.errors }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.summary.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.summary class='form-control' %}
+					{{ form.summary.errors }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.sources.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.sources class='form-control' %}
+					{{ form.sources.errors }}
+				</div>
+				<div class="col-sm-2">
+					<a class="btn btn-primary launch-modal" data-toggle="modal"
+							 data-target="#myModal"
+							 data-action="{% url 'add_modal' 'sources'%}"
+							 data-title="Add new Source">
+						<span class="glyphicon glyphicon-plus"></span>  &nbsp;
+						Add new source
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.figures.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.figures class='form-control' %}
+					{{ form.figures.errors }}
+				</div>
+				<div class="col-sm-2">
+					<a class="btn btn-primary launch-modal" data-toggle="modal"
+							 data-target="#myModal"
+							 data-action="{% url 'add_modal' 'figures'%}"
+							 data-title="Add new Source">
+						<span class="glyphicon glyphicon-plus"></span>  &nbsp;
+						Add new fact & figure
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.url.label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.url class='form-control' %}
+					{{ form.url.errors }}
+				</div>
+			</div>
+
+			<div class="form-actions">
+				<div class="col-sm-offset-2">
+					<button class="btn btn-primary" type="submit">Save</button>
+					<small>or
+						<a href="{% url 'drivers:list' %}">Cancel</a>
+					</small>
+				</div>
+			</div>
+
 		</form>
 	</div>
 	{% include '_modal.html'%}

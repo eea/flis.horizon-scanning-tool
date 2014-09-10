@@ -2,9 +2,9 @@
 
 <ul class="nav nav-tabs">
 
-	<li class="{% active '$' %}">
-		<a href="{% url 'home_view' %}">Assessments</a>
-	</li>
+    <li class="{% active '$' %} {% active 'assessment/(.*)$' %}">
+        <a href="{% url 'home_view' %}">Assessments</a>
+    </li>
 
 	<li class="{% active 'docs/(.*)$' %}">
 		<a href="{%  url 'drivers:list' %}">Drivers of Change</a>
