@@ -97,7 +97,7 @@ class AssessmentsUpdate(OwnerRequiredMixin, UpdateView):
 class AssessmentsDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = Assessment
-    success_url = reverse_lazy('assessments:list')
+    success_url = reverse_lazy('home_view')
 
 
 class RelationAdd(AuthorMixin, LoginRequiredMixin, CreateView):
