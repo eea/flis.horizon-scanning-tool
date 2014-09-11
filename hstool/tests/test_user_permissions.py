@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from django_webtest import WebTest
 
 from .factories import (
@@ -6,7 +7,16 @@ from .factories import (
 )
 
 
-class AuthenticatedListViewTests(WebTest):
+class HSWebTest(WebTest):
+    def _setup_auth_middleware(self):
+        super(HSWebTest, self)._setup_auth_middleware()
+        django_remote_middleware = 'django.contrib.auth.middleware.RemoteUserMiddleware'
+
+        if django_remote_middleware in settings.MIDDLEWARE_CLASSES:
+            settings.MIDDLEWARE_CLASSES.remove(django_remote_middleware)
+
+
+class AuthenticatedListViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory(username='username')
 
@@ -36,7 +46,7 @@ class AuthenticatedListViewTests(WebTest):
         self.assertEqual(resp.status_code, 200)
 
 
-class AnonymousListViewTests(WebTest):
+class AnonymousListViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory(username='username')
 
@@ -66,7 +76,7 @@ class AnonymousListViewTests(WebTest):
         self.assertEqual(resp.status_code, 403)
 
 
-class AuthenticatedAddViewTests(WebTest):
+class AuthenticatedAddViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory(username='username')
 
@@ -96,7 +106,7 @@ class AuthenticatedAddViewTests(WebTest):
         self.assertEqual(resp.status_code, 200)
 
 
-class AnonymousAddViewTests(WebTest):
+class AnonymousAddViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory(username='username')
 
