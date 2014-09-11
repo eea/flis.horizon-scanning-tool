@@ -369,8 +369,7 @@ class RolesOverview(AdminRequiredMixin, TemplateView):
             roles.append(dict(name=role,
                               config=has_perm(group, 'hstool.config'),
                               create=has_perm(group, 'hstool.create'),
-                              view=True)
-            )
+                              view=True))
         context['roles'] = roles
         return context
 
