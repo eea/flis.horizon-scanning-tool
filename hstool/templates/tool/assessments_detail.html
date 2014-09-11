@@ -30,15 +30,23 @@
                 <th>Source</th>
                 <th>Destination</th>
                 <th>Type</th>
+                <th></th>
             </tr>
         </thead>
 
         <tbody>
         {% for relation in relations %}
             <tr>
-                <td>{{ relation.source }}</td>
+                <td>
+                  <a href="{% url 'relations:update' relation.id %}">{{ relation.source }}</a>
+                </td>
                 <td>{{ relation.destination }}</td>
                 <td>{{ relation.relationship_type|verbose }}</td>
+                <td>
+                  <a id="delete" href="{% url 'relations:delete' relation.id %}">
+                    <span class="glyphicon glyphicon-remove"></span> Delete
+                  </a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>

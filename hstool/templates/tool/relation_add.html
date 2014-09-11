@@ -2,10 +2,16 @@
 {% load custom_filters %}
 {% load widget_tweaks %}
 
+
+
 {% block content %}
     <div class="container-fluid" id="view">
 
-        <h2 class="page-header">Add a new relation</h2>
+        {% if object %}
+            <h2 class="page-header">Edit relation</h2>
+        {% else %}
+            <h2 class="page-header">Add a new relation</h2>
+        {% endif %}
 
         <form method="POST" class="form-horizontal">
             {% csrf_token %}
@@ -68,7 +74,7 @@
                 <div class="col-sm-offset-2">
                     <button class="btn btn-primary" type="submit">Save</button>
                     <small>or
-                        <a href="{% url 'assessments:detail' assessment.id%}">Cancel</a>
+                        <a href="{% url 'assessments:detail' assessment.id %}">Cancel</a>
                     </small>
                 </div>
             </div>

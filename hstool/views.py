@@ -120,6 +120,30 @@ class RelationAdd(AuthorMixin, LoginRequiredMixin, CreateView):
                             kwargs={'pk': self.assessment.id})
 
 
+class RelationUpdate(LoginRequiredMixin, UpdateView):
+    template_name = 'tool/relation_add.html'
+    model = Relation
+    form_class = RelationForm
+
+    def get_success_url(self):
+        return reverse_lazy('assessments:detail',
+                            kwargs={'pk': self.object.id})
+
+    def get_context_data(self, **kwargs):
+        context = super(RelationUpdate, self).get_context_data(**kwargs)
+        context['assessment'] = self.object.assessment
+        return context
+
+
+class RelationDelete(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
+    template_name = 'tool/object_delete.html'
+    model = Relation
+
+    def get_success_url(self):
+        return reverse_lazy('assessments:detail',
+                            kwargs={'pk': self.object.assessment.id})
+
+
 class RelationList(LoginRequiredMixin, ListView):
     template_name = 'tool/relation_list.html'
     model = Relation
