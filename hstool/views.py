@@ -91,7 +91,10 @@ class AssessmentsUpdate(OwnerRequiredMixin, UpdateView):
     template_name = 'tool/assessments_add.html'
     model = Assessment
     form_class = AssessmentForm
-    success_url = reverse_lazy('home_view')
+    context_object_name = 'assessment'
+
+    def get_success_url(self):
+        return reverse('assessments:detail', args=(self.object.pk, ))
 
 
 class AssessmentsDelete(OwnerRequiredMixin, DeleteView):

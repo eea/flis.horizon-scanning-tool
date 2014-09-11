@@ -35,7 +35,7 @@
 				<div class="col-sm-offset-2">
 					<button class="btn btn-primary" type="submit">Save</button>
 					<small>or
-						<a href="{% url 'home_view' %}">Cancel</a>
+						<a href="{% if assessment.pk %}{{ view.get_success_url }}{% else %}{% url 'home_view' %}{% endif %}">Cancel</a>
 					</small>
 				</div>
 			</div>
