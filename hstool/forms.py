@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
-    Assessment, Relation
+    Assessment, Relation, EnvironmentalTheme
 )
 
 
@@ -127,3 +127,8 @@ class CountryUpdateForm(ModelForm):
 class GeoScopeForm(ModelForm):
     class Meta:
         model = GeographicalScope
+
+
+class EnvironmentalThemeForm(ModelForm):
+    class Meta:
+        model = EnvironmentalTheme

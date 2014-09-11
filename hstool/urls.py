@@ -12,7 +12,8 @@ from hstool.views import (
     DriversDelete, CountriesDelete, GeoScopesDelete, AssessmentsList,
     AssessmentsAdd, AssessmentsUpdate, AssessmentsDelete, AssessmentsDetail,
     RelationAdd, AssessmentsPreview, RelationUpdate, RelationDelete,
-    RolesOverview, GeoScopesRequired)
+    RolesOverview, GeoScopesRequired, EnvironmentalThemeList,
+    EnvironmentalThemeAdd, EnvironmentalThemeUpdate, EnvironmentalThemeDelete)
 
 
 admin.autodiscover()
@@ -37,6 +38,15 @@ settings_urls = patterns(
         name='geo_scopes_delete'),
     url(r'^geographic_scopes/required/(?P<pk>\d+)/$',
         GeoScopesRequired.as_view(), name='geo_scopes_required'),
+
+    url(r'^themes/list/$', EnvironmentalThemeList.as_view(),
+        name='themes_list'),
+    url(r'^themes/add/$', EnvironmentalThemeAdd.as_view(),
+        name='themes_add'),
+    url(r'^themes/update/(?P<pk>\d+)/$', EnvironmentalThemeUpdate.as_view(),
+        name='themes_update'),
+    url(r'^themes/delete/(?P<pk>\d+)/$', EnvironmentalThemeDelete.as_view(),
+        name='themes_delete'),
 
     url(r'^roles/$', RolesOverview.as_view(), name='roles'),
 )

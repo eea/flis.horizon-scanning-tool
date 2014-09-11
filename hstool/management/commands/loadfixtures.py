@@ -6,5 +6,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for fixture in [
             'initial_countries',
+            'initial_environment_themes'
         ]:
             call_command('loaddata', fixture)

@@ -39,7 +39,7 @@ $(function () {
         });
     });
 
-    $('#id_geographical_scope').change(function () {
+    $('#geo_scope').change(function () {
         var opt = $(this).val();
         if (opt) {
             var url = '/settings/geographic_scopes/required/' + opt + '/';

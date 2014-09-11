@@ -12,11 +12,12 @@ from hstool.definitions import CANONICAL_ROLES
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
-    Assessment, Relation
+    Assessment, Relation, EnvironmentalTheme
 )
 from hstool.forms import (
     SourceForm, IndicatorForm, DriverForm, CountryForm, GeoScopeForm,
-    FigureForm, CountryUpdateForm, AssessmentForm, RelationForm
+    FigureForm, CountryUpdateForm, AssessmentForm, RelationForm,
+    EnvironmentalThemeForm
 )
 
 
@@ -230,8 +231,11 @@ class DriversUpdate(OwnerRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(DriversUpdate, self).get_context_data(**kwargs)
-        context['required'] = self.object.geographical_scope.require_country or None
+        geographical_scope = self.object.geographical_scope
+        context['required'] = (
+            geographical_scope.require_country if geographical_scope else None)
         return context
+
 
 class DriversDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
@@ -322,6 +326,31 @@ class GeoScopesRequired(JSONResponseMixin, AjaxResponseMixin, DetailView):
         return self.render_json_response({
             'required': self.get_object().require_country,
         })
+
+
+class EnvironmentalThemeList(AdminRequiredMixin, ListView):
+    template_name = 'settings/environmental_theme_list.html'
+    model = EnvironmentalTheme
+    context_object_name = 'themes'
+
+
+class EnvironmentalThemeAdd(AdminRequiredMixin, CreateView):
+    template_name = 'settings/environmental_theme_add.html'
+    form_class = EnvironmentalThemeForm
+    success_url = reverse_lazy('settings:themes_list')
+
+
+class EnvironmentalThemeUpdate(AdminRequiredMixin, UpdateView):
+    template_name = 'settings/environmental_theme_add.html'
+    model = EnvironmentalTheme
+    form = EnvironmentalThemeForm
+    success_url = reverse_lazy('settings:themes_list')
+
+
+class EnvironmentalThemeDelete(AdminRequiredMixin, DeleteView):
+    template_name = 'tool/object_delete.html'
+    model = EnvironmentalTheme
+    success_url = reverse_lazy('settings:themes_list')
 
 
 class RolesOverview(AdminRequiredMixin, TemplateView):
