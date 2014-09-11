@@ -77,7 +77,7 @@ class GenericElement(Model):
     figures = ManyToManyField('Figure', blank=True, null=True)
 
     def __unicode__(self):
-        return self.short_name
+        return self.name
 
 
 class DriverOfChange(GenericElement):

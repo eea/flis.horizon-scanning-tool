@@ -4,12 +4,13 @@
 
 {% block content %}
   <div class="container-fluid">
+    </br>
     {% if not user.is_authenticated %}
       <p>The application is not available to anonymous users, please login.</p>
     {% else %}
       {% if perms.hstool.create %}
       <a class="btn btn-primary" href="{% url 'assessments:add' %}">
-        AddAssessment</a>
+        Add Assessment</a>
       </br>
       {% endif %}
 

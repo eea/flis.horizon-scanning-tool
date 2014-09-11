@@ -49,6 +49,7 @@ class RelationForm(ModelForm):
     def __init__(self, *args, **kwargs):
         self.assessment = kwargs.pop('assessment', None)
         super(RelationForm, self).__init__(*args, **kwargs)
+        self.fields['description'].widget.attrs["rows"] = 6
 
     def save(self):
         relation = super(RelationForm, self).save(commit=False)

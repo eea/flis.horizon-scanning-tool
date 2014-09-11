@@ -27,9 +27,9 @@
       <table id ="objects_listing" class="table table-condensed table-bordered table-hover">
         <thead>
             <tr>
+                <th>Type</th>
                 <th>Source</th>
                 <th>Destination</th>
-                <th>Type</th>
                 <th></th>
             </tr>
         </thead>
@@ -38,10 +38,10 @@
         {% for relation in relations %}
             <tr>
                 <td>
-                  <a href="{% url 'relations:update' relation.id %}">{{ relation.source }}</a>
+                  <a href="{% url 'relations:update' relation.id %}">{{ relation.relationship_type|verbose }}</a>
                 </td>
-                <td>{{ relation.destination }}</td>
-                <td>{{ relation.relationship_type|verbose }}</td>
+                <td>{{ relation.source.short_name }}</td>
+                <td>{{ relation.destination.short_name }}</td>
                 <td>
                   <a id="delete" href="{% url 'relations:delete' relation.id %}">
                     <span class="glyphicon glyphicon-remove"></span> Delete
