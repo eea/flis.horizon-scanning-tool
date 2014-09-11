@@ -41,3 +41,11 @@ RELATION_TYPE_CHOICES = (
     (1, 'Cause-effect relationship'),
     (2, 'Neutral relationship'),
 )
+
+CANONICAL_ROLES = (
+    'Authenticated',
+    'Administrator',
+    'Contributor',
+    'Viewer',
+    'Reviewer',
+)

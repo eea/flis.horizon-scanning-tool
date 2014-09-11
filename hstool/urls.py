@@ -11,8 +11,8 @@ from hstool.views import (
     GeoScopesUpdate, SourcesDelete, IndicatorsDelete, FiguresDelete,
     DriversDelete, CountriesDelete, GeoScopesDelete, AssessmentsList,
     AssessmentsAdd, AssessmentsUpdate, AssessmentsDelete, AssessmentsDetail,
-    RelationAdd, AssessmentsPreview
-)
+    RelationAdd, AssessmentsPreview,
+    RolesOverview)
 
 admin.autodiscover()
 
@@ -35,6 +35,7 @@ settings_urls = patterns(
     url(r'^geographic_scopes/delete/(?P<pk>\d+)/$', GeoScopesDelete.as_view(),
         name='geo_scopes_delete'),
 
+    url(r'^roles/$', RolesOverview.as_view(), name='roles'),
 )
 
 sources_urls = patterns(
