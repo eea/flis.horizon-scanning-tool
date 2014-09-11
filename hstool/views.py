@@ -1,4 +1,4 @@
-from django.http import HttpResponseForbidden
+from django.core.exceptions import PermissionDenied
 from django.views.generic import (
     ListView, CreateView, DetailView, DeleteView, UpdateView,
 )
@@ -18,14 +18,14 @@ from hstool.forms import (
 class LoginRequiredMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated():
-            return HttpResponseForbidden()
+            raise PermissionDenied()
         return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
 class AdminRequiredMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm('hstool.config'):
-            return HttpResponseForbidden()
+            raise PermissionDenied()
         return super(AdminRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
@@ -34,7 +34,7 @@ class OwnerRequiredMixin(object):
         is_admin = request.user.has_perm('hstool.config')
         obj = self.get_object()
         if not is_admin and obj.author_id != request.user.username:
-            return HttpResponseForbidden()
+            raise PermissionDenied()
         return super(OwnerRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
