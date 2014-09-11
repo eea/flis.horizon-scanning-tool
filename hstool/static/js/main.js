@@ -53,6 +53,9 @@ $(function () {
                         $('#invisible').show();
                     else {
                         $('#invisible').hide();
+                        $('#id_country option').prop('selected', function(){
+                            return this.defaultSelected;
+                        });
                     }
                 },
                 error: function(resp) {
@@ -62,5 +65,8 @@ $(function () {
         }
         else
             $('#invisible').hide();
+            $('#id_country option').prop('selected', function(){
+                            return this.defaultSelected;
+                        });
     });
 });
