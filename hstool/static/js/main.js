@@ -38,4 +38,29 @@ $(function () {
             }
         });
     });
+
+    $('#id_geographical_scope').change(function () {
+        var opt = $(this).val();
+        if (opt) {
+            var url = '/settings/geographic_scopes/required/' + opt + '/';
+            var data = {'geo_scope_id': opt};
+            $.ajax({
+                url: url,
+                data: data,
+                type: "GET",
+                success: function(resp) {
+                    if (resp['required'] == true)
+                        $('#invisible').show();
+                    else {
+                        $('#invisible').hide();
+                    }
+                },
+                error: function(resp) {
+                    alert('Error on selection')
+                }
+            });
+        }
+        else
+            $('#invisible').hide();
+    });
 });

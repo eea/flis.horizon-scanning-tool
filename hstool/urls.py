@@ -12,7 +12,7 @@ from hstool.views import (
     DriversDelete, CountriesDelete, GeoScopesDelete, AssessmentsList,
     AssessmentsAdd, AssessmentsUpdate, AssessmentsDelete, AssessmentsDetail,
     RelationAdd, AssessmentsPreview, RelationUpdate, RelationDelete,
-    RolesOverview)
+    RolesOverview, GeoScopesRequired)
 
 
 admin.autodiscover()
@@ -35,6 +35,8 @@ settings_urls = patterns(
         name='geo_scopes_update'),
     url(r'^geographic_scopes/delete/(?P<pk>\d+)/$', GeoScopesDelete.as_view(),
         name='geo_scopes_delete'),
+    url(r'^geographic_scopes/required/(?P<pk>\d+)/$',
+        GeoScopesRequired.as_view(), name='geo_scopes_required'),
 
     url(r'^roles/$', RolesOverview.as_view(), name='roles'),
 )

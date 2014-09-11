@@ -8,7 +8,6 @@
 	<div class="container-fluid" id="view">
 
 		<h2 class="page-header">Add/Edit Driver of Change</h2>
-
 		<form method="POST" class="form-horizontal">
 			{% csrf_token %}
 
@@ -36,6 +35,15 @@
 				<div class="controls col-sm-4">
 					{% render_field form.geographical_scope class='form-control' %}
 					{{ form.geographical_scope.errors }}
+				</div>
+			</div>
+
+			<div class="form-group" {% if not required %}id="invisible"{% endif %}>
+				<label class="col-sm-2 control-label">{{ form.country|label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.country class='form-control' %}
+					{{ form.country.errors }}
 				</div>
 			</div>
 

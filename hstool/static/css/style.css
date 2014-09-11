@@ -35,3 +35,7 @@ div.assessment-content {
 a#delete {
     color: #A94442 !important;
 }
+
+#invisible {
+    display: none;
+}

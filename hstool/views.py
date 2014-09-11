@@ -5,6 +5,9 @@ from django.views.generic import (
     TemplateView)
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
+
+from braces.views import JSONResponseMixin, AjaxResponseMixin
+
 from hstool.definitions import CANONICAL_ROLES
 
 from hstool.models import (
@@ -225,6 +228,10 @@ class DriversUpdate(OwnerRequiredMixin, UpdateView):
     form_class = DriverForm
     success_url = reverse_lazy('drivers:list')
 
+    def get_context_data(self, **kwargs):
+        context = super(DriversUpdate, self).get_context_data(**kwargs)
+        context['required'] = self.object.geographical_scope.require_country or None
+        return context
 
 class DriversDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
@@ -305,6 +312,16 @@ class GeoScopesDelete(AdminRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
     model = GeographicalScope
     success_url = reverse_lazy('settings:geo_scopes_list')
+
+
+class GeoScopesRequired(JSONResponseMixin, AjaxResponseMixin, DetailView):
+
+    model = GeographicalScope
+
+    def get_ajax(self, request, *args, **kwargs):
+        return self.render_json_response({
+            'required': self.get_object().require_country,
+        })
 
 
 class RolesOverview(AdminRequiredMixin, TemplateView):
