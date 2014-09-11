@@ -43,7 +43,7 @@ class AnonymousListViewTests(WebTest):
     def test_assessments_not_authenticated(self):
         url = reverse('home_view')
         resp = self.app.get(url, expect_errors=True)
-        self.assertEqual(resp.status_code, 403)
+        self.assertEqual(resp.status_code, 200)
 
     def test_drivers_not_authenticated(self):
         url = reverse('drivers:list')

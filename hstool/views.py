@@ -48,7 +48,7 @@ class AuthorMixin(object):
         return super(AuthorMixin, self).form_valid(form)
 
 
-class AssessmentsList(LoginRequiredMixin, ListView):
+class AssessmentsList(ListView):
     template_name = 'tool/assessments_list.html'
     model = Assessment
     context_object_name = 'assessments'
