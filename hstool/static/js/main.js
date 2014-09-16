@@ -42,7 +42,7 @@ $(function () {
     $('#geo_scope').change(function () {
         var opt = $(this).val();
         if (opt) {
-            var url = '/settings/geographic_scopes/required/' + opt + '/';
+            var url = $(this).attr('href');
             var data = {'geo_scope_id': opt};
             $.ajax({
                 url: url,

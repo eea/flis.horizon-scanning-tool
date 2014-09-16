@@ -4,7 +4,7 @@ from django.views.generic import (
     ListView, CreateView, DetailView, DeleteView, UpdateView,
     TemplateView)
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, Http404
 
 from braces.views import JSONResponseMixin, AjaxResponseMixin
 
@@ -200,6 +200,13 @@ class IndicatorsUpdate(OwnerRequiredMixin, UpdateView):
     form_class = IndicatorForm
     success_url = reverse_lazy('indicators:list')
 
+    def get_context_data(self, **kwargs):
+        context = super(IndicatorsUpdate, self).get_context_data(**kwargs)
+        geographical_scope = self.object.geographical_scope
+        context['required'] = (
+            geographical_scope.require_country if geographical_scope else None)
+        return context
+
 
 class IndicatorsDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'tool/object_delete.html'
@@ -317,6 +324,12 @@ class GeoScopesDelete(AdminRequiredMixin, DeleteView):
 class GeoScopesRequired(JSONResponseMixin, AjaxResponseMixin, DetailView):
 
     model = GeographicalScope
+
+    def get_object(self):
+        pk = self.request.GET.get('geo_scope_id')
+        if pk:
+            return get_object_or_404(GeographicalScope, pk=int(pk))
+        return Http404
 
     def get_ajax(self, request, *args, **kwargs):
         return self.render_json_response({

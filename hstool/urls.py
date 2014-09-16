@@ -36,7 +36,7 @@ settings_urls = patterns(
         name='geo_scopes_update'),
     url(r'^geographic_scopes/delete/(?P<pk>\d+)/$', GeoScopesDelete.as_view(),
         name='geo_scopes_delete'),
-    url(r'^geographic_scopes/required/(?P<pk>\d+)/$',
+    url(r'^geographic_scopes/required/$',
         GeoScopesRequired.as_view(), name='geo_scopes_required'),
 
     url(r'^themes/list/$', EnvironmentalThemeList.as_view(),
