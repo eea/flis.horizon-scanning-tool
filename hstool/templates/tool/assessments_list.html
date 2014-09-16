@@ -35,12 +35,12 @@
             <td>{{ assessment.author_id }}</td>
             <td>
               <a href="{% url 'assessments:preview' assessment.id %}?next={% url 'home_view' %}">
-                <span class="glyphicon glyphicon-pencil"></span> Change
+                <span class="glyphicon glyphicon-pencil"></span>&nbsp;Change
               </a>
             </td>
             <td>
               <a id="delete" href="{% url 'assessments:delete' assessment.id %}?next={% url 'home_view' %}">
-                <span class="glyphicon glyphicon-remove"></span> Delete
+                <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
               </a>
             </td>
           </tr>
