@@ -22,6 +22,7 @@
           <th style="width: 60%;">Description</th>
           <th>Added by</th>
           <th></th>
+          <th></th>
         </tr>
         </thead>
         <tbody>
@@ -32,6 +33,11 @@
             </td>
             <td>{{ assessment.description|truncatewords:12 }}</td>
             <td>{{ assessment.author_id }}</td>
+            <td>
+              <a href="{% url 'assessments:preview' assessment.id %}?next={% url 'home_view' %}">
+                <span class="glyphicon glyphicon-pencil"></span> Change
+              </a>
+            </td>
             <td>
               <a id="delete" href="{% url 'assessments:delete' assessment.id %}?next={% url 'home_view' %}">
                 <span class="glyphicon glyphicon-remove"></span> Delete

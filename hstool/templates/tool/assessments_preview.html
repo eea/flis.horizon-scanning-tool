@@ -2,37 +2,51 @@
 {% load custom_filters %}
 
 {% block content %}
-  <div class="container-fluid" id="view">
+	<div class="container-fluid" id="view">
 
-    <h2 class="page-header">{{ assessment.title }}</h2>
+		<h2 class="page-header">{{ assessment.title }}</h2>
 
-    <div class="assessment-content">
-        <p>{{ assessment.description }}</p>
-    </div>
+		<div class="assessment-content">
+			<p>{{ assessment.description }}</p>
+		</div>
 
-    <div>
-      <h3>Relations</h3>
+		<a href="{% url 'assessments:update' assessment.id %}" class="btn btn-primary btn-sm">
+			<span class="glyphicon glyphicon-pencil"></span> &nbsp;
+			Edit
+		</a>
+		<small>or
+			<a href="{% url 'home_view' %}">Cancel</a>
+		</small>
 
-      <table id ="objects_listing" class="table table-condensed table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>Source</th>
-                <th>Destination</th>
-                <th>Type</th>
-            </tr>
-        </thead>
+		<hr>
 
-        <tbody>
-        {% for relation in relations %}
-            <tr>
-                <td>{{ relation.source }}</td>
-                <td>{{ relation.destination }}</td>
-                <td>{{ relation.relationship_type|verbose }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-    </div>
+		<div>
+			<h4>Relations</h4>
+			<a id="add-relation" href="{% url 'relations:add' assessment.id %}" class="btn btn-primary btn-sm">
+				<span class="glyphicon glyphicon-plus"></span> &nbsp;
+				Add relation
+			</a>
+      <br/><br/>
+			<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+				<thead>
+				<tr>
+					<th>Source</th>
+					<th>Type</th>
+					<th>Destination</th>
+				</tr>
+				</thead>
 
-  </div>
+				<tbody>
+				{% for relation in relations %}
+					<tr>
+						<td>{{ relation.source }}</td>
+						<td>{{ relation.relationship_type|verbose }}</td>
+						<td>{{ relation.destination }}</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+	</div>
 {% endblock %}

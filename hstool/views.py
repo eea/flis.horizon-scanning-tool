@@ -83,8 +83,7 @@ class AssessmentsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     form_class = AssessmentForm
 
     def get_success_url(self):
-        return reverse_lazy('assessments:detail',
-                            kwargs={'pk': self.object.pk})
+        return reverse('assessments:detail', kwargs={'pk': self.object.pk})
 
 
 class AssessmentsUpdate(OwnerRequiredMixin, UpdateView):
@@ -94,7 +93,7 @@ class AssessmentsUpdate(OwnerRequiredMixin, UpdateView):
     context_object_name = 'assessment'
 
     def get_success_url(self):
-        return reverse('assessments:detail', args=(self.object.pk, ))
+        return reverse('assessments:preview', kwargs={'pk': self.object.pk})
 
 
 class AssessmentsDelete(OwnerRequiredMixin, DeleteView):
@@ -123,8 +122,7 @@ class RelationAdd(AuthorMixin, LoginRequiredMixin, CreateView):
         return data
 
     def get_success_url(self):
-        return reverse_lazy('assessments:detail',
-                            kwargs={'pk': self.assessment.id})
+        return reverse('assessments:preview', kwargs={'pk': self.assessment.id})
 
 
 class RelationUpdate(LoginRequiredMixin, UpdateView):

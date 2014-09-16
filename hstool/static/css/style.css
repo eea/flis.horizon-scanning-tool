@@ -15,7 +15,11 @@
 }
 
 a.btn-primary{
-  color: white !important;
+    color: white !important;
+}
+
+a#add-relation{
+    margin-left: 5px;
 }
 
 div.assessment-content {
