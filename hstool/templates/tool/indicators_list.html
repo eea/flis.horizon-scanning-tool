@@ -11,12 +11,11 @@
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
 			<thead>
 			<tr>
+				<th>Long name</th>
 				<th>Thematic category</th>
 				<th>Base year</th>
 				<th>End year</th>
 				<th>Timeline</th>
-				<th>Short name</th>
-				<th>Long name</th>
 				<th>Country</th>
 				<th>Added by</th>
 				<th></th>
@@ -25,13 +24,11 @@
 			<tbody>
 			{% for indicator in indicators %}
 				<tr>
-					<td><a href="{% url 'indicators:update' indicator.id %}">
-						{{ indicator.theme }}</a></td>
+					<td><a href="{% url 'indicators:update' indicator.id %}">{{ indicator.name }}</a></td>
+					<td>{{ indicator.theme }}</td>
 					<td>{{ indicator.year_base }}</td>
 					<td>{{ indicator.year_end }}</td>
 					<td>{{ indicator.get_timeline_display }}</td>
-					<td>{{ indicator.short_name }}</td>
-					<td>{{ indicator.name }}</td>
 					<td>{{ indicator.country }}</td>
 					<td>{{ indicator.author_id }}</td>
 					<td>

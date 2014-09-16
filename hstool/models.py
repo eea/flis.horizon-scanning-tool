@@ -88,7 +88,8 @@ class DriverOfChange(GenericElement):
     summary = TextField(null=True, blank=True)
 
     def __unicode__(self):
-        return '{0} - {1} - {2} - {3}'.format(
+        return '{0}: {1} - {2} - {3} - {4}'.format(
+            self.name,
             dict(DOC_TYPE_CHOICES).get(self.type, ''),
             dict(DOC_TREND_TYPE_CHOICES).get(self.trend_type, ''),
             dict(DOC_STEEP_CHOICES).get(self.steep_category, ''),
@@ -103,7 +104,8 @@ class Indicator(GenericElement):
     timeline = IntegerField(choices=IND_TIMELINE_CHOICES)
 
     def __unicode__(self):
-        return '{0} - {1} - {2} - {3}'.format(
+        return '{0}: {1} - {2} - {3} - {4}'.format(
+            self.name,
             self.theme, self.year_base, self.year_end,
             dict(IND_TIMELINE_CHOICES).get(self.timeline, ''),
         )
