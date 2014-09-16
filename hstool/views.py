@@ -68,11 +68,6 @@ class AssessmentsDetail(DetailView):
     model = Assessment
     context_object_name = 'assessment'
 
-    def get_context_data(self, **kwargs):
-        context = super(AssessmentsDetail, self).get_context_data(**kwargs)
-        context['relations'] = Relation.objects.filter(assessment=self.object)
-        return context
-
 
 class AssessmentsPreview(AssessmentsDetail):
     template_name = 'tool/assessments_preview.html'
@@ -81,9 +76,7 @@ class AssessmentsPreview(AssessmentsDetail):
 class AssessmentsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/assessments_add.html'
     form_class = AssessmentForm
-
-    def get_success_url(self):
-        return reverse('assessments:detail', kwargs={'pk': self.object.pk})
+    success_url = reverse_lazy('home_view')
 
 
 class AssessmentsUpdate(OwnerRequiredMixin, UpdateView):

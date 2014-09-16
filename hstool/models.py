@@ -112,7 +112,7 @@ class Indicator(GenericElement):
 
 
 class Relation(Model):
-    assessment = ForeignKey('Assessment')
+    assessment = ForeignKey('Assessment', related_name='relations')
     source = ForeignKey('GenericElement', related_name='source_relations')
     destination = ForeignKey('GenericElement', related_name='dest_relations')
     relationship_type = IntegerField(choices=RELATION_TYPE_CHOICES)

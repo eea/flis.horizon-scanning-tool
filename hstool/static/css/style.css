@@ -24,6 +24,7 @@ a#add-relation{
 
 div.assessment-content {
     margin-bottom: 25px;
+    overflow: hidden;
 }
 
 #view h2 {

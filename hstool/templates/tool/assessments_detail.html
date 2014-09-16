@@ -7,10 +7,13 @@
     <h2 class="page-header">{{ assessment.title }}</h2>
 
     <div class="assessment-content">
-
       <p>{{ assessment.description }}</p>
-
     </div>
+
+	{% if not assessment.relations.all %}
+		<p><em>There are no relations defined in this assessment</em></p>
+	{% else %}
+	{% endif %}
 
   </div>
 {% endblock %}
