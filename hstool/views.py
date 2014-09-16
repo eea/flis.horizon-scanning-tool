@@ -76,7 +76,9 @@ class AssessmentsPreview(AssessmentsDetail):
 class AssessmentsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/assessments_add.html'
     form_class = AssessmentForm
-    success_url = reverse_lazy('home_view')
+
+    def get_success_url(self):
+        return reverse('assessments:preview', kwargs={'pk': self.object.pk})
 
 
 class AssessmentsUpdate(OwnerRequiredMixin, UpdateView):
