@@ -1,0 +1,47 @@
+.link {
+    stroke-width: 1.5px;
+    stroke: black;
+}
+
+.ellipse {
+    stroke-width: 1.5px;
+    stroke: black;
+    fill: white;
+}
+
+.node {
+    stroke-width: 1.5px;
+    stroke: black;
+    fill: white;
+}
+
+.box1 {
+    stroke-width: 1px;
+    stroke: black;
+    fill: white;
+}
+
+.box2 {
+    stroke-width: 1px;
+    stroke: black;
+    fill: pink;
+}
+
+.circle {
+    stroke-width: 1px;
+    stroke: black;
+    fill: white;
+}
+
+.line {
+    stroke-width: 1px;
+    stroke: black;
+}
+
+.text {
+    fill: black;
+    stroke-width: 1;
+    font-size: 12px;
+    text-anchor: middle;
+    z-index: 99999999;
+}

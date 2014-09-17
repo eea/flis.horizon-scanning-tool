@@ -13,7 +13,9 @@ from hstool.views import (
     AssessmentsAdd, AssessmentsUpdate, AssessmentsDelete, AssessmentsDetail,
     RelationAdd, AssessmentsPreview, RelationUpdate, RelationDelete,
     RolesOverview, GeoScopesRequired, EnvironmentalThemeList,
-    EnvironmentalThemeAdd, EnvironmentalThemeUpdate, EnvironmentalThemeDelete)
+    EnvironmentalThemeAdd, EnvironmentalThemeUpdate, EnvironmentalThemeDelete,
+    assessments_relations,
+)
 
 
 admin.autodiscover()
@@ -87,8 +89,10 @@ assessments_urls = patterns(
     '',
     url(r'^add/$', AssessmentsAdd.as_view(), name='add'),
     url(r'^detail/(?P<pk>\d+)/$', AssessmentsDetail.as_view(), name='detail'),
-    url(r'^preview/(?P<pk>\d+)/$',
-        AssessmentsPreview.as_view(), name='preview'),
+    url(r'^detail/(?P<pk>\d+)/relations$', assessments_relations,
+        name='relations'),
+    url(r'^preview/(?P<pk>\d+)/$', AssessmentsPreview.as_view(),
+        name='preview'),
     url(r'^update/(?P<pk>\d+)/$', AssessmentsUpdate.as_view(), name='update'),
     url(r'^delete/(?P<pk>\d+)/$', AssessmentsDelete.as_view(), name='delete'),
 )

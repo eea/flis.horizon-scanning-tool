@@ -1,19 +1,28 @@
 {% extends '_layout.html' %}
 {% load custom_filters %}
+{% load assets %}
 
 {% block content %}
-  <div class="container-fluid" id="view">
+	<div class="container-fluid" id="view">
 
-    <h2 class="page-header">{{ assessment.title }}</h2>
+		<h2 class="page-header">{{ assessment.title }}</h2>
 
-    <div class="assessment-content">
-      <p>{{ assessment.description }}</p>
-    </div>
+		<div class="assessment-content">
+			<p>{{ assessment.description }}</p>
+		</div>
+		{% if not assessment.relations.all %}
+			<p><em>There are no relations defined in this assessment</em></p>
+		{% else %}
+			<div id="svg-relations">
 
-	{% if not assessment.relations.all %}
-		<p><em>There are no relations defined in this assessment</em></p>
-	{% else %}
-	{% endif %}
+			</div>
+		{% endif %}
 
-  </div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	{% assets "js_d3" %}
+		<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+	{% endassets %}
 {% endblock %}

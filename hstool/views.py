@@ -1,5 +1,8 @@
+import json
+
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse
 from django.views.generic import (
     ListView, CreateView, DetailView, DeleteView, UpdateView,
     TemplateView)
@@ -67,6 +70,37 @@ class AssessmentsDetail(DetailView):
     template_name = 'tool/assessments_detail.html'
     model = Assessment
     context_object_name = 'assessment'
+
+
+def assessments_relations(request, pk):
+    relations = get_object_or_404(Assessment, pk=pk).relations.all()
+
+    nodes = []
+    for relation in relations:
+        nodes.append(relation.source)
+        nodes.append(relation.destination)
+    nodes = sorted(set(nodes), key=lambda el: el.id)
+
+    data = {'nodes': [], 'links': []}
+    for node in nodes:
+        data['nodes'].append({
+            'name': node.name,
+            'trend': node.id,
+        })
+
+    ids_map = {}
+    for (d3_id, db_id) in enumerate([node.id for node in nodes]):
+        ids_map[db_id] = d3_id
+
+    for relation in relations:
+        data['links'].append({
+            'source': ids_map[relation.source.id],
+            'target': ids_map[relation.destination.id],
+            'value': 1,
+        })
+
+    data = json.dumps(data)
+    return HttpResponse(data, content_type='application/json')
 
 
 class AssessmentsPreview(AssessmentsDetail):

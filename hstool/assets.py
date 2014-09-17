@@ -6,6 +6,7 @@ CSS_ASSETS = (
     'css/bootstrap-datetimepicker.css',
     'css/jquery.dataTables.css',
     'css/style.css',
+    'css/d3_relations.css',
 )
 
 
@@ -17,8 +18,16 @@ JS_ASSETS = (
     'js/main.js',
 )
 
+JS_D3 = (
+    'js/lib/d3.js',
+    'js/lib/d3.min.js',
+    'js/d3_relations.js',
+)
+
 
 css = Bundle(*CSS_ASSETS, filters='cssmin', output='packed.css')
 js = Bundle(*JS_ASSETS, filters='jsmin', output='packed.js')
+js_d3 = Bundle(*JS_D3, filters='jsmin', output='packed_d3.js')
 register('css', css)
 register('js', js)
+register('js_d3', js_d3)
