@@ -1,23 +1,49 @@
-var width = 1000, height = 1000;
-
-var force = d3.layout.force()
-    .charge(-10000)
-    .linkDistance(150)
-    .size([width, 3/4*height]);
+var width = $("#svg-relations").width();
+var height = 1500;
 
 var svg = d3.select("#svg-relations").append("svg")
     .attr("width", width)
     .attr("height", height);
 
 d3.json("relations", function(error, graph) {
+
+    var ge_width, ge_height;
+    var nr_nodes = graph.nodes.length;
+    var link_distance;
+
+    if(nr_nodes <=3){
+        ge_width = width/6; ge_height = height/7;
+        link_distance = ge_width + 40;
+    }
+    else if(nr_nodes <= 5) {
+        ge_width = width/8; ge_height = height/8;
+        link_distance = ge_width + 20;
+    }
+    else if (nr_nodes <=7) {
+        ge_width = width /10; ge_height = height /8;
+        link_distance = ge_width;
+    }
+    else if (nr_nodes <=9){
+        ge_width = width/10; ge_height = height/8;
+        link_distance = ge_width - 20;
+    }
+    else {
+        ge_width = width/14; ge_height = height/10;
+        link_distance = ge_width - 40;
+    }
+
+    var ellipse_rx = ge_width/5, ellipse_ry=ellipse_rx/2;
+    var circle_r = 1/2*ellipse_ry;
+
+    var force = d3.layout.force()
+    .charge(-20000)
+    .linkDistance(link_distance)
+    .size([width, 3/4*height]);
+
     force
         .nodes(graph.nodes)
         .links(graph.links)
         .start();
-
-    var ge_width = 100, ge_height = 140;
-    var ellipse_rx = 30, ellipse_ry=15;
-    var circle_r = 1/2*ellipse_ry;
 
     //Relation
     var link = svg.selectAll(".link")
