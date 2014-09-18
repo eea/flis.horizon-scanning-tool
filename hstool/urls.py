@@ -105,6 +105,12 @@ relations_urls = patterns(
     url(r'(?P<pk>\d+)/delete/$', RelationDelete.as_view(), name='delete')
 )
 
+modals_urls = patterns(
+    '',
+    url(r'^detail/(?P<assessment_pk>\d+)/(?P<model>\w+)/(?P<pk>\d+)/$',
+        ViewModal.as_view(), name='relations_detail'),
+)
+
 urlpatterns = patterns(
     '',
     url(r'^$', AssessmentsList.as_view(), name='home_view'),
@@ -124,12 +130,11 @@ urlpatterns = patterns(
 
     url(r'^figures/', include(figures_urls, namespace='figures')),
 
+    url(r'^modals/', include(modals_urls, namespace='modals')),
+
     url(r'^(?P<model>\w+)/add/modal/$', AddModal.as_view(), name='add_modal'),
     url(r'^(?P<model>\w+)/add/modal/success/(?P<pk>\d+)$',
         AddModalSuccess.as_view(), name='add_modal_success'),
-
-    url(r'^(?P<model>\w+)/view/modal/(?P<pk>\d+)/$', ViewModal.as_view(),
-        name='view_modal'),
 
     url(r'^admin/', include(admin.site.urls)),
 

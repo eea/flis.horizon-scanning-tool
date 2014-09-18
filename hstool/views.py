@@ -84,9 +84,12 @@ def assessments_relations(request, pk):
     data = {'nodes': [], 'links': []}
     for node in nodes:
         model = 'indicators' if hasattr(node, 'indicator') else 'drivers'
+        url = reverse(
+            'modals:relations_detail',
+            kwargs={'model': model, 'pk': node.id, 'assessment_pk': pk}
+        )
         data['nodes'].append({
-            'url': reverse('view_modal',
-                           kwargs={'model': model, 'pk': node.id}),
+            'url': url,
             'name': node.name,
             'trend': node.id,
         })
@@ -95,9 +98,13 @@ def assessments_relations(request, pk):
         ids_map[db_id] = d3_id
 
     for relation in relations:
+        url = reverse(
+            'modals:relations_detail',
+            kwargs={'model': 'relations', 'pk': relation.id,
+                    'assessment_pk': pk}
+        )
         data['links'].append({
-            'url': reverse('view_modal',
-                           kwargs={'model': 'relations', 'pk': relation.id}),
+            'url': url,
             'source': ids_map[relation.source.id],
             'target': ids_map[relation.destination.id],
             'value': 1,
@@ -481,9 +488,14 @@ class ViewModal(DetailView):
             self.template_name = 'modals/view_driver.html'
         else:
             self.template_name = 'modals/view_relation.html'
+        self.assessment_pk = kwargs.pop('assessment_pk', None)
         return super(ViewModal, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(ViewModal, self).get_context_data(**kwargs)
-        context.update({'type': self.model_name})
+        context.update({
+            'type': self.model_name,
+            'current_assessment': get_object_or_404(Assessment,
+                                                    pk=self.assessment_pk)
+        })
         return context
