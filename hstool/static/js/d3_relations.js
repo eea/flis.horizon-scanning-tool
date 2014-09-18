@@ -60,6 +60,23 @@ d3.json("relations", function(error, graph) {
 
     var link_circle = svg.selectAll()
         .data(graph.links).enter()
+        .append("a")
+        .attr("class", "launch-node-modal")
+        .attr("data-toggle", "modal")
+        .attr("data-target", "#myModal")
+        .on("click", function(d) {
+            var url = d.url;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    $('.modal-body').html(data);
+                },
+                error: function () {
+                    alert('Error launching the modal')
+                }
+            })
+        })
         .append("circle")
         .attr("class", "circle")
         .attr("r", circle_r);

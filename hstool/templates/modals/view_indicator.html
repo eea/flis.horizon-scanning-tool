@@ -1,0 +1,57 @@
+{% load custom_filters %}
+
+<h3 class="text-center"><strong>{{ object.short_name }}</strong></h3>
+
+<div class="row">
+	<div class="col-sm-3"><b>Name:</b></div>
+	<div class="col-sm-6">{{ object.name }}</div>
+</div>
+<div class="row">
+	<div class="col-sm-3"><b>Theme:</b></div>
+	<div class="col-sm-6">{{ object.theme }}</div>
+</div>
+<div class="row">
+	<div class="col-sm-3"><b>Base year: </b></div>
+	<div class="col-sm-6">{{ object.year_base }}</div>
+</div>
+<div class="row">
+	<div class="col-sm-3"><b>End year: </b></div>
+	<div class="col-sm-6">{{ object.year_end }}</div>
+</div>
+<div class="row">
+	<div class="col-sm-3"><b>Timeline:</b></div>
+	<div class="col-sm-6">{{ object.get_timeline_display }}</div>
+</div>
+<div class="row">
+	<div class="col-sm-3"><b>Created by:</b></div>
+	<div class="col-sm-6">{{ object.author_id }}</div>
+</div>
+<div class="row">
+	{% if object.geographical_scope %}
+		<div class="col-sm-3"><b>Geographical scale:</b></div>
+		<div class="col-sm-6">{{ object.geographical_scope }}</div>
+	{% endif %}
+</div>
+<div class="row">
+	{% if object.country %}
+		<div class="col-sm-3"><b>Country:</b></div>
+		<div class="col-sm-6">{{ object.country }}</div>
+	{% endif %}
+</div>
+<div class="row">
+	{% if object.url %}
+		<div class="col-sm-3"><b>URL:</b></div>
+		<div class="col-sm-6"><b>{{ object.url }}</b></div>
+	{% endif %}
+</div>
+
+<hr/>
+<p>Also used in these assessments:</p>
+{% assessment_usages object as assessments %}
+<ul>
+	{% for assessment in assessments %}
+		<li>
+			<a href="{% url 'assessments:detail' assessment.id %}">{{ assessment.title }}</a>
+		</li>
+	{% endfor %}
+</ul>

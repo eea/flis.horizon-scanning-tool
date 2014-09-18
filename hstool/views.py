@@ -84,19 +84,20 @@ def assessments_relations(request, pk):
     data = {'nodes': [], 'links': []}
     for node in nodes:
         model = 'indicators' if hasattr(node, 'indicator') else 'drivers'
-        url = reverse('view_modal', kwargs={'model': model, 'pk': node.id})
         data['nodes'].append({
-            'url': url,
+            'url': reverse('view_modal',
+                           kwargs={'model': model, 'pk': node.id}),
             'name': node.name,
             'trend': node.id,
         })
-
     ids_map = {}
     for (d3_id, db_id) in enumerate([node.id for node in nodes]):
         ids_map[db_id] = d3_id
 
     for relation in relations:
         data['links'].append({
+            'url': reverse('view_modal',
+                           kwargs={'model': 'relations', 'pk': relation.id}),
             'source': ids_map[relation.source.id],
             'target': ids_map[relation.destination.id],
             'value': 1,
@@ -464,13 +465,23 @@ class AddModalSuccess(ModelMixin, AuthorMixin, LoginRequiredMixin, DetailView):
         return context
 
 
-class ViewModal(ModelMixin, DetailView):
-    template_name = 'tool/view_modal.html'
-
+class ViewModal(DetailView):
     url_to_models = {
         'indicators': Indicator,
         'drivers': DriverOfChange,
+        'relations': Relation,
     }
+
+    def dispatch(self, request, *args, **kwargs):
+        self.model_name = kwargs.pop('model', None)
+        self.model = self.url_to_models.get(self.model_name)
+        if self.model is Indicator:
+            self.template_name = 'modals/view_indicator.html'
+        elif self.model is DriverOfChange:
+            self.template_name = 'modals/view_driver.html'
+        else:
+            self.template_name = 'modals/view_relation.html'
+        return super(ViewModal, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(ViewModal, self).get_context_data(**kwargs)
