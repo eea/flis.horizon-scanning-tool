@@ -1,7 +1,9 @@
 from django import template
 from django.utils.safestring import mark_safe
+from django.db.models import Q
 
 from hstool.definitions import RELATION_TYPE_CHOICES
+from hstool.models import Assessment
 
 register = template.Library()
 
@@ -25,3 +27,14 @@ def is_filefield(field):
 def verbose(relation_type):
     choices = dict(RELATION_TYPE_CHOICES)
     return choices.get(int(relation_type), relation_type)
+
+
+@register.assignment_tag()
+def assessment_usages(generic_element):
+    assessments = (
+        Assessment.objects
+        .filter(Q(relations__source=generic_element) |
+                Q(relations__destination=generic_element))
+        .all()
+    )
+    return set(assessments)
