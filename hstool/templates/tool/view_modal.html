@@ -24,6 +24,28 @@
 			<div class="col-sm-6">{{ object.get_timeline_display }}</div>
 		</div>
 	{% else %}
+		<div class="row">
+			<div class="col-sm-3"><b>Type:</b></div>
+			<div class="col-sm-6">{{ object.get_type_display }}</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3"><b>Trend type:</b></div>
+			<div class="col-sm-6">{{ object.get_trend_type_display }}</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3"><b>STEEP category:</b></div>
+			<div class="col-sm-6">{{ object.get_steep_category_display }}</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3"><b>Time horizon:</b></div>
+			<div class="col-sm-6">{{ object.get_time_horizon_display }}</div>
+		</div>
+		{% if object.summary %}
+			<div class="row">
+				<div class="col-sm-3"><b>Summary:</b></div>
+				<div class="col-sm-6">{{ object.summary }}</div>
+			</div>
+		{% endif %}
 	{% endif %}
 
 	<div class="row">
