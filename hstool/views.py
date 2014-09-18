@@ -464,7 +464,7 @@ class AddModalSuccess(ModelMixin, AuthorMixin, LoginRequiredMixin, DetailView):
         return context
 
 
-class ViewModal(ModelMixin, LoginRequiredMixin, DetailView):
+class ViewModal(ModelMixin, DetailView):
     template_name = 'tool/view_modal.html'
 
     url_to_models = {
