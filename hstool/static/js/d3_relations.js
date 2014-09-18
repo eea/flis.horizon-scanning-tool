@@ -36,9 +36,9 @@ d3.json("relations", function(error, graph) {
     var circle_r = 1/2*ellipse_ry;
 
     var force = d3.layout.force()
-    .charge(-20000)
-    .linkDistance(link_distance)
-    .size([width, 3/4*height]);
+        .charge(-20000)
+        .linkDistance(link_distance)
+        .size([width, 3/4*height]);
 
     force
         .nodes(graph.nodes)
@@ -110,6 +110,23 @@ d3.json("relations", function(error, graph) {
 
     var node_circle = svg.selectAll()
         .data(graph.nodes).enter()
+        .append("a")
+        .attr("class", "launch-node-modal")
+        .attr("data-toggle", "modal")
+        .attr("data-target", "#myModal")
+        .on("click", function(d) {
+            var url = d.url;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    $('.modal-body').html(data);
+                },
+                error: function () {
+                    alert('Error launching the modal')
+                }
+            })
+        })
         .append("circle")
         .attr("class", "circle")
         .attr("r", circle_r);

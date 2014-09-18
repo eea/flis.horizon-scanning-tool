@@ -83,7 +83,10 @@ def assessments_relations(request, pk):
 
     data = {'nodes': [], 'links': []}
     for node in nodes:
+        model = 'indicators' if hasattr(node, 'indicator') else 'drivers'
+        url = reverse('view_modal', kwargs={'model': model, 'pk': node.id})
         data['nodes'].append({
+            'url': url,
             'name': node.name,
             'trend': node.id,
         })
@@ -418,15 +421,6 @@ class RolesOverview(AdminRequiredMixin, TemplateView):
 
 
 class ModelMixin(object):
-    url_to_models = {
-        'sources': Source,
-        'figures': Figure,
-        'indicators': Indicator,
-        'drivers': DriverOfChange,
-        'countries': Country,
-        'geo_scales': GeographicalScope,
-    }
-
     def dispatch(self, request, *args, **kwargs):
         self.model_name = kwargs.pop('model', None)
         self.model = self.url_to_models.get(self.model_name)
@@ -435,6 +429,11 @@ class ModelMixin(object):
 
 class AddModal(ModelMixin, AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/add_modal.html'
+
+    url_to_models = {
+        'sources': Source,
+        'figures': Figure,
+    }
 
     urls_to_forms = {
         'sources': SourceForm,
@@ -454,7 +453,21 @@ class AddModal(ModelMixin, AuthorMixin, LoginRequiredMixin, CreateView):
 class AddModalSuccess(ModelMixin, AuthorMixin, LoginRequiredMixin, DetailView):
     template_name = 'tool/add_modal_success.html'
 
+    url_to_models = {
+        'sources': Source,
+        'figures': Figure,
+    }
+
     def get_context_data(self, **kwargs):
         context = super(AddModalSuccess, self).get_context_data()
         context.update({'model_name': self.model_name})
         return context
+
+
+class ViewModal(ModelMixin, DetailView):
+    template_name = 'tool/view_modal.html'
+
+    url_to_models = {
+        'indicators': Indicator,
+        'drivers': DriverOfChange,
+    }
