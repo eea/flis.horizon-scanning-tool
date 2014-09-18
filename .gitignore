@@ -14,8 +14,6 @@ build/
 develop-eggs/
 dist/
 eggs/
-lib/
-lib64/
 parts/
 sdist/
 var/
@@ -56,5 +54,4 @@ target/
 
 *.sqlite3
 local_settings.py
-/static/
 fabfile/env.ini
