@@ -464,10 +464,15 @@ class AddModalSuccess(ModelMixin, AuthorMixin, LoginRequiredMixin, DetailView):
         return context
 
 
-class ViewModal(ModelMixin, DetailView):
+class ViewModal(ModelMixin, LoginRequiredMixin, DetailView):
     template_name = 'tool/view_modal.html'
 
     url_to_models = {
         'indicators': Indicator,
         'drivers': DriverOfChange,
     }
+
+    def get_context_data(self, **kwargs):
+        context = super(ViewModal, self).get_context_data(**kwargs)
+        context.update({'type': self.model_name})
+        return context
