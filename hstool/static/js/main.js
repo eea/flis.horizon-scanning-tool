@@ -7,7 +7,7 @@ $(function () {
             url: url,
             success: function (data) {
                 $('.modal-body').html(data);
-                $('h4.modal-title').html(title)
+                $('h4.modal-title').html(title);
                 $('#add-modal-submit').data('action', url)
             },
             error: function (data) {

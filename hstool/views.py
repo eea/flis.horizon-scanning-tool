@@ -130,7 +130,7 @@ class AssessmentsUpdate(OwnerRequiredMixin, UpdateView):
 
 
 class AssessmentsDelete(OwnerRequiredMixin, DeleteView):
-    template_name = 'tool/object_delete.html'
+    template_name = 'object_delete.html'
     model = Assessment
     success_url = reverse_lazy('home_view')
 
@@ -174,7 +174,7 @@ class RelationUpdate(LoginRequiredMixin, UpdateView):
 
 
 class RelationDelete(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
-    template_name = 'tool/object_delete.html'
+    template_name = 'object_delete.html'
     model = Relation
 
     def get_success_url(self):
@@ -215,7 +215,7 @@ class SourcesUpdate(OwnerRequiredMixin, UpdateView):
 
 
 class SourcesDelete(OwnerRequiredMixin, DeleteView):
-    template_name = 'tool/object_delete.html'
+    template_name = 'object_delete.html'
     model = Source
     success_url = reverse_lazy('sources:list')
 
@@ -247,7 +247,7 @@ class IndicatorsUpdate(OwnerRequiredMixin, UpdateView):
 
 
 class IndicatorsDelete(OwnerRequiredMixin, DeleteView):
-    template_name = 'tool/object_delete.html'
+    template_name = 'object_delete.html'
     model = Indicator
     success_url = reverse_lazy('indicators:list')
 
@@ -279,7 +279,7 @@ class DriversUpdate(OwnerRequiredMixin, UpdateView):
 
 
 class DriversDelete(OwnerRequiredMixin, DeleteView):
-    template_name = 'tool/object_delete.html'
+    template_name = 'object_delete.html'
     model = DriverOfChange
     success_url = reverse_lazy('drivers:list')
 
@@ -304,57 +304,57 @@ class FiguresUpdate(OwnerRequiredMixin, UpdateView):
 
 
 class FiguresDelete(OwnerRequiredMixin, DeleteView):
-    template_name = 'tool/object_delete.html'
+    template_name = 'object_delete.html'
     model = Figure
     success_url = reverse_lazy('figures:list')
 
 
 class CountriesList(AdminRequiredMixin, ListView):
-    template_name = 'tool/countries_list.html'
+    template_name = 'settings/countries_list.html'
     model = Country
     context_object_name = 'countries'
 
 
 class CountriesAdd(AdminRequiredMixin, CreateView):
-    template_name = 'tool/countries_add.html'
+    template_name = 'settings/countries_add.html'
     form_class = CountryForm
     success_url = reverse_lazy('settings:countries_list')
 
 
 class CountriesUpdate(AdminRequiredMixin, UpdateView):
-    template_name = 'tool/countries_update.html'
+    template_name = 'settings/countries_update.html'
     model = Country
     form_class = CountryUpdateForm
     success_url = reverse_lazy('settings:countries_list')
 
 
 class CountriesDelete(AdminRequiredMixin, DeleteView):
-    template_name = 'tool/object_delete.html'
+    template_name = 'object_delete.html'
     model = Country
     success_url = reverse_lazy('settings:countries_list')
 
 
 class GeoScopesList(AdminRequiredMixin, ListView):
-    template_name = 'tool/geo_scopes_list.html'
+    template_name = 'settings/geo_scopes_list.html'
     model = GeographicalScope
     context_object_name = 'geo_scopes'
 
 
 class GeoScopesAdd(AdminRequiredMixin, CreateView):
-    template_name = 'tool/geo_scopes_add.html'
+    template_name = 'settings/geo_scopes_add.html'
     form_class = GeoScopeForm
     success_url = reverse_lazy('settings:geo_scopes_list')
 
 
 class GeoScopesUpdate(AdminRequiredMixin, UpdateView):
-    template_name = 'tool/geo_scopes_add.html'
+    template_name = 'settings/geo_scopes_add.html'
     model = GeographicalScope
     form_class = GeoScopeForm
     success_url = reverse_lazy('settings:geo_scopes_list')
 
 
 class GeoScopesDelete(AdminRequiredMixin, DeleteView):
-    template_name = 'tool/object_delete.html'
+    template_name = 'object_delete.html'
     model = GeographicalScope
     success_url = reverse_lazy('settings:geo_scopes_list')
 
@@ -395,7 +395,7 @@ class EnvironmentalThemeUpdate(AdminRequiredMixin, UpdateView):
 
 
 class EnvironmentalThemeDelete(AdminRequiredMixin, DeleteView):
-    template_name = 'tool/object_delete.html'
+    template_name = 'object_delete.html'
     model = EnvironmentalTheme
     success_url = reverse_lazy('settings:themes_list')
 
@@ -429,7 +429,7 @@ class ModelMixin(object):
 
 
 class AddModal(ModelMixin, AuthorMixin, LoginRequiredMixin, CreateView):
-    template_name = 'tool/add_modal.html'
+    template_name = 'modals/add_generic_model.html'
 
     url_to_models = {
         'sources': Source,
@@ -452,7 +452,7 @@ class AddModal(ModelMixin, AuthorMixin, LoginRequiredMixin, CreateView):
 
 
 class AddModalSuccess(ModelMixin, AuthorMixin, LoginRequiredMixin, DetailView):
-    template_name = 'tool/add_modal_success.html'
+    template_name = 'modals/add_generic_model_success.html'
 
     url_to_models = {
         'sources': Source,
