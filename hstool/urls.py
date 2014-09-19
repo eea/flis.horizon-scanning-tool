@@ -11,7 +11,7 @@ from hstool.views import (
     GeoScopesUpdate, SourcesDelete, IndicatorsDelete, FiguresDelete,
     DriversDelete, CountriesDelete, GeoScopesDelete, AssessmentsList,
     AssessmentsAdd, AssessmentsUpdate, AssessmentsDelete, AssessmentsDetail,
-    RelationAdd, AssessmentsPreview, RelationUpdate, RelationDelete,
+    RelationsAdd, AssessmentsPreview, RelationsUpdate, RelationsDelete,
     RolesOverview, GeoScopesRequired, EnvironmentalThemeList,
     EnvironmentalThemeAdd, EnvironmentalThemeUpdate, EnvironmentalThemeDelete,
     assessments_relations, ViewModal,
@@ -99,10 +99,10 @@ assessments_urls = patterns(
 
 relations_urls = patterns(
     '',
-    url(r'(?P<assessment_pk>\d+)/add/$', RelationAdd.as_view(), name='add'),
-    url(r'(?P<pk>\d+)/update/$', RelationUpdate.as_view(),
+    url(r'(?P<assessment_pk>\d+)/add/$', RelationsAdd.as_view(), name='add'),
+    url(r'(?P<pk>\d+)/update/$', RelationsUpdate.as_view(),
         name='update'),
-    url(r'(?P<pk>\d+)/delete/$', RelationDelete.as_view(), name='delete')
+    url(r'(?P<pk>\d+)/delete/$', RelationsDelete.as_view(), name='delete')
 )
 
 modals_urls = patterns(

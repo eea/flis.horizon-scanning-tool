@@ -142,22 +142,23 @@ class AssessmentsDelete(OwnerRequiredMixin, DeleteView):
     success_url = reverse_lazy('home_view')
 
 
-class RelationAdd(AuthorMixin, LoginRequiredMixin, CreateView):
+class RelationsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/relation_add.html'
     form_class = RelationForm
     model = Relation
 
-    def dispatch(self, request, assessment_pk):
+    def dispatch(self, request, *args, **kwargs):
+        assessment_pk = kwargs.pop('assessment_pk', None)
         self.assessment = get_object_or_404(Assessment, pk=assessment_pk)
-        return super(RelationAdd, self).dispatch(request, assessment_pk)
+        return super(RelationsAdd, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(RelationAdd, self).get_context_data(**kwargs)
+        context = super(RelationsAdd, self).get_context_data(**kwargs)
         context['assessment'] = self.assessment
         return context
 
     def get_form_kwargs(self):
-        data = super(RelationAdd, self).get_form_kwargs()
+        data = super(RelationsAdd, self).get_form_kwargs()
         data['assessment'] = self.assessment
         return data
 
@@ -165,38 +166,39 @@ class RelationAdd(AuthorMixin, LoginRequiredMixin, CreateView):
         return reverse('assessments:preview', kwargs={'pk': self.assessment.id})
 
 
-class RelationUpdate(LoginRequiredMixin, UpdateView):
+class RelationsUpdate(OwnerRequiredMixin, UpdateView):
     template_name = 'tool/relation_add.html'
     model = Relation
     form_class = RelationForm
 
     def get_success_url(self):
-        return reverse_lazy('assessments:detail',
-                            kwargs={'pk': self.object.id})
+        return reverse('assessments:preview',
+                       kwargs={'pk': self.object.assessment.pk})
 
     def get_context_data(self, **kwargs):
-        context = super(RelationUpdate, self).get_context_data(**kwargs)
+        context = super(RelationsUpdate, self).get_context_data(**kwargs)
         context['assessment'] = self.object.assessment
         return context
 
 
-class RelationDelete(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
+class RelationsDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'object_delete.html'
     model = Relation
 
     def get_success_url(self):
-        return reverse_lazy('assessments:detail',
-                            kwargs={'pk': self.object.assessment.id})
+        return reverse('assessments:preview',
+                       kwargs={'pk': self.object.assessment.id})
 
 
-class RelationList(LoginRequiredMixin, ListView):
+class RelationsList(LoginRequiredMixin, ListView):
     template_name = 'tool/relation_list.html'
     model = Relation
     context_object_name = 'relations'
 
-    def dispatch(self, request, assessment_pk):
+    def dispatch(self, request, *args, **kwargs):
+        assessment_pk = kwargs.pop('assessment_pk', None)
         self.assessment = get_object_or_404(Assessment, pk=assessment_pk)
-        return super(RelationList, self).dispatch(request, assessment_pk)
+        return super(RelationsList, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         return Relation.objects.filter(assessment=self.assessment)
