@@ -20,19 +20,24 @@ class ContentTypeRestrictedFileField(FileField):
         super(ContentTypeRestrictedFileField, self).__init__(*args, **kwargs)
 
     def clean(self, *args, **kwargs):
-        def _get_extension(file_name):
-            return '.'+file_name.split('/')[1]
-
         data = super(ContentTypeRestrictedFileField, self).clean(*args,
                                                                  **kwargs)
-        if not self.content_types:
+
+        def _get_extension(file_name, separator='/'):
+            return '.'+file_name.split(separator)[1]
+
+        if not self.content_types or not hasattr(data.file, 'content_type'):
             return data
 
         content_type = data.file.content_type
 
         if content_type not in self.content_types:
-            types = ', '.join(map(_get_extension, self.content_types))
+            if content_type == 'application/unknown':
+                extensions = map(_get_extension, self.content_types)
+                if _get_extension(data.file.name, '.') in extensions:
+                    return data
 
+            types = ', '.join(map(_get_extension, self.content_types))
             raise ValidationError(
                 'File type not supported: {0}. Please upload only {1}.'
                 .format(content_type, types))

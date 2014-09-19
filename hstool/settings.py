@@ -117,4 +117,4 @@ except ImportError:
 
 # set this variable to the file types accepted when uploading facts and figures.
 # any type is accepted if it is set to be the empty list [].
-SUPPORTED_FILES_FACTS_AND_FIGURES = ['image/jpg', 'image/jpeg']
+SUPPORTED_FILES_FACTS_AND_FIGURES = ['application/pdf', 'image/jpg', 'image/jpeg']
