@@ -109,6 +109,9 @@ modals_urls = patterns(
     '',
     url(r'^detail/(?P<assessment_pk>\d+)/(?P<model>\w+)/(?P<pk>\d+)/$',
         ViewModal.as_view(), name='relations_detail'),
+    url(r'^add/(?P<model>\w+)/$', AddModal.as_view(), name='add'),
+    url(r'^add/success/(?P<model>\w+)/(?P<pk>\d+)$', AddModalSuccess.as_view(),
+        name='add_success'),
 )
 
 urlpatterns = patterns(
@@ -131,10 +134,6 @@ urlpatterns = patterns(
     url(r'^figures/', include(figures_urls, namespace='figures')),
 
     url(r'^modals/', include(modals_urls, namespace='modals')),
-
-    url(r'^(?P<model>\w+)/add/modal/$', AddModal.as_view(), name='add_modal'),
-    url(r'^(?P<model>\w+)/add/modal/success/(?P<pk>\d+)$',
-        AddModalSuccess.as_view(), name='add_modal_success'),
 
     url(r'^admin/', include(admin.site.urls)),
 

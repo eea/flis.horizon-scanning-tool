@@ -454,7 +454,7 @@ class AddModal(ModelMixin, AuthorMixin, LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse(
-            'add_modal_success', args=(self.model_name, self.object.id, )
+            'modals:add_success', args=(self.model_name, self.object.id, )
         )
 
 
