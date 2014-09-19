@@ -1,8 +1,8 @@
 {% load custom_filters %}
 
 <hr/>
-{% assessment_usages object as assessments %}
-{% if assessments|length > 1 %}
+{% assessment_usages object current_assessment as assessments %}
+{% if assessments %}
   <p>Also used in these assessments:</p>
   <ul>
     {% for assessment in assessments %}

@@ -36,11 +36,12 @@ def file_type(filefield):
 
 
 @register.assignment_tag()
-def assessment_usages(generic_element):
+def assessment_usages(generic_element, assessment):
     assessments = (
         Assessment.objects
         .filter(Q(relations__source=generic_element) |
                 Q(relations__destination=generic_element))
+        .exclude(pk=assessment.pk)
         .all()
     )
     return set(assessments)
