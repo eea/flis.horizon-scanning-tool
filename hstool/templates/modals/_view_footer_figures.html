@@ -1,0 +1,19 @@
+{% load custom_filters %}
+
+<hr/>
+<h4 class="text-center"><strong>Facts and Figures</strong></h4>
+{% if figures %}
+  {% for figure in figures %}
+    {{ forloop.counter }}.{{ figure.title }}
+    <br/>
+    <div class="row">
+      {% ifequal figure.file|file_type 'pdf' %}
+      {% else %}
+        <img src="{{ figure.file.url }}" alt="{{ figure.title }}"/>
+      {% endifequal %}
+    </div>
+    <br/>
+  {% endfor %}
+{% else %}
+  <p><em>No facts and figures attached.</em></p>
+{% endif %}

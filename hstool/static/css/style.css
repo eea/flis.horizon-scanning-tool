@@ -45,3 +45,12 @@ a#delete {
 #invisible {
     display: none;
 }
+
+img {
+    max-width: 800px;
+}
+
+.modal-content {
+  width: 900px;
+  margin-left: -150px;
+}

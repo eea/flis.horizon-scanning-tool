@@ -6,15 +6,15 @@
     {{ form.non_field_errors }}
 	{% for field in form %}
 		<div class="form-group">
-			<label class="col-sm-2 control-label"> {{ field|label }}</label>
+			<label class="col-sm-3 control-label"> {{ field|label }}</label>
 			<div class="col-sm-6">
-                {% if field|is_filefield %}
-                    {{ field }}
-                {% else %}
-                    {% render_field field class="form-control" %}
-                {% endif %}
-                {{ field.errors }}
-            </div>
+        {% if field|is_filefield %}
+            {{ field }}
+        {% else %}
+            {% render_field field class="form-control" %}
+        {% endif %}
+        {{ field.errors }}
+			</div>
 		</div>
 	{% endfor %}
 </form>

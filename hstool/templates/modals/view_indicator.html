@@ -43,4 +43,5 @@
 	{% endif %}
 </div>
 
+{% include 'modals/_view_footer_figures.html' with figures=object.figures.all %}
 {% include 'modals/_view_footer.html' with assessment_usages=assessment_usages %}

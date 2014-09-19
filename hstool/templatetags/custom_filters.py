@@ -29,6 +29,12 @@ def verbose(relation_type):
     return choices.get(int(relation_type), relation_type)
 
 
+@register.filter()
+def file_type(filefield):
+    extension = filefield.name.split('.')[-1]
+    return extension
+
+
 @register.assignment_tag()
 def assessment_usages(generic_element):
     assessments = (

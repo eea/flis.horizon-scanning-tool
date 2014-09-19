@@ -3,4 +3,4 @@
 <h3>Description</h3>
 {{ object.description }}
 <br/>
-<hr/>
+{% include 'modals/_view_footer_figures.html' with figures=object.figures.all %}
