@@ -23,7 +23,7 @@
 					<td><a href="{% url 'settings:countries_update' country.iso %}">{{ country.iso }}</a></td>
 					<td>{{ country.name }}</td>
 					<td>
-						<a id="delete" href="{% url 'settings:countries_delete' country.pk %}?next={% url 'settings:countries_list' %}">
+						<a id="delete" href="{% url 'settings:countries_delete' country.pk %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete
 						</a>
 					</td>

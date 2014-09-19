@@ -34,7 +34,7 @@
 					<td>{{ driver.country }}</td>
 					<td>{{ driver.author_id }}</td>
 					<td nowrap>
-						<a id="delete" href="{% url 'drivers:delete' driver.id %}?next={% url 'drivers:list' %}">
+						<a id="delete" href="{% url 'drivers:delete' driver.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete
 						</a>
 					</td>

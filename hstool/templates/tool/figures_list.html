@@ -24,7 +24,7 @@
 						{{ figure.title }}</a></td>
 					<td>{{ figure.author_id }}</td>
 					<td>
-						<a id="delete" href="{% url 'figures:delete' figure.id %}?next={% url 'figures:list' %}">
+						<a id="delete" href="{% url 'figures:delete' figure.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete
 						</a>
 					</td>

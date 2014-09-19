@@ -32,7 +32,7 @@
 					<td>{{ indicator.country }}</td>
 					<td>{{ indicator.author_id }}</td>
 					<td>
-						<a id="delete" href="{% url 'indicators:delete' indicator.id %}?next={% url 'indicators:list' %}">
+						<a id="delete" href="{% url 'indicators:delete' indicator.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete
 						</a>
 					</td>

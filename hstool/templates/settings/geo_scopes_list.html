@@ -22,7 +22,7 @@
 					<td><a href="{% url 'settings:geo_scopes_update' geo_scope.id %}">{{ geo_scope.title }}</a></td>
 					<td>{{ geo_scope.require_country }}</td>
 					<td>
-						<a id="delete" href="{% url 'settings:geo_scopes_delete' geo_scope.id %}?next={% url 'settings:geo_scopes_list' %}">
+						<a id="delete" href="{% url 'settings:geo_scopes_delete' geo_scope.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete
 						</a>
 					</td>
