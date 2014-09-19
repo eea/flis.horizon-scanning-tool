@@ -15,21 +15,21 @@
     fill: white;
 }
 
-.box-salmon {
+.d3-box-salmon {
     stroke-width: 1px;
     stroke: black;
     fill: salmon;
 }
 
 
-.box-purple {
+.d3-box-purple {
     stroke-width: 1px;
     stroke: black;
     fill: mediumpurple;
 }
 
 
-.box-pink {
+.d3-box-pink {
     stroke-width: 1px;
     stroke: black;
     fill: lightpink;
@@ -46,10 +46,17 @@
     stroke: black;
 }
 
-.text {
+.d3-node-title {
     fill: black;
-    stroke-width: 1;
-    font-size: 12px;
     text-anchor: middle;
+    font: bold;
+    font-size: 14px;
+    z-index: 99999999;
+}
+
+.d3-node-subtitle {
+    fill: black;
+    text-anchor: middle;
+    font-size: 12px;
     z-index: 99999999;
 }
