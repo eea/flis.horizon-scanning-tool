@@ -2,12 +2,42 @@ from django.db.models import (
     Model, CharField, IntegerField, TextField, ForeignKey, BooleanField,
     ManyToManyField, FileField,
 )
+from django.forms.forms import ValidationError
+from django.conf import settings
+
 from hstool.definitions import (
     DOC_TYPE_CHOICES, DOC_TREND_TYPE_CHOICES, DOC_STEEP_CHOICES,
     DOC_TIME_HORIZON_CHOICES, IND_TIMELINE_CHOICES,
     RELATION_TYPE_CHOICES,
 )
 from hstool.utils import path_and_rename
+
+
+class ContentTypeRestrictedFileField(FileField):
+    def __init__(self, *args, **kwargs):
+        self.content_types = kwargs.pop("content_types")
+
+        super(ContentTypeRestrictedFileField, self).__init__(*args, **kwargs)
+
+    def clean(self, *args, **kwargs):
+        def _get_extension(file_name):
+            return '.'+file_name.split('/')[1]
+
+        data = super(ContentTypeRestrictedFileField, self).clean(*args,
+                                                                 **kwargs)
+        if not self.content_types:
+            return data
+
+        content_type = data.file.content_type
+
+        if content_type not in self.content_types:
+            types = ', '.join(map(_get_extension, self.content_types))
+
+            raise ValidationError(
+                'File type not supported: {0}. Please upload only {1}.'
+                .format(content_type, types))
+
+        return data
 
 
 class EnvironmentalTheme(Model):
@@ -45,7 +75,10 @@ class Country(Model):
 class Figure(Model):
     author_id = CharField(max_length=64)
     title = CharField(max_length=512, default='')
-    file = FileField(upload_to=path_and_rename('files/figures'))
+    file = ContentTypeRestrictedFileField(
+        upload_to=path_and_rename('files/figures'),
+        content_types=settings.SUPPORTED_FILES_FACTS_AND_FIGURES,
+    )
 
     def __unicode__(self):
         return self.title
