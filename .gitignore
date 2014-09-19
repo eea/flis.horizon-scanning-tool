@@ -54,4 +54,5 @@ target/
 
 *.sqlite3
 local_settings.py
+settings.py
 fabfile/env.ini
