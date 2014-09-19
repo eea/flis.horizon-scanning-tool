@@ -47,10 +47,11 @@ a#delete {
 }
 
 img {
+    width: 100%;
     max-width: 800px;
 }
 
 .modal-content {
-  width: 900px;
-  margin-left: -150px;
+  width: 800px;
+  margin-left: -100px;
 }
