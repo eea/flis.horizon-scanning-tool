@@ -121,14 +121,6 @@ d3.json("relations", function(error, graph) {
         .attr("y", function(d) { return d.y; });
 
     nodes
-        .append("rect")
-        .attr("class", "box1")
-        .attr("width", ge_width)
-        .attr("height", ge_height/6)
-        .attr("x", function(d) { return d.x; })
-        .attr("y", function(d) { return d.y; });
-
-    nodes
         .append("text")
         .attr("class", "text")
         .text(function(d) { return d.title })
@@ -137,7 +129,12 @@ d3.json("relations", function(error, graph) {
 
     nodes
         .append("rect")
-        .attr("class", "box2")
+        .attr("class", function(d) { switch (d.subtitle_color) {
+                case 0: return "box-salmon";
+                case 1: return "box-purple";
+                case 2: return "box-pink";
+
+        }})
         .attr("width", ge_width)
         .attr("height", ge_height/6)
         .attr("x", function(d) { return d.x; })

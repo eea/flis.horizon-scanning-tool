@@ -83,9 +83,10 @@ def assessments_relations(request, pk):
 
     data = {'nodes': [], 'links': []}
     for node in nodes:
-        (model, subtitle) = (
-            ('indicators', 'Indicator') if hasattr(node, 'indicator') else
-            ('drivers', node.driverofchange.get_trend_type_display())
+        (model, subtitle, subtitle_color) = (
+            ('indicators', 'Indicator', 0) if hasattr(node, 'indicator') else
+            ('drivers', node.driverofchange.get_trend_type_display(),
+             node.driverofchange.trend_type)
         )
         url = reverse(
             'modals:relations_detail',
@@ -95,6 +96,7 @@ def assessments_relations(request, pk):
             'url': url,
             'title': node.name,
             'subtitle': subtitle,
+            'subtitle_color': subtitle_color,
         })
     ids_map = {}
     for (d3_id, db_id) in enumerate([node.id for node in nodes]):

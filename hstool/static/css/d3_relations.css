@@ -15,16 +15,24 @@
     fill: white;
 }
 
-.box1 {
+.box-salmon {
     stroke-width: 1px;
     stroke: black;
-    fill: white;
+    fill: salmon;
 }
 
-.box2 {
+
+.box-purple {
     stroke-width: 1px;
     stroke: black;
-    fill: pink;
+    fill: mediumpurple;
+}
+
+
+.box-pink {
+    stroke-width: 1px;
+    stroke: black;
+    fill: lightpink;
 }
 
 .circle {
