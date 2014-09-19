@@ -56,6 +56,7 @@ class RelationForm(ModelForm):
         if self.assessment:
             relation.assessment = self.assessment
         relation.save()
+        self.save_m2m()
         return relation
 
 
