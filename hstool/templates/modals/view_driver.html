@@ -1,53 +1,11 @@
-<h3 class="text-center"><strong>{{ object.short_name }}</strong></h3>
+<div class="modal-subtitle" id="modal-subtitle-{% ifequal object.trend_type 1 %}purple{% else %}pink{% endifequal %}">
+	{{ object.get_trend_type_display }}
+</div>
 
-<div class="row">
-	<div class="col-sm-3"><b>Name:</b></div>
-	<div class="col-sm-6">{{ object.name }}</div>
-</div>
-<div class="row">
-	<div class="col-sm-3"><b>Type:</b></div>
-	<div class="col-sm-6">{{ object.get_type_display }}</div>
-</div>
-<div class="row">
-	<div class="col-sm-3"><b>Trend type:</b></div>
-	<div class="col-sm-6">{{ object.get_trend_type_display }}</div>
-</div>
-<div class="row">
-	<div class="col-sm-3"><b>STEEP category:</b></div>
-	<div class="col-sm-6">{{ object.get_steep_category_display }}</div>
-</div>
-<div class="row">
-	<div class="col-sm-3"><b>Time horizon:</b></div>
-	<div class="col-sm-6">{{ object.get_time_horizon_display }}</div>
-</div>
 {% if object.summary %}
-	<div class="row">
-		<div class="col-sm-3"><b>Summary:</b></div>
-		<div class="col-sm-6">{{ object.summary }}</div>
-	</div>
+	{{ object.summary }}
+	</hr>
 {% endif %}
-<div class="row">
-	<div class="col-sm-3"><b>Created by:</b></div>
-	<div class="col-sm-6">{{ object.author_id }}</div>
-</div>
-<div class="row">
-	{% if object.geographical_scope %}
-		<div class="col-sm-3"><b>Geographical scale:</b></div>
-		<div class="col-sm-6">{{ object.geographical_scope }}</div>
-	{% endif %}
-</div>
-<div class="row">
-	{% if object.country %}
-		<div class="col-sm-3"><b>Country:</b></div>
-		<div class="col-sm-6">{{ object.country }}</div>
-	{% endif %}
-</div>
-<div class="row">
-	{% if object.url %}
-		<div class="col-sm-3"><b>URL:</b></div>
-		<div class="col-sm-6"><b>{{ object.url }}</b></div>
-	{% endif %}
-</div>
 
 {% include 'modals/_view_footer_figures.html' with figures=object.figures.all %}
 {% include 'modals/_view_footer.html' with assessment_usages=assessment_usages %}

@@ -83,15 +83,18 @@ def assessments_relations(request, pk):
 
     data = {'nodes': [], 'links': []}
     for node in nodes:
-        model = 'indicators' if hasattr(node, 'indicator') else 'drivers'
+        (model, subtitle) = (
+            ('indicators', 'Indicator') if hasattr(node, 'indicator') else
+            ('drivers', node.driverofchange.get_trend_type_display())
+        )
         url = reverse(
             'modals:relations_detail',
             kwargs={'model': model, 'pk': node.id, 'assessment_pk': pk}
         )
         data['nodes'].append({
             'url': url,
-            'name': node.name,
-            'trend': node.id,
+            'title': node.name,
+            'subtitle': subtitle,
         })
     ids_map = {}
     for (d3_id, db_id) in enumerate([node.id for node in nodes]):

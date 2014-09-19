@@ -131,7 +131,7 @@ d3.json("relations", function(error, graph) {
     nodes
         .append("text")
         .attr("class", "text")
-        .text(function(d) { return d.name })
+        .text(function(d) { return d.title })
         .attr("x", function(d) { return d.x + ge_width/2; })
         .attr("y", function(d) { return d.y + ge_height/12 + 5 });
 
@@ -146,7 +146,7 @@ d3.json("relations", function(error, graph) {
     nodes
         .append("text")
         .attr("class", "text")
-        .text(function(d) { return d.trend })
+        .text(function(d) { return d.subtitle })
         .attr("x", function(d) { return d.x + ge_width/2; })
         .attr("y", function(d) { return d.y + ge_height/12 + + ge_height/6 + 5 });
 
@@ -157,11 +157,13 @@ d3.json("relations", function(error, graph) {
         .attr("data-target", "#myModal")
         .on("click", function(d) {
             var url = d.url;
+            var title = d.title;
             $.ajax({
                 type: "GET",
                 url: url,
                 success: function (data) {
                     $('.modal-body').html(data);
+                    $('.modal-title').html(title);
                 },
                 error: function () {
                     alert('Error launching the modal')

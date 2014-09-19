@@ -1,7 +1,5 @@
 {% load custom_filters %}
 
-<hr/>
-<h4 class="text-center"><strong>Facts and Figures</strong></h4>
 {% if figures %}
   {% for figure in figures %}
     {{ forloop.counter }}.{{ figure.title }}
