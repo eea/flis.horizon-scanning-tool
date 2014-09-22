@@ -1,7 +1,8 @@
+from datetime import datetime
 from django.db.models import (
     Model, CharField, IntegerField, TextField, ForeignKey, BooleanField,
     ManyToManyField, FileField,
-)
+    DateTimeField)
 from django.forms.forms import ValidationError
 from django.conf import settings
 
@@ -91,6 +92,8 @@ class Figure(Model):
         upload_to=path_and_rename('files/figures'),
         content_types=settings.SUPPORTED_FILES_FACTS_AND_FIGURES,
     )
+    added = DateTimeField(auto_now_add=True, editable=False,
+                          default=datetime.now)
 
     def __unicode__(self):
         return self.title
@@ -105,6 +108,8 @@ class Source(Model):
     url = CharField(max_length=256)
     file = FileField(upload_to=path_and_rename('files/sources'))
     summary = TextField(max_length=2048)
+    added = DateTimeField(auto_now_add=True, editable=False,
+                          default=datetime.now)
 
     def __unicode__(self):
         return self.title
@@ -117,6 +122,8 @@ class GenericElement(Model):
     geographical_scope = ForeignKey('GeographicalScope', null=True, blank=True)
     country = ForeignKey('Country', null=True, blank=True)
     url = CharField(max_length=256, blank=True, null=True)
+    added = DateTimeField(auto_now_add=True, editable=False,
+                          default=datetime.now)
 
     sources = ManyToManyField('Source', blank=True, null=True)
     figures = ManyToManyField('Figure', blank=True, null=True)
@@ -173,6 +180,8 @@ class Assessment(Model):
     author_id = CharField(max_length=64)
     title = CharField(max_length=512)
     description = TextField(null=True, blank=True)
+    added = DateTimeField(auto_now_add=True, editable=False,
+                          default=datetime.now)
 
     class Meta:
         permissions = (
