@@ -68,7 +68,7 @@ d3.json("relations", function(error, graph) {
         .attr("cx", function(d) { return (d.source.x + ge_width/2 + d.target.x + ge_width/2)/2; })
         .attr("cy", function(d) { return (d.source.y + ge_height/2 + d.target.y + ge_height/2)/2; });
 
-    links
+    var plus = links
         .append("a")
         .attr("class", "launch-node-modal")
         .attr("data-toggle", "modal")
@@ -86,23 +86,22 @@ d3.json("relations", function(error, graph) {
                     alert('Error launching the modal')
                 }
             })
-        })
-        .append("circle")
+        });
+
+    plus.append("circle")
         .attr("class", "circle")
         .attr("r", circle_r)
         .attr("cx", function(d) { return (d.source.x + ge_width/2 + d.target.x + ge_width/2)/2; })
         .attr("cy", function(d) { return (d.source.y + ge_height/2 + d.target.y + ge_height/2)/2 + ellipse_ry - circle_r; });
 
-    links
-        .append("line")
+    plus.append("line")
         .attr("class", "line")
         .attr("x1", function(d) { return (d.source.x + ge_width/2 + d.target.x + ge_width/2)/2 - circle_r + 3; })
         .attr("y1", function(d) { return (d.source.y + ge_height/2 + d.target.y + ge_height/2)/2 + ellipse_ry - circle_r; })
         .attr("x2", function(d) { return (d.source.x + ge_width/2 + d.target.x + ge_width/2)/2 + circle_r - 3; })
         .attr("y2", function(d) { return (d.source.y + ge_height/2 + d.target.y + ge_height/2)/2 + ellipse_ry - circle_r; });
 
-    links
-        .append("line")
+    plus.append("line")
         .attr("class", "line")
         .attr("x1", function(d) { return (d.source.x + ge_width/2 + d.target.x + ge_width/2)/2; })
         .attr("y1", function(d) { return (d.source.y + ge_height/2 + d.target.y + ge_height/2)/2 + ellipse_ry - circle_r - circle_r + 3; })
@@ -148,7 +147,7 @@ d3.json("relations", function(error, graph) {
         .attr("x", function(d) { return d.x + ge_width/2; })
         .attr("y", function(d) { return d.y + ge_height/12 + + ge_height/6 + 5 });
 
-    nodes
+    plus = nodes
         .append("a")
         .attr("class", "launch-node-modal")
         .attr("data-toggle", "modal")
@@ -167,23 +166,22 @@ d3.json("relations", function(error, graph) {
                     alert('Error launching the modal')
                 }
             })
-        })
-        .append("circle")
+        });
+
+    plus.append("circle")
         .attr("class", "circle")
         .attr("r", circle_r)
         .attr("cx", function(d) { return (d.x + ge_width - circle_r - 10); })
         .attr("cy", function(d) { return (d.y + ge_height - circle_r - 10); });
 
-    nodes
-        .append("line")
+    plus.append("line")
         .attr("class", "line")
         .attr("x1", function(d) { return (d.x + ge_width - circle_r - 10 - circle_r + 3)})
         .attr("y1", function(d) { return (d.y + ge_height - circle_r - 10)})
         .attr("x2", function(d) { return (d.x + ge_width - circle_r - 10 + circle_r - 3)})
         .attr("y2", function(d) { return (d.y + ge_height - circle_r - 10)});
 
-    nodes
-        .append("line")
+    plus.append("line")
         .attr("class", "line")
         .attr("x1", function(d) { return (d.x + ge_width - circle_r - 10)})
         .attr("y1", function(d) { return (d.y + ge_height - circle_r - 10 - circle_r + 3)})
