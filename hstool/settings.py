@@ -47,6 +47,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'frame.middleware.SeenMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -111,11 +112,17 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-try:
-    from local_settings import *
-except ImportError:
-    pass
+FRAME_SEEN_MODELS = (
+    ('hstool.models.Assessment', 'added'),
+)
+
+FRAME_SEEN_EXCLUDE = ('/_lastseencount/', )
 
 # set this variable to the file types accepted when uploading facts and figures.
 # any type is accepted if it is set to be the empty list [].
 SUPPORTED_FILES_FACTS_AND_FIGURES = ['application/pdf', 'image/jpg', 'image/jpeg']
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
