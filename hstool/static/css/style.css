@@ -47,13 +47,12 @@ a#delete {
 }
 
 img {
-    width: 100%;
     max-width: 800px;
 }
 
 .modal-content {
-  width: 800px;
-  margin-left: -100px;
+  width: 810px;
+  margin-left: -15px;
 }
 
 .modal-title {

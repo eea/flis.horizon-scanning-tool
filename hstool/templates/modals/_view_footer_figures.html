@@ -1,11 +1,15 @@
 {% load custom_filters %}
 
+<hr/>
 {% if figures %}
   {% for figure in figures %}
-    {{ forloop.counter }}.{{ figure.title }}
+    <strong>{{ forloop.counter }}. {{ figure.title }}</strong>
     <br/>
     <div class="row">
       {% ifequal figure.file|file_type 'pdf' %}
+        <object data="{{ figure.file.url }}" type="application/pdf" width="800" height="600">
+          <a href="{{ figure.file.url }}">{{ figure.title }}</a>
+        </object>
       {% else %}
         <img src="{{ figure.file.url }}" alt="{{ figure.title }}"/>
       {% endifequal %}
