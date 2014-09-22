@@ -81,3 +81,8 @@ img {
 #modal-subtitle-pink {
     background-color: lightpink;
 }
+
+span#zoom-out {
+    font-size: 1.2em;
+}
+
