@@ -46,10 +46,9 @@ class ContentTypeRestrictedFileField(FileField):
 
     def south_field_triple(self):
         return (
-            'hstool.ContentTypeRestrictedFileField',
+            'hstool.models.ContentTypeRestrictedFileField',
             [],
-            dict(upload_to=path_and_rename('files/figures'),
-                 content_types=settings.SUPPORTED_FILES_FACTS_AND_FIGURES)
+            dict(content_types=settings.SUPPORTED_FILES_FACTS_AND_FIGURES)
         )
 
 

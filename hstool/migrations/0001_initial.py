@@ -35,7 +35,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('author_id', self.gf('django.db.models.fields.CharField')(max_length=64)),
             ('title', self.gf('django.db.models.fields.CharField')(default='', max_length=512)),
-            ('file', self.gf('hstool.ContentTypeRestrictedFileField')(content_types=['application/pdf', 'image/jpg', 'image/jpeg'], upload_to=<function wrapper at 0x109e32a28>)),
+            ('file', self.gf('hstool.models.ContentTypeRestrictedFileField')(content_types=['application/pdf', 'image/jpg', 'image/jpeg'])),
         ))
         db.send_create_signal(u'hstool', ['Figure'])
 
@@ -205,7 +205,7 @@ class Migration(SchemaMigration):
         u'hstool.figure': {
             'Meta': {'object_name': 'Figure'},
             'author_id': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'file': ('hstool.ContentTypeRestrictedFileField', [], {'content_types': ['application/pdf', 'image/jpg', 'image/jpeg'], 'upload_to': <function wrapper at 0x109e32a28>}),
+            'file': ('hstool.models.ContentTypeRestrictedFileField', [], {'content_types': ['application/pdf', 'image/jpg', 'image/jpeg']}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '512'})
         },
