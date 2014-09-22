@@ -24,7 +24,7 @@ class ContentTypeRestrictedFileField(FileField):
                                                                  **kwargs)
 
         def _get_extension(file_name, separator='/'):
-            return '.'+file_name.split(separator)[1]
+            return '.' + file_name.split(separator)[1]
 
         if not self.content_types or not hasattr(data.file, 'content_type'):
             return data
@@ -43,6 +43,14 @@ class ContentTypeRestrictedFileField(FileField):
                 .format(content_type, types))
 
         return data
+
+    def south_field_triple(self):
+        return (
+            'hstool.ContentTypeRestrictedFileField',
+            [],
+            dict(upload_to=path_and_rename('files/figures'),
+                 content_types=settings.SUPPORTED_FILES_FACTS_AND_FIGURES)
+        )
 
 
 class EnvironmentalTheme(Model):
