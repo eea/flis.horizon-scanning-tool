@@ -80,6 +80,7 @@ d3.json("relations", function(error, graph) {
                 url: url,
                 success: function (data) {
                     $('.modal-body').html(data);
+                    $('.modal-title').html('Relation');
                 },
                 error: function () {
                     alert('Error launching the modal')
