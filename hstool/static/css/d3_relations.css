@@ -35,6 +35,12 @@
     fill: lightpink;
 }
 
+.ellipse {
+    stroke-width: 1px;
+    stroke: black;
+    fill: white;
+}
+
 .circle {
     stroke-width: 1px;
     stroke: black;
@@ -50,7 +56,6 @@
     fill: black;
     text-anchor: middle;
     font: bold;
-    font-size: 14px;
     z-index: 99999999;
 }
 

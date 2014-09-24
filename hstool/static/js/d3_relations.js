@@ -7,43 +7,42 @@ var svg = d3.select("#svg-relations").append("svg")
 
 d3.json("relations", function(error, graph) {
 
-    var ge_width, ge_height;
-    var nr_nodes = graph.nodes.length;
-    var link_distance;
-
-    if(nr_nodes <=3){
-        ge_width = width/6; ge_height = height/7;
-        link_distance = ge_width + 40;
+    var ge_width, ge_height, title_font_size, charge;
+    if(width<750) {
+        charge = -2500;
+        title_font_size = "9px";
+        ge_width = width/8;
+        ge_height = height/6;
     }
-    else if(nr_nodes <= 5) {
-        ge_width = width/8; ge_height = height/8;
-        link_distance = ge_width + 20;
+    else if(width<900) {
+        charge = -4000;
+        title_font_size = "9px";
+        ge_width = width/8;
+        ge_height = height/6;
     }
-    else if (nr_nodes <=7) {
-        ge_width = width /10; ge_height = height /8;
-        link_distance = ge_width;
-    }
-    else if (nr_nodes <=9){
-        ge_width = width/10; ge_height = height/8;
-        link_distance = ge_width - 20;
+    else if(width<1100) {
+        charge = -6000;
+        title_font_size = "10px";
+        ge_width = width/8;
+        ge_height = height/7;
     }
     else {
-        ge_width = width/14; ge_height = height/10;
-        link_distance = ge_width - 40;
+        charge = -8000;
+        title_font_size = "10px";
+        ge_width=width/10;
+        ge_height=height/10;
     }
-
-    var ellipse_rx = ge_width/5, ellipse_ry=ellipse_rx/2;
-    var circle_r = 1/2*ellipse_ry;
+    var circle_r = ge_width/18;
 
     var force = d3.layout.force()
-        .charge(-20000)
-        .linkDistance(link_distance)
-        .size([width, 3/4*height])
+        .charge(charge)
+        .linkDistance(100)
+        .size([width, height])
         .nodes(graph.nodes)
         .links(graph.links)
         .start();
 
-    for(var i=0;i<200;i++){
+    for(var i=0;i<300;i++){
         force.tick();
     }
     force.stop();
@@ -52,23 +51,27 @@ d3.json("relations", function(error, graph) {
     var links = svg.selectAll()
         .data(graph.links).enter();
 
-    links
-        .append("line")
+    var links_connections = links.append("line")
         .attr("class", "link")
-        .attr("x1", function(d) { return d.source.x + ge_width/2; })
-        .attr("y1", function(d) { return d.source.y + ge_height/2; })
-        .attr("x2", function(d) { return d.target.x + ge_width/2; })
-        .attr("y2", function(d) { return d.target.y + ge_height/2;  });
+        .attr("x1", function(d) { return d.source.x })
+        .attr("y1", function(d) { return d.source.y })
+        .attr("x2", function(d) { return d.target.x })
+        .attr("y2", function(d) { return d.target.y });
 
-    links
-        .append("ellipse")
+    function node_x(point){ return point.x - ge_width/2 }
+    function node_y(point){ return point.y - ge_height/2 }
+    function link_cx(point){ return (point.source.x + point.target.x)/2 }
+    function link_cy(point, offset){ return (point.source.y + point.target.y)/2 + offset }
+
+    var links_ellipse = links.append("ellipse")
         .attr("class", "ellipse")
-        .attr("rx", ellipse_rx)
-        .attr("ry", ellipse_ry)
-        .attr("cx", function(d) { return (d.source.x + ge_width/2 + d.target.x + ge_width/2)/2; })
-        .attr("cy", function(d) { return (d.source.y + ge_height/2 + d.target.y + ge_height/2)/2; });
+        .attr("rx", 3*circle_r)
+        .attr("ry", 3*circle_r)
+        .attr("cx", function(d) { return link_cx(d) })
+        .attr("cy", function(d) { return link_cy(d, 0) });
 
-    var plus = links
+    var plus = svg.selectAll()
+        .data(graph.links).enter()
         .append("a")
         .attr("class", "launch-node-modal")
         .attr("data-toggle", "modal")
@@ -88,46 +91,103 @@ d3.json("relations", function(error, graph) {
             })
         });
 
-    plus.append("circle")
+    var links_plus_circle = plus.append("circle")
         .attr("class", "circle")
         .attr("r", circle_r)
-        .attr("cx", function(d) { return (d.source.x + ge_width/2 + d.target.x + ge_width/2)/2; })
-        .attr("cy", function(d) { return (d.source.y + ge_height/2 + d.target.y + ge_height/2)/2 + ellipse_ry - circle_r; });
+        .attr("cx", function(d) { return link_cx(d) })
+        .attr("cy", function(d) { return link_cy(d, 2*circle_r) });
 
-    plus.append("line")
+    var links_plus_line1 = plus.append("line")
         .attr("class", "line")
-        .attr("x1", function(d) { return (d.source.x + ge_width/2 + d.target.x + ge_width/2)/2 - circle_r + 3; })
-        .attr("y1", function(d) { return (d.source.y + ge_height/2 + d.target.y + ge_height/2)/2 + ellipse_ry - circle_r; })
-        .attr("x2", function(d) { return (d.source.x + ge_width/2 + d.target.x + ge_width/2)/2 + circle_r - 3; })
-        .attr("y2", function(d) { return (d.source.y + ge_height/2 + d.target.y + ge_height/2)/2 + ellipse_ry - circle_r; });
+        .attr("x1", function(d) { return link_cx(d) - circle_r + 2 })
+        .attr("y1", function(d) { return link_cy(d, 2*circle_r) })
+        .attr("x2", function(d) { return link_cx(d) + circle_r - 2 })
+        .attr("y2", function(d) { return link_cy(d, 2*circle_r) });
 
-    plus.append("line")
+    var links_plus_line2 = plus.append("line")
         .attr("class", "line")
-        .attr("x1", function(d) { return (d.source.x + ge_width/2 + d.target.x + ge_width/2)/2; })
-        .attr("y1", function(d) { return (d.source.y + ge_height/2 + d.target.y + ge_height/2)/2 + ellipse_ry - circle_r - circle_r + 3; })
-        .attr("x2", function(d) { return (d.source.x + ge_width/2 + d.target.x + ge_width/2)/2; })
-        .attr("y2", function(d) { return (d.source.y + ge_height/2 + d.target.y + ge_height/2)/2 + ellipse_ry - circle_r + circle_r - 3; });
+        .attr("x1", function(d) { return link_cx(d) })
+        .attr("y1", function(d) { return link_cy(d, 2*circle_r) - circle_r + 2 })
+        .attr("x2", function(d) { return link_cx(d) })
+        .attr("y2", function(d) { return link_cy(d, 2*circle_r) + circle_r - 2 });
 
     //Draw Generic Element
-    var nodes = svg.selectAll(".node")
-        .data(graph.nodes).enter();
+    var node_drag = d3.behavior.drag()
+        .on("drag", dragmove);
 
-    nodes
+    function dragmove(d) {
+        d.x += d3.event.dx;
+        d.y += d3.event.dy;
+        links_connections
+            .attr("x1", function(d) { return d.source.x })
+            .attr("y1", function(d) { return d.source.y })
+            .attr("x2", function(d) { return d.target.x })
+            .attr("y2", function(d) { return d.target.y });
+        links_ellipse
+            .attr("cx", function(d) { return link_cx(d) })
+            .attr("cy", function(d) { return link_cy(d, 0) });
+        links_plus_circle
+            .attr("cx", function(d) { return link_cx(d) })
+            .attr("cy", function(d) { return link_cy(d, 2*circle_r) });
+        links_plus_line1
+            .attr("x1", function(d) { return link_cx(d) - circle_r + 2 })
+            .attr("y1", function(d) { return link_cy(d, 2*circle_r) })
+            .attr("x2", function(d) { return link_cx(d) + circle_r - 2 })
+            .attr("y2", function(d) { return link_cy(d, 2*circle_r) });
+        links_plus_line2
+            .attr("x1", function(d) { return link_cx(d) })
+            .attr("y1", function(d) { return link_cy(d, 2*circle_r) - circle_r + 2 })
+            .attr("x2", function(d) { return link_cx(d) })
+            .attr("y2", function(d) { return link_cy(d, 2*circle_r) + circle_r - 2 });
+
+        nodes_rect
+            .attr("x", function(d) { return node_x(d) })
+            .attr("y", function(d) { return node_y(d) });
+        nodes_title
+            .attr("x", function(d) { return node_x(d) + ge_width/2 })
+            .attr("y", function(d) { return node_y(d) + ge_height/12 + 5 });
+        nodes_subtitle_rect
+            .attr("x", function(d) { return node_x(d) })
+            .attr("y", function(d) { return node_y(d) + ge_height/6 });
+        nodes_subtitle
+            .attr("x", function(d) { return node_x(d) + ge_width/2 })
+            .attr("y", function(d) { return node_y(d) + ge_height/12 + + ge_height/6 + 5 });
+        nodes_plus_circle
+            .attr("cx", function(d) { return node_x(d) + ge_width - circle_r - 2 })
+            .attr("cy", function(d) { return node_y(d) + ge_height - circle_r - 2 });
+        nodes_plus_line1
+            .attr("x1", function(d) { return node_x(d) + ge_width - circle_r - 2 - circle_r + 2 })
+            .attr("y1", function(d) { return node_y(d) + ge_height - circle_r - 2 })
+            .attr("x2", function(d) { return node_x(d) + ge_width - circle_r - 2 + circle_r - 2 })
+            .attr("y2", function(d) { return node_y(d) + ge_height - circle_r - 2 });
+        nodes_plus_line2
+            .attr("x1", function(d) { return node_x(d) + ge_width - circle_r - 2 })
+            .attr("y1", function(d) { return node_y(d) + ge_height - circle_r - 2 - circle_r + 2 })
+            .attr("x2", function(d) { return node_x(d) + ge_width - circle_r - 2 })
+            .attr("y2", function(d) { return node_y(d) + ge_height - circle_r - 2 + circle_r - 2 });
+    }
+
+    var nodes = svg.selectAll()
+        .data(graph.nodes).enter().append("svg:g")
+        .call(node_drag);
+
+    var nodes_rect = nodes
         .append("rect")
         .attr("class", "node")
         .attr("width", ge_width)
         .attr("height", ge_height)
-        .attr("x", function(d) { return d.x; })
-        .attr("y", function(d) { return d.y; });
+        .attr("x", function(d) { return node_x(d) })
+        .attr("y", function(d) { return node_y(d) });
 
-    nodes
+    var nodes_title = nodes
         .append("text")
         .attr("class", "d3-node-title")
         .text(function(d) { return d.title })
-        .attr("x", function(d) { return d.x + ge_width/2; })
-        .attr("y", function(d) { return d.y + ge_height/12 + 5 });
+        .style("font-size", title_font_size)
+        .attr("x", function(d) { return node_x(d) + ge_width/2 })
+        .attr("y", function(d) { return node_y(d) + ge_height/12 + 5 });
 
-    nodes
+    var nodes_subtitle_rect = nodes
         .append("rect")
         .attr("class", function(d) { switch (d.subtitle_color) {
                 case 0: return "d3-box-salmon";
@@ -137,15 +197,19 @@ d3.json("relations", function(error, graph) {
         }})
         .attr("width", ge_width)
         .attr("height", ge_height/6)
-        .attr("x", function(d) { return d.x; })
-        .attr("y", function(d) { return d.y + ge_height/6; });
+        .attr("x", function(d) { return node_x(d) })
+        .attr("y", function(d) { return node_y(d) + ge_height/6 });
 
-    nodes
+//    var ul = nodes_subtitle_rect.append("ul").selectAll("li").data(graph.nodes).enter();
+//    ul.append("li").text('ceva 1');
+//    ul.append("li").text('ceva 2');
+
+    var nodes_subtitle = nodes
         .append("text")
         .attr("class", "d3-node-subtitle")
         .text(function(d) { return d.subtitle })
-        .attr("x", function(d) { return d.x + ge_width/2; })
-        .attr("y", function(d) { return d.y + ge_height/12 + + ge_height/6 + 5 });
+        .attr("x", function(d) { return node_x(d) + ge_width/2; })
+        .attr("y", function(d) { return node_y(d) + ge_height/12 + + ge_height/6 + 5 });
 
     plus = nodes
         .append("a")
@@ -168,23 +232,23 @@ d3.json("relations", function(error, graph) {
             })
         });
 
-    plus.append("circle")
+    var nodes_plus_circle = plus.append("circle")
         .attr("class", "circle")
         .attr("r", circle_r)
-        .attr("cx", function(d) { return (d.x + ge_width - circle_r - 10); })
-        .attr("cy", function(d) { return (d.y + ge_height - circle_r - 10); });
+        .attr("cx", function(d) { return node_x(d) + ge_width - circle_r - 2 })
+        .attr("cy", function(d) { return node_y(d) + ge_height - circle_r - 2 });
 
-    plus.append("line")
+    var nodes_plus_line1 = plus.append("line")
         .attr("class", "line")
-        .attr("x1", function(d) { return (d.x + ge_width - circle_r - 10 - circle_r + 3)})
-        .attr("y1", function(d) { return (d.y + ge_height - circle_r - 10)})
-        .attr("x2", function(d) { return (d.x + ge_width - circle_r - 10 + circle_r - 3)})
-        .attr("y2", function(d) { return (d.y + ge_height - circle_r - 10)});
+        .attr("x1", function(d) { return node_x(d) + ge_width - circle_r - 2 - circle_r + 2 })
+        .attr("y1", function(d) { return node_y(d) + ge_height - circle_r - 2 })
+        .attr("x2", function(d) { return node_x(d) + ge_width - circle_r - 2 + circle_r - 2 })
+        .attr("y2", function(d) { return node_y(d) + ge_height - circle_r - 2 });
 
-    plus.append("line")
+    var nodes_plus_line2 = plus.append("line")
         .attr("class", "line")
-        .attr("x1", function(d) { return (d.x + ge_width - circle_r - 10)})
-        .attr("y1", function(d) { return (d.y + ge_height - circle_r - 10 - circle_r + 3)})
-        .attr("x2", function(d) { return (d.x + ge_width - circle_r - 10)})
-        .attr("y2", function(d) { return (d.y + ge_height - circle_r - 10 + circle_r - 3)});
+        .attr("x1", function(d) { return node_x(d) + ge_width - circle_r - 2 })
+        .attr("y1", function(d) { return node_y(d) + ge_height - circle_r - 2 - circle_r + 2 })
+        .attr("x2", function(d) { return node_x(d) + ge_width - circle_r - 2 })
+        .attr("y2", function(d) { return node_y(d) + ge_height - circle_r - 2 + circle_r - 2 });
 });
