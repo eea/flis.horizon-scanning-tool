@@ -118,11 +118,11 @@ urlpatterns = patterns(
     '',
     url(r'^$', AssessmentsList.as_view(), name='home_view'),
 
-    url(r'^assessment/', include(assessments_urls, namespace='assessments')),
+    url(r'^assessments/', include(assessments_urls, namespace='assessments')),
 
     url(r'^settings/', include(settings_urls, namespace='settings')),
 
-    url(r'^assessment/relation/',
+    url(r'^assessments/relations/',
         include(relations_urls, namespace='relations')),
 
     url(r'^sources/', include(sources_urls, namespace='sources')),

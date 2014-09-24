@@ -147,7 +147,7 @@ class AssessmentsDelete(OwnerRequiredMixin, DeleteView):
     success_url = reverse_lazy('home_view')
 
 
-class RelationsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
+class RelationsAdd(CreateView):
     template_name = 'tool/relation_add.html'
     form_class = RelationForm
     model = Relation
@@ -155,6 +155,9 @@ class RelationsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     def dispatch(self, request, *args, **kwargs):
         assessment_pk = kwargs.pop('assessment_pk', None)
         self.assessment = get_object_or_404(Assessment, pk=assessment_pk)
+        is_admin = request.user.has_perm('hstool.config')
+        if not is_admin and self.assessment.author_id != request.user.username:
+            raise PermissionDenied()
         return super(RelationsAdd, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

@@ -120,6 +120,81 @@ class AssessmentsDeleteViewTests(HSWebTest):
         self.assertEqual(resp.status_code, 200)
 
 
+class RelationsAddViewTests(HSWebTest):
+    def setUp(self):
+        self.user = UserFactory()
+        assessment = AssessmentFactory(author_id=self.user.username)
+        self.url = reverse('relations:add', args=(assessment.pk, ))
+
+    def test_add_anonymous(self):
+        resp = self.app.get(self.url, expect_errors=True)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_add_authenticated_other(self):
+        user2 = UserFactory(username="username2")
+        resp = self.app.get(self.url, expect_errors=True, user=user2)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_add_authenticated_owner(self):
+        resp = self.app.get(self.url, user=self.user)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_add_admin(self):
+        admin = UserFactory(username='admin', is_superuser=True)
+        resp = self.app.get(self.url, user=admin)
+        self.assertEqual(resp.status_code, 200)
+
+
+class RelationsUpdateViewTests(HSWebTest):
+    def setUp(self):
+        self.user = UserFactory()
+        self.assessment = AssessmentFactory(author_id=self.user.username)
+        self.url = reverse('relations:update', args=(self.assessment.pk, ))
+
+    def test_update_anonymous(self):
+        resp = self.app.get(self.url, expect_errors=True)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_update_authenticated_author(self):
+        resp = self.app.get(self.url, user=self.user)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_update_authenticated_other(self):
+        user2 = UserFactory(username="username2")
+        resp = self.app.get(self.url, expect_errors=True, user=user2)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_update_admin(self):
+        admin = UserFactory(username='admin', is_superuser=True)
+        resp = self.app.get(self.url, user=admin)
+        self.assertEqual(resp.status_code, 200)
+
+
+class RelationsDeleteViewTests(HSWebTest):
+    def setUp(self):
+        self.user = UserFactory()
+        self.assessment = AssessmentFactory(author_id=self.user.username)
+        self.url = reverse('relations:delete', args=(self.assessment.pk, ))
+
+    def test_delete_anonymous(self):
+        resp = self.app.get(self.url, expect_errors=True)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_delete_authenticated_author(self):
+        resp = self.app.get(self.url, user=self.user)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_delete_authenticated_other(self):
+        user2 = UserFactory(username="username2")
+        resp = self.app.get(self.url, expect_errors=True, user=user2)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_delete_admin(self):
+        admin = UserFactory(username='admin', is_superuser=True)
+        resp = self.app.get(self.url, user=admin)
+        self.assertEqual(resp.status_code, 200)
+
+
 class DriversListViewTests(HSWebTest):
     def test_list_anonymous(self):
         url = reverse('drivers:list')
