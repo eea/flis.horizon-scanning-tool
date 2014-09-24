@@ -45,6 +45,31 @@ class AssessmentsAddViewTests(HSWebTest):
         self.assertEqual(resp.status_code, 200)
 
 
+class AssessmentsPreviewViewTests(HSWebTest):
+    def setUp(self):
+        self.user = UserFactory()
+        self.assessment = AssessmentFactory(author_id=self.user.username)
+        self.url = reverse('assessments:preview', args=(self.assessment.pk, ))
+
+    def test_anonymous(self):
+        resp = self.app.get(self.url, expect_errors=True)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_authenticated_other(self):
+        user2 = UserFactory(username="username2")
+        resp = self.app.get(self.url, expect_errors=True, user=user2)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_authenticated_author(self):
+        resp = self.app.get(self.url, user=self.user)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_admin(self):
+        admin = UserFactory(username='admin', is_superuser=True)
+        resp = self.app.get(self.url, user=admin)
+        self.assertEqual(resp.status_code, 200)
+
+
 class AssessmentsUpdateViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory()

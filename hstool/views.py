@@ -119,7 +119,7 @@ def assessments_relations(request, pk):
     return HttpResponse(data, content_type='application/json')
 
 
-class AssessmentsPreview(AssessmentsDetail):
+class AssessmentsPreview(OwnerRequiredMixin, AssessmentsDetail):
     template_name = 'tool/assessments_preview.html'
 
 
