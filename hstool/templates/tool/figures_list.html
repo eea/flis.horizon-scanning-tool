@@ -13,6 +13,7 @@
 			<tr>
 				<th>Title</th>
 				<th>Added by</th>
+				<th>Added at</th>
 				<th></th>
 			</tr>
 			</thead>
@@ -23,6 +24,7 @@
 						<a href="{% url 'figures:update' figure.id %}">
 						{{ figure.title }}</a></td>
 					<td>{{ figure.author_id }}</td>
+					<td>{{ figure.added }}</td>
 					<td>
 						<a id="delete" href="{% url 'figures:delete' figure.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete

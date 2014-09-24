@@ -19,8 +19,9 @@
         <thead>
         <tr>
           <th>Title</th>
-          <th style="width: 60%;">Description</th>
+          <th>Description</th>
           <th>Added by</th>
+          <th>Added at</th>
           <th></th>
           <th></th>
         </tr>
@@ -33,6 +34,7 @@
             </td>
             <td>{{ assessment.description|truncatewords:12 }}</td>
             <td>{{ assessment.author_id }}</td>
+            <td>{{ assessment.added }}</td>
             <td>
               <a href="{% url 'assessments:preview' assessment.id %}">
                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;Change
