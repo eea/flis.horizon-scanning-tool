@@ -147,18 +147,20 @@ class AssessmentsDelete(OwnerRequiredMixin, DeleteView):
     success_url = reverse_lazy('home_view')
 
 
-class RelationsAdd(CreateView):
-    template_name = 'tool/relation_add.html'
-    form_class = RelationForm
-    model = Relation
-
+class RelationsMixin(object):
     def dispatch(self, request, *args, **kwargs):
         assessment_pk = kwargs.pop('assessment_pk', None)
         self.assessment = get_object_or_404(Assessment, pk=assessment_pk)
         is_admin = request.user.has_perm('hstool.config')
         if not is_admin and self.assessment.author_id != request.user.username:
             raise PermissionDenied()
-        return super(RelationsAdd, self).dispatch(request, *args, **kwargs)
+        return super(RelationsMixin, self).dispatch(request, *args, **kwargs)
+
+
+class RelationsAdd(RelationsMixin, CreateView):
+    template_name = 'tool/relation_add.html'
+    form_class = RelationForm
+    model = Relation
 
     def get_context_data(self, **kwargs):
         context = super(RelationsAdd, self).get_context_data(**kwargs)
@@ -174,7 +176,7 @@ class RelationsAdd(CreateView):
         return reverse('assessments:preview', kwargs={'pk': self.assessment.id})
 
 
-class RelationsUpdate(OwnerRequiredMixin, UpdateView):
+class RelationsUpdate(RelationsMixin, UpdateView):
     template_name = 'tool/relation_add.html'
     model = Relation
     form_class = RelationForm
@@ -189,7 +191,7 @@ class RelationsUpdate(OwnerRequiredMixin, UpdateView):
         return context
 
 
-class RelationsDelete(OwnerRequiredMixin, DeleteView):
+class RelationsDelete(RelationsMixin, DeleteView):
     template_name = 'object_delete.html'
     model = Relation
 

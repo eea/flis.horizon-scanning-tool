@@ -99,10 +99,9 @@ assessments_urls = patterns(
 
 relations_urls = patterns(
     '',
-    url(r'(?P<assessment_pk>\d+)/add/$', RelationsAdd.as_view(), name='add'),
-    url(r'(?P<pk>\d+)/update/$', RelationsUpdate.as_view(),
-        name='update'),
-    url(r'(?P<pk>\d+)/delete/$', RelationsDelete.as_view(), name='delete')
+    url(r'add/$', RelationsAdd.as_view(), name='add'),
+    url(r'update/(?P<pk>\d+)/$', RelationsUpdate.as_view(), name='update'),
+    url(r'delete/(?P<pk>\d+)/$', RelationsDelete.as_view(), name='delete')
 )
 
 modals_urls = patterns(
@@ -122,7 +121,7 @@ urlpatterns = patterns(
 
     url(r'^settings/', include(settings_urls, namespace='settings')),
 
-    url(r'^assessments/relations/',
+    url(r'^assessments/(?P<assessment_pk>\d+)/relations/',
         include(relations_urls, namespace='relations')),
 
     url(r'^sources/', include(sources_urls, namespace='sources')),

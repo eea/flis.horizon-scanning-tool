@@ -1,22 +1,11 @@
 from django.core.urlresolvers import reverse
-from django.conf import settings
-from django_webtest import WebTest
 
 from .factories import (
     UserFactory, AssessmentFactory, DriverFactory, FigureFactory,
     IndicatorFactory, SourceFactory, GeoScopeFactory, CountryFactory,
-    EnvironmentalThemeFactory,
+    EnvironmentalThemeFactory, RelationFactory,
 )
-
-
-class HSWebTest(WebTest):
-    def _setup_auth_middleware(self):
-        super(HSWebTest, self)._setup_auth_middleware()
-        django_remote_middleware = \
-            'django.contrib.auth.middleware.RemoteUserMiddleware'
-
-        if django_remote_middleware in settings.MIDDLEWARE_CLASSES:
-            settings.MIDDLEWARE_CLASSES.remove(django_remote_middleware)
+from . import HSWebTest
 
 
 class AssessmentsListViewTests(HSWebTest):
@@ -148,8 +137,14 @@ class RelationsAddViewTests(HSWebTest):
 class RelationsUpdateViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
-        self.assessment = AssessmentFactory(author_id=self.user.username)
-        self.url = reverse('relations:update', args=(self.assessment.pk, ))
+        assessment = AssessmentFactory(author_id=self.user.username)
+        indicator = IndicatorFactory()
+        driver = DriverFactory()
+        relation = RelationFactory(
+            assessment=assessment, source=indicator, destination=driver
+        )
+        self.url = reverse('relations:update',
+                           args=(assessment.pk, relation.pk))
 
     def test_update_anonymous(self):
         resp = self.app.get(self.url, expect_errors=True)
@@ -173,8 +168,14 @@ class RelationsUpdateViewTests(HSWebTest):
 class RelationsDeleteViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
-        self.assessment = AssessmentFactory(author_id=self.user.username)
-        self.url = reverse('relations:delete', args=(self.assessment.pk, ))
+        assessment = AssessmentFactory(author_id=self.user.username)
+        indicator = IndicatorFactory()
+        driver = DriverFactory()
+        relation = RelationFactory(
+            assessment=assessment, source=indicator, destination=driver
+        )
+        self.url = reverse('relations:delete',
+                           args=(assessment.pk, relation.pk))
 
     def test_delete_anonymous(self):
         resp = self.app.get(self.url, expect_errors=True)
