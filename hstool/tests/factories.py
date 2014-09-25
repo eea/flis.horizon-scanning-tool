@@ -2,9 +2,10 @@ from factory.django import DjangoModelFactory
 from factory import SubFactory
 
 from django.contrib.auth.models import User
+
 from hstool.models import (
     Assessment, DriverOfChange, Indicator, Source, Figure, EnvironmentalTheme,
-    GeographicalScope, Country,
+    GeographicalScope, Country, Relation,
 )
 
 
@@ -47,6 +48,9 @@ class SourceFactory(DjangoModelFactory):
 class FigureFactory(DjangoModelFactory):
     FACTORY_FOR = Figure
 
+    title = 'figure title'
+    file = 'figure file'
+
 
 class GeoScopeFactory(DjangoModelFactory):
     FACTORY_FOR = GeographicalScope
@@ -57,3 +61,10 @@ class CountryFactory(DjangoModelFactory):
 
     iso = 'EN'
     name = 'England'
+
+
+class RelationFactory(DjangoModelFactory):
+    FACTORY_FOR = Relation
+
+    description = 'relation description'
+    relationship_type = 1
