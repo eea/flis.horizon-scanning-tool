@@ -53,6 +53,5 @@ docs/_build/
 target/
 
 *.sqlite3
-local_settings.py
-settings.py
+hstool/local_settings.py
 fabfile/env.ini
