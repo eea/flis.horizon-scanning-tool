@@ -42,7 +42,14 @@ class IndicatorFactory(DjangoModelFactory):
 class SourceFactory(DjangoModelFactory):
     FACTORY_FOR = Source
 
+    author_id = 'author_id'
+    title = 'title'
+    title_original = 'title_original'
     published_year = 1000
+    author = 'author'
+    url = 'url'
+    file = 'file'
+    summary = 'summary'
 
 
 class FigureFactory(DjangoModelFactory):
