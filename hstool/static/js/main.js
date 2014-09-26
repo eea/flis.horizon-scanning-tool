@@ -40,7 +40,7 @@ $(function () {
     });
 
     $('#geo_scope').change(function () {
-        var opt = $(this).val();
+        var opt = $(this).find(":selected").val();
         if (opt) {
             var url = $(this).attr('href');
             var data = {'geo_scope_id': opt};
@@ -52,9 +52,10 @@ $(function () {
                     if (resp['required'] == true)
                         $('#invisible').show();
                     else {
+                        $('#visible').attr("id", "invisible");
                         $('#invisible').hide();
                         $('#id_country option').prop('selected', function(){
-                            return this.defaultSelected;
+                            return '';
                         });
                     }
                 },
@@ -64,9 +65,9 @@ $(function () {
             });
         }
         else
-            $('#invisible').hide();
+            $('#visible').hide();
             $('#id_country option').prop('selected', function(){
-                            return this.defaultSelected;
-                        });
-    });
+                return '';
+            });
+    }).change();
 });

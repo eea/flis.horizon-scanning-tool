@@ -105,6 +105,18 @@ class DriverForm(ModelForm):
             "url": _("URL"),
         }
 
+    def clean(self):
+        cleaned_data = super(DriverForm, self).clean()
+        geo_scope = cleaned_data['geographical_scope']
+        country = cleaned_data['country']
+        if geo_scope and geo_scope.require_country and not country:
+            self._errors["country"] = self.error_class([
+                'The selected Geographical Scale requires a country.'
+            ])
+            del cleaned_data["country"]
+
+        return cleaned_data
+
 
 class FigureForm(ModelForm):
     class Meta:

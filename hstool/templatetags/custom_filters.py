@@ -9,11 +9,11 @@ register = template.Library()
 
 
 @register.filter(name='label')
-def render_label(field):
+def render_label(field, required=False):
     return mark_safe(
         field.label + (
-            ' <span class="text-danger">*</span>' if field.field.required
-            else ''
+            ' <span class="text-danger">*</span>'
+            if field.field.required or required else ''
         )
     )
 
