@@ -15,6 +15,17 @@ class UserFactory(DjangoModelFactory):
     username = 'username'
 
 
+class GeoScopeFactory(DjangoModelFactory):
+    FACTORY_FOR = GeographicalScope
+
+
+class CountryFactory(DjangoModelFactory):
+    FACTORY_FOR = Country
+
+    iso = 'EN'
+    name = 'England'
+
+
 class EnvironmentalThemeFactory(DjangoModelFactory):
     FACTORY_FOR = EnvironmentalTheme
 
@@ -25,8 +36,13 @@ class AssessmentFactory(DjangoModelFactory):
 
 class DriverFactory(DjangoModelFactory):
     FACTORY_FOR = DriverOfChange
+
+    author_id = 'author_id'
+    short_name = 'short name'
+    name = 'long name'
     type = 1
     trend_type = 1
+    steep_category = 'P'
     time_horizon = 1
 
 
@@ -50,6 +66,7 @@ class SourceFactory(DjangoModelFactory):
     url = 'url'
     file = 'file'
     summary = 'summary'
+    country = SubFactory(CountryFactory)
 
 
 class FigureFactory(DjangoModelFactory):
@@ -57,17 +74,6 @@ class FigureFactory(DjangoModelFactory):
 
     title = 'figure title'
     file = 'figure file'
-
-
-class GeoScopeFactory(DjangoModelFactory):
-    FACTORY_FOR = GeographicalScope
-
-
-class CountryFactory(DjangoModelFactory):
-    FACTORY_FOR = Country
-
-    iso = 'EN'
-    name = 'England'
 
 
 class RelationFactory(DjangoModelFactory):

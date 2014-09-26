@@ -16,7 +16,6 @@
 				<th>Type of trend</th>
 				<th>STEEP category</th>
 				<th>Time horizon</th>
-				<th>Country</th>
 				<th>Added by</th>
 				<th></th>
 			</tr>
@@ -31,7 +30,6 @@
 					<td>{{ driver.get_trend_type_display }}</td>
 					<td>{{ driver.get_steep_category_display }}</td>
 					<td>{{ driver.get_time_horizon_display }}</td>
-					<td>{{ driver.country }}</td>
 					<td>{{ driver.author_id }}</td>
 					<td nowrap>
 						<a id="delete" href="{% url 'drivers:delete' driver.id %}">
