@@ -1,15 +1,15 @@
 from django.core.urlresolvers import reverse
-from webtest import Upload
 
 from hstool.models import DriverOfChange
 from .factories import (
-    UserFactory, DriverFactory,
+    UserFactory, DriverFactory, GeoScopeFactory,
 )
 from . import HSWebTest
 
 REQUIRED = ['This field is required.']
 FILETYPE = ['File type not supported: text/x-rst. Please upload only '
             '.pdf, .jpg, .jpeg.']
+REQUIRED_COUNTRY = ['The selected Geographical Scale requires a country.']
 
 
 class DriversList(HSWebTest):
@@ -133,13 +133,13 @@ class DriversList(HSWebTest):
 
 class DriversAdd(HSWebTest):
     def setUp(self):
-        user = UserFactory()
-        url = reverse('drivers:add')
-        resp = self.app.get(url, user=user)
-        self.form = resp.forms[1]
+        self.user = UserFactory()
 
-    def test_fields_required(self):
-        resp = self.form.submit()
+    def test_default_fields_required(self):
+        url = reverse('drivers:add')
+        resp = self.app.get(url, user=self.user)
+        form = resp.forms[1]
+        resp = form.submit()
         self.assertFormError(resp, 'form', 'name', REQUIRED)
         self.assertFormError(resp, 'form', 'short_name', REQUIRED)
         self.assertFormError(resp, 'form', 'type', REQUIRED)
@@ -147,14 +147,26 @@ class DriversAdd(HSWebTest):
         self.assertFormError(resp, 'form', 'steep_category', REQUIRED)
         self.assertFormError(resp, 'form', 'time_horizon', REQUIRED)
 
+    def test_geo_scope_with_country_required(self):
+        geo_scope = GeoScopeFactory(title="a", require_country=True)
+        url = reverse('drivers:add')
+        resp = self.app.get(url, user=self.user)
+        form = resp.forms[1]
+        form['geographical_scope'].select(text=geo_scope.title)
+        resp = form.submit()
+        self.assertFormError(resp, 'form', 'country', REQUIRED_COUNTRY)
+
     def test_successfully_added(self):
-        self.form['name'] = 'a'
-        self.form['short_name'] = 'b'
-        self.form['type'].select(text='Trends')
-        self.form['trend_type'].select(text='Trend')
-        self.form['steep_category'].select(text='Political')
-        self.form['time_horizon'].select(text='1 year')
-        resp = self.form.submit()
+        url = reverse('drivers:add')
+        resp = self.app.get(url, user=self.user)
+        form = resp.forms[1]
+        form['name'] = 'a'
+        form['short_name'] = 'b'
+        form['type'].select(text='Trends')
+        form['trend_type'].select(text='Trend')
+        form['steep_category'].select(text='Political')
+        form['time_horizon'].select(text='1 year')
+        resp = form.submit()
         self.assertRedirects(resp, reverse('drivers:list'))
 
 
