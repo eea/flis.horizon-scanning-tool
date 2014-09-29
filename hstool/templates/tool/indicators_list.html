@@ -16,7 +16,6 @@
 				<th>Base year</th>
 				<th>End year</th>
 				<th>Timeline</th>
-				<th>Country</th>
 				<th>Added by</th>
 				<th></th>
 			</tr>
@@ -29,7 +28,6 @@
 					<td>{{ indicator.year_base }}</td>
 					<td>{{ indicator.year_end }}</td>
 					<td>{{ indicator.get_timeline_display }}</td>
-					<td>{{ indicator.country }}</td>
 					<td>{{ indicator.author_id }}</td>
 					<td>
 						<a id="delete" href="{% url 'indicators:delete' indicator.id %}">

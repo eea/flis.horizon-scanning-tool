@@ -29,6 +29,8 @@ class CountryFactory(DjangoModelFactory):
 class EnvironmentalThemeFactory(DjangoModelFactory):
     FACTORY_FOR = EnvironmentalTheme
 
+    title = 'title'
+
 
 class AssessmentFactory(DjangoModelFactory):
     FACTORY_FOR = Assessment
@@ -49,6 +51,9 @@ class DriverFactory(DjangoModelFactory):
 class IndicatorFactory(DjangoModelFactory):
     FACTORY_FOR = Indicator
 
+    author_id = 'author_id'
+    name = 'long name'
+    short_name = 'short name'
     theme = SubFactory(EnvironmentalThemeFactory)
     year_base = 1000
     year_end = 2000
