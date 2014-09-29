@@ -44,12 +44,12 @@
 							<td>{{ relation.relationship_type|verbose }}</td>
 							<td>{{ relation.destination }}</td>
 							<td>
-								<a href="{% url 'relations:update' relation.id %}">
+								<a href="{% url 'relations:update' assessment.pk relation.id %}">
 									<span class="glyphicon glyphicon-pencil"></span>&nbsp;Edit
 								</a>
 							</td>
 							<td>
-								<a id="delete" href="{% url 'relations:delete' relation.id %}">
+								<a id="delete" href="{% url 'relations:delete' assessment.pk relation.id %}">
 									<span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
 								</a>
 							</td>
