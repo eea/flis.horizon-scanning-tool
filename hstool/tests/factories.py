@@ -71,7 +71,6 @@ class SourceFactory(DjangoModelFactory):
     url = 'url'
     file = 'file'
     summary = 'summary'
-    country = SubFactory(CountryFactory)
 
 
 class FigureFactory(DjangoModelFactory):
