@@ -32,6 +32,16 @@ d3.json("relations", function(error, graph) {
         ge_width=width/10;
         ge_height=height/10;
     }
+
+    if(graph.nodes.length == 2 || graph.nodes.length ==3){
+        if(width<1100){
+            charge *= 3;
+        }
+        else {
+            charge *=2;
+        }
+    }
+
     var circle_r = ge_width/18;
 
     var force = d3.layout.force()
