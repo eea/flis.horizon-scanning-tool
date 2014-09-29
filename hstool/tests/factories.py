@@ -35,6 +35,10 @@ class EnvironmentalThemeFactory(DjangoModelFactory):
 class AssessmentFactory(DjangoModelFactory):
     FACTORY_FOR = Assessment
 
+    author_id = 'author_id'
+    title = 'title'
+    description = 'description'
+
 
 class DriverFactory(DjangoModelFactory):
     FACTORY_FOR = DriverOfChange
