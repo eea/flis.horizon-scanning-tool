@@ -74,12 +74,24 @@ class IndicatorForm(ModelForm):
         exclude = ['author_id']
         labels = {
             "theme": _("Thematic category"),
-            "year_base": _("Base year*"),
+            "year_base": _("Base year"),
             "year_end": _("End year"),
             "geographical_scope": _("Georgaphical scale"),
             "name": _("Long name"),
             "url": _("URL"),
         }
+
+    def clean(self):
+        cleaned_data = super(IndicatorForm, self).clean()
+        geo_scope = cleaned_data['geographical_scope']
+        country = cleaned_data['country']
+        if geo_scope and geo_scope.require_country and not country:
+            self._errors["country"] = self.error_class([
+                'The selected Geographical Scale requires a country.'
+            ])
+            del cleaned_data["country"]
+
+        return cleaned_data
 
 
 class DriverForm(ModelForm):
