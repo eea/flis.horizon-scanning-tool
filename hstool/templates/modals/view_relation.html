@@ -1,4 +1,7 @@
 {% load custom_filters %}
-
+<strong>Source</strong>: {{ object.source.name }}<br/>
+<strong>Relationship type</strong>: {{ object.get_relationship_type_display }}<br/>
+<strong>Destination:</strong> {{ object.destination.name }}
+<hr/>
 {{ object.description }}
 {% include 'modals/_view_footer_figures.html' with figures=object.figures.all %}
