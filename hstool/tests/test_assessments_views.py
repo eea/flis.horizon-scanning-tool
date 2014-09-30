@@ -7,9 +7,6 @@ from .factories import (
 from . import HSWebTest
 
 REQUIRED = ['This field is required.']
-FILETYPE = ['File type not supported: text/x-rst. Please upload only '
-            '.pdf, .jpg, .jpeg.']
-REQUIRED_COUNTRY = ['The selected Geographical Scale requires a country.']
 
 
 class AssessmentsList(HSWebTest):
