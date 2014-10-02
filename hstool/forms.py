@@ -1,5 +1,6 @@
 from django.forms.models import ModelForm
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
@@ -130,10 +131,26 @@ class DriverForm(ModelForm):
         return cleaned_data
 
 
+def _file_help_text():
+    def _get_extension(file_name, separator='/'):
+        return '.' + file_name.split(separator)[1]
+
+    text = 'Supported file types: '
+    file_types = settings.SUPPORTED_FILES_FACTS_AND_FIGURES
+
+    return text + (', '.join(map(_get_extension, file_types)) or
+                   'any type')
+
+
 class FigureForm(ModelForm):
+
     class Meta:
         model = Figure
         exclude = ['author_id']
+
+        help_texts = {
+            'file': _(_file_help_text()),
+        }
 
 
 class CountryForm(ModelForm):

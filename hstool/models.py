@@ -38,10 +38,8 @@ class ContentTypeRestrictedFileField(FileField):
                 if _get_extension(data.file.name, '.') in extensions:
                     return data
 
-            types = ', '.join(map(_get_extension, self.content_types))
             raise ValidationError(
-                'File type not supported: {0}. Please upload only {1}.'
-                .format(content_type, types))
+                'File type not supported: {0}'.format(content_type))
 
         return data
 
