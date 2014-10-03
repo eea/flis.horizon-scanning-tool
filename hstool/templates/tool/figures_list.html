@@ -1,4 +1,5 @@
 {% extends 'tool/_list_as_table.html' %}
+{% load custom_filters %}
 
 {% block title %}Facts and Figures list{% endblock %}
 
@@ -12,6 +13,7 @@
 			<thead>
 			<tr>
 				<th>Title</th>
+				<th>Attached file</th>
 				<th>Added by</th>
 				<th>Added at</th>
 				<th></th>
@@ -23,6 +25,16 @@
 					<td>
 						<a href="{% url 'figures:update' figure.id %}">
 						{{ figure.title }}</a></td>
+					<td>
+						<a class="view-figure-modal" href=''
+							 data-toggle="modal"
+							 data-target="#myModal"
+							 data-action="{% url 'modals:view_figure' figure.pk %}"
+							 data-title="{{ figure.title }}"
+							 data-backdrop="static">
+						{{ figure.file|file_name }}
+						</a>
+					</td>
 					<td>{{ figure.author_id }}</td>
 					<td>{{ figure.added }}</td>
 					<td>
@@ -35,4 +47,5 @@
 			</tbody>
 		</table>
 	</div>
+	{% include 'modals/_view.html' %}
 {% endblock %}

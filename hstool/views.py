@@ -511,3 +511,9 @@ class ViewModal(DetailView):
                                                     pk=self.assessment_pk)
         })
         return context
+
+
+class ViewFigureModal(LoginRequiredMixin, DetailView):
+    template_name = 'modals/view_figure.html'
+    model = Figure
+    context_object_name = 'figure'

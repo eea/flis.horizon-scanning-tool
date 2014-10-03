@@ -35,6 +35,12 @@ def file_type(filefield):
     return extension
 
 
+@register.filter()
+def file_name(filefield):
+    name = filefield.name.split('/')[-1]
+    return name
+
+
 @register.assignment_tag()
 def assessment_usages(generic_element, assessment):
     assessments = (

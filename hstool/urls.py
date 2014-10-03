@@ -14,7 +14,7 @@ from hstool.views import (
     RelationsAdd, AssessmentsPreview, RelationsUpdate, RelationsDelete,
     RolesOverview, GeoScopesRequired, EnvironmentalThemeList,
     EnvironmentalThemeAdd, EnvironmentalThemeUpdate, EnvironmentalThemeDelete,
-    assessments_relations, ViewModal,
+    assessments_relations, ViewModal, ViewFigureModal,
 )
 
 
@@ -111,6 +111,8 @@ modals_urls = patterns(
     url(r'^add/(?P<model>\w+)/$', AddModal.as_view(), name='add'),
     url(r'^add/success/(?P<model>\w+)/(?P<pk>\d+)$', AddModalSuccess.as_view(),
         name='add_success'),
+    url(r'^view/figure/(?P<pk>\d+)/$', ViewFigureModal.as_view(),
+        name='view_figure'),
 )
 
 urlpatterns = patterns(

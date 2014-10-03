@@ -39,6 +39,22 @@ $(function () {
         });
     });
 
+    $('.view-figure-modal').on('click', function () {
+        var url = $(this).data('action');
+        var title = $(this).data('title');
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                $('.modal-body').html(data);
+                $('h4.modal-title').html(title);
+            },
+            error: function (data) {
+                alert('Error launching the modal')
+            }
+        })
+    });
+
     $('#geo_scope').change(function () {
         var opt = $(this).find(":selected").val();
         if (opt) {

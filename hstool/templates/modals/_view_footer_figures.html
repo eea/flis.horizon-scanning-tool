@@ -5,15 +5,7 @@
   {% for figure in figures %}
     <strong>{{ forloop.counter }}. {{ figure.title }}</strong>
     <br/>
-    <div class="row">
-      {% ifequal figure.file|file_type 'pdf' %}
-        <object data="{{ figure.file.url }}" type="application/pdf" width="800" height="600">
-          <a href="{{ figure.file.url }}">{{ figure.title }}</a>
-        </object>
-      {% else %}
-        <img src="{{ figure.file.url }}" alt="{{ figure.title }}"/>
-      {% endifequal %}
-    </div>
+    {% include 'modals/view_figure.html' %}
     <br/>
   {% endfor %}
 {% else %}
