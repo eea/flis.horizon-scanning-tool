@@ -12,8 +12,7 @@ from . import HSWebTest, MEDIA_ROOT_TEST
 from hstool.models import Figure
 
 REQUIRED = ['This field is required.']
-FILETYPE = ['File type not supported: text/x-rst. Please upload only '
-            '.pdf, .jpg, .jpeg.']
+FILETYPE = ['File type not supported: text/x-rst']
 
 
 class FiguresList(HSWebTest):
@@ -34,11 +33,15 @@ class FiguresList(HSWebTest):
             reverse('figures:update', args=(figure1.pk, ))
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(1)').text(),
+            resp.pyquery('#objects_listing tbody tr td:eq(1) a').text(),
+            figure1.file
+        )
+        self.assertEqual(
+            resp.pyquery('#objects_listing tbody tr td:eq(2)').text(),
             figure1.author_id
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(3) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(4) a').attr('href'),
             reverse('figures:delete', args=(figure1.pk, ))
         )
 
@@ -57,11 +60,15 @@ class FiguresList(HSWebTest):
             reverse('figures:update', args=(figure1.pk, ))
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(1)').text(),
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(1) a').text(),
+            figure1.file
+        )
+        self.assertEqual(
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(2)').text(),
             figure1.author_id
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(3) a')
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(4) a')
             .attr('href'),
             reverse('figures:delete', args=(figure1.pk, ))
         )
@@ -75,11 +82,15 @@ class FiguresList(HSWebTest):
             reverse('figures:update', args=(figure2.pk, ))
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(1)').text(),
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(1) a').text(),
+            figure2.file,
+        )
+        self.assertEqual(
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(2)').text(),
             figure2.author_id
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(3) a')
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(4) a')
             .attr('href'),
             reverse('figures:delete', args=(figure2.pk, ))
         )
