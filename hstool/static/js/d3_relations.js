@@ -6,9 +6,10 @@ var svg = d3.select("#svg-relations").append("svg")
     .attr("height", height);
 
 d3.json("relations", function(error, graph) {
-
     var ge_width, ge_height, title_font_size, charge;
+    var max_title_size = 20;
     if(width<750) {
+        max_title_size = 16;
         charge = -2500;
         title_font_size = "9px";
         ge_width = width/8;
@@ -189,13 +190,37 @@ d3.json("relations", function(error, graph) {
         .attr("x", function(d) { return node_x(d) })
         .attr("y", function(d) { return node_y(d) });
 
+    var title_tooltip = false;
     var nodes_title = nodes
         .append("text")
         .attr("class", "d3-node-title")
-        .text(function(d) { return d.title })
+        .attr("title", function(d) {
+            if(d.title.length > 10){
+                return d.title;
+            }
+            return '';
+        })
+        .text(function(d) {
+            if (d.title.length > max_title_size) {
+                title_tooltip = true;
+                return d.title.substring(0, max_title_size-1) + ' ...'
+            }
+            return d.title
+        })
         .style("font-size", title_font_size)
         .attr("x", function(d) { return node_x(d) + ge_width/2 })
         .attr("y", function(d) { return node_y(d) + ge_height/12 + 5 });
+
+    if(title_tooltip==true) {
+        nodes_title
+            .append("p")
+            .attr("svg:title", function (d) {
+                if (d.title.length > 10) {
+                    return d.title;
+                }
+                return '';
+            });
+    }
 
     var nodes_subtitle_rect = nodes
         .append("rect")
@@ -210,10 +235,6 @@ d3.json("relations", function(error, graph) {
         .attr("x", function(d) { return node_x(d) })
         .attr("y", function(d) { return node_y(d) + ge_height/6 });
 
-//    var ul = nodes_subtitle_rect.append("ul").selectAll("li").data(graph.nodes).enter();
-//    ul.append("li").text('ceva 1');
-//    ul.append("li").text('ceva 2');
-
     var nodes_subtitle = nodes
         .append("text")
         .attr("class", "d3-node-subtitle")
@@ -221,7 +242,7 @@ d3.json("relations", function(error, graph) {
         .attr("x", function(d) { return node_x(d) + ge_width/2; })
         .attr("y", function(d) { return node_y(d) + ge_height/12 + + ge_height/6 + 5 });
 
-    plus = nodes
+    var plus = nodes
         .append("a")
         .attr("class", "launch-node-modal")
         .attr("data-toggle", "modal")
