@@ -194,22 +194,23 @@ d3.json("relations", function(error, graph) {
     var nodes_title = nodes
         .append("text")
         .attr("class", "d3-node-title")
-        .attr("title", function(d) {
-            if(d.title.length > 10){
-                return d.title;
-            }
-            return '';
-        })
         .text(function(d) {
             if (d.title.length > max_title_size) {
                 title_tooltip = true;
                 return d.title.substring(0, max_title_size-1) + ' ...'
             }
-            return d.title
+            return d.title;
         })
         .style("font-size", title_font_size)
         .attr("x", function(d) { return node_x(d) + ge_width/2 })
-        .attr("y", function(d) { return node_y(d) + ge_height/12 + 5 });
+        .attr("y", function(d) { return node_y(d) + ge_height/12 + 5 })
+        .append("svg:title")
+        .text(function(d) {
+            if(d.title.length > 10){
+                return d.title;
+            }
+            return '';
+        });
 
     if(title_tooltip==true) {
         nodes_title
