@@ -203,7 +203,8 @@ d3.json("relations", function(error, graph) {
         })
         .style("font-size", title_font_size)
         .attr("x", function(d) { return node_x(d) + ge_width/2 })
-        .attr("y", function(d) { return node_y(d) + ge_height/12 + 5 })
+        .attr("y", function(d) { return node_y(d) + ge_height/12 + 5 });
+    nodes_title
         .append("svg:title")
         .text(function(d) {
             if(d.title.length > 10){
