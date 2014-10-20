@@ -66,7 +66,7 @@ class AssessmentsList(ListView):
     context_object_name = 'assessments'
 
 
-class AssessmentsDetail(DetailView):
+class AssessmentsDetail(LoginRequiredMixin, DetailView):
     template_name = 'tool/assessments_detail.html'
     model = Assessment
     context_object_name = 'assessment'
