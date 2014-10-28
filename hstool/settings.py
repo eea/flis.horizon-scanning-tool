@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'frame',
     'hstool',
+    'raven.contrib.django.raven_compat',
 )
 
 MIDDLEWARE_CLASSES = (
