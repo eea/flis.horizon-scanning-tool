@@ -58,21 +58,21 @@ d3.json("relations", function(error, graph) {
     }
     force.stop();
 
+    function node_x(point){ return point.x - ge_width/2 }
+    function node_y(point){ return point.y - ge_height/2 }
+    function link_cx(point){ return (point.source.x + point.target.x)/2 }
+    function link_cy(point, offset){ return (point.source.y + point.target.y)/2 + offset }
+
     //Draw relation
     var links = svg.selectAll()
         .data(graph.links).enter();
 
     var links_connections = links.append("line")
         .attr("class", "link")
-        .attr("x1", function(d) { return d.source.x })
-        .attr("y1", function(d) { return d.source.y })
-        .attr("x2", function(d) { return d.target.x })
-        .attr("y2", function(d) { return d.target.y });
-
-    function node_x(point){ return point.x - ge_width/2 }
-    function node_y(point){ return point.y - ge_height/2 }
-    function link_cx(point){ return (point.source.x + point.target.x)/2 }
-    function link_cy(point, offset){ return (point.source.y + point.target.y)/2 + offset }
+        .attr("x1", function(d) { return find_x(d.source.x, d.source.y, d.target.x, d.target.y, ge_width, ge_height) })
+        .attr("y1", function(d) { return find_y(d.source.x, d.source.y, d.target.x, d.target.y, ge_width, ge_height) })
+        .attr("x2", function(d) { return find_x(d.target.x, d.target.y, d.source.x, d.source.y, ge_width, ge_height) })
+        .attr("y2", function(d) { return find_y(d.target.x, d.target.y, d.source.x, d.source.y, ge_width, ge_height) });
 
     var links_ellipse = links.append("ellipse")
         .attr("class", "ellipse")
@@ -125,58 +125,6 @@ d3.json("relations", function(error, graph) {
     //Draw Generic Element
     var node_drag = d3.behavior.drag()
         .on("drag", dragmove);
-
-    function dragmove(d) {
-        d.x += d3.event.dx;
-        d.y += d3.event.dy;
-        links_connections
-            .attr("x1", function(d) { return d.source.x })
-            .attr("y1", function(d) { return d.source.y })
-            .attr("x2", function(d) { return d.target.x })
-            .attr("y2", function(d) { return d.target.y });
-        links_ellipse
-            .attr("cx", function(d) { return link_cx(d) })
-            .attr("cy", function(d) { return link_cy(d, 0) });
-        links_plus_circle
-            .attr("cx", function(d) { return link_cx(d) })
-            .attr("cy", function(d) { return link_cy(d, 2*circle_r) });
-        links_plus_line1
-            .attr("x1", function(d) { return link_cx(d) - circle_r + 2 })
-            .attr("y1", function(d) { return link_cy(d, 2*circle_r) })
-            .attr("x2", function(d) { return link_cx(d) + circle_r - 2 })
-            .attr("y2", function(d) { return link_cy(d, 2*circle_r) });
-        links_plus_line2
-            .attr("x1", function(d) { return link_cx(d) })
-            .attr("y1", function(d) { return link_cy(d, 2*circle_r) - circle_r + 2 })
-            .attr("x2", function(d) { return link_cx(d) })
-            .attr("y2", function(d) { return link_cy(d, 2*circle_r) + circle_r - 2 });
-
-        nodes_rect
-            .attr("x", function(d) { return node_x(d) })
-            .attr("y", function(d) { return node_y(d) });
-        nodes_title
-            .attr("x", function(d) { return node_x(d) + ge_width/2 })
-            .attr("y", function(d) { return node_y(d) + ge_height/12 + 5 });
-        nodes_subtitle_rect
-            .attr("x", function(d) { return node_x(d) })
-            .attr("y", function(d) { return node_y(d) + ge_height/6 });
-        nodes_subtitle
-            .attr("x", function(d) { return node_x(d) + ge_width/2 })
-            .attr("y", function(d) { return node_y(d) + ge_height/12 + + ge_height/6 + 5 });
-        nodes_plus_circle
-            .attr("cx", function(d) { return node_x(d) + ge_width - circle_r - 2 })
-            .attr("cy", function(d) { return node_y(d) + ge_height - circle_r - 2 });
-        nodes_plus_line1
-            .attr("x1", function(d) { return node_x(d) + ge_width - circle_r - 2 - circle_r + 2 })
-            .attr("y1", function(d) { return node_y(d) + ge_height - circle_r - 2 })
-            .attr("x2", function(d) { return node_x(d) + ge_width - circle_r - 2 + circle_r - 2 })
-            .attr("y2", function(d) { return node_y(d) + ge_height - circle_r - 2 });
-        nodes_plus_line2
-            .attr("x1", function(d) { return node_x(d) + ge_width - circle_r - 2 })
-            .attr("y1", function(d) { return node_y(d) + ge_height - circle_r - 2 - circle_r + 2 })
-            .attr("x2", function(d) { return node_x(d) + ge_width - circle_r - 2 })
-            .attr("y2", function(d) { return node_y(d) + ge_height - circle_r - 2 + circle_r - 2 });
-    }
 
     var nodes = svg.selectAll()
         .data(graph.nodes).enter().append("svg:g")
@@ -284,4 +232,92 @@ d3.json("relations", function(error, graph) {
         .attr("y1", function(d) { return node_y(d) + ge_height - circle_r - 2 - circle_r + 2 })
         .attr("x2", function(d) { return node_x(d) + ge_width - circle_r - 2 })
         .attr("y2", function(d) { return node_y(d) + ge_height - circle_r - 2 + circle_r - 2 });
+
+    function dragmove(d) {
+        d.x += d3.event.dx;
+        d.y += d3.event.dy;
+        links_connections
+            .attr("x1", function(d) { return find_x(d.source.x, d.source.y, d.target.x, d.target.y, ge_width, ge_height) })
+            .attr("y1", function(d) { return find_y(d.source.x, d.source.y, d.target.x, d.target.y, ge_width, ge_height) })
+            .attr("x2", function(d) { return find_x(d.target.x, d.target.y, d.source.x, d.source.y, ge_width, ge_height) })
+            .attr("y2", function(d) { return find_y(d.target.x, d.target.y, d.source.x, d.source.y, ge_width, ge_height) });
+        links_ellipse
+            .attr("cx", function(d) { return link_cx(d) })
+            .attr("cy", function(d) { return link_cy(d, 0) });
+        links_plus_circle
+            .attr("cx", function(d) { return link_cx(d) })
+            .attr("cy", function(d) { return link_cy(d, 2*circle_r) });
+        links_plus_line1
+            .attr("x1", function(d) { return link_cx(d) - circle_r + 2 })
+            .attr("y1", function(d) { return link_cy(d, 2*circle_r) })
+            .attr("x2", function(d) { return link_cx(d) + circle_r - 2 })
+            .attr("y2", function(d) { return link_cy(d, 2*circle_r) });
+        links_plus_line2
+            .attr("x1", function(d) { return link_cx(d) })
+            .attr("y1", function(d) { return link_cy(d, 2*circle_r) - circle_r + 2 })
+            .attr("x2", function(d) { return link_cx(d) })
+            .attr("y2", function(d) { return link_cy(d, 2*circle_r) + circle_r - 2 });
+
+        nodes_rect
+            .attr("x", function(d) { return node_x(d) })
+            .attr("y", function(d) { return node_y(d) });
+        nodes_title
+            .attr("x", function(d) { return node_x(d) + ge_width/2 })
+            .attr("y", function(d) { return node_y(d) + ge_height/12 + 5 });
+        nodes_subtitle_rect
+            .attr("x", function(d) { return node_x(d) })
+            .attr("y", function(d) { return node_y(d) + ge_height/6 });
+        nodes_subtitle
+            .attr("x", function(d) { return node_x(d) + ge_width/2 })
+            .attr("y", function(d) { return node_y(d) + ge_height/12 + + ge_height/6 + 5 });
+        nodes_plus_circle
+            .attr("cx", function(d) { return node_x(d) + ge_width - circle_r - 2 })
+            .attr("cy", function(d) { return node_y(d) + ge_height - circle_r - 2 });
+        nodes_plus_line1
+            .attr("x1", function(d) { return node_x(d) + ge_width - circle_r - 2 - circle_r + 2 })
+            .attr("y1", function(d) { return node_y(d) + ge_height - circle_r - 2 })
+            .attr("x2", function(d) { return node_x(d) + ge_width - circle_r - 2 + circle_r - 2 })
+            .attr("y2", function(d) { return node_y(d) + ge_height - circle_r - 2 });
+        nodes_plus_line2
+            .attr("x1", function(d) { return node_x(d) + ge_width - circle_r - 2 })
+            .attr("y1", function(d) { return node_y(d) + ge_height - circle_r - 2 - circle_r + 2 })
+            .attr("x2", function(d) { return node_x(d) + ge_width - circle_r - 2 })
+            .attr("y2", function(d) { return node_y(d) + ge_height - circle_r - 2 + circle_r - 2 });
+    }
 });
+
+function find_x(x, y, a, b, w, h) {
+    var tga = Math.abs(a-x)/Math.abs(b-y);
+    var tgb = w/h;
+    if(tga<tgb){
+        var coef = (h/2) * Math.abs(a-x)/Math.abs(b-y);
+        if(a>x){
+            return x + coef;
+        }
+        return x - coef;
+    }
+    else{
+        if(a>x){
+            return x + w/2;
+        }
+        return x-w/2;
+    }
+}
+
+function find_y(x, y, a, b, w, h) {
+    var tga = Math.abs(a-x)/Math.abs(b-y);
+    var tgb = w/h;
+    if(tga<tgb) {
+        if (b > y) {
+            return y + h/2;
+        }
+        return y - h/2;
+    }
+    else{
+        var coef = (w/2) * Math.abs(b-y)/Math.abs(a-x);
+        if (b>y){
+            return y+coef;
+        }
+        return y-coef;
+    }
+}
