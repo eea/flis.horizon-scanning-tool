@@ -1,84 +1,84 @@
 [
     {
         "pk": "1",
-        "model": "hstool.environmentaltheme",
+        "model": "common.environmentaltheme",
         "fields": {
             "title": "Air pollution"
         }
     },
     {
         "pk": "2",
-        "model": "hstool.environmentaltheme",
+        "model": "common.environmentaltheme",
         "fields": {
             "title": "Biodiversity"
         }
     },
     {
         "pk": "3",
-        "model": "hstool.environmentaltheme",
+        "model": "common.environmentaltheme",
         "fields": {
             "title": "Chemicals"
         }
     },
     {
         "pk": "4",
-        "model": "hstool.environmentaltheme",
+        "model": "common.environmentaltheme",
         "fields": {
             "title": "Climate change"
         }
     },
     {
         "pk": "5",
-        "model": "hstool.environmentaltheme",
+        "model": "common.environmentaltheme",
         "fields": {
             "title": "Environment and health"
         }
     },
     {
         "pk": "6",
-        "model": "hstool.environmentaltheme",
+        "model": "common.environmentaltheme",
         "fields": {
             "title": "Land use"
         }
     },
     {
         "pk": "7",
-        "model": "hstool.environmentaltheme",
+        "model": "common.environmentaltheme",
         "fields": {
             "title": "Natural resources"
         }
     },
     {
         "pk": "8",
-        "model": "hstool.environmentaltheme",
+        "model": "common.environmentaltheme",
         "fields": {
             "title": "Noise"
         }
     },
     {
         "pk": "9",
-        "model": "hstool.environmentaltheme",
+        "model": "common.environmentaltheme",
         "fields": {
             "title": "Soil"
         }
     },
     {
         "pk": "10",
-        "model": "hstool.environmentaltheme",
+        "model": "common.environmentaltheme",
         "fields": {
             "title": "Waste and material resources"
         }
     },
     {
         "pk": "11",
-        "model": "hstool.environmentaltheme",
+        "model": "common.environmentaltheme",
         "fields": {
             "title": "Water"
         }
     },
     {
         "pk": "12",
-        "model": "hstool.environmentaltheme",
+        "model": "common.environmentaltheme",
         "fields": {
             "title": "Various other issues"
         }
