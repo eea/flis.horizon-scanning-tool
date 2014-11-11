@@ -6,9 +6,6 @@ from hstool.models import (
     Source, Indicator, DriverOfChange, Figure,
     Assessment, Relation,
 )
-from flis_metadata.common.models import (
-    EnvironmentalTheme, GeographicalScope, Country
-)
 
 
 class AssessmentForm(ModelForm):
@@ -154,27 +151,3 @@ class FigureForm(ModelForm):
         help_texts = {
             'file': _(_file_help_text()),
         }
-
-
-class CountryForm(ModelForm):
-    class Meta:
-        model = Country
-        labels = {
-            "iso": _("ISO"),
-        }
-
-
-class CountryUpdateForm(ModelForm):
-    class Meta:
-        model = Country
-        exclude = ['iso']
-
-
-class GeoScopeForm(ModelForm):
-    class Meta:
-        model = GeographicalScope
-
-
-class EnvironmentalThemeForm(ModelForm):
-    class Meta:
-        model = EnvironmentalTheme

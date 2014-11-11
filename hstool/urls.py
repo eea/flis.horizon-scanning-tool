@@ -3,121 +3,90 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from django.contrib import admin
-from hstool.views import (
-    SourcesList, SourcesAdd, IndicatorsList, IndicatorsAdd, DriversList,
-    DriversAdd, CountriesList, CountriesAdd, GeoScopesList, GeoScopesAdd,
-    AddModal, AddModalSuccess, FiguresList, FiguresAdd, SourcesUpdate,
-    IndicatorsUpdate, DriversUpdate, FiguresUpdate, CountriesUpdate,
-    GeoScopesUpdate, SourcesDelete, IndicatorsDelete, FiguresDelete,
-    DriversDelete, CountriesDelete, GeoScopesDelete, AssessmentsList,
-    AssessmentsAdd, AssessmentsUpdate, AssessmentsDelete, AssessmentsDetail,
-    RelationsAdd, AssessmentsPreview, RelationsUpdate, RelationsDelete,
-    RolesOverview, GeoScopesRequired, EnvironmentalThemeList,
-    EnvironmentalThemeAdd, EnvironmentalThemeUpdate, EnvironmentalThemeDelete,
-    assessments_relations, ViewModal, ViewFigureModal,
-)
+from hstool import views
 
 
 admin.autodiscover()
 
 settings_urls = patterns(
     '',
-    url(r'^countries/list/$', CountriesList.as_view(),
-        name='countries_list'),
-    url(r'^countries/add/$', CountriesAdd.as_view(), name='countries_add'),
-    url(r'^countries/update/(?P<pk>\w+)$', CountriesUpdate.as_view(),
-        name='countries_update'),
-    url(r'^countries/delete/(?P<pk>\w+)$', CountriesDelete.as_view(),
-        name='countries_delete'),
-
-    url(r'^geographic_scopes/list/$', GeoScopesList.as_view(),
-        name='geo_scopes_list'),
-    url(r'^geographic_scopes/add/$', GeoScopesAdd.as_view(),
-        name='geo_scopes_add'),
-    url(r'^geographic_scopes/update/(?P<pk>\d+)/$', GeoScopesUpdate.as_view(),
-        name='geo_scopes_update'),
-    url(r'^geographic_scopes/delete/(?P<pk>\d+)/$', GeoScopesDelete.as_view(),
-        name='geo_scopes_delete'),
     url(r'^geographic_scopes/required/$',
-        GeoScopesRequired.as_view(), name='geo_scopes_required'),
-
-    url(r'^themes/list/$', EnvironmentalThemeList.as_view(),
-        name='themes_list'),
-    url(r'^themes/add/$', EnvironmentalThemeAdd.as_view(),
-        name='themes_add'),
-    url(r'^themes/update/(?P<pk>\d+)/$', EnvironmentalThemeUpdate.as_view(),
-        name='themes_update'),
-    url(r'^themes/delete/(?P<pk>\d+)/$', EnvironmentalThemeDelete.as_view(),
-        name='themes_delete'),
-
-    url(r'^roles/$', RolesOverview.as_view(), name='roles'),
+        views.GeoScopesRequired.as_view(), name='geo_scopes_required'),
+    url(r'^roles/$', views.RolesOverview.as_view(), name='roles'),
 )
 
 sources_urls = patterns(
     '',
-    url(r'^list/$', SourcesList.as_view(), name='list'),
-    url(r'^add/$', SourcesAdd.as_view(), name='add'),
-    url(r'^update/(?P<pk>\d+)/$', SourcesUpdate.as_view(), name='update'),
-    url(r'^delete/(?P<pk>\d+)/$', SourcesDelete.as_view(), name='delete'),
+    url(r'^list/$', views.SourcesList.as_view(), name='list'),
+    url(r'^add/$', views.SourcesAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.SourcesUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.SourcesDelete.as_view(), name='delete'),
 )
 
 indicators_urls = patterns(
     '',
-    url(r'^list/$', IndicatorsList.as_view(), name='list'),
-    url(r'^add/$', IndicatorsAdd.as_view(), name='add'),
-    url(r'^update/(?P<pk>\d+)/$', IndicatorsUpdate.as_view(), name='update'),
-    url(r'^delete/(?P<pk>\d+)/$', IndicatorsDelete.as_view(), name='delete'),
+    url(r'^list/$', views.IndicatorsList.as_view(), name='list'),
+    url(r'^add/$', views.IndicatorsAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.IndicatorsUpdate.as_view(),
+        name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.IndicatorsDelete.as_view(),
+        name='delete'),
 )
 
 drivers_urls = patterns(
     '',
-    url(r'^list/$', DriversList.as_view(), name='list'),
-    url(r'^add/$', DriversAdd.as_view(), name='add'),
-    url(r'^update/(?P<pk>\d+)/$', DriversUpdate.as_view(), name='update'),
-    url(r'^delete/(?P<pk>\d+)/$', DriversDelete.as_view(), name='delete'),
+    url(r'^list/$', views.DriversList.as_view(), name='list'),
+    url(r'^add/$', views.DriversAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.DriversUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.DriversDelete.as_view(), name='delete'),
 )
 
 figures_urls = patterns(
     '',
-    url(r'^list/$', FiguresList.as_view(), name='list'),
-    url(r'^add/$', FiguresAdd.as_view(), name='add'),
-    url(r'^update/(?P<pk>\d+)/$', FiguresUpdate.as_view(), name='update'),
-    url(r'^delete/(?P<pk>\d+)/$', FiguresDelete.as_view(), name='delete'),
+    url(r'^list/$', views.FiguresList.as_view(), name='list'),
+    url(r'^add/$', views.FiguresAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.FiguresUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.FiguresDelete.as_view(), name='delete'),
 )
 
 assessments_urls = patterns(
     '',
-    url(r'^add/$', AssessmentsAdd.as_view(), name='add'),
-    url(r'^detail/(?P<pk>\d+)/$', AssessmentsDetail.as_view(), name='detail'),
-    url(r'^detail/(?P<pk>\d+)/relations$', assessments_relations,
+    url(r'^add/$', views.AssessmentsAdd.as_view(), name='add'),
+    url(r'^detail/(?P<pk>\d+)/$', views.AssessmentsDetail.as_view(),
+        name='detail'),
+    url(r'^detail/(?P<pk>\d+)/relations$', views.assessments_relations,
         name='relations'),
-    url(r'^preview/(?P<pk>\d+)/$', AssessmentsPreview.as_view(),
+    url(r'^preview/(?P<pk>\d+)/$', views.AssessmentsPreview.as_view(),
         name='preview'),
-    url(r'^update/(?P<pk>\d+)/$', AssessmentsUpdate.as_view(), name='update'),
-    url(r'^delete/(?P<pk>\d+)/$', AssessmentsDelete.as_view(), name='delete'),
+    url(r'^update/(?P<pk>\d+)/$', views.AssessmentsUpdate.as_view(),
+        name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.AssessmentsDelete.as_view(),
+        name='delete'),
 )
 
 relations_urls = patterns(
     '',
-    url(r'add/$', RelationsAdd.as_view(), name='add'),
-    url(r'update/(?P<pk>\d+)/$', RelationsUpdate.as_view(), name='update'),
-    url(r'delete/(?P<pk>\d+)/$', RelationsDelete.as_view(), name='delete')
+    url(r'add/$', views.RelationsAdd.as_view(), name='add'),
+    url(r'update/(?P<pk>\d+)/$', views.RelationsUpdate.as_view(),
+        name='update'),
+    url(r'delete/(?P<pk>\d+)/$', views.RelationsDelete.as_view(), name='delete')
 )
 
 modals_urls = patterns(
     '',
     url(r'^detail/(?P<assessment_pk>\d+)/(?P<model>\w+)/(?P<pk>\d+)/$',
-        ViewModal.as_view(), name='relations_detail'),
-    url(r'^add/(?P<model>\w+)/$', AddModal.as_view(), name='add'),
-    url(r'^add/success/(?P<model>\w+)/(?P<pk>\d+)$', AddModalSuccess.as_view(),
+        views.ViewModal.as_view(), name='relations_detail'),
+    url(r'^add/(?P<model>\w+)/$', views.AddModal.as_view(), name='add'),
+    url(r'^add/success/(?P<model>\w+)/(?P<pk>\d+)$',
+        views.AddModalSuccess.as_view(),
         name='add_success'),
-    url(r'^view/figure/(?P<pk>\d+)/$', ViewFigureModal.as_view(),
+    url(r'^view/figure/(?P<pk>\d+)/$', views.ViewFigureModal.as_view(),
         name='view_figure'),
 )
 
 urlpatterns = patterns(
     '',
-    url(r'^$', AssessmentsList.as_view(), name='home_view'),
+    url(r'^$', views.AssessmentsList.as_view(), name='home_view'),
 
     url(r'^assessments/', include(assessments_urls, namespace='assessments')),
 
