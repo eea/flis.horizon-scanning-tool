@@ -3,8 +3,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 from hstool.models import (
-    Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
-    Assessment, Relation, EnvironmentalTheme
+    Source, Indicator, DriverOfChange, Figure,
+    Assessment, Relation,
+)
+from flis_metadata.common.models import (
+    EnvironmentalTheme, GeographicalScope, Country
 )
 
 
