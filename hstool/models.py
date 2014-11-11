@@ -51,38 +51,6 @@ class ContentTypeRestrictedFileField(FileField):
         )
 
 
-class EnvironmentalTheme(Model):
-    title = CharField(max_length=128)
-
-    class Meta:
-        ordering = ('-pk',)
-        permissions = (
-            ('config', 'Can change configuration'),
-        )
-
-    def __unicode__(self):
-        return self.title
-
-
-class GeographicalScope(Model):
-    title = CharField(max_length=128)
-    require_country = BooleanField(default=False)
-
-    class Meta:
-        ordering = ('-pk',)
-
-    def __unicode__(self):
-        return self.title
-
-
-class Country(Model):
-    iso = CharField(max_length=2, primary_key=True)
-    name = CharField(max_length=128)
-
-    def __unicode__(self):
-        return self.name
-
-
 class Figure(Model):
     author_id = CharField(max_length=64)
     title = CharField(max_length=512, default='')
@@ -185,6 +153,7 @@ class Assessment(Model):
     class Meta:
         permissions = (
             ('create', 'Create an assessment'),
+            ('config', 'Can change configuration'),
         )
 
     def __unicode__(self):
