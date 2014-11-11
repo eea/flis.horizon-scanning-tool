@@ -14,9 +14,13 @@ from braces.views import JSONResponseMixin, AjaxResponseMixin
 from hstool.definitions import CANONICAL_ROLES
 
 from hstool.models import (
-    Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
-    Assessment, Relation, EnvironmentalTheme
+    Source, Indicator, DriverOfChange, Figure,
+    Assessment, Relation
 )
+from flis_metadata.common.models import (
+    Country, GeographicalScope, EnvironmentalTheme
+)
+
 from hstool.forms import (
     SourceForm, IndicatorForm, DriverForm, CountryForm, GeoScopeForm,
     FigureForm, CountryUpdateForm, AssessmentForm, RelationForm,

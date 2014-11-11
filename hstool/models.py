@@ -117,8 +117,9 @@ class GenericElement(Model):
     author_id = CharField(max_length=64)
     short_name = CharField(max_length=64)
     name = CharField(max_length=255)
-    geographical_scope = ForeignKey('GeographicalScope', null=True, blank=True)
-    country = ForeignKey('Country', null=True, blank=True)
+    geographical_scope = ForeignKey('common.GeographicalScope',
+                                    null=True, blank=True)
+    country = ForeignKey('common.Country', null=True, blank=True)
     url = CharField(max_length=256, blank=True, null=True)
     added = DateTimeField(auto_now_add=True, editable=False,
                           default=datetime.now)
@@ -148,7 +149,7 @@ class DriverOfChange(GenericElement):
 
 
 class Indicator(GenericElement):
-    theme = ForeignKey('EnvironmentalTheme')
+    theme = ForeignKey('common.EnvironmentalTheme')
     year_base = IntegerField()
     year_end = IntegerField()
     timeline = IntegerField(choices=IND_TIMELINE_CHOICES)
