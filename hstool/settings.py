@@ -34,6 +34,8 @@ INSTALLED_APPS = (
     'django_assets',
     'widget_tweaks',
     'frame',
+    'flis_metadata.common',
+    'flis_metadata.client',
     'hstool',
     'raven.contrib.django.raven_compat',
 )
