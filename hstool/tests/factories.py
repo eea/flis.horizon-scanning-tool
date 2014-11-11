@@ -4,8 +4,10 @@ from factory import SubFactory
 from django.contrib.auth.models import User
 
 from hstool.models import (
-    Assessment, DriverOfChange, Indicator, Source, Figure, EnvironmentalTheme,
-    GeographicalScope, Country, Relation,
+    Assessment, DriverOfChange, Indicator, Source, Figure, Relation
+)
+from flis_metadata.common.models import (
+    Country, EnvironmentalTheme, GeographicalScope
 )
 
 
