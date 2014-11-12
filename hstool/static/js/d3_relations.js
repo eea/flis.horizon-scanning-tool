@@ -1,59 +1,29 @@
-var width = $("#svg-relations").width();
-var height = width;
-
-var svg = d3.select("#svg-relations").append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
 d3.json("relations", function(error, graph) {
-    var ge_width, ge_height, title_font_size, charge;
+    var width = $("#svg-relations").width();
+    var height = (width + graph.nodes.length * 200) / 2.2;
+    var svg = d3.select("#svg-relations")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height);
+    var charge = width * -100 / graph.nodes.length;
+    var distance = width / 20 + 100;
+    var ge_width = width / 30  + 100;
+    var ge_height = width / 20 + 100;
+
     var max_title_size = 20;
-    if(width<750) {
-        max_title_size = 16;
-        charge = -2500;
-        title_font_size = "9px";
-        ge_width = width/8;
-        ge_height = height/6;
-    }
-    else if(width<900) {
-        charge = -4000;
-        title_font_size = "9px";
-        ge_width = width/8;
-        ge_height = height/6;
-    }
-    else if(width<1100) {
-        charge = -6000;
-        title_font_size = "10px";
-        ge_width = width/8;
-        ge_height = height/7;
-    }
-    else {
-        charge = -8000;
-        title_font_size = "10px";
-        ge_width=width/10;
-        ge_height=height/10;
-    }
+    var title_font_size = "10px";
 
-    if(graph.nodes.length == 2 || graph.nodes.length ==3){
-        if(width<1100){
-            charge *= 3;
-        }
-        else {
-            charge *=2;
-        }
-    }
-
-    var circle_r = ge_width/18;
+    var circle_r = ge_width / 18;
 
     var force = d3.layout.force()
         .charge(charge)
-        .linkDistance(100)
+        .linkDistance(distance)
         .size([width, height])
         .nodes(graph.nodes)
         .links(graph.links)
         .start();
 
-    for(var i=0;i<300;i++){
+    for (var i=0; i<1000; i++) {
         force.tick();
     }
     force.stop();
