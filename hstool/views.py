@@ -97,6 +97,7 @@ def assessments_relations(request, pk):
             'title': node.name,
             'subtitle': subtitle,
             'subtitle_color': subtitle_color,
+            'figures': [figure.title for figure in node.figures.all()],
         })
     ids_map = {}
     for (d3_id, db_id) in enumerate([node.id for node in nodes]):

@@ -119,6 +119,35 @@ d3.json("relations", function(error, graph) {
         .attr("x", function(d) { return node_x(d) })
         .attr("y", function(d) { return node_y(d) });
 
+    var insertFigures = function (d) {
+        var el = d3.select(this);
+        if (d.figures.length > 0) {
+            d.figures.forEach( function(figure) {
+                el
+                .append("tspan")
+                .attr("dy", 18)
+                .attr("x", node_x(d) + 5)
+                .text("• " + figure);
+            });
+        }
+        else {
+            el
+            .append("tspan")
+            .attr("dy", 15)
+            .attr("dx", -100)
+            .style("font-style", "italic")
+            .text("No facts and figures.");
+        }
+    }
+
+    var nodes_figures = nodes
+        .append("text")
+        .text("Facts and figures: ")
+        .style("font-size", title_font_size)
+        .attr("x", function(d) { return node_x(d) + 5 })
+        .attr("y", function(d) { return node_y(d) + ge_height/12 + ge_height/3 })
+        .each(insertFigures);
+
     var title_tooltip = false;
     var nodes_title = nodes
         .append("text")
@@ -171,7 +200,7 @@ d3.json("relations", function(error, graph) {
         .attr("class", "d3-node-subtitle")
         .text(function(d) { return d.subtitle })
         .attr("x", function(d) { return node_x(d) + ge_width/2; })
-        .attr("y", function(d) { return node_y(d) + ge_height/12 + + ge_height/6 + 5 });
+        .attr("y", function(d) { return node_y(d) + ge_height/12 + ge_height/6 + 5 });
 
     var plus = nodes
         .append("a")
@@ -245,6 +274,9 @@ d3.json("relations", function(error, graph) {
         nodes_title
             .attr("x", function(d) { return node_x(d) + ge_width/2 })
             .attr("y", function(d) { return node_y(d) + ge_height/12 + 5 });
+        nodes_figures
+            .attr("x", function(d) { return node_x(d) + 5 })
+            .attr("y", function(d) { return node_y(d) + ge_height/12 + ge_height/3 });
         nodes_subtitle_rect
             .attr("x", function(d) { return node_x(d) })
             .attr("y", function(d) { return node_y(d) + ge_height/6 });
