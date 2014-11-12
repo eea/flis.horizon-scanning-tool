@@ -10,8 +10,8 @@ d3.json("relations", function(error, graph) {
     var ge_width = width / 30  + 100;
     var ge_height = width / 20 + 100;
 
-    var max_title_size = 20;
-    var title_font_size = "10px";
+    var max_title_size = width / 500 + 16;
+    var title_font_size = "13px";
 
     var circle_r = ge_width / 18;
 
@@ -39,7 +39,7 @@ d3.json("relations", function(error, graph) {
 
     svg.append("defs").append("marker")
       .attr("id", "arrowhead")
-      .attr("refX", 12) /*must be smarter way to calculate shift*/
+      .attr("refX", 12)
       .attr("refY", 4)
       .attr("markerWidth", 16)
       .attr("markerHeight", 14)
