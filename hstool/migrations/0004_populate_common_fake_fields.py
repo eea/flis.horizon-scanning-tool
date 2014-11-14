@@ -38,6 +38,7 @@ class Migration(DataMigration):
                 indicator.fake_theme = fake_theme
             except model.DoesNotExist:
                 pass
+            indicator.save()
 
     def backwards(self, orm):
         raise RuntimeError("This migration can't be undone")
