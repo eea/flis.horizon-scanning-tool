@@ -12,6 +12,9 @@ class Migration(DataMigration):
         for generic_elem in orm.GenericElement.objects.all():
             geo_scope = generic_elem.geographical_scope
             geo_scope_title = geo_scope.title if geo_scope else None
+
+            geo_scope_title = ('European' if geo_scope_title == 'Europe'
+                                          else geo_scope_title)
             model = orm['common.GeographicalScope']
             try:
                 fake_geo_scope = model.objects.get(title=geo_scope_title)
