@@ -7,7 +7,7 @@ d3.json("relations", function(error, graph) {
       .attr("height", height);
     var charge = width * -100 / graph.nodes.length;
     var distance = width / 20 + 100;
-    var ge_width = width / 30  + 100;
+    var ge_width = width / 18  + 100;
     var ge_height = width / 20 + 100;
 
     var max_title_size = width / 500 + 16;
@@ -74,8 +74,8 @@ d3.json("relations", function(error, graph) {
 
     var links_ellipse = links.append("ellipse")
         .attr("class", "ellipse")
-        .attr("rx", 3*circle_r)
-        .attr("ry", 3*circle_r)
+        .attr("rx", 2*circle_r)
+        .attr("ry", 2*circle_r)
         .attr("cx", function(d) { return link_cx(d) })
         .attr("cy", function(d) { return link_cy(d, 0) });
 
@@ -104,21 +104,21 @@ d3.json("relations", function(error, graph) {
         .attr("class", "circle")
         .attr("r", circle_r)
         .attr("cx", function(d) { return link_cx(d) })
-        .attr("cy", function(d) { return link_cy(d, 2*circle_r) });
+        .attr("cy", function(d) { return link_cy(d, circle_r) });
 
     var links_plus_line1 = plus.append("line")
         .attr("class", "line")
         .attr("x1", function(d) { return link_cx(d) - circle_r + 2 })
-        .attr("y1", function(d) { return link_cy(d, 2*circle_r) })
+        .attr("y1", function(d) { return link_cy(d, circle_r) })
         .attr("x2", function(d) { return link_cx(d) + circle_r - 2 })
-        .attr("y2", function(d) { return link_cy(d, 2*circle_r) });
+        .attr("y2", function(d) { return link_cy(d, circle_r) });
 
     var links_plus_line2 = plus.append("line")
         .attr("class", "line")
         .attr("x1", function(d) { return link_cx(d) })
-        .attr("y1", function(d) { return link_cy(d, 2*circle_r) - circle_r + 2 })
+        .attr("y1", function(d) { return link_cy(d, circle_r) - circle_r + 2 })
         .attr("x2", function(d) { return link_cx(d) })
-        .attr("y2", function(d) { return link_cy(d, 2*circle_r) + circle_r - 2 });
+        .attr("y2", function(d) { return link_cy(d, circle_r) + circle_r - 2 });
 
     //Draw Generic Element
     var node_drag = d3.behavior.drag()
@@ -276,17 +276,17 @@ d3.json("relations", function(error, graph) {
             .attr("cy", function(d) { return link_cy(d, 0) });
         links_plus_circle
             .attr("cx", function(d) { return link_cx(d) })
-            .attr("cy", function(d) { return link_cy(d, 2*circle_r) });
+            .attr("cy", function(d) { return link_cy(d, circle_r) });
         links_plus_line1
             .attr("x1", function(d) { return link_cx(d) - circle_r + 2 })
-            .attr("y1", function(d) { return link_cy(d, 2*circle_r) })
+            .attr("y1", function(d) { return link_cy(d, circle_r) })
             .attr("x2", function(d) { return link_cx(d) + circle_r - 2 })
-            .attr("y2", function(d) { return link_cy(d, 2*circle_r) });
+            .attr("y2", function(d) { return link_cy(d, circle_r) });
         links_plus_line2
             .attr("x1", function(d) { return link_cx(d) })
-            .attr("y1", function(d) { return link_cy(d, 2*circle_r) - circle_r + 2 })
+            .attr("y1", function(d) { return link_cy(d, circle_r) - circle_r + 2 })
             .attr("x2", function(d) { return link_cx(d) })
-            .attr("y2", function(d) { return link_cy(d, 2*circle_r) + circle_r - 2 });
+            .attr("y2", function(d) { return link_cy(d, circle_r) + circle_r - 2 });
 
         nodes_rect
             .attr("x", function(d) { return node_x(d) })
