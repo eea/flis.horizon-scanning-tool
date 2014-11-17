@@ -125,7 +125,7 @@ d3.json("relations", function(error, graph) {
         if (d.figures.length > 0) {
             dx = -100;
             diff = 10;
-            d.figures.forEach( function(figure) {
+            d.figures.slice(0, 4).forEach( function(figure) {
                 if (figure.length > max_fig_size) {
                   figure = figure.substring(0, max_fig_size - 1) + ' ...'
                 }
