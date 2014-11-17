@@ -113,13 +113,8 @@ def assessments_relations(request, pk):
             'url': url,
             'source': ids_map[relation.source.id],
             'target': ids_map[relation.destination.id],
+            'type': relation.relationship_type,
         })
-        if relation.relationship_type == 2:
-            data['links'].append({
-                'url': url,
-                'target': ids_map[relation.source.id],
-                'source': ids_map[relation.destination.id],
-            })
 
     data = json.dumps(data)
     return HttpResponse(data, content_type='application/json')
