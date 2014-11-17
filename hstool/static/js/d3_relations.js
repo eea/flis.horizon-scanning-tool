@@ -11,6 +11,7 @@ d3.json("relations", function(error, graph) {
     var ge_height = width / 20 + 100;
 
     var max_title_size = width / 500 + 16;
+    var max_fig_size = width / 500 + 15;
     var title_font_size = "13px";
 
     var circle_r = ge_width / 18;
@@ -122,18 +123,27 @@ d3.json("relations", function(error, graph) {
     var insertFigures = function (d) {
         var el = d3.select(this);
         if (d.figures.length > 0) {
+            dx = -100;
+            diff = 10;
             d.figures.forEach( function(figure) {
+                if (figure.length > max_fig_size) {
+                  figure = figure.substring(0, max_fig_size - 1) + ' ...'
+                }
+
                 el
                 .append("tspan")
-                .attr("dy", 18)
-                .attr("x", node_x(d) + 5)
+                .attr("dy", 20)
+                .attr("dx", dx)
                 .text("• " + figure);
+
+               dx -= diff;
+               diff += 0;
             });
         }
         else {
             el
             .append("tspan")
-            .attr("dy", 15)
+            .attr("dy", 20)
             .attr("dx", -100)
             .style("font-style", "italic")
             .text("No facts and figures.");
