@@ -11,7 +11,7 @@ d3.json("relations", function(error, graph) {
     var ge_height = width / 20 + 100;
 
     var max_title_size = width / 500 + 16;
-    var max_fig_size = width / 500 + 15;
+    var max_fig_size = width / 500 + 18;
     var title_font_size = "13px";
 
     var circle_r = ge_width / 18;
@@ -123,21 +123,15 @@ d3.json("relations", function(error, graph) {
     var insertFigures = function (d) {
         var el = d3.select(this);
         if (d.figures.length > 0) {
-            dx = -100;
-            diff = 10;
             d.figures.slice(0, 4).forEach( function(figure) {
-                if (figure.length > max_fig_size) {
+                if (figure.length > max_fig_size)
                   figure = figure.substring(0, max_fig_size - 1) + ' ...'
-                }
 
                 el
                 .append("tspan")
                 .attr("dy", 20)
-                .attr("dx", dx)
+                .attr("x", node_x(d) + 5)
                 .text("• " + figure);
-
-               dx -= diff;
-               diff += 0;
             });
         }
         else {
@@ -284,9 +278,12 @@ d3.json("relations", function(error, graph) {
         nodes_title
             .attr("x", function(d) { return node_x(d) + ge_width/2 })
             .attr("y", function(d) { return node_y(d) + ge_height/12 + 5 });
+
+        svg.selectAll("tspan").remove();
         nodes_figures
             .attr("x", function(d) { return node_x(d) + 5 })
-            .attr("y", function(d) { return node_y(d) + ge_height/12 + ge_height/3 });
+            .attr("y", function(d) { return node_y(d) + ge_height/12 + ge_height/3 })
+            .each(insertFigures);
         nodes_subtitle_rect
             .attr("x", function(d) { return node_x(d) })
             .attr("y", function(d) { return node_y(d) + ge_height/6 });
