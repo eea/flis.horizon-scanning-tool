@@ -38,23 +38,39 @@ d3.json("relations", function(error, graph) {
     var links = svg.selectAll()
         .data(graph.links).enter();
 
-    svg.append("defs").append("marker")
-      .attr("id", "arrowhead")
-      .attr("refX", 12)
-      .attr("refY", 4)
-      .attr("markerWidth", 16)
-      .attr("markerHeight", 14)
+    var defs = svg.append("defs");
+
+    defs.append("marker")
+      .attr("id", "arrowhead-end")
+      .attr("refX", 10)
+      .attr("refY", 5)
+      .attr("markerWidth", 10)
+      .attr("markerHeight", 10)
       .attr("orient", "auto")
       .append("path")
-          .attr("d", "M 0,0 V 8 L 12,4 Z"); //this is actual shape for arrowhead
+          .attr("d", "M 0 0 L 10 5 L 0 10 z");
+
+    defs.append("marker")
+      .attr("id", "arrowhead-start")
+      .attr("refX", -2)
+      .attr("refY", 5)
+      .attr("markerWidth", 10)
+      .attr("markerHeight", 10)
+      .attr("orient", "auto")
+      .append("path")
+          .attr("d", "M -2 5 L 8 0 L 8 10 z");
 
     var links_connections = links.append("line")
         .attr("class", "link")
-        .attr("marker-end", "url(#arrowhead)")
+        .attr("marker-end", "url(#arrowhead-end)")
         .attr("x1", function(d) { return find_x(d.source.x, d.source.y, d.target.x, d.target.y, ge_width, ge_height) })
         .attr("y1", function(d) { return find_y(d.source.x, d.source.y, d.target.x, d.target.y, ge_width, ge_height) })
         .attr("x2", function(d) { return find_x(d.target.x, d.target.y, d.source.x, d.source.y, ge_width, ge_height) })
-        .attr("y2", function(d) { return find_y(d.target.x, d.target.y, d.source.x, d.source.y, ge_width, ge_height) });
+        .attr("y2", function(d) { return find_y(d.target.x, d.target.y, d.source.x, d.source.y, ge_width, ge_height) })
+        .each(function(link) {
+            if (link.type == 2)
+                d3.select(this).attr("marker-start", "url(#arrowhead-start)");
+        });
 
     var links_ellipse = links.append("ellipse")
         .attr("class", "ellipse")
