@@ -97,6 +97,7 @@ def assessments_relations(request, pk):
             'title': node.name,
             'subtitle': subtitle,
             'subtitle_color': subtitle_color,
+            'figures': [figure.title for figure in node.figures.all()],
         })
     ids_map = {}
     for (d3_id, db_id) in enumerate([node.id for node in nodes]):
@@ -112,8 +113,13 @@ def assessments_relations(request, pk):
             'url': url,
             'source': ids_map[relation.source.id],
             'target': ids_map[relation.destination.id],
-            'value': 1,
         })
+        if relation.relationship_type == 2:
+            data['links'].append({
+                'url': url,
+                'target': ids_map[relation.source.id],
+                'source': ids_map[relation.destination.id],
+            })
 
     data = json.dumps(data)
     return HttpResponse(data, content_type='application/json')
