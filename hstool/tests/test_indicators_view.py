@@ -139,7 +139,7 @@ class IndicatorsAdd(HSWebTest):
     def test_default_fields_required(self):
         url = reverse('indicators:add')
         resp = self.app.get(url, user=self.user)
-        form = resp.forms[1]
+        form = resp.forms[0]
         resp = form.submit()
         self.assertFormError(resp, 'form', 'theme', REQUIRED)
         self.assertFormError(resp, 'form', 'name', REQUIRED)
@@ -152,7 +152,7 @@ class IndicatorsAdd(HSWebTest):
         geo_scope = GeoScopeFactory(title="a", require_country=True)
         url = reverse('indicators:add')
         resp = self.app.get(url, user=self.user)
-        form = resp.forms[1]
+        form = resp.forms[0]
         form['geographical_scope'].select(text=geo_scope.title)
         resp = form.submit()
         self.assertFormError(resp, 'form', 'country', REQUIRED_COUNTRY)
@@ -161,7 +161,7 @@ class IndicatorsAdd(HSWebTest):
         theme = EnvironmentalThemeFactory()
         url = reverse('indicators:add')
         resp = self.app.get(url, user=self.user)
-        form = resp.forms[1]
+        form = resp.forms[0]
         form['theme'].select(text=theme.title)
         form['name'] = 'a'
         form['short_name'] = 'b'
@@ -176,12 +176,13 @@ class IndicatorsUpdate(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
         self.indicator = IndicatorFactory(author_id=self.user.username)
+        self.theme_pk = str(self.indicator.theme.pk)
         url = reverse('indicators:update', args=(self.indicator.pk, ))
         resp = self.app.get(url, user=self.user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_existing_field_values(self):
-        self.assertEqual(self.form['theme'].value, '1')
+        self.assertEqual(self.form['theme'].value, self.theme_pk)
         self.assertEqual(self.form['name'].value, self.indicator.name)
         self.assertEqual(self.form['short_name'].value,
                          self.indicator.short_name)
@@ -218,7 +219,7 @@ class IndicatorsDelete(HSWebTest):
         indicator = IndicatorFactory(author_id=user.username)
         url = reverse('indicators:delete', args=(indicator.pk, ))
         resp = self.app.get(url, user=user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_deletion(self):
         resp = self.form.submit()

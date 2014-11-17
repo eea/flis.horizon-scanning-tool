@@ -138,7 +138,7 @@ class DriversAdd(HSWebTest):
     def test_default_fields_required(self):
         url = reverse('drivers:add')
         resp = self.app.get(url, user=self.user)
-        form = resp.forms[1]
+        form = resp.forms[0]
         resp = form.submit()
         self.assertFormError(resp, 'form', 'name', REQUIRED)
         self.assertFormError(resp, 'form', 'short_name', REQUIRED)
@@ -151,7 +151,7 @@ class DriversAdd(HSWebTest):
         geo_scope = GeoScopeFactory(title="a", require_country=True)
         url = reverse('drivers:add')
         resp = self.app.get(url, user=self.user)
-        form = resp.forms[1]
+        form = resp.forms[0]
         form['geographical_scope'].select(text=geo_scope.title)
         resp = form.submit()
         self.assertFormError(resp, 'form', 'country', REQUIRED_COUNTRY)
@@ -159,7 +159,7 @@ class DriversAdd(HSWebTest):
     def test_successfully_added(self):
         url = reverse('drivers:add')
         resp = self.app.get(url, user=self.user)
-        form = resp.forms[1]
+        form = resp.forms[0]
         form['name'] = 'a'
         form['short_name'] = 'b'
         form['type'].select(text='Trends')
@@ -176,7 +176,7 @@ class DriversUpdate(HSWebTest):
         self.driver = DriverFactory(author_id=self.user.username)
         url = reverse('drivers:update', args=(self.driver.pk, ))
         resp = self.app.get(url, user=self.user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_existing_field_values(self):
         self.assertEqual(self.form['name'].value, self.driver.name)
@@ -215,7 +215,7 @@ class DriversDelete(HSWebTest):
         driver = DriverFactory(author_id=user.username)
         url = reverse('drivers:delete', args=(driver.pk, ))
         resp = self.app.get(url, user=user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_deletion(self):
         resp = self.form.submit()

@@ -20,7 +20,7 @@ class RelationsAdd(HSWebTest):
         self.resp = self.app.get(url, user=user)
 
     def test_default_fields_required(self):
-        form = self.resp.forms[1]
+        form = self.resp.forms[0]
         resp = form.submit()
         self.assertFormError(resp, 'form', 'source', REQUIRED)
         self.assertFormError(resp, 'form', 'destination', REQUIRED)
@@ -29,7 +29,7 @@ class RelationsAdd(HSWebTest):
         self.assertFormError(resp, 'form', 'figures', [])
 
     def test_successfully_added(self):
-        form = self.resp.forms[1]
+        form = self.resp.forms[0]
         form['source'].select(text=self.driver.name)
         form['destination'].select(text=self.indicator.name)
         form['relationship_type'].select(text='Neutral relationship')
@@ -54,7 +54,7 @@ class RelationsUpdate(HSWebTest):
 
     def test_existing_field_values(self):
         resp = self.app.get(self.url, user=self.user)
-        form = resp.forms[1]
+        form = resp.forms[0]
         self.assertEqual(form['source'].value, str(self.relation.source.pk))
         self.assertEqual(form['destination'].value,
                          str(self.relation.destination.pk))
@@ -74,7 +74,7 @@ class RelationsUpdate(HSWebTest):
             year_base=1111, year_end=2222, timeline=5,
         )
         resp = self.app.get(self.url, user=self.user)
-        form = resp.forms[1]
+        form = resp.forms[0]
         form['source'].select(text=driver2.name)
         form['destination'].select(text=indicator2.name)
         form['relationship_type'].select(text='Neutral relationship')
@@ -102,10 +102,10 @@ class RelationsDelete(HSWebTest):
         url = reverse('relations:delete', args=(self.assessment.pk,
                                                 relation.pk, ))
         resp = self.app.get(url, user=user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_deletion(self):
-        resp = self.form.submit()   
+        resp = self.form.submit()
         self.assertRedirects(resp, reverse('assessments:preview',
                                            args=(self.assessment.pk, )))
         self.assertQuerysetEqual(Relation.objects.all(), [])

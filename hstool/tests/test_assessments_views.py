@@ -109,14 +109,14 @@ class AssessmentsAdd(HSWebTest):
         user = UserFactory()
         url = reverse('assessments:add')
         self.resp = self.app.get(url, user=user)
-        self.form = self.resp.forms[1]
+        self.form = self.resp.forms[0]
 
     def test_default_fields_required(self):
         resp = self.form.submit()
         self.assertFormError(resp, 'form', 'title', REQUIRED)
 
     def test_successfully_added(self):
-        form = self.resp.forms[1]
+        form = self.resp.forms[0]
         form['title'] = 'a'
         resp = form.submit()
         self.assertRedirects(resp, reverse('assessments:preview', args=(1, )))
@@ -179,7 +179,7 @@ class AssessmentsUpdate(HSWebTest):
         self.assessment = AssessmentFactory(author_id=self.user.username)
         url = reverse('assessments:update', args=(self.assessment.pk, ))
         resp = self.app.get(url, user=self.user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_existing_field_values(self):
         self.assertEqual(self.form['title'].value, self.assessment.title)
@@ -205,9 +205,9 @@ class AssessmentsDelete(HSWebTest):
         assessment = AssessmentFactory(author_id=user.username)
         url = reverse('assessments:delete', args=(assessment.pk, ))
         resp = self.app.get(url, user=user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_deletion(self):
-        resp = self.form.submit()   
+        resp = self.form.submit()
         self.assertRedirects(resp, reverse('home_view'))
         self.assertQuerysetEqual(Assessment.objects.all(), [])
