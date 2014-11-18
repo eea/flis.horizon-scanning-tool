@@ -36,8 +36,12 @@ d3.json("relations", function(error, graph) {
     function link_cy(point, offset){ return (point.source.y + point.target.y)/2 + offset }
 
     //Draw relation
+    var visible_links = graph.links.filter(function (element) {
+      return element.type == 1 || element.type == 2;
+    });
+
     var links = svg.selectAll()
-        .data(graph.links).enter();
+        .data(visible_links).enter();
 
     var defs = svg.append("defs");
 
@@ -80,8 +84,7 @@ d3.json("relations", function(error, graph) {
         .attr("cx", function(d) { return link_cx(d) })
         .attr("cy", function(d) { return link_cy(d, 0) });
 
-    var plus = svg.selectAll()
-        .data(graph.links).enter()
+    var plus = links
         .append("a")
         .attr("class", "launch-node-modal")
         .attr("data-toggle", "modal")
