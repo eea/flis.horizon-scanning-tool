@@ -22,6 +22,7 @@ from hstool.forms import (
     FigureForm, CountryUpdateForm, AssessmentForm, RelationForm,
     EnvironmentalThemeForm
 )
+from hstool.utils import get_nodes_from_components
 
 
 class LoginRequiredMixin(object):
@@ -115,6 +116,16 @@ def assessments_relations(request, pk):
             'target': ids_map[relation.destination.id],
             'type': relation.relationship_type,
         })
+
+    comp_nodes = get_nodes_from_components(nodes, relations)
+
+    if len(comp_nodes) > 1:
+        for i in range(len(comp_nodes)):
+            data['links'].append({
+                'source': ids_map[comp_nodes[i - 1]],
+                'target': ids_map[comp_nodes[i]],
+                'type': 3,
+            })
 
     data = json.dumps(data)
     return HttpResponse(data, content_type='application/json')

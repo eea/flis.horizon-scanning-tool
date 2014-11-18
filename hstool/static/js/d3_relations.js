@@ -1,18 +1,19 @@
 d3.json("relations", function(error, graph) {
     var width = $("#svg-relations").width();
-    var height = (width + graph.nodes.length * 200) / 2.2;
+    var height = (width + graph.nodes.length * 300) / 2.2;
     var svg = d3.select("#svg-relations")
       .append("svg")
       .attr("width", width)
       .attr("height", height);
     var charge = width * -100 / graph.nodes.length;
-    var distance = width / 20 + 100;
+    var distance = width / 18 + 100;
     var ge_width = width / 18  + 100;
     var ge_height = width / 20 + 100;
+    var dy = width / 200 + 12;
 
-    var max_title_size = width / 500 + 16;
-    var max_fig_size = width / 500 + 18;
-    var title_font_size = "13px";
+    var max_title_size = width / 200 + 14;
+    var max_fig_size = width / 200 + 10;
+    var title_font_size = width / 300 + 8 + "px";
 
     var circle_r = ge_width / 18;
 
@@ -35,8 +36,12 @@ d3.json("relations", function(error, graph) {
     function link_cy(point, offset){ return (point.source.y + point.target.y)/2 + offset }
 
     //Draw relation
+    var visible_links = graph.links.filter(function (element) {
+      return element.type == 1 || element.type == 2;
+    });
+
     var links = svg.selectAll()
-        .data(graph.links).enter();
+        .data(visible_links).enter();
 
     var defs = svg.append("defs");
 
@@ -79,8 +84,7 @@ d3.json("relations", function(error, graph) {
         .attr("cx", function(d) { return link_cx(d) })
         .attr("cy", function(d) { return link_cy(d, 0) });
 
-    var plus = svg.selectAll()
-        .data(graph.links).enter()
+    var plus = links
         .append("a")
         .attr("class", "launch-node-modal")
         .attr("data-toggle", "modal")
@@ -145,7 +149,7 @@ d3.json("relations", function(error, graph) {
 
                 el
                 .append("tspan")
-                .attr("dy", 20)
+                .attr("dy", dy)
                 .attr("x", node_x(d) + 5)
                 .text("• " + figure);
             });
@@ -153,8 +157,8 @@ d3.json("relations", function(error, graph) {
         else {
             el
             .append("tspan")
-            .attr("dy", 20)
-            .attr("dx", -100)
+            .attr("dy", dy)
+            .attr("x", node_x(d) + 5)
             .style("font-style", "italic")
             .text("No facts and figures.");
         }
