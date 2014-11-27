@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -34,6 +35,8 @@ INSTALLED_APPS = (
     'django_assets',
     'widget_tweaks',
     'frame',
+    'flis_metadata.common',
+    'flis_metadata.client',
     'hstool',
     'raven.contrib.django.raven_compat',
 )
@@ -127,3 +130,9 @@ try:
     from local_settings import *
 except ImportError:
     pass
+
+if 'test' in sys.argv:
+    try:
+        from test_settings import *
+    except ImportError:
+        pass

@@ -3,8 +3,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 from hstool.models import (
-    Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
-    Assessment, Relation, EnvironmentalTheme
+    Source, Indicator, DriverOfChange, Figure,
+    Assessment, Relation,
+)
+from flis_metadata.common.models import (
+    Country, EnvironmentalTheme, GeographicalScope
 )
 
 
@@ -70,6 +73,16 @@ class IndicatorForm(ModelForm):
         self.fields['short_name'].widget.attrs["size"] = 30
         self.fields['name'].widget.attrs["size"] = 60
 
+        self.fields['country'].queryset = (
+            Country.objects.filter(is_deleted=False)
+        )
+        self.fields['theme'].queryset = (
+            EnvironmentalTheme.objects.filter(is_deleted=False)
+        )
+        self.fields['geographical_scope'].queryset = (
+            GeographicalScope.objects.filter(is_deleted=False)
+        )
+
     class Meta:
         model = Indicator
         exclude = ['author_id']
@@ -105,6 +118,14 @@ class DriverForm(ModelForm):
         self.fields['short_name'].widget.attrs["size"] = 30
         self.fields['name'].widget.attrs["size"] = 60
         self.fields['url'].widget.attrs["size"] = 100
+
+        self.fields['country'].queryset = (
+            Country.objects.filter(is_deleted=False)
+        )
+        self.fields['geographical_scope'].queryset = (
+            GeographicalScope.objects.filter(is_deleted=False)
+        )
+
 
     class Meta:
         model = DriverOfChange
@@ -151,27 +172,3 @@ class FigureForm(ModelForm):
         help_texts = {
             'file': _(_file_help_text()),
         }
-
-
-class CountryForm(ModelForm):
-    class Meta:
-        model = Country
-        labels = {
-            "iso": _("ISO"),
-        }
-
-
-class CountryUpdateForm(ModelForm):
-    class Meta:
-        model = Country
-        exclude = ['iso']
-
-
-class GeoScopeForm(ModelForm):
-    class Meta:
-        model = GeographicalScope
-
-
-class EnvironmentalThemeForm(ModelForm):
-    class Meta:
-        model = EnvironmentalTheme

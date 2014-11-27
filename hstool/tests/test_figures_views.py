@@ -101,7 +101,7 @@ class FiguresAdd(HSWebTest):
         user = UserFactory()
         url = reverse('figures:add')
         resp = self.app.get(url, user=user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_fields_required(self):
         resp = self.form.submit()
@@ -163,7 +163,7 @@ class FiguresUpdate(HSWebTest):
         self.figure = FigureFactory(author_id=user.username)
         url = reverse('figures:update', args=(self.figure.pk, ))
         resp = self.app.get(url, user=user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_existing_field_values(self):
         self.assertEqual(self.form['title'].value, self.figure.title)
@@ -223,7 +223,7 @@ class FiguresDelete(HSWebTest):
         figure = FigureFactory(author_id=user.username)
         url = reverse('figures:delete', args=(figure.pk, ))
         resp = self.app.get(url, user=user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_deletion(self):
         resp = self.form.submit().follow()

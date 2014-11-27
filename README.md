@@ -67,10 +67,16 @@ be run as an unprivileged user in the product directory:
 
     ./manage.py syncdb
 
-6.Load fixtures data into the database:
+6.Migrate apps
+
+
+    ./manage.py migrate
+
+7.Load fixtures data into the database:
 
 
     ./manage.py loadfixtures
+    ./manage.py load_metadata_fixtures
 
 Build production
 ----------------

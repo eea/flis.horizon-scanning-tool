@@ -51,38 +51,6 @@ class ContentTypeRestrictedFileField(FileField):
         )
 
 
-class EnvironmentalTheme(Model):
-    title = CharField(max_length=128)
-
-    class Meta:
-        ordering = ('-pk',)
-        permissions = (
-            ('config', 'Can change configuration'),
-        )
-
-    def __unicode__(self):
-        return self.title
-
-
-class GeographicalScope(Model):
-    title = CharField(max_length=128)
-    require_country = BooleanField(default=False)
-
-    class Meta:
-        ordering = ('-pk',)
-
-    def __unicode__(self):
-        return self.title
-
-
-class Country(Model):
-    iso = CharField(max_length=2, primary_key=True)
-    name = CharField(max_length=128)
-
-    def __unicode__(self):
-        return self.name
-
-
 class Figure(Model):
     author_id = CharField(max_length=64)
     title = CharField(max_length=512, default='')
@@ -117,8 +85,9 @@ class GenericElement(Model):
     author_id = CharField(max_length=64)
     short_name = CharField(max_length=64)
     name = CharField(max_length=255)
-    geographical_scope = ForeignKey('GeographicalScope', null=True, blank=True)
-    country = ForeignKey('Country', null=True, blank=True)
+    geographical_scope = ForeignKey('common.GeographicalScope',
+                                    null=True, blank=True)
+    country = ForeignKey('common.Country', null=True, blank=True)
     url = CharField(max_length=256, blank=True, null=True)
     added = DateTimeField(auto_now_add=True, editable=False,
                           default=datetime.now)
@@ -148,7 +117,7 @@ class DriverOfChange(GenericElement):
 
 
 class Indicator(GenericElement):
-    theme = ForeignKey('EnvironmentalTheme')
+    theme = ForeignKey('common.EnvironmentalTheme')
     year_base = IntegerField()
     year_end = IntegerField()
     timeline = IntegerField(choices=IND_TIMELINE_CHOICES)
@@ -184,6 +153,7 @@ class Assessment(Model):
     class Meta:
         permissions = (
             ('create', 'Create an assessment'),
+            ('config', 'Can change configuration'),
         )
 
     def __unicode__(self):

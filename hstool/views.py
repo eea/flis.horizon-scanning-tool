@@ -14,13 +14,14 @@ from braces.views import JSONResponseMixin, AjaxResponseMixin
 from hstool.definitions import CANONICAL_ROLES
 
 from hstool.models import (
-    Source, Indicator, DriverOfChange, Country, GeographicalScope, Figure,
-    Assessment, Relation, EnvironmentalTheme
+    Source, Indicator, DriverOfChange, Figure,
+    Assessment, Relation
 )
+from flis_metadata.common.models import GeographicalScope
+
 from hstool.forms import (
-    SourceForm, IndicatorForm, DriverForm, CountryForm, GeoScopeForm,
-    FigureForm, CountryUpdateForm, AssessmentForm, RelationForm,
-    EnvironmentalThemeForm
+    SourceForm, IndicatorForm, DriverForm,
+    FigureForm, AssessmentForm, RelationForm,
 )
 from hstool.utils import get_nodes_from_components
 
@@ -340,56 +341,6 @@ class FiguresDelete(OwnerRequiredMixin, DeleteView):
     success_url = reverse_lazy('figures:list')
 
 
-class CountriesList(AdminRequiredMixin, ListView):
-    template_name = 'settings/countries_list.html'
-    model = Country
-    context_object_name = 'countries'
-
-
-class CountriesAdd(AdminRequiredMixin, CreateView):
-    template_name = 'settings/countries_add.html'
-    form_class = CountryForm
-    success_url = reverse_lazy('settings:countries_list')
-
-
-class CountriesUpdate(AdminRequiredMixin, UpdateView):
-    template_name = 'settings/countries_update.html'
-    model = Country
-    form_class = CountryUpdateForm
-    success_url = reverse_lazy('settings:countries_list')
-
-
-class CountriesDelete(AdminRequiredMixin, DeleteView):
-    template_name = 'object_delete.html'
-    model = Country
-    success_url = reverse_lazy('settings:countries_list')
-
-
-class GeoScopesList(AdminRequiredMixin, ListView):
-    template_name = 'settings/geo_scopes_list.html'
-    model = GeographicalScope
-    context_object_name = 'geo_scopes'
-
-
-class GeoScopesAdd(AdminRequiredMixin, CreateView):
-    template_name = 'settings/geo_scopes_add.html'
-    form_class = GeoScopeForm
-    success_url = reverse_lazy('settings:geo_scopes_list')
-
-
-class GeoScopesUpdate(AdminRequiredMixin, UpdateView):
-    template_name = 'settings/geo_scopes_add.html'
-    model = GeographicalScope
-    form_class = GeoScopeForm
-    success_url = reverse_lazy('settings:geo_scopes_list')
-
-
-class GeoScopesDelete(AdminRequiredMixin, DeleteView):
-    template_name = 'object_delete.html'
-    model = GeographicalScope
-    success_url = reverse_lazy('settings:geo_scopes_list')
-
-
 class GeoScopesRequired(JSONResponseMixin, AjaxResponseMixin, DetailView):
 
     model = GeographicalScope
@@ -404,31 +355,6 @@ class GeoScopesRequired(JSONResponseMixin, AjaxResponseMixin, DetailView):
         return self.render_json_response({
             'required': self.get_object().require_country,
         })
-
-
-class EnvironmentalThemeList(AdminRequiredMixin, ListView):
-    template_name = 'settings/environmental_theme_list.html'
-    model = EnvironmentalTheme
-    context_object_name = 'themes'
-
-
-class EnvironmentalThemeAdd(AdminRequiredMixin, CreateView):
-    template_name = 'settings/environmental_theme_add.html'
-    form_class = EnvironmentalThemeForm
-    success_url = reverse_lazy('settings:themes_list')
-
-
-class EnvironmentalThemeUpdate(AdminRequiredMixin, UpdateView):
-    template_name = 'settings/environmental_theme_add.html'
-    model = EnvironmentalTheme
-    form = EnvironmentalThemeForm
-    success_url = reverse_lazy('settings:themes_list')
-
-
-class EnvironmentalThemeDelete(AdminRequiredMixin, DeleteView):
-    template_name = 'object_delete.html'
-    model = EnvironmentalTheme
-    success_url = reverse_lazy('settings:themes_list')
 
 
 class RolesOverview(AdminRequiredMixin, TemplateView):

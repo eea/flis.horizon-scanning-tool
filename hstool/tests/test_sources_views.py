@@ -114,7 +114,7 @@ class SourcesAdd(HSWebTest):
         self.user = UserFactory()
         url = reverse('sources:add')
         resp = self.app.get(url, user=self.user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_fields_required(self):
         resp = self.form.submit()
@@ -159,7 +159,7 @@ class SourcesUpdate(HSWebTest):
         self.source = SourceFactory(author_id=self.user.username)
         url = reverse('sources:update', args=(self.source.pk, ))
         resp = self.app.get(url, user=self.user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_existing_field_values(self):
         self.assertEqual(self.form['title'].value, self.source.title)
@@ -204,7 +204,7 @@ class SourcesDelete(HSWebTest):
         source = SourceFactory(author_id=user.username)
         url = reverse('sources:delete', args=(source.pk, ))
         resp = self.app.get(url, user=user)
-        self.form = resp.forms[1]
+        self.form = resp.forms[0]
 
     def test_deletion(self):
         resp = self.form.submit().follow()
