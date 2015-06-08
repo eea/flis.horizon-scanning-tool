@@ -133,8 +133,9 @@ class DriverForm(ModelForm):
         labels = {
             "type": _("Type of Driver of Change"),
             "trend_type": _("Type of trend"),
+            "uncertainty_type": _("Type of uncertainty"),
             "steep_category": _("STEEP category"),
-            "geographical_scope": _("Georgaphical scale"),
+            "geographical_scope": _("Geographical scale"),
             "name": _("Long name"),
             "url": _("URL"),
         }
