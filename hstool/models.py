@@ -120,7 +120,7 @@ class DriverOfChange(GenericElement):
 
 
 class Indicator(GenericElement):
-    theme = ForeignKey('common.EnvironmentalTheme', null=True)
+    theme = ForeignKey('common.EnvironmentalTheme')
     year_base = IntegerField()
     year_end = IntegerField()
     timeline = IntegerField(choices=IND_TIMELINE_CHOICES)

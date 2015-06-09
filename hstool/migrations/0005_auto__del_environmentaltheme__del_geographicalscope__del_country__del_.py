@@ -98,7 +98,7 @@ class Migration(SchemaMigration):
         },
         u'hstool.indicator': {
             'Meta': {'object_name': 'Indicator', '_ormbases': [u'hstool.GenericElement']},
-            'fake_theme': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['common.EnvironmentalTheme']", 'null': 'True', 'blank': 'True'}),
+            'theme': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['common.EnvironmentalTheme']", 'null': 'False'}),
             u'genericelement_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['hstool.GenericElement']", 'unique': 'True', 'primary_key': 'True'}),
             'timeline': ('django.db.models.fields.IntegerField', [], {}),
             'year_base': ('django.db.models.fields.IntegerField', [], {}),

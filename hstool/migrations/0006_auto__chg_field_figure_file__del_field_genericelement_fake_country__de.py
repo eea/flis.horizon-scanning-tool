@@ -27,14 +27,9 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.related.ForeignKey')(to=orm['common.Country'], null=True, blank=True),
                       keep_default=False)
 
-        # Deleting field 'Indicator.fake_theme'
-        db.delete_column(u'hstool_indicator', 'fake_theme_id')
 
-        # Adding field 'Indicator.theme'
-        db.add_column(u'hstool_indicator', 'theme',
-                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['common.EnvironmentalTheme'], null=True),
-                      keep_default=False)
-
+        # Changing field 'Indicator.theme'
+        db.alter_column(u'hstool_indicator', 'theme_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['common.EnvironmentalTheme']))
         # Adding field 'DriverOfChange.uncertainty_type'
         db.add_column(u'hstool_driverofchange', 'uncertainty_type',
                       self.gf('django.db.models.fields.IntegerField')(default=1),
@@ -61,14 +56,9 @@ class Migration(SchemaMigration):
         # Deleting field 'GenericElement.country'
         db.delete_column(u'hstool_genericelement', 'country_id')
 
-        # Adding field 'Indicator.fake_theme'
-        db.add_column(u'hstool_indicator', 'fake_theme',
-                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['common.EnvironmentalTheme'], null=True, blank=True),
-                      keep_default=False)
 
-        # Deleting field 'Indicator.theme'
-        db.delete_column(u'hstool_indicator', 'theme_id')
-
+        # Changing field 'Indicator.theme'
+        db.alter_column(u'hstool_indicator', 'theme_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['common.EnvironmentalTheme'], null=False))
         # Deleting field 'DriverOfChange.uncertainty_type'
         db.delete_column(u'hstool_driverofchange', 'uncertainty_type')
 
@@ -135,7 +125,7 @@ class Migration(SchemaMigration):
         u'hstool.indicator': {
             'Meta': {'object_name': 'Indicator', '_ormbases': [u'hstool.GenericElement']},
             u'genericelement_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['hstool.GenericElement']", 'unique': 'True', 'primary_key': 'True'}),
-            'theme': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['common.EnvironmentalTheme']", 'null': 'True'}),
+            'theme': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['common.EnvironmentalTheme']"}),
             'timeline': ('django.db.models.fields.IntegerField', [], {}),
             'year_base': ('django.db.models.fields.IntegerField', [], {}),
             'year_end': ('django.db.models.fields.IntegerField', [], {})
