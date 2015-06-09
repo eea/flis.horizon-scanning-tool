@@ -161,3 +161,22 @@ class Assessment(Model):
 
     def __unicode__(self):
         return self.title
+
+
+class Implication(GenericElement):
+    AREA_POLICY = (
+        ('mock_policy', 'Mock policy'),
+    )
+
+    title = CharField(max_length=512)
+    policy_area = CharField(
+        max_length=64,
+        choices= AREA_POLICY,
+        default=0,
+        blank=True,
+        null=True,
+    )
+    description = TextField(max_length=2048)
+
+    def __unicode__(self):
+        return self.title
