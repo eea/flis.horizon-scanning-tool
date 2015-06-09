@@ -38,19 +38,19 @@ class DriversList(HSWebTest):
             driver1.get_trend_type_display()
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(3)').text(),
+            resp.pyquery('#objects_listing tbody tr td:eq(4)').text(),
             driver1.get_steep_category_display()
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(4)').text(),
+            resp.pyquery('#objects_listing tbody tr td:eq(5)').text(),
             driver1.get_time_horizon_display()
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(5)').text(),
+            resp.pyquery('#objects_listing tbody tr td:eq(6)').text(),
             str(driver1.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(6) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(7) a').attr('href'),
             reverse('drivers:delete', args=(driver1.pk, ))
         )
 
@@ -80,19 +80,19 @@ class DriversList(HSWebTest):
             driver1.get_trend_type_display()
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(3)').text(),
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(4)').text(),
             driver1.get_steep_category_display()
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(4)').text(),
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(5)').text(),
             driver1.get_time_horizon_display()
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(5)').text(),
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(6)').text(),
             str(driver1.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(6) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(7) a').attr('href'),
             reverse('drivers:delete', args=(driver1.pk, ))
         )
         self.assertEqual(
@@ -109,23 +109,19 @@ class DriversList(HSWebTest):
             driver2.get_type_display()
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(2)').text(),
-            driver2.get_trend_type_display()
-        )
-        self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(3)').text(),
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(4)').text(),
             driver2.get_steep_category_display()
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(4)').text(),
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(5)').text(),
             driver2.get_time_horizon_display()
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(5)').text(),
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(6)').text(),
             str(driver2.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(6) a')
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(7) a')
             .attr('href'),
             reverse('drivers:delete', args=(driver2.pk, ))
         )
@@ -143,7 +139,6 @@ class DriversAdd(HSWebTest):
         self.assertFormError(resp, 'form', 'name', REQUIRED)
         self.assertFormError(resp, 'form', 'short_name', REQUIRED)
         self.assertFormError(resp, 'form', 'type', REQUIRED)
-        self.assertFormError(resp, 'form', 'trend_type', REQUIRED)
         self.assertFormError(resp, 'form', 'steep_category', REQUIRED)
         self.assertFormError(resp, 'form', 'time_horizon', REQUIRED)
 
