@@ -15,13 +15,14 @@ from hstool.definitions import CANONICAL_ROLES
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Figure,
-    Assessment, Relation
+    Assessment, Relation, Implication,
 )
 from flis_metadata.common.models import GeographicalScope
 
 from hstool.forms import (
     SourceForm, IndicatorForm, DriverForm,
     FigureForm, AssessmentForm, RelationForm,
+    ImplicationForm,
 )
 from hstool.utils import get_nodes_from_components
 
@@ -314,6 +315,38 @@ class DriversDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'object_delete.html'
     model = DriverOfChange
     success_url = reverse_lazy('drivers:list')
+
+
+class ImplicationsList(LoginRequiredMixin, ListView):
+    template_name = 'tool/implications_list.html'
+    model = Implication
+    context_object_name = 'implications'
+
+
+class ImplicationsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
+    template_name = 'tool/implications_add.html'
+    form_class = ImplicationForm
+    success_url = reverse_lazy('implications:list')
+
+
+class ImplicationsUpdate(OwnerRequiredMixin, UpdateView):
+    template_name = 'tool/implications_add.html'
+    model = Implication
+    form_class = ImplicationForm
+    success_url = reverse_lazy('implications:list')
+
+    def get_context_data(self, **kwargs):
+        context = super(ImplicationsUpdate, self).get_context_data(**kwargs)
+        geographical_scope = self.object.geographical_scope
+        context['required'] = (
+            geographical_scope.require_country if geographical_scope else None)
+        return context
+
+
+class ImplicationsDelete(OwnerRequiredMixin, DeleteView):
+    template_name = 'object_delete.html'
+    model = Implication
+    success_url = reverse_lazy('implications:list')
 
 
 class FiguresList(LoginRequiredMixin, ListView):

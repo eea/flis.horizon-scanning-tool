@@ -1,0 +1,92 @@
+{% extends '_layout.html' %}
+{% load widget_tweaks %}
+{% load custom_filters %}
+
+{% block title %}Add/Edit Implication{% endblock %}
+
+{% block content %}
+	<div class="container-fluid" id="view">
+
+		<h2 class="page-header">Add/Edit Implication</h2>
+		<form class="form-horizontal" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.title|label }}
+				</label>
+				<div class="controls col-sm-10">
+					{% render_field form.title class='form-control' %}
+					{{ form.title.errors }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.policy_area|label }}
+				</label>
+				<div class="controls col-sm-10">
+					{% render_field form.policy_area class='form-control' %}
+					{{ form.policy_area.errors }}
+				</div>
+			</div>
+
+      <div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.description|label }}
+				</label>
+				<div class="controls col-sm-10">
+					{% render_field form.description class='form-control' %}
+					{{ form.description.errors }}
+				</div>
+			</div>
+
+      <div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.geographical_scope|label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% url 'settings:geo_scopes_required' as required_url %}
+					{% render_field form.geographical_scope class='form-control' id="geo_scope" href=required_url %}
+					{{ form.geographical_scope.errors }}
+				</div>
+			</div>
+
+      <div class="form-group"  {% if not required %}id="invisible"{% endif %}>
+				<label class="col-sm-2 control-label">{{ form.country|label:"True" }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.country class='form-control' %}
+					{{ form.country.errors }}
+				</div>
+			</div>
+
+      <div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.sources|label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.sources class='form-control' %}
+					{{ form.sources.errors }}
+				</div>
+        <div class="col-sm-2">
+					<a class="btn btn-primary launch-modal" data-toggle="modal"
+							 data-target="#myModal"
+							 data-action="{% url 'modals:add' 'sources'%}"
+							 data-title="Add new Source"
+							 data-backdrop="static">
+						<span class="glyphicon glyphicon-plus"></span>  &nbsp;
+						Add new source
+					</a>
+				</div>
+			</div>
+
+      <div class="form-actions">
+				<div class="col-sm-offset-2">
+					<button class="btn btn-primary" type="submit">Save</button>
+					<small>or
+						<a href="{% url 'implications:list' %}">Cancel</a>
+					</small>
+				</div>
+			</div>
+
+		</form>
+	</div>
+
+  {% include 'modals/_form.html' %}
+{% endblock %}
