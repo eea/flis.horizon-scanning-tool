@@ -1,0 +1,40 @@
+{% extends 'tool/_list_as_table.html' %}
+
+{% block title %}Implications list{% endblock %}
+
+{% block content %}
+	<div class="container-fluid">
+		</br>
+	  <a class="btn btn-primary" href="{% url 'implications:add' %}">Add Implication</a>
+		</br>
+
+		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+			<thead>
+			<tr>
+        <th>Title</th>
+				<th>Area of policy</th>
+        <th>Added by</th>
+				<th>Added at</th>
+        <th></th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for implication in implications %}
+				<tr>
+					<td>
+						<a href="{% url 'implications:update' implication.id %}">{{ implication.title }}</a>
+					</td>
+					<td>{{ implication.policy_area|default_if_none:'' }}</td>
+          <td>{{ implication.author_id }}</td>
+          <td>{{ implication.added }}</td>
+					<td nowrap>
+						<a id="delete" href="{% url 'implications:delete' implication.id %}">
+							<span class="glyphicon glyphicon-remove"></span> Delete
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
