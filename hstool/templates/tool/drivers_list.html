@@ -14,7 +14,7 @@
 				<th>Name</th>
 				<th>Type of driver of change</th>
 				<th>Type of trend</th>
-        <th>Type of uncertainty</th>
+				<th>Type of uncertainty</th>
 				<th>STEEP category</th>
 				<th>Time horizon</th>
 				<th>Added by</th>
@@ -28,16 +28,16 @@
 						<a href="{% url 'drivers:update' driver.id %}">{{ driver.name }}</a>
 					</td>
 					<td>{{ driver.get_type_display }}</td>
-          {% if driver.get_type_display == 'Trends' %}
-					  <td>{{ driver.get_trend_type_display }}</td>
-          {% else %}
-            <td>-</td>
-          {% endif %}
-          {% if driver.get_type_display == 'Uncertainties' %}
-					  <td>{{ driver.get_uncertainty_type_display }}</td>
-          {% else %}
-            <td>-</td>
-          {% endif %}
+					{% if driver.get_type_display == 'Trends' %}
+						<td>{{ driver.get_trend_type_display }}</td>
+					{% else %}
+						<td>-</td>
+					{% endif %}
+					{% if driver.get_type_display == 'Uncertainties' %}
+						<td>{{ driver.get_uncertainty_type_display }}</td>
+					{% else %}
+						<td>-</td>
+					{% endif %}
 					<td>{{ driver.get_steep_category_display }}</td>
 					<td>{{ driver.get_time_horizon_display }}</td>
 					<td>{{ driver.author_id }}</td>
