@@ -9,7 +9,7 @@ from django.conf import settings
 from hstool.definitions import (
     DOC_TYPE_CHOICES, DOC_TREND_TYPE_CHOICES, DOC_STEEP_CHOICES,
     DOC_TIME_HORIZON_CHOICES, IND_TIMELINE_CHOICES,
-    RELATION_TYPE_CHOICES,
+    RELATION_TYPE_CHOICES, DOC_UNCERTAINTIES_TYPE_CHOICES,
 )
 from hstool.utils import path_and_rename
 
@@ -101,7 +101,10 @@ class GenericElement(Model):
 
 class DriverOfChange(GenericElement):
     type = IntegerField(choices=DOC_TYPE_CHOICES)
-    trend_type = IntegerField(choices=DOC_TREND_TYPE_CHOICES)
+    trend_type = IntegerField(choices=DOC_TREND_TYPE_CHOICES,
+                              default=1)
+    uncertainty_type = IntegerField(choices=DOC_UNCERTAINTIES_TYPE_CHOICES,
+                                    default=1)
     steep_category = CharField(max_length=5, choices=DOC_STEEP_CHOICES)
     time_horizon = IntegerField(choices=DOC_TIME_HORIZON_CHOICES)
     summary = TextField(null=True, blank=True)
@@ -117,7 +120,7 @@ class DriverOfChange(GenericElement):
 
 
 class Indicator(GenericElement):
-    theme = ForeignKey('common.EnvironmentalTheme')
+    theme = ForeignKey('common.EnvironmentalTheme', null=True)
     year_base = IntegerField()
     year_end = IntegerField()
     timeline = IntegerField(choices=IND_TIMELINE_CHOICES)

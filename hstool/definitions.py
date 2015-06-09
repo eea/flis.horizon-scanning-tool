@@ -10,6 +10,12 @@ DOC_TREND_TYPE_CHOICES = (
     (2, 'Megatrend'),
 )
 
+DOC_UNCERTAINTIES_TYPE_CHOICES = (
+    (1, 'Rationale'),
+    (2, 'Data'),
+    (3, 'Methodology (related to the model)'),
+)
+
 DOC_STEEP_CHOICES = (
     ('Ec', 'Economic'),
     ('Env', 'Environmental'),

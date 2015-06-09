@@ -2,6 +2,38 @@
 {% load custom_filters %}
 {% load widget_tweaks %}
 
+{% block scripts %}
+
+	 <script>
+		 $(window).load(function() {
+				if ($('#id_type').val() != '1') {
+						$('[data-show-if=trends]').addClass('hide');
+				}
+				if ($('#id_type').val() != '2') {
+						$('[data-show-if=uncertainties]').addClass('hide');
+				}
+		 });
+
+		 $('#id_type').on('change', function () {
+				switch($(this).val()) {
+						case '1':
+								$('[data-show-if=trends]').removeClass('hide');
+								$('[data-show-if=uncertainties]').addClass('hide');
+								break;
+						case '2':
+								$('[data-show-if=uncertainties]').removeClass('hide');
+								$('[data-show-if=trends]').addClass('hide');
+								break;
+						default:
+								$('[data-show-if=trends]').addClass('hide');
+								$('[data-show-if=uncertainties]').addClass('hide');
+				}
+		 }).change();
+	 </script>
+
+{% endblock %}
+
+
 {% block title %}Add/Edit Driver of Change{% endblock %}
 
 {% block content %}
@@ -20,12 +52,21 @@
 				</div>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group" data-show-if="trends">
 				<label class="col-sm-2 control-label">{{ form.trend_type|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.trend_type class='form-control' %}
 					{{ form.trend_type.errors }}
+				</div>
+			</div>
+
+			<div class="form-group" data-show-if="uncertainties">
+				<label class="col-sm-2 control-label">{{ form.uncertainty_type|label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.uncertainty_type class='form-control' %}
+					{{ form.uncertainty_type.errors }}
 				</div>
 			</div>
 
