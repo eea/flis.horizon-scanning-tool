@@ -11,11 +11,11 @@
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
 			<thead>
 			<tr>
-        <th>Title</th>
+				<th>Title</th>
 				<th>Area of policy</th>
-        <th>Added by</th>
+				<th>Added by</th>
 				<th>Added at</th>
-        <th></th>
+				<th></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -25,8 +25,8 @@
 						<a href="{% url 'implications:update' implication.id %}">{{ implication.title }}</a>
 					</td>
 					<td>{{ implication.policy_area|default_if_none:'' }}</td>
-          <td>{{ implication.author_id }}</td>
-          <td>{{ implication.added }}</td>
+					<td>{{ implication.author_id }}</td>
+					<td>{{ implication.added }}</td>
 					<td nowrap>
 						<a id="delete" href="{% url 'implications:delete' implication.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete
