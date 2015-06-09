@@ -117,7 +117,7 @@ class DriverOfChange(GenericElement):
 
 
 class Indicator(GenericElement):
-    theme = ForeignKey('common.EnvironmentalTheme')
+    theme = ForeignKey('common.EnvironmentalTheme', null=True)
     year_base = IntegerField()
     year_end = IntegerField()
     timeline = IntegerField(choices=IND_TIMELINE_CHOICES)
@@ -155,6 +155,25 @@ class Assessment(Model):
             ('create', 'Create an assessment'),
             ('config', 'Can change configuration'),
         )
+
+    def __unicode__(self):
+        return self.title
+
+
+class Implication(GenericElement):
+    AREA_POLICY = (
+        ('mock_policy', 'Mock policy'),
+    )
+
+    title = CharField(max_length=512)
+    policy_area = CharField(
+        max_length=64,
+        choices= AREA_POLICY,
+        default=0,
+        blank=True,
+        null=True,
+    )
+    description = TextField(max_length=2048)
 
     def __unicode__(self):
         return self.title
