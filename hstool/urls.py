@@ -41,6 +41,16 @@ drivers_urls = patterns(
     url(r'^delete/(?P<pk>\d+)/$', views.DriversDelete.as_view(), name='delete'),
 )
 
+implications_urls = patterns(
+    '',
+    url(r'^list/$', views.ImplicationsList.as_view(), name='list'),
+    url(r'^add/$', views.ImplicationsAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.ImplicationsUpdate.as_view(),
+        name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.ImplicationsDelete.as_view(),
+        name='delete'),
+)
+
 figures_urls = patterns(
     '',
     url(r'^list/$', views.FiguresList.as_view(), name='list'),
@@ -100,6 +110,8 @@ urlpatterns = patterns(
     url(r'^indicators/', include(indicators_urls, namespace='indicators')),
 
     url(r'^docs/', include(drivers_urls, namespace='drivers')),
+
+    url(r'^implications/', include(implications_urls, namespace='implications')),
 
     url(r'^figures/', include(figures_urls, namespace='figures')),
 
