@@ -29,7 +29,7 @@
 				</div>
 			</div>
 
-      <div class="form-group">
+			<div class="form-group">
 				<label class="col-sm-2 control-label">{{ form.description|label }}
 				</label>
 				<div class="controls col-sm-10">
@@ -38,7 +38,7 @@
 				</div>
 			</div>
 
-      <div class="form-group">
+			<div class="form-group">
 				<label class="col-sm-2 control-label">{{ form.geographical_scope|label }}
 				</label>
 				<div class="controls col-sm-4">
@@ -48,7 +48,7 @@
 				</div>
 			</div>
 
-      <div class="form-group"  {% if not required %}id="invisible"{% endif %}>
+			<div class="form-group"  {% if not required %}id="invisible"{% endif %}>
 				<label class="col-sm-2 control-label">{{ form.country|label:"True" }}
 				</label>
 				<div class="controls col-sm-4">
@@ -57,14 +57,14 @@
 				</div>
 			</div>
 
-      <div class="form-group">
+			<div class="form-group">
 				<label class="col-sm-2 control-label">{{ form.sources|label }}
 				</label>
 				<div class="controls col-sm-4">
 					{% render_field form.sources class='form-control' %}
 					{{ form.sources.errors }}
 				</div>
-        <div class="col-sm-2">
+				<div class="col-sm-2">
 					<a class="btn btn-primary launch-modal" data-toggle="modal"
 							 data-target="#myModal"
 							 data-action="{% url 'modals:add' 'sources'%}"
@@ -76,7 +76,7 @@
 				</div>
 			</div>
 
-      <div class="form-actions">
+			<div class="form-actions">
 				<div class="col-sm-offset-2">
 					<button class="btn btn-primary" type="submit">Save</button>
 					<small>or
