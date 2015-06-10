@@ -126,6 +126,8 @@ FRAME_SEEN_EXCLUDE = ('/_lastseencount/', )
 # any type is accepted if it is set to be the empty list [].
 SUPPORTED_FILES_FACTS_AND_FIGURES = ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
+METADATA_URL = ''
+
 try:
     from local_settings import *
 except ImportError:

@@ -24,6 +24,7 @@
     </li>
   {% endif %}
 
+  {% get_metadata_url as metadata_url %}
   {% if perms.hstool.config %}
     <li class="{% active 'settings/(.+)$' %} pull-right">
       <a class="dropdown-toggle btn" data-toggle="dropdown">
@@ -32,6 +33,11 @@
         <li>
           <a href="{% url 'settings:roles' %}">
             Roles
+          </a>
+        </li>
+        <li>
+          <a href="{{ metadata_url }}">
+            Common metadata
           </a>
         </li>
       </ul>

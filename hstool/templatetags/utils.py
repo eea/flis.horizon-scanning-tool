@@ -18,3 +18,10 @@ def active(context, pattern):
     if re.search(pattern, request.path):
         return 'active'
     return ''
+
+
+@register.assignment_tag(name='get_metadata_url')
+def do_get_metadata_url():
+    if hasattr(settings, 'METADATA_URL'):
+        return settings.METADATA_URL
+    return None
