@@ -4,7 +4,8 @@ from factory import SubFactory
 from django.contrib.auth.models import User
 
 from hstool.models import (
-    Assessment, DriverOfChange, Indicator, Source, Figure, Relation
+    Assessment, DriverOfChange, Indicator, Source, Figure, Relation,
+    Implication,
 )
 from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
@@ -91,3 +92,11 @@ class RelationFactory(DjangoModelFactory):
 
     description = 'relation description'
     relationship_type = 1
+
+
+class ImplicationFactory(DjangoModelFactory):
+    FACTORY_FOR = Implication
+
+    author_id = 'author_id'
+    title = 'title'
+    description = 'description'

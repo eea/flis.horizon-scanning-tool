@@ -4,7 +4,7 @@ from django.conf import settings
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Figure,
-    Assessment, Relation,
+    Assessment, Relation, Implication,
 )
 from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
@@ -173,3 +173,38 @@ class FigureForm(ModelForm):
         help_texts = {
             'file': _(_file_help_text()),
         }
+
+
+class ImplicationForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ImplicationForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs["size"] = 30
+        self.fields['description'].widget.attrs["cols"] = 70
+        self.fields['description'].widget.attrs["rows"] = 6
+
+        self.fields['country'].queryset = (
+            Country.objects.filter(is_deleted=False)
+        )
+        self.fields['geographical_scope'].queryset = (
+            GeographicalScope.objects.filter(is_deleted=False)
+        )
+
+    class Meta:
+        model = Implication
+        exclude = ['author_id', 'short_name', 'name', 'url', 'figures']
+        labels = {
+            "policy_area": _("Area of policy"),
+            "geographical_scope": _("Geographical scale"),
+        }
+
+    def clean(self):
+        cleaned_data = super(ImplicationForm, self).clean()
+        geo_scope = cleaned_data['geographical_scope']
+        country = cleaned_data['country']
+        if geo_scope and geo_scope.require_country and not country:
+            self._errors["country"] = self.error_class([
+                'The selected Geographical Scale requires a country.'
+            ])
+            del cleaned_data["country"]
+
+        return cleaned_data
