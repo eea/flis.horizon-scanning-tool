@@ -152,6 +152,10 @@ class Assessment(Model):
     description = TextField(null=True, blank=True)
     added = DateTimeField(auto_now_add=True, editable=False,
                           default=datetime.now)
+    geographical_scope = ForeignKey('common.GeographicalScope',
+                                    null=True, blank=True)
+    country = ForeignKey('common.Country', null=True, blank=True)
+    url = CharField(max_length=256, blank=True, null=True)
 
     class Meta:
         permissions = (
