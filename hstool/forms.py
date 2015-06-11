@@ -18,9 +18,29 @@ class AssessmentForm(ModelForm):
         self.fields['description'].widget.attrs["rows"] = 6
         self.fields['title'].widget.attrs["size"] = 30
 
+        self.fields['country'].queryset = (
+            Country.objects.filter(is_deleted=False)
+        )
+
+        self.fields['geographical_scope'].queryset = (
+            GeographicalScope.objects.filter(is_deleted=False)
+        )
+
     class Meta:
         model = Assessment
         exclude = ['author_id']
+
+    def clean(self):
+        cleaned_data = super(AssessmentForm, self).clean()
+        geo_scope = cleaned_data['geographical_scope']
+        country = cleaned_data['country']
+        if geo_scope and geo_scope.require_country and not country:
+            self._errors["country"] = self.error_class([
+                'The selected Geographical Scale requires a country.'
+            ])
+            del cleaned_data["country"]
+
+        return cleaned_data
 
 
 class SourceForm(ModelForm):
