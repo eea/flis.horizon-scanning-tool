@@ -112,15 +112,6 @@ class DriverOfChange(GenericElement):
     time_horizon = IntegerField(choices=DOC_TIME_HORIZON_CHOICES)
     summary = TextField(null=True, blank=True)
 
-    def __unicode__(self):
-        return '{0}: {1} - {2} - {3} - {4}'.format(
-            self.name,
-            dict(DOC_TYPE_CHOICES).get(self.type, ''),
-            dict(DOC_TREND_TYPE_CHOICES).get(self.trend_type, ''),
-            dict(DOC_STEEP_CHOICES).get(self.steep_category, ''),
-            dict(DOC_TIME_HORIZON_CHOICES).get(self.time_horizon, ''),
-        )
-
 
 class Indicator(GenericElement):
     theme = ForeignKey('common.EnvironmentalTheme')
@@ -128,19 +119,12 @@ class Indicator(GenericElement):
     year_end = IntegerField()
     timeline = IntegerField(choices=IND_TIMELINE_CHOICES)
 
-    def __unicode__(self):
-        return '{0}: {1} - {2} - {3} - {4}'.format(
-            self.name,
-            self.theme, self.year_base, self.year_end,
-            dict(IND_TIMELINE_CHOICES).get(self.timeline, ''),
-        )
-
 
 class Relation(Model):
     draft = BooleanField(default=True)
     assessment = ForeignKey('Assessment', related_name='relations')
-    source = ForeignKey('GenericElement', related_name='source_relations')
-    destination = ForeignKey('GenericElement', related_name='dest_relations')
+    source = ForeignKey('DriverOfChange', related_name='source_relations')
+    destination = ForeignKey('GenericElement', related_name='dest_relations', blank=True)
     relationship_type = IntegerField(choices=RELATION_TYPE_CHOICES)
     description = TextField(max_length=2048)
 
