@@ -141,7 +141,7 @@ class RelationsUpdateViewTests(HSWebTest):
         indicator = IndicatorFactory()
         driver = DriverFactory()
         relation = RelationFactory(
-            assessment=assessment, source=indicator, destination=driver
+            assessment=assessment, source=driver, destination=indicator
         )
         self.url = reverse('relations:update',
                            args=(assessment.pk, relation.pk))
@@ -172,7 +172,7 @@ class RelationsDeleteViewTests(HSWebTest):
         indicator = IndicatorFactory()
         driver = DriverFactory()
         relation = RelationFactory(
-            assessment=assessment, source=indicator, destination=driver
+            assessment=assessment, source=driver, destination=indicator
         )
         self.url = reverse('relations:delete',
                            args=(assessment.pk, relation.pk))

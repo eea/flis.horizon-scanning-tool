@@ -8,8 +8,8 @@
       $('[data-show-if=show-drivers]').addClass('hide');
 
       $(':checkbox').change(function () {
-          var driver_checkbox = document.getElementById("id_driver");
-          var indicator_checkbox = document.getElementById("id_indicator");
+          var driver_checkbox = document.getElementById("id_check_driver");
+          var indicator_checkbox = document.getElementById("id_check_indicator");
 
           $(':checkbox').not(this).prop('checked', false);
           if (driver_checkbox.checked) {
@@ -91,8 +91,8 @@
           {% for dest_type, dest_type_label in destination_types.items %}
           <div class="col-sm-2">
             <input type="checkbox"
-               id="id_{{ dest_type }}"
-               name="{{ dest_type }}"
+               id="id_check_{{ dest_type }}"
+               name="check_{{ dest_type }}"
                value="{{ dest_type }}">
             {{ dest_type_label }}
           </div>
