@@ -2,91 +2,205 @@
 {% load custom_filters %}
 {% load widget_tweaks %}
 
+{% block scripts %}
+  <script>
+    $(window).load(function() {
+      $('[data-show-if=show-drivers]').addClass('hide');
+
+      $(':checkbox').change(function () {
+          var driver_checkbox = document.getElementById("id_driver");
+          var indicator_checkbox = document.getElementById("id_indicator");
+
+          $(':checkbox').not(this).prop('checked', false);
+          if (driver_checkbox.checked) {
+              $('[data-show-if=show-drivers]').removeClass('hide');
+              $('[data-show-if=show-indicators]').addClass('hide');
+          }
+          else if (indicator_checkbox.checked) {
+              $('[data-show-if=show-indicators]').removeClass('hide');
+              $('[data-show-if=show-drivers]').addClass('hide');
+          }
+          else {
+              $('[data-show-if=show-drivers]').addClass('hide');
+              $('[data-show-if=show-indicators]').addClass('hide');
+          }
+      }).change();
+    });
+  </script>
+{% endblock %}
 
 
 {% block content %}
-    <div class="container-fluid" id="view">
+  <div class="container-fluid" id="view">
 
-        {% if object %}
-            <h2 class="page-header">Edit relation</h2>
-        {% else %}
-            <h2 class="page-header">Add a new relation</h2>
-        {% endif %}
+    {% if object %}
+      <h2 class="page-header">Edit relation</h2>
+    {% else %}
+      <h2 class="page-header">Add a new relation</h2>
+    {% endif %}
 
-        <form method="POST" class="form-horizontal">
-            {% csrf_token %}
-            <div class="form-group">
-                <label class="col-sm-2 control-label">{{ form.source|label }}
-                </label>
-                <div class="col-sm-4">
-                    {% render_field form.source class='form-control' %}
-                    {{ form.source.errors }}
-                </div>
+    <form method="POST" class="form-horizontal">
+      {% csrf_token %}
+      <p>
+        A relation is a link between a driver of change and another item, which can be another driver of change, an impact, an implication, or a supporting item (indicator, fact, figure).
+      </p>
+
+      <fieldset class="well">
+        <div class="form-group">
+          <label class="col-sm-6">{{ form.source|label }}
+          </label>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-6">
+            {% render_field form.source class='form-control' %}
+            {{ form.source.errors }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <p class="col-sm-4">
+            Is your driver missing from the list?
+          </p>
+          <a href="{% url 'drivers:add' %}" target="_blank">
+            Add new driver of change
+          </a>
+        </div>
+      </fieldset>
+
+      <fieldset class="well">
+        <div class="form-group">
+          <label class="col-sm-4">
+            {{ form.destination|label:"True" }}
+          </label>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-4">
+            {{ form.destination.errors }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <p class="col-sm-6">
+            Type of item:
+          </p>
+        </div>
+
+        <div class="form-group">
+          {% for dest_type, dest_type_label in destination_types.items %}
+          <div class="col-sm-2">
+            <input type="checkbox"
+               id="id_{{ dest_type }}"
+               name="{{ dest_type }}"
+               value="{{ dest_type }}">
+            {{ dest_type_label }}
+          </div>
+          {% endfor %}
+        </div>
+
+        <div data-show-if="show-drivers">
+          <div class="form-group">
+            <div class="col-sm-6">
+              {% render_field form.driver class='form-control' %}
+              {{ form.driver.errors }}
             </div>
+          </div>
+          <div class="form-group">
+            <p class="col-sm-4">
+              Is your driver missing from the list?
+            </p>
+            <a href="{% url 'drivers:add' %}" target="_blank">
+              Add new driver of change
+            </a>
+          </div>
+        </div>
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label">{{ form.destination|label }}
-                </label>
-                <div class="col-sm-4">
-                    {% render_field form.destination class='form-control' %}
-                    {{ form.destination.errors }}
-                </div>
+        <div data-show-if="show-indicators">
+          <div class="form-group">
+            <div class="col-sm-6">
+              {% render_field form.indicator class='form-control' %}
+              {{ form.indicator.errors }}
             </div>
+          </div>
+          <div class="form-group">
+            <p class="col-sm-4">
+              Is your indicator missing from the list?
+            </p>
+            <a href="{% url 'indicators:add' %}" target="_blank">
+              Add new indicator
+            </a>
+          </div>
+        </div>
+      </fieldset>
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label">{{ form.relationship_type|label }}
-                </label>
-                <div class="col-sm-4">
-                    {% render_field form.relationship_type class='form-control' %}
-                    {{ form.relationship_type.errors }}
-                </div>
-            </div>
+      <fieldset class="well">
+        <div class="form-group">
+          <label class="col-sm-6">{{ form.relationship_type|label }}
+          </label>
+        </div>
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label">{{ form.description|label }}
-                </label>
-                <div class="col-sm-10">
-                    {% render_field form.description class='form-control' %}
-                    {{ form.description.errors}}
-                </div>
-            </div>
+        <div class="form-group">
+          <div class="col-sm-6">
+            {% render_field form.relationship_type class='form-control' %}
+            {{ form.relationship_type.errors }}
+          </div>
+        </div>
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label">{{ form.figures|label }}
-                </label>
-                <div class="col-sm-4">
-                    {% render_field form.figures class='form-control' %}
-                    {{ form.figures.errors}}
-                </div>
+        <div class="form-group">
+          <label class="col-sm-6"> {{ form.description|label }}
+          </label>
+        </div>
 
-                <div class="col-sm-2">
-                    <a class="btn btn-primary launch-modal" data-toggle="modal"
-                       data-target="#myModal"
-                       data-action="{% url 'modals:add' 'figures'%}"
-                       data-title="Add new Figure"
-                       data-backdrop="static">
-                      <span class="glyphicon glyphicon-plus"></span> &nbsp;
-                      Add new fact & figure
-                    </a>
-                </div>
-            </div>
+        <div class="form-group">
+          <div class="col-sm-6">
+            {% render_field form.description class='form-control' %}
+            {{ form.description.errors}}
+          </div>
+        </div>
+      </fieldset>
 
-            <div class="controls hidden">
-                {% render_field form.draft %}
-            </div>
+      <fieldset class="well">
+        <div class="form-group">
+          <label class="col-sm-6">{{ form.figures|label }}
+          </label>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-6">
+            {% render_field form.figures class='form-control' %}
+            {{ form.figures.errors}}
+          </div>
+        </div>
 
-            <div class="form-actions">
-                <div class="col-sm-offset-2">
-                    <button type="submit" name="draft" value="false"
-                            class="btn btn-primary">Publish</button>
-                    <button type="submit" name="draft" value="true"
-                            class="btn btn-default">Save as draft</button>
-                    <a href="{% url 'assessments:preview' assessment.id %}"
-                       class="btn btn-link" role="button">Cancel</a>
-                </div>
-            </div>
-        </form>
+        <div class="form-group">
+          <p class="col-sm-4">
+            Is your driver missing from the list?
+          </p>
+          <div class="col-sm-2">
+            <a class="btn btn-primary launch-modal" data-toggle="modal"
+               data-target="#myModal"
+               data-action="{% url 'modals:add' 'figures'%}"
+               data-title="Add new Figure"
+               data-backdrop="static">
+              <span class="glyphicon glyphicon-plus"></span> &nbsp;
+              Add new fact & figure
+            </a>
+          </div>
+        </div>
+      </fieldset>
 
-    </div>
-    {% include 'modals/_form.html' %}
+      <div class="form-actions">
+        <div class="col-sm-offset-2">
+          <button type="submit" name="draft" value="false"
+                  class="btn btn-primary">Publish</button>
+          <button type="submit" name="draft" value="true"
+                  class="btn btn-default">Save as draft</button>
+          <a href="{% url 'assessments:preview' assessment.id %}"
+             class="btn btn-link" role="button">Cancel</a>
+        </div>
+      </div>
+    </form>
+
+  </div>
+  {% include 'modals/_form.html' %}
 {% endblock %}
