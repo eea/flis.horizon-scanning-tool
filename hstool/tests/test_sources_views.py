@@ -44,7 +44,7 @@ class SourcesList(HSWebTest):
             source1.author_id
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(5) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(6) a').attr('href'),
             reverse('sources:delete', args=(source1.pk, ))
         )
 
@@ -77,7 +77,7 @@ class SourcesList(HSWebTest):
             source1.author_id
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(5) a')
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(6) a')
             .attr('href'),
             reverse('sources:delete', args=(source1.pk, ))
         )
@@ -103,7 +103,7 @@ class SourcesList(HSWebTest):
             source2.author_id
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(5) a')
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(6) a')
             .attr('href'),
             reverse('sources:delete', args=(source2.pk, ))
         )

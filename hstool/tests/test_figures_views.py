@@ -41,7 +41,7 @@ class FiguresList(HSWebTest):
             figure1.author_id
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(4) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(5) a').attr('href'),
             reverse('figures:delete', args=(figure1.pk, ))
         )
 
@@ -68,7 +68,7 @@ class FiguresList(HSWebTest):
             figure1.author_id
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(4) a')
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(5) a')
             .attr('href'),
             reverse('figures:delete', args=(figure1.pk, ))
         )
@@ -90,7 +90,7 @@ class FiguresList(HSWebTest):
             figure2.author_id
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(4) a')
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(5) a')
             .attr('href'),
             reverse('figures:delete', args=(figure2.pk, ))
         )

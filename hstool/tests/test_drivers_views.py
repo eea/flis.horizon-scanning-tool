@@ -50,7 +50,7 @@ class DriversList(HSWebTest):
             str(driver1.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(7) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(8) a').attr('href'),
             reverse('drivers:delete', args=(driver1.pk, ))
         )
 
@@ -92,7 +92,7 @@ class DriversList(HSWebTest):
             str(driver1.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(7) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(8) a').attr('href'),
             reverse('drivers:delete', args=(driver1.pk, ))
         )
         self.assertEqual(
@@ -121,7 +121,7 @@ class DriversList(HSWebTest):
             str(driver2.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(7) a')
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(8) a')
             .attr('href'),
             reverse('drivers:delete', args=(driver2.pk, ))
         )
