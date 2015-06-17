@@ -17,6 +17,7 @@
 				<th>End year</th>
 				<th>Timeline</th>
 				<th>Added by</th>
+				<th>Status</th>
 				<th></th>
 			</tr>
 			</thead>
@@ -29,6 +30,7 @@
 					<td>{{ indicator.year_end }}</td>
 					<td>{{ indicator.get_timeline_display }}</td>
 					<td>{{ indicator.author_id }}</td>
+					<td>{{ indicator.draft|yesno:"Draft,Published" }}</td>
 					<td>
 						<a id="delete" href="{% url 'indicators:delete' indicator.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete

@@ -32,6 +32,7 @@
 						<th>Source</th>
 						<th>Type</th>
 						<th>Destination</th>
+						<td>Status</td>
 						<th></th>
 						<th></th>
 					</tr>
@@ -43,6 +44,7 @@
 							<td>{{ relation.source }}</td>
 							<td>{{ relation.relationship_type|verbose }}</td>
 							<td>{{ relation.destination }}</td>
+							<td>{{ relation.draft|yesno:"Draft,Published" }}</td>
 							<td>
 								<a href="{% url 'relations:update' assessment.pk relation.id %}">
 									<span class="glyphicon glyphicon-pencil"></span>&nbsp;Edit

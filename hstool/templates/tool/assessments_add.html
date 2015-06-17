@@ -59,12 +59,18 @@
 				</div>
 			</div>
 
+			<div class="controls hidden">
+				{% render_field form.draft %}
+			</div>
+
 			<div class="form-actions">
 				<div class="col-sm-offset-2">
-					<button class="btn btn-primary" type="submit">Save</button>
-					<small>or
-						<a href="{% if assessment.pk %}{{ view.get_success_url }}{% else %}{% url 'home_view' %}{% endif %}">Cancel</a>
-					</small>
+					<button type="submit" name="draft" value="false"
+									class="btn btn-primary">Publish</button>
+					<button type="submit" name="draft" value="true"
+									class="btn btn-default">Save as draft</button>
+					<a href="{% if assessment.pk %}{{ view.get_success_url }}{% else %}{% url 'home_view' %}{% endif %}"
+						 class="btn btn-link" role="button">Cancel</a>
 				</div>
 			</div>
 

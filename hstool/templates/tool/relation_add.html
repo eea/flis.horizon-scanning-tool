@@ -61,25 +61,30 @@
 
                 <div class="col-sm-2">
                     <a class="btn btn-primary launch-modal" data-toggle="modal"
-											 data-target="#myModal"
-											 data-action="{% url 'modals:add' 'figures'%}"
-											 data-title="Add new Figure"
-											 data-backdrop="static">
-											<span class="glyphicon glyphicon-plus"></span> &nbsp;
-											Add new fact & figure
-										</a>
-								</div>
+                       data-target="#myModal"
+                       data-action="{% url 'modals:add' 'figures'%}"
+                       data-title="Add new Figure"
+                       data-backdrop="static">
+                      <span class="glyphicon glyphicon-plus"></span> &nbsp;
+                      Add new fact & figure
+                    </a>
+                </div>
+            </div>
+
+            <div class="controls hidden">
+                {% render_field form.draft %}
             </div>
 
             <div class="form-actions">
                 <div class="col-sm-offset-2">
-                    <button class="btn btn-primary" type="submit">Save</button>
-                    <small>or
-                        <a href="{% url 'assessments:preview' assessment.id %}">Cancel</a>
-                    </small>
+                    <button type="submit" name="draft" value="false"
+                            class="btn btn-primary">Publish</button>
+                    <button type="submit" name="draft" value="true"
+                            class="btn btn-default">Save as draft</button>
+                    <a href="{% url 'assessments:preview' assessment.id %}"
+                       class="btn btn-link" role="button">Cancel</a>
                 </div>
             </div>
-
         </form>
 
     </div>

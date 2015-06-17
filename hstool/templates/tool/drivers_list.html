@@ -18,6 +18,7 @@
 				<th>STEEP category</th>
 				<th>Time horizon</th>
 				<th>Added by</th>
+				<th>Status</th>
 				<th></th>
 			</tr>
 			</thead>
@@ -41,6 +42,7 @@
 					<td>{{ driver.get_steep_category_display }}</td>
 					<td>{{ driver.get_time_horizon_display }}</td>
 					<td>{{ driver.author_id }}</td>
+					<td>{{ driver.draft|yesno:"Draft,Published" }}</td>
 					<td nowrap>
 						<a id="delete" href="{% url 'drivers:delete' driver.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete

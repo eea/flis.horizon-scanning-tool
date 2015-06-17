@@ -35,11 +35,11 @@ class AssessmentsList(HSWebTest):
             str(assessment1.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(4) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(5) a').attr('href'),
             reverse('assessments:preview', args=(assessment1.pk, ))
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(5) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(6) a').attr('href'),
             reverse('assessments:delete', args=(assessment1.pk, ))
         )
 
@@ -66,12 +66,12 @@ class AssessmentsList(HSWebTest):
             str(assessment1.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(4) a')
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(5) a')
             .attr('href'),
             reverse('assessments:preview', args=(assessment1.pk, ))
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(5) a')
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(6) a')
             .attr('href'),
             reverse('assessments:delete', args=(assessment1.pk, ))
         )
@@ -93,12 +93,12 @@ class AssessmentsList(HSWebTest):
             str(assessment2.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(4) a')
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(5) a')
             .attr('href'),
             reverse('assessments:preview', args=(assessment2.pk, ))
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(5) a')
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(6) a')
             .attr('href'),
             reverse('assessments:delete', args=(assessment2.pk, ))
         )
@@ -160,13 +160,13 @@ class AssessmentsPreview(HSWebTest):
             self.driver2.name
         )
         self.assertEqual(
-            self.resp.pyquery('#objects_listing tbody tr td:eq(3) a')
+            self.resp.pyquery('#objects_listing tbody tr td:eq(4) a')
             .attr('href'),
             reverse('relations:update',
                     args=(self.assessment.pk, self.relation.pk, ))
         )
         self.assertEqual(
-            self.resp.pyquery('#objects_listing tbody tr td:eq(4) a')
+            self.resp.pyquery('#objects_listing tbody tr td:eq(5) a')
             .attr('href'),
             reverse('relations:delete',
                     args=(self.assessment.pk, self.relation.pk, ))

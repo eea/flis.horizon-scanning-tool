@@ -15,6 +15,7 @@
 				<th>Area of policy</th>
 				<th>Added by</th>
 				<th>Added at</th>
+				<th>Status</th>
 				<th></th>
 			</tr>
 			</thead>
@@ -27,6 +28,7 @@
 					<td>{{ implication.policy_area|default_if_none:'' }}</td>
 					<td>{{ implication.author_id }}</td>
 					<td>{{ implication.added }}</td>
+					<td>{{ implication.draft|yesno:"Draft,Published" }}</td>
 					<td nowrap>
 						<a id="delete" href="{% url 'implications:delete' implication.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete

@@ -8,6 +8,7 @@ from django.views.generic import (
     TemplateView)
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404, Http404
+from django.db.models import Q
 
 from braces.views import JSONResponseMixin, AjaxResponseMixin
 
@@ -52,6 +53,18 @@ class OwnerRequiredMixin(object):
         return super(OwnerRequiredMixin, self).dispatch(request, *args,
                                                         **kwargs)
 
+class ListMixin(ListView):
+    def get_queryset(self, queryset=None):
+        is_admin = self.request.user.has_perm('hstool.config')
+        queryset = self.model._default_manager.all()
+
+        if not is_admin:
+            queryset = queryset.filter(
+                Q(draft=False) | Q(author_id=self.request.user.username)
+            )
+
+        return queryset
+
 
 class AuthorMixin(object):
     def dispatch(self, request, *args, **kwargs):
@@ -63,7 +76,7 @@ class AuthorMixin(object):
         return super(AuthorMixin, self).form_valid(form)
 
 
-class AssessmentsList(ListView):
+class AssessmentsList(ListMixin):
     template_name = 'tool/assessments_list.html'
     model = Assessment
     context_object_name = 'assessments'
@@ -224,11 +237,20 @@ class RelationsList(LoginRequiredMixin, ListView):
         self.assessment = get_object_or_404(Assessment, pk=assessment_pk)
         return super(RelationsList, self).dispatch(request, *args, **kwargs)
 
-    def get_queryset(self):
-        return Relation.objects.filter(assessment=self.assessment)
+    def get_queryset(self, queryset=None):
+        is_admin = self.request.user.has_perm('hstool.config')
+        queryset = self.model._default_manager.all()
+
+        if not is_admin:
+            queryset = queryset.filter(
+                Q(draft=False) | Q(author_id=self.request.user.username) &
+                Q(assessment=self.assessment)
+            )
+
+        return queryset
 
 
-class SourcesList(LoginRequiredMixin, ListView):
+class SourcesList(LoginRequiredMixin, ListMixin):
     template_name = 'tool/sources_list.html'
     model = Source
     context_object_name = 'sources'
@@ -253,7 +275,7 @@ class SourcesDelete(OwnerRequiredMixin, DeleteView):
     success_url = reverse_lazy('sources:list')
 
 
-class IndicatorsList(LoginRequiredMixin, ListView):
+class IndicatorsList(LoginRequiredMixin, ListMixin):
     template_name = 'tool/indicators_list.html'
     model = Indicator
     context_object_name = 'indicators'
@@ -285,7 +307,7 @@ class IndicatorsDelete(OwnerRequiredMixin, DeleteView):
     success_url = reverse_lazy('indicators:list')
 
 
-class DriversList(LoginRequiredMixin, ListView):
+class DriversList(LoginRequiredMixin, ListMixin):
     template_name = 'tool/drivers_list.html'
     model = DriverOfChange
     context_object_name = 'drivers'
@@ -317,7 +339,7 @@ class DriversDelete(OwnerRequiredMixin, DeleteView):
     success_url = reverse_lazy('drivers:list')
 
 
-class ImplicationsList(LoginRequiredMixin, ListView):
+class ImplicationsList(LoginRequiredMixin, ListMixin):
     template_name = 'tool/implications_list.html'
     model = Implication
     context_object_name = 'implications'
@@ -349,7 +371,7 @@ class ImplicationsDelete(OwnerRequiredMixin, DeleteView):
     success_url = reverse_lazy('implications:list')
 
 
-class FiguresList(LoginRequiredMixin, ListView):
+class FiguresList(LoginRequiredMixin, ListMixin):
     template_name = 'tool/figures_list.html'
     model = Figure
     context_object_name = 'figures'

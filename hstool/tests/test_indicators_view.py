@@ -50,7 +50,7 @@ class IndicatorsList(HSWebTest):
             str(indicator1.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(6) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(7) a').attr('href'),
             reverse('indicators:delete', args=(indicator1.pk, ))
         )
 
@@ -93,7 +93,7 @@ class IndicatorsList(HSWebTest):
             str(indicator1.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(6) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(7) a').attr('href'),
             reverse('indicators:delete', args=(indicator1.pk, ))
         )
         self.assertEqual(
@@ -126,7 +126,7 @@ class IndicatorsList(HSWebTest):
             str(indicator2.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(6) a')
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(7) a')
             .attr('href'),
             reverse('indicators:delete', args=(indicator2.pk, ))
         )
