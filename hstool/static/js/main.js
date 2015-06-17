@@ -89,6 +89,5 @@ $(function () {
 
     $('[name="draft"]').on('click', function() {
         $('#id_draft').value = $(this).attr("value");
-        console.log($(this).attr("value"));
     });
 });
