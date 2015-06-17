@@ -52,6 +52,7 @@ class ContentTypeRestrictedFileField(FileField):
 
 
 class Figure(Model):
+    draft = BooleanField(default=True)
     author_id = CharField(max_length=64)
     title = CharField(max_length=512, default='')
     file = ContentTypeRestrictedFileField(
@@ -66,6 +67,7 @@ class Figure(Model):
 
 
 class Source(Model):
+    draft = BooleanField(default=True)
     author_id = CharField(max_length=64)
     title = CharField(max_length=512)
     title_original = CharField(max_length=512)
@@ -82,6 +84,7 @@ class Source(Model):
 
 
 class GenericElement(Model):
+    draft = BooleanField(default=True)
     author_id = CharField(max_length=64)
     short_name = CharField(max_length=64)
     name = CharField(max_length=255)
@@ -134,6 +137,7 @@ class Indicator(GenericElement):
 
 
 class Relation(Model):
+    draft = BooleanField(default=True)
     assessment = ForeignKey('Assessment', related_name='relations')
     source = ForeignKey('GenericElement', related_name='source_relations')
     destination = ForeignKey('GenericElement', related_name='dest_relations')
@@ -147,6 +151,7 @@ class Relation(Model):
 
 
 class Assessment(Model):
+    draft = BooleanField(default=True)
     author_id = CharField(max_length=64)
     title = CharField(max_length=512)
     description = TextField(null=True, blank=True)
