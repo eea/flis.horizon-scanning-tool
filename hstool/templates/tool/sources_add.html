@@ -74,15 +74,11 @@
 				</div>
 			</div>
 
-			<div class="form-actions">
-				<div class="col-sm-offset-2">
-					<button class="btn btn-primary" type="submit">Save</button>
-					<small>or
-						<a href="{% url 'sources:list' %}">Cancel</a>
-					</small>
-				</div>
+			<div class="controls hidden">
+				{% render_field form.draft %}
 			</div>
 
+			{% include '_footer.html' with cancel_url='sources:list' %}
 		</form>
 	</div>
 {% endblock %}

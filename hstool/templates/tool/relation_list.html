@@ -12,6 +12,7 @@
                     <th>Source</th>
                     <th>Destination</th>
                     <th>Type</th>
+                    <th>Status</th>
                 </tr>
             </thead>
 
@@ -21,6 +22,7 @@
                     <td>{{ relation.source }}</td>
                     <td>{{ relation.destination }}</td>
                     <td>{{ relation.relationship_type }}</td>
+                    <td>{{ relation.draft|yesno:"Draft,Published" }}</td>
                 </tr>
             {% endfor %}
             </tbody>

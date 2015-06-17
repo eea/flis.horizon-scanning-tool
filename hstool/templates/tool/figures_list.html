@@ -16,6 +16,7 @@
 				<th>Attached file</th>
 				<th>Added by</th>
 				<th>Added at</th>
+				<th>Status</th>
 				<th></th>
 			</tr>
 			</thead>
@@ -37,6 +38,7 @@
 					</td>
 					<td>{{ figure.author_id }}</td>
 					<td>{{ figure.added }}</td>
+					<td>{{ figure.draft|yesno:"Draft,Published" }}</td>
 					<td>
 						<a id="delete" href="{% url 'figures:delete' figure.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete

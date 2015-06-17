@@ -16,6 +16,7 @@
 				<th>Author</th>
 				<th>Added by</th>
 				<th>Added at</th>
+				<th>Status</th>
 				<th></th>
 			</tr>
 			</thead>
@@ -28,6 +29,7 @@
 					<td>{{ source.author }}</td>
 					<td>{{ source.author_id }}</td>
 					<td>{{ source.added }}</td>
+					<td>{{ source.draft|yesno:"Draft,Published" }}</td>
 					<td>
 						<a id="delete" href="{% url 'sources:delete' source.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete
