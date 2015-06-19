@@ -30,7 +30,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'south',
     'gunicorn',
     'django_assets',
     'widget_tweaks',

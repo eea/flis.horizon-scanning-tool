@@ -1,262 +1,163 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+import datetime
+import hstool.models
+import hstool.utils
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'EnvironmentalTheme'
-        db.create_table(u'hstool_environmentaltheme', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=128)),
-        ))
-        db.send_create_signal(u'hstool', ['EnvironmentalTheme'])
+    dependencies = [
+        ('common', '0002_auto_20150615_1322'),
+    ]
 
-        # Adding model 'GeographicalScope'
-        db.create_table(u'hstool_geographicalscope', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=128)),
-            ('require_country', self.gf('django.db.models.fields.BooleanField')(default=False)),
-        ))
-        db.send_create_signal(u'hstool', ['GeographicalScope'])
-
-        # Adding model 'Country'
-        db.create_table(u'hstool_country', (
-            ('iso', self.gf('django.db.models.fields.CharField')(max_length=2, primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=128)),
-        ))
-        db.send_create_signal(u'hstool', ['Country'])
-
-        # Adding model 'Figure'
-        db.create_table(u'hstool_figure', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('author_id', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('title', self.gf('django.db.models.fields.CharField')(default='', max_length=512)),
-            ('file', self.gf('hstool.models.ContentTypeRestrictedFileField')(content_types=['application/pdf', 'image/jpg', 'image/jpeg'])),
-        ))
-        db.send_create_signal(u'hstool', ['Figure'])
-
-        # Adding model 'Source'
-        db.create_table(u'hstool_source', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('author_id', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=512)),
-            ('title_original', self.gf('django.db.models.fields.CharField')(max_length=512)),
-            ('published_year', self.gf('django.db.models.fields.IntegerField')()),
-            ('author', self.gf('django.db.models.fields.CharField')(max_length=512)),
-            ('url', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('file', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
-            ('summary', self.gf('django.db.models.fields.TextField')(max_length=2048)),
-        ))
-        db.send_create_signal(u'hstool', ['Source'])
-
-        # Adding model 'GenericElement'
-        db.create_table(u'hstool_genericelement', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('author_id', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('short_name', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('geographical_scope', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['hstool.GeographicalScope'], null=True, blank=True)),
-            ('country', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['hstool.Country'], null=True, blank=True)),
-            ('url', self.gf('django.db.models.fields.CharField')(max_length=256, null=True, blank=True)),
-        ))
-        db.send_create_signal(u'hstool', ['GenericElement'])
-
-        # Adding M2M table for field sources on 'GenericElement'
-        m2m_table_name = db.shorten_name(u'hstool_genericelement_sources')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('genericelement', models.ForeignKey(orm[u'hstool.genericelement'], null=False)),
-            ('source', models.ForeignKey(orm[u'hstool.source'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['genericelement_id', 'source_id'])
-
-        # Adding M2M table for field figures on 'GenericElement'
-        m2m_table_name = db.shorten_name(u'hstool_genericelement_figures')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('genericelement', models.ForeignKey(orm[u'hstool.genericelement'], null=False)),
-            ('figure', models.ForeignKey(orm[u'hstool.figure'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['genericelement_id', 'figure_id'])
-
-        # Adding model 'DriverOfChange'
-        db.create_table(u'hstool_driverofchange', (
-            (u'genericelement_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['hstool.GenericElement'], unique=True, primary_key=True)),
-            ('type', self.gf('django.db.models.fields.IntegerField')()),
-            ('trend_type', self.gf('django.db.models.fields.IntegerField')()),
-            ('steep_category', self.gf('django.db.models.fields.CharField')(max_length=5)),
-            ('time_horizon', self.gf('django.db.models.fields.IntegerField')()),
-            ('summary', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-        ))
-        db.send_create_signal(u'hstool', ['DriverOfChange'])
-
-        # Adding model 'Indicator'
-        db.create_table(u'hstool_indicator', (
-            (u'genericelement_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['hstool.GenericElement'], unique=True, primary_key=True)),
-            ('theme', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['hstool.EnvironmentalTheme'])),
-            ('year_base', self.gf('django.db.models.fields.IntegerField')()),
-            ('year_end', self.gf('django.db.models.fields.IntegerField')()),
-            ('timeline', self.gf('django.db.models.fields.IntegerField')()),
-        ))
-        db.send_create_signal(u'hstool', ['Indicator'])
-
-        # Adding model 'Relation'
-        db.create_table(u'hstool_relation', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('assessment', self.gf('django.db.models.fields.related.ForeignKey')(related_name='relations', to=orm['hstool.Assessment'])),
-            ('source', self.gf('django.db.models.fields.related.ForeignKey')(related_name='source_relations', to=orm['hstool.GenericElement'])),
-            ('destination', self.gf('django.db.models.fields.related.ForeignKey')(related_name='dest_relations', to=orm['hstool.GenericElement'])),
-            ('relationship_type', self.gf('django.db.models.fields.IntegerField')()),
-            ('description', self.gf('django.db.models.fields.TextField')(max_length=2048)),
-        ))
-        db.send_create_signal(u'hstool', ['Relation'])
-
-        # Adding M2M table for field figures on 'Relation'
-        m2m_table_name = db.shorten_name(u'hstool_relation_figures')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('relation', models.ForeignKey(orm[u'hstool.relation'], null=False)),
-            ('figure', models.ForeignKey(orm[u'hstool.figure'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['relation_id', 'figure_id'])
-
-        # Adding model 'Assessment'
-        db.create_table(u'hstool_assessment', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('author_id', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=512)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-        ))
-        db.send_create_signal(u'hstool', ['Assessment'])
-
-
-    def backwards(self, orm):
-        # Deleting model 'EnvironmentalTheme'
-        db.delete_table(u'hstool_environmentaltheme')
-
-        # Deleting model 'GeographicalScope'
-        db.delete_table(u'hstool_geographicalscope')
-
-        # Deleting model 'Country'
-        db.delete_table(u'hstool_country')
-
-        # Deleting model 'Figure'
-        db.delete_table(u'hstool_figure')
-
-        # Deleting model 'Source'
-        db.delete_table(u'hstool_source')
-
-        # Deleting model 'GenericElement'
-        db.delete_table(u'hstool_genericelement')
-
-        # Removing M2M table for field sources on 'GenericElement'
-        db.delete_table(db.shorten_name(u'hstool_genericelement_sources'))
-
-        # Removing M2M table for field figures on 'GenericElement'
-        db.delete_table(db.shorten_name(u'hstool_genericelement_figures'))
-
-        # Deleting model 'DriverOfChange'
-        db.delete_table(u'hstool_driverofchange')
-
-        # Deleting model 'Indicator'
-        db.delete_table(u'hstool_indicator')
-
-        # Deleting model 'Relation'
-        db.delete_table(u'hstool_relation')
-
-        # Removing M2M table for field figures on 'Relation'
-        db.delete_table(db.shorten_name(u'hstool_relation_figures'))
-
-        # Deleting model 'Assessment'
-        db.delete_table(u'hstool_assessment')
-
-
-    models = {
-        u'hstool.assessment': {
-            'Meta': {'object_name': 'Assessment'},
-            'author_id': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '512'})
-        },
-        u'hstool.country': {
-            'Meta': {'object_name': 'Country'},
-            'iso': ('django.db.models.fields.CharField', [], {'max_length': '2', 'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '128'})
-        },
-        u'hstool.driverofchange': {
-            'Meta': {'object_name': 'DriverOfChange', '_ormbases': [u'hstool.GenericElement']},
-            u'genericelement_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['hstool.GenericElement']", 'unique': 'True', 'primary_key': 'True'}),
-            'steep_category': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
-            'summary': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'time_horizon': ('django.db.models.fields.IntegerField', [], {}),
-            'trend_type': ('django.db.models.fields.IntegerField', [], {}),
-            'type': ('django.db.models.fields.IntegerField', [], {})
-        },
-        u'hstool.environmentaltheme': {
-            'Meta': {'ordering': "('-pk',)", 'object_name': 'EnvironmentalTheme'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '128'})
-        },
-        u'hstool.figure': {
-            'Meta': {'object_name': 'Figure'},
-            'author_id': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'file': ('hstool.models.ContentTypeRestrictedFileField', [], {'content_types': ['application/pdf', 'image/jpg', 'image/jpeg']}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '512'})
-        },
-        u'hstool.genericelement': {
-            'Meta': {'object_name': 'GenericElement'},
-            'author_id': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'country': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['hstool.Country']", 'null': 'True', 'blank': 'True'}),
-            'figures': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['hstool.Figure']", 'null': 'True', 'blank': 'True'}),
-            'geographical_scope': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['hstool.GeographicalScope']", 'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'short_name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'sources': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['hstool.Source']", 'null': 'True', 'blank': 'True'}),
-            'url': ('django.db.models.fields.CharField', [], {'max_length': '256', 'null': 'True', 'blank': 'True'})
-        },
-        u'hstool.geographicalscope': {
-            'Meta': {'ordering': "('-pk',)", 'object_name': 'GeographicalScope'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'require_country': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '128'})
-        },
-        u'hstool.indicator': {
-            'Meta': {'object_name': 'Indicator', '_ormbases': [u'hstool.GenericElement']},
-            u'genericelement_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['hstool.GenericElement']", 'unique': 'True', 'primary_key': 'True'}),
-            'theme': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['hstool.EnvironmentalTheme']"}),
-            'timeline': ('django.db.models.fields.IntegerField', [], {}),
-            'year_base': ('django.db.models.fields.IntegerField', [], {}),
-            'year_end': ('django.db.models.fields.IntegerField', [], {})
-        },
-        u'hstool.relation': {
-            'Meta': {'object_name': 'Relation'},
-            'assessment': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'relations'", 'to': u"orm['hstool.Assessment']"}),
-            'description': ('django.db.models.fields.TextField', [], {'max_length': '2048'}),
-            'destination': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'dest_relations'", 'to': u"orm['hstool.GenericElement']"}),
-            'figures': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['hstool.Figure']", 'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'relationship_type': ('django.db.models.fields.IntegerField', [], {}),
-            'source': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'source_relations'", 'to': u"orm['hstool.GenericElement']"})
-        },
-        u'hstool.source': {
-            'Meta': {'object_name': 'Source'},
-            'author': ('django.db.models.fields.CharField', [], {'max_length': '512'}),
-            'author_id': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'published_year': ('django.db.models.fields.IntegerField', [], {}),
-            'summary': ('django.db.models.fields.TextField', [], {'max_length': '2048'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '512'}),
-            'title_original': ('django.db.models.fields.CharField', [], {'max_length': '512'}),
-            'url': ('django.db.models.fields.CharField', [], {'max_length': '256'})
-        }
-    }
-
-    complete_apps = ['hstool']
+    operations = [
+        migrations.CreateModel(
+            name='Assessment',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('draft', models.BooleanField(default=True)),
+                ('author_id', models.CharField(max_length=64)),
+                ('title', models.CharField(max_length=512)),
+                ('description', models.TextField(null=True, blank=True)),
+                ('added', models.DateTimeField(default=datetime.datetime.now, auto_now_add=True)),
+                ('url', models.CharField(max_length=256, null=True, blank=True)),
+                ('country', models.ForeignKey(blank=True, to='common.Country', null=True)),
+                ('geographical_scope', models.ForeignKey(blank=True, to='common.GeographicalScope', null=True)),
+            ],
+            options={
+                'permissions': (('create', 'Create an assessment'), ('config', 'Can change configuration')),
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Figure',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('draft', models.BooleanField(default=True)),
+                ('author_id', models.CharField(max_length=64)),
+                ('title', models.CharField(default=b'', max_length=512)),
+                ('file', hstool.models.ContentTypeRestrictedFileField(upload_to=hstool.utils.path_and_rename_figures)),
+                ('added', models.DateTimeField(default=datetime.datetime.now, auto_now_add=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='GenericElement',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('draft', models.BooleanField(default=True)),
+                ('author_id', models.CharField(max_length=64)),
+                ('short_name', models.CharField(max_length=64)),
+                ('name', models.CharField(max_length=255)),
+                ('url', models.CharField(max_length=256, null=True, blank=True)),
+                ('added', models.DateTimeField(default=datetime.datetime.now, auto_now_add=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='DriverOfChange',
+            fields=[
+                ('genericelement_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='hstool.GenericElement')),
+                ('type', models.IntegerField(choices=[(1, b'Trends'), (2, b'Uncertainties'), (3, b'Wild Cards'), (4, b'Weak signals')])),
+                ('trend_type', models.IntegerField(default=1, choices=[(1, b'Trend'), (2, b'Megatrend')])),
+                ('uncertainty_type', models.IntegerField(default=1, choices=[(1, b'Rationale'), (2, b'Data'), (3, b'Methodology (related to the model)')])),
+                ('steep_category', models.CharField(max_length=5, choices=[(b'Ec', b'Economic'), (b'Env', b'Environmental'), (b'P', b'Political'), (b'S', b'Social'), (b'T', b'Technological')])),
+                ('time_horizon', models.IntegerField(choices=[(1, b'1 year'), (5, b'5 years'), (10, b'10 years'), (50, b'50 years'), (100, b'100 years'), (200, b'more than 100 years')])),
+                ('summary', models.TextField(null=True, blank=True)),
+            ],
+            options={
+            },
+            bases=('hstool.genericelement',),
+        ),
+        migrations.CreateModel(
+            name='Implication',
+            fields=[
+                ('genericelement_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='hstool.GenericElement')),
+                ('title', models.CharField(max_length=512)),
+                ('policy_area', models.CharField(default=0, max_length=64, null=True, blank=True, choices=[(b'mock_policy', b'Mock policy')])),
+                ('description', models.TextField(max_length=2048)),
+            ],
+            options={
+            },
+            bases=('hstool.genericelement',),
+        ),
+        migrations.CreateModel(
+            name='Indicator',
+            fields=[
+                ('genericelement_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='hstool.GenericElement')),
+                ('year_base', models.IntegerField()),
+                ('year_end', models.IntegerField()),
+                ('timeline', models.IntegerField(choices=[(5, b'5-year intermediate'), (0, b'continuous'), (1, b'daily'), (2, b'monthly'), (3, b'point'), (4, b'weekly'), (6, b'yearly')])),
+                ('theme', models.ForeignKey(to='common.EnvironmentalTheme')),
+            ],
+            options={
+            },
+            bases=('hstool.genericelement',),
+        ),
+        migrations.CreateModel(
+            name='Relation',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('draft', models.BooleanField(default=True)),
+                ('relationship_type', models.IntegerField(choices=[(1, b'Cause-effect relationship'), (2, b'Neutral relationship')])),
+                ('description', models.TextField(max_length=2048)),
+                ('assessment', models.ForeignKey(related_name=b'relations', to='hstool.Assessment')),
+                ('destination', models.ForeignKey(related_name=b'dest_relations', to='hstool.GenericElement')),
+                ('figures', models.ManyToManyField(to='hstool.Figure', null=True, blank=True)),
+                ('source', models.ForeignKey(related_name=b'source_relations', to='hstool.GenericElement')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Source',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('draft', models.BooleanField(default=True)),
+                ('author_id', models.CharField(max_length=64)),
+                ('title', models.CharField(max_length=512)),
+                ('title_original', models.CharField(max_length=512)),
+                ('published_year', models.IntegerField()),
+                ('author', models.CharField(max_length=512)),
+                ('url', models.CharField(max_length=256)),
+                ('file', models.FileField(upload_to=hstool.utils.path_and_rename_sources)),
+                ('summary', models.TextField(max_length=2048)),
+                ('added', models.DateTimeField(default=datetime.datetime.now, auto_now_add=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='genericelement',
+            name='country',
+            field=models.ForeignKey(blank=True, to='common.Country', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='genericelement',
+            name='figures',
+            field=models.ManyToManyField(to='hstool.Figure', null=True, blank=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='genericelement',
+            name='geographical_scope',
+            field=models.ForeignKey(blank=True, to='common.GeographicalScope', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='genericelement',
+            name='sources',
+            field=models.ManyToManyField(to='hstool.Source', null=True, blank=True),
+            preserve_default=True,
+        ),
+    ]

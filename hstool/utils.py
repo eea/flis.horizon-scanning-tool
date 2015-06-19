@@ -1,12 +1,19 @@
 import os
 import random
+from functools import partial
 
 
-def path_and_rename(path):
-    def wrapper(instance, filename):
-        filename = filename.replace(' ', '_')
-        return os.path.join(path, filename)
-    return wrapper
+def wrapper(path, instance, filename):
+    filename = filename.replace(' ', '_')
+    return os.path.join(path, filename)
+
+
+def path_and_rename_sources(instance, filename):
+    return wrapper('files/sources', instance, filename)
+
+
+def path_and_rename_figures(instance, filename):
+    return wrapper('files/figures', instance, filename)
 
 
 def connected_components(neighbors):

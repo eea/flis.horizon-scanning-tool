@@ -11,12 +11,12 @@ from hstool.definitions import (
     DOC_TIME_HORIZON_CHOICES, IND_TIMELINE_CHOICES,
     RELATION_TYPE_CHOICES, DOC_UNCERTAINTIES_TYPE_CHOICES,
 )
-from hstool.utils import path_and_rename
+from hstool.utils import path_and_rename_sources, path_and_rename_figures
 
 
 class ContentTypeRestrictedFileField(FileField):
     def __init__(self, *args, **kwargs):
-        self.content_types = kwargs.pop("content_types")
+        self.content_types = kwargs.pop("content_types", [])
 
         super(ContentTypeRestrictedFileField, self).__init__(*args, **kwargs)
 
@@ -56,7 +56,7 @@ class Figure(Model):
     author_id = CharField(max_length=64)
     title = CharField(max_length=512, default='')
     file = ContentTypeRestrictedFileField(
-        upload_to=path_and_rename('files/figures'),
+        upload_to=path_and_rename_figures,
         content_types=settings.SUPPORTED_FILES_FACTS_AND_FIGURES,
     )
     added = DateTimeField(auto_now_add=True, editable=False,
@@ -74,7 +74,7 @@ class Source(Model):
     published_year = IntegerField()
     author = CharField(max_length=512)
     url = CharField(max_length=256)
-    file = FileField(upload_to=path_and_rename('files/sources'))
+    file = FileField(upload_to=path_and_rename_sources)
     summary = TextField(max_length=2048)
     added = DateTimeField(auto_now_add=True, editable=False,
                           default=datetime.now)

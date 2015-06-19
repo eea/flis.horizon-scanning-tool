@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 
 from hstool.models import Implication
 from .factories import (
-    UserFactory, ImplicationFactory,
+    UserFactory, ImplicationFactory, GeoScopeFactory
 )
 from . import HSWebTest
 
@@ -12,6 +12,8 @@ REQUIRED_COUNTRY = ['The selected Geographical Scale requires a country.']
 
 class ImplicationsAdd(HSWebTest):
     def setUp(self):
+        GeoScopeFactory(title="EU Country", require_country=True)
+        GeoScopeFactory(title="Beyond Europe", require_country=False)
         user = UserFactory(is_superuser=True)
         url = reverse('implications:add')
         self.resp = self.app.get(url, user=user)
