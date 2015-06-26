@@ -65,9 +65,9 @@ $(function () {
                 data: data,
                 type: "GET",
                 success: function(resp) {
-                    if (resp['required'] == true)
+                    if (resp['required'] == true) {
                         $('#invisible').show();
-                    else {
+                    } else {
                         $('#visible').attr("id", "invisible");
                         $('#invisible').hide();
                         $('#id_country option').prop('selected', function(){
@@ -80,11 +80,12 @@ $(function () {
                 }
             });
         }
-        else
+        else {
             $('#visible').hide();
             $('#id_country option').prop('selected', function(){
                 return '';
             });
+        }
     }).change();
 
     $('[name="draft"]').on('click', function() {
