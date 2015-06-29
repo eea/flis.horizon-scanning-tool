@@ -1,6 +1,7 @@
 from django.forms.models import ModelForm
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.forms import ModelChoiceField
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Figure,
@@ -65,15 +66,41 @@ class SourceForm(ModelForm):
 
 
 class RelationForm(ModelForm):
+    driver = ModelChoiceField(queryset=DriverOfChange.objects.all(),
+                              required=False)
+    indicator = ModelChoiceField(queryset=Indicator.objects.all(),
+                                 required=False)
 
     class Meta:
         model = Relation
         exclude = ['assessment']
+        labels = {
+            "source": _("Select a driver of change, the starting point of the relation"),
+            "destination": _("Select the end item"),
+            "relationship_type": _("Select type of relation"),
+            "description": _("Relation description"),
+            "figures": _("Append facts and/or figures to illustrate relation")
+        }
 
     def __init__(self, *args, **kwargs):
         self.assessment = kwargs.pop('assessment', None)
         super(RelationForm, self).__init__(*args, **kwargs)
         self.fields['description'].widget.attrs["rows"] = 6
+
+    def clean(self):
+        cleaned_data = super(RelationForm, self).clean()
+        if self.cleaned_data['driver']:
+            self.cleaned_data['destination'] = self.cleaned_data['driver']
+        elif self.cleaned_data['indicator']:
+            self.cleaned_data['destination'] = self.cleaned_data['indicator']
+        else:
+            self._errors["destination"] = self.error_class([
+                'This field is required.'
+            ])
+            del cleaned_data["destination"]
+
+        return cleaned_data
+
 
     def save(self):
         relation = super(RelationForm, self).save(commit=False)

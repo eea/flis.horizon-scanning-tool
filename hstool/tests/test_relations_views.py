@@ -31,9 +31,9 @@ class RelationsAdd(HSWebTest):
     def test_successfully_added(self):
         form = self.resp.forms[0]
         form['source'].select(text=self.driver.name)
-        form['destination'].select(text=self.indicator.name)
         form['relationship_type'].select(text='Neutral relationship')
         form['description'] = 'description'
+        form['indicator'] = '2'
         resp = form.submit()
         self.assertRedirects(resp, reverse('assessments:preview',
                                            args=(self.assessment.pk, )))
@@ -56,8 +56,6 @@ class RelationsUpdate(HSWebTest):
         resp = self.app.get(self.url, user=self.user)
         form = resp.forms[0]
         self.assertEqual(form['source'].value, str(self.relation.source.pk))
-        self.assertEqual(form['destination'].value,
-                         str(self.relation.destination.pk))
         self.assertEqual(form['relationship_type'].value,
                          str(self.relation.relationship_type))
         self.assertEqual(form['description'].value,
@@ -76,9 +74,9 @@ class RelationsUpdate(HSWebTest):
         resp = self.app.get(self.url, user=self.user)
         form = resp.forms[0]
         form['source'].select(text=driver2.name)
-        form['destination'].select(text=indicator2.name)
         form['relationship_type'].select(text='Neutral relationship')
         form['description'] = 'description 2'
+        form['indicator'] = '4'
         resp = form.submit()
         self.assertRedirects(resp, reverse('assessments:preview',
                                            args=(self.assessment.pk, )))

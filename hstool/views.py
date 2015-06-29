@@ -175,6 +175,11 @@ class AssessmentsDelete(OwnerRequiredMixin, DeleteView):
 
 
 class RelationsMixin(object):
+    DESTINATION_TYPE_OPTIONS = {
+        "driver": "Driver of change",
+        "indicator": "Indicator, fact, figure",
+    }
+
     def dispatch(self, request, *args, **kwargs):
         assessment_pk = kwargs.pop('assessment_pk', None)
         self.assessment = get_object_or_404(Assessment, pk=assessment_pk)
@@ -192,6 +197,7 @@ class RelationsAdd(RelationsMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(RelationsAdd, self).get_context_data(**kwargs)
         context['assessment'] = self.assessment
+        context['destination_types'] = self.DESTINATION_TYPE_OPTIONS
         return context
 
     def get_form_kwargs(self):
@@ -215,6 +221,7 @@ class RelationsUpdate(RelationsMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(RelationsUpdate, self).get_context_data(**kwargs)
         context['assessment'] = self.object.assessment
+        context['destination_types'] = self.DESTINATION_TYPE_OPTIONS
         return context
 
 
