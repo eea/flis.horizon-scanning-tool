@@ -198,6 +198,8 @@ class RelationsAdd(RelationsMixin, CreateView):
         context = super(RelationsAdd, self).get_context_data(**kwargs)
         context['assessment'] = self.assessment
         context['destination_types'] = self.DESTINATION_TYPE_OPTIONS
+        context['show_driver_of_change_check'] = "false"
+        context['show_indicator_check'] = "false"
         return context
 
     def get_form_kwargs(self):
@@ -222,6 +224,17 @@ class RelationsUpdate(RelationsMixin, UpdateView):
         context = super(RelationsUpdate, self).get_context_data(**kwargs)
         context['assessment'] = self.object.assessment
         context['destination_types'] = self.DESTINATION_TYPE_OPTIONS
+        context['show_driver_of_change_check'] = "false"
+        context['show_indicator_check'] = "false"
+        try:
+            if self.object.destination.indicator:
+                context['show_indicator_check'] = "true"
+        except Indicator.DoesNotExist:
+            try:
+                if self.object.destination.driverofchange:
+                    context['show_driver_of_change_check'] = "true"
+            except DriverOfChange.DoesNotExist:
+                return context
         return context
 
 
