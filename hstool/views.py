@@ -177,7 +177,7 @@ class AssessmentsDelete(OwnerRequiredMixin, DeleteView):
 class RelationsMixin(object):
     DESTINATION_TYPE_OPTIONS = {
         "driver": "Driver of change",
-        "indicator": "Indicator, fact, figure",
+        "indicator": "Indicator",
     }
 
     def dispatch(self, request, *args, **kwargs):
@@ -226,15 +226,10 @@ class RelationsUpdate(RelationsMixin, UpdateView):
         context['destination_types'] = self.DESTINATION_TYPE_OPTIONS
         context['show_driver_of_change_check'] = "false"
         context['show_indicator_check'] = "false"
-        try:
-            if self.object.destination.indicator:
-                context['show_indicator_check'] = "true"
-        except Indicator.DoesNotExist:
-            try:
-                if self.object.destination.driverofchange:
-                    context['show_driver_of_change_check'] = "true"
-            except DriverOfChange.DoesNotExist:
-                return context
+        if self.object.destination.is_indicator():
+            context['show_indicator_check'] = "true"
+        if self.object.destination.is_driver():
+            context['show_driver_of_change_check'] = "true"
         return context
 
 

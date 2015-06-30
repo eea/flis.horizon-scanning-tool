@@ -87,15 +87,12 @@ class RelationForm(ModelForm):
         super(RelationForm, self).__init__(*args, **kwargs)
         self.fields['description'].widget.attrs["rows"] = 6
         try:
-            try:
+            if self.instance.destination.is_indicator():
                 self.fields['indicator'].initial = Indicator.objects.get(
                     pk=self.instance.destination.indicator.pk)
-            except Indicator.DoesNotExist:
-                try:
-                    self.fields['driver'].initial = DriverOfChange.objects.get(
-                        pk=self.instance.destination.driverofchange.pk)
-                except DriverOfChange.DoesNotExist:
-                    return
+            if self.instance.destination.is_driver():
+                self.fields['driver'].initial = DriverOfChange.objects.get(
+                    pk=self.instance.destination.driverofchange.pk)
         except GenericElement.DoesNotExist:
             return
 
