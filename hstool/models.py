@@ -101,6 +101,22 @@ class GenericElement(Model):
     def __unicode__(self):
         return self.name
 
+    def is_indicator(self):
+        try:
+            if self.indicator:
+                return True
+        except Indicator.DoesNotExist:
+            return False
+        return False
+
+    def is_driver(self):
+        try:
+            if self.driverofchange:
+                return True
+        except DriverOfChange.DoesNotExist:
+            return False
+        return False
+
 
 class DriverOfChange(GenericElement):
     type = IntegerField(choices=DOC_TYPE_CHOICES)

@@ -5,7 +5,7 @@ from django.forms import ModelChoiceField
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Figure,
-    Assessment, Relation, Implication,
+    Assessment, Relation, Implication, GenericElement,
 )
 from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
@@ -86,6 +86,15 @@ class RelationForm(ModelForm):
         self.assessment = kwargs.pop('assessment', None)
         super(RelationForm, self).__init__(*args, **kwargs)
         self.fields['description'].widget.attrs["rows"] = 6
+        try:
+            if self.instance.destination.is_indicator():
+                self.fields['indicator'].initial = Indicator.objects.get(
+                    pk=self.instance.destination.indicator.pk)
+            if self.instance.destination.is_driver():
+                self.fields['driver'].initial = DriverOfChange.objects.get(
+                    pk=self.instance.destination.driverofchange.pk)
+        except GenericElement.DoesNotExist:
+            return
 
     def clean(self):
         cleaned_data = super(RelationForm, self).clean()

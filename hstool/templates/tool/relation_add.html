@@ -5,8 +5,6 @@
 {% block scripts %}
   <script>
     $(window).load(function() {
-      $('[data-show-if=show-drivers]').addClass('hide');
-
       $(':checkbox').change(function () {
           var driver_checkbox = document.getElementById("id_check_driver");
           var indicator_checkbox = document.getElementById("id_check_indicator");
@@ -15,16 +13,28 @@
           if (driver_checkbox.checked) {
               $('[data-show-if=show-drivers]').removeClass('hide');
               $('[data-show-if=show-indicators]').addClass('hide');
+              $('#id_indicator').prop('selectedIndex', 0);
           }
           else if (indicator_checkbox.checked) {
               $('[data-show-if=show-indicators]').removeClass('hide');
               $('[data-show-if=show-drivers]').addClass('hide');
+              $('#id_driver').prop('selectedIndex', 0);
           }
           else {
               $('[data-show-if=show-drivers]').addClass('hide');
               $('[data-show-if=show-indicators]').addClass('hide');
           }
       }).change();
+
+      if ({{ show_indicator_check }}) {
+        document.getElementById("id_check_indicator").checked = true;
+        $('[data-show-if=show-indicators]').removeClass('hide');
+      }
+
+      if ({{ show_driver_of_change_check }}) {
+        document.getElementById("id_check_driver").checked = true;
+        $('[data-show-if=show-drivers]').removeClass('hide');
+      }
     });
   </script>
 {% endblock %}
