@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from hstool.models import (
     Assessment, DriverOfChange, Indicator, Source, Figure, Relation,
-    Implication,
+    Implication, Impact,
 )
 from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
@@ -99,4 +99,12 @@ class ImplicationFactory(DjangoModelFactory):
 
     author_id = 'author_id'
     title = 'title'
+    description = 'description'
+
+
+class ImpactFactory(DjangoModelFactory):
+    FACTORY_FOR = Impact
+
+    short_name = 'short name'
+    name = 'long name'
     description = 'description'
