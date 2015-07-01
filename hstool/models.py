@@ -180,7 +180,7 @@ class Implication(GenericElement):
     title = CharField(max_length=512)
     policy_area = CharField(
         max_length=64,
-        choices= AREA_POLICY,
+        choices=AREA_POLICY,
         default=0,
         blank=True,
         null=True,
@@ -189,3 +189,36 @@ class Implication(GenericElement):
 
     def __unicode__(self):
         return self.title
+
+
+class Impact(GenericElement):
+    IMPACT_TYPES = (
+        ('opportunity', 'Opportunity'),
+        ('other', 'Other'),
+    )
+
+    STEEP_TYPES = (
+        ('economic', 'Ec (Economic)'),
+        ('env', 'Env (Environmental)'),
+        ('political', 'P (Political)'),
+        ('social', 'S (Social)'),
+        ('tech', 'T (Technological)'),
+    )
+
+    impact_type = CharField(
+        max_length=64,
+        choices=IMPACT_TYPES,
+        default=0,
+        blank=True,
+        null=True,
+    )
+
+    steep_category = CharField(
+        max_length=64,
+        choices=STEEP_TYPES,
+        default=0,
+        blank=True,
+        null=True,
+    )
+
+    description = TextField()
