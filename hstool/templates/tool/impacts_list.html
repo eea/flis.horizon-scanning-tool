@@ -1,0 +1,42 @@
+{% extends 'tool/_list_as_table.html' %}
+{% load custom_filters %}
+
+{% block title %}Impacts list{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    </br>
+    <a class="btn btn-primary" href="{% url 'impacts:add' %}">Add Impact</a>
+    </br>
+
+    <table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Type of impact</th>
+        <th>STEEP category</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for impact in impacts %}
+        <tr>
+          <td>
+            <a href="{% url 'impacts:update' impact.id %}">
+            {{ impact.name }}</a></td>
+          <td>{{ impact.impact_type }}</td>
+          <td>{{ impact.steep_category }}</td>
+          <td>{{ impact.draft|yesno:"Draft,Published" }}</td>
+          <td>
+            <a id="delete" href="{% url 'impacts:delete' impact.id %}">
+              <span class="glyphicon glyphicon-remove"></span> Delete
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include 'modals/_view.html' %}
+{% endblock %}
