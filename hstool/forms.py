@@ -6,19 +6,15 @@ from django.forms import ModelChoiceField
 from hstool.models import (
     Source, Indicator, DriverOfChange, Figure,
     Assessment, Relation, Implication, GenericElement,
+    Impact,
 )
 from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
 )
 
-
-class AssessmentForm(ModelForm):
+class GeoScopeForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(AssessmentForm, self).__init__(*args, **kwargs)
-        self.fields['description'].widget.attrs["cols"] = 70
-        self.fields['description'].widget.attrs["rows"] = 6
-        self.fields['title'].widget.attrs["size"] = 30
-
+        super(GeoScopeForm, self).__init__(*args, **kwargs)
         self.fields['country'].queryset = (
             Country.objects.filter(is_deleted=False)
         )
@@ -27,12 +23,8 @@ class AssessmentForm(ModelForm):
             GeographicalScope.objects.filter(is_deleted=False)
         )
 
-    class Meta:
-        model = Assessment
-        exclude = ['author_id']
-
     def clean(self):
-        cleaned_data = super(AssessmentForm, self).clean()
+        cleaned_data = super(GeoScopeForm, self).clean()
         geo_scope = cleaned_data['geographical_scope']
         country = cleaned_data['country']
         if geo_scope and geo_scope.require_country and not country:
@@ -42,6 +34,18 @@ class AssessmentForm(ModelForm):
             del cleaned_data["country"]
 
         return cleaned_data
+
+
+class AssessmentForm(GeoScopeForm):
+    def __init__(self, *args, **kwargs):
+        super(AssessmentForm, self).__init__(*args, **kwargs)
+        self.fields['description'].widget.attrs["cols"] = 70
+        self.fields['description'].widget.attrs["rows"] = 6
+        self.fields['title'].widget.attrs["size"] = 30
+
+    class Meta:
+        model = Assessment
+        exclude = ['author_id']
 
 
 class SourceForm(ModelForm):
@@ -120,7 +124,7 @@ class RelationForm(ModelForm):
         return relation
 
 
-class IndicatorForm(ModelForm):
+class IndicatorForm(GeoScopeForm):
     def __init__(self, *args, **kwargs):
         super(IndicatorForm, self).__init__(*args, **kwargs)
         self.fields['sources'].widget.attrs["size"] = 6
@@ -128,15 +132,8 @@ class IndicatorForm(ModelForm):
         self.fields['url'].widget.attrs["size"] = 100
         self.fields['short_name'].widget.attrs["size"] = 30
         self.fields['name'].widget.attrs["size"] = 60
-
-        self.fields['country'].queryset = (
-            Country.objects.filter(is_deleted=False)
-        )
         self.fields['theme'].queryset = (
             EnvironmentalTheme.objects.filter(is_deleted=False)
-        )
-        self.fields['geographical_scope'].queryset = (
-            GeographicalScope.objects.filter(is_deleted=False)
         )
 
     class Meta:
@@ -150,18 +147,6 @@ class IndicatorForm(ModelForm):
             "name": _("Long name"),
             "url": _("URL"),
         }
-
-    def clean(self):
-        cleaned_data = super(IndicatorForm, self).clean()
-        geo_scope = cleaned_data['geographical_scope']
-        country = cleaned_data['country']
-        if geo_scope and geo_scope.require_country and not country:
-            self._errors["country"] = self.error_class([
-                'The selected Geographical Scale requires a country.'
-            ])
-            del cleaned_data["country"]
-
-        return cleaned_data
 
 
 class DriverForm(ModelForm):
@@ -231,20 +216,7 @@ class FigureForm(ModelForm):
         }
 
 
-class ImplicationForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(ImplicationForm, self).__init__(*args, **kwargs)
-        self.fields['title'].widget.attrs["size"] = 30
-        self.fields['description'].widget.attrs["cols"] = 70
-        self.fields['description'].widget.attrs["rows"] = 6
-
-        self.fields['country'].queryset = (
-            Country.objects.filter(is_deleted=False)
-        )
-        self.fields['geographical_scope'].queryset = (
-            GeographicalScope.objects.filter(is_deleted=False)
-        )
-
+class ImplicationForm(GeoScopeForm):
     class Meta:
         model = Implication
         exclude = ['author_id', 'short_name', 'name', 'url', 'figures']
@@ -252,15 +224,34 @@ class ImplicationForm(ModelForm):
             "policy_area": _("Area of policy"),
             "geographical_scope": _("Geographical scale"),
         }
+    def __init__(self, *args, **kwargs):
+        super(ImplicationForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs["size"] = 30
+        self.fields['description'].widget.attrs["cols"] = 70
+        self.fields['description'].widget.attrs["rows"] = 6
 
-    def clean(self):
-        cleaned_data = super(ImplicationForm, self).clean()
-        geo_scope = cleaned_data['geographical_scope']
-        country = cleaned_data['country']
-        if geo_scope and geo_scope.require_country and not country:
-            self._errors["country"] = self.error_class([
-                'The selected Geographical Scale requires a country.'
-            ])
-            del cleaned_data["country"]
 
-        return cleaned_data
+class ImpactForm(GeoScopeForm):
+    class Meta:
+        model = Impact
+        exclude = ['author_id', 'url', 'figures']
+        labels = {
+            'impact_type': _("Type of impact"),
+            'geographical_scope': _("Geographical scale"),
+            'steep_category': _("STEEP category"),
+            'name': _("Long name"),
+            'short_name': _("Short name"),
+            'sources': _("Source"),
+        }
+        help_texts = {
+            'name': _("Understandable name for non-experts"),
+            'short_name': _("Acronym for expert use"),
+            'sources': _("Choose from list of sources. "),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ImpactForm, self).__init__(*args, **kwargs)
+
+        self.fields['short_name'].widget.attrs["size"] = 30
+        self.fields['name'].widget.attrs["size"] = 60
+        self.fields['sources'].required = True
