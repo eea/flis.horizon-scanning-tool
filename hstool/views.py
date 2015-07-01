@@ -16,14 +16,14 @@ from hstool.definitions import CANONICAL_ROLES
 
 from hstool.models import (
     Source, Indicator, DriverOfChange, Figure,
-    Assessment, Relation, Implication,
+    Assessment, Relation, Implication, Impact,
 )
 from flis_metadata.common.models import GeographicalScope
 
 from hstool.forms import (
     SourceForm, IndicatorForm, DriverForm,
     FigureForm, AssessmentForm, RelationForm,
-    ImplicationForm,
+    ImplicationForm, ImpactForm,
 )
 from hstool.utils import get_nodes_from_components
 
@@ -409,6 +409,31 @@ class FiguresDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'object_delete.html'
     model = Figure
     success_url = reverse_lazy('figures:list')
+
+
+class ImpactsList(LoginRequiredMixin, ListMixin):
+    template_name = 'tool/impacts_list.html'
+    model = Impact
+    context_object_name = 'impacts'
+
+
+class ImpactsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
+    template_name = 'tool/impacts_add.html'
+    form_class = ImpactForm
+    success_url = reverse_lazy('impacts:list')
+
+
+class ImpactsUpdate(OwnerRequiredMixin, UpdateView):
+    template_name = 'tool/impacts_add.html'
+    model = Impact
+    form_class = ImpactForm
+    success_url = reverse_lazy('impacts:list')
+
+
+class ImpactsDelete(OwnerRequiredMixin, DeleteView):
+    template_name = 'object_delete.html'
+    model = Impact
+    success_url = reverse_lazy('impacts:list')
 
 
 class GeoScopesRequired(JSONResponseMixin, AjaxResponseMixin, DetailView):
