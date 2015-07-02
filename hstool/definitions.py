@@ -55,3 +55,8 @@ CANONICAL_ROLES = (
     'Viewer',
     'Reviewer',
 )
+
+IMPACT_TYPES = (
+    ('opportunity', 'Opportunity'),
+    ('other', 'Other'),
+)

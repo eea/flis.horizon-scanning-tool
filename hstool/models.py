@@ -10,6 +10,7 @@ from hstool.definitions import (
     DOC_TYPE_CHOICES, DOC_TREND_TYPE_CHOICES, DOC_STEEP_CHOICES,
     DOC_TIME_HORIZON_CHOICES, IND_TIMELINE_CHOICES,
     RELATION_TYPE_CHOICES, DOC_UNCERTAINTIES_TYPE_CHOICES,
+    IMPACT_TYPES,
 )
 from hstool.utils import path_and_rename_sources, path_and_rename_figures
 
@@ -192,19 +193,6 @@ class Implication(GenericElement):
 
 
 class Impact(GenericElement):
-    IMPACT_TYPES = (
-        ('opportunity', 'Opportunity'),
-        ('other', 'Other'),
-    )
-
-    STEEP_TYPES = (
-        ('economic', 'Ec (Economic)'),
-        ('env', 'Env (Environmental)'),
-        ('political', 'P (Political)'),
-        ('social', 'S (Social)'),
-        ('tech', 'T (Technological)'),
-    )
-
     impact_type = CharField(
         max_length=64,
         choices=IMPACT_TYPES,
@@ -215,7 +203,7 @@ class Impact(GenericElement):
 
     steep_category = CharField(
         max_length=64,
-        choices=STEEP_TYPES,
+        choices=DOC_STEEP_CHOICES,
         default=0,
         blank=True,
         null=True,
