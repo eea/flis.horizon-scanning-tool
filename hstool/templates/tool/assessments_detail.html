@@ -3,29 +3,76 @@
 {% load assets %}
 
 {% block content %}
-	<div class="container-fluid" id="view">
+  <div class="container-fluid" id="view">
 
-		<h2 class="page-header">{{ assessment.title }}</h2>
+    <h2 class="page-header">{{ assessment.title }}</h2>
 
-		<div class="assessment-content">
-			<p>{{ assessment.description }}</p>
-		</div>
-		{% if not assessment.relations.all %}
-			<p><em>There are no relations defined in this assessment</em></p>
-		{% else %}
-			<hr/>
-			<div id="svg-relations">
+    <div class="assessment-content">
+      <p>{{ assessment.description }}</p>
+      <a style="float:right;" class="btn btn-primary btn-sm" href="{% url 'assessments:update' assessment.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> &nbsp;
+        Edit
+      </a>
+    </div>
 
-			</div>
-		{% endif %}
+    <div>
+      <h4>Relations</h4>
+      <a id="add-relation" href="{% url 'relations:add' assessment.id %}" class="btn btn-primary btn-sm">
+        <span class="glyphicon glyphicon-plus"></span> &nbsp;
+        Add relation
+      </a>
+      <br/><br/>
+      {% if not assessment.relations.all %}
+        <p><em>There are no relations defined in this assessment</em></p>
+      {% else %}
+        <table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>Source</th>
+            <th>Type</th>
+            <th>Destination</th>
+            <td>Status</td>
+            <th></th>
+            <th></th>
+          </tr>
+          </thead>
 
-	</div>
+          <tbody>
+          {% for relation in assessment.relations.all %}
+            <tr>
+              <td>{{ relation.source }}</td>
+              <td>{{ relation.relationship_type|verbose }}</td>
+              <td>{{ relation.destination }}</td>
+              <td>{{ relation.draft|yesno:"Draft,Published" }}</td>
+              <td>
+                <a href="{% url 'relations:update' assessment.pk relation.id %}">
+                  <span class="glyphicon glyphicon-pencil"></span>&nbsp;Edit
+                </a>
+              </td>
+              <td>
+                <a id="delete" href="{% url 'relations:delete' assessment.pk relation.id %}">
+                  <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
 
-	{% include 'modals/_view.html' %}
+    </hr>
+    {% if assessment.relations.all %}
+      <div id="svg-relations"></div>
+    {% endif %}
+
+  </div>
+
+  {% include 'modals/_view.html' %}
 {% endblock %}
 
 {% block scripts %}
-	{% assets "js_d3" %}
-		<script type="text/javascript" src="{{ ASSET_URL }}"></script>
-	{% endassets %}
+  {% assets "js_d3" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+  {% endassets %}
 {% endblock %}

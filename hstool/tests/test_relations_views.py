@@ -35,7 +35,7 @@ class RelationsAdd(HSWebTest):
         form['description'] = 'description'
         form['indicator'] = '2'
         resp = form.submit()
-        self.assertRedirects(resp, reverse('assessments:preview',
+        self.assertRedirects(resp, reverse('assessments:detail',
                                            args=(self.assessment.pk, )))
         self.assertEqual(len(Relation.objects.all()), 1)
 
@@ -78,7 +78,7 @@ class RelationsUpdate(HSWebTest):
         form['description'] = 'description 2'
         form['indicator'] = '4'
         resp = form.submit()
-        self.assertRedirects(resp, reverse('assessments:preview',
+        self.assertRedirects(resp, reverse('assessments:detail',
                                            args=(self.assessment.pk, )))
         self.assertEqual(len(Relation.objects.all()), 1)
         relation = Relation.objects.first()
@@ -104,6 +104,6 @@ class RelationsDelete(HSWebTest):
 
     def test_deletion(self):
         resp = self.form.submit()
-        self.assertRedirects(resp, reverse('assessments:preview',
+        self.assertRedirects(resp, reverse('assessments:detail',
                                            args=(self.assessment.pk, )))
         self.assertQuerysetEqual(Relation.objects.all(), [])

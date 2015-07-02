@@ -34,11 +34,11 @@ class AssessmentsAddViewTests(HSWebTest):
         self.assertEqual(resp.status_code, 200)
 
 
-class AssessmentsPreviewViewTests(HSWebTest):
+class AssessmentsDetailTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
         self.assessment = AssessmentFactory(author_id=self.user.username)
-        self.url = reverse('assessments:preview', args=(self.assessment.pk, ))
+        self.url = reverse('assessments:detail', args=(self.assessment.pk, ))
 
     def test_anonymous(self):
         resp = self.app.get(self.url, expect_errors=True)
