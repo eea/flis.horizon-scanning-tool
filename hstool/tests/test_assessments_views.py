@@ -36,10 +36,6 @@ class AssessmentsList(HSWebTest):
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(5) a').attr('href'),
-            reverse('assessments:preview', args=(assessment1.pk, ))
-        )
-        self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(6) a').attr('href'),
             reverse('assessments:delete', args=(assessment1.pk, ))
         )
 
@@ -68,11 +64,6 @@ class AssessmentsList(HSWebTest):
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(5) a')
             .attr('href'),
-            reverse('assessments:preview', args=(assessment1.pk, ))
-        )
-        self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(6) a')
-            .attr('href'),
             reverse('assessments:delete', args=(assessment1.pk, ))
         )
         self.assertEqual(
@@ -95,11 +86,6 @@ class AssessmentsList(HSWebTest):
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(5) a')
             .attr('href'),
-            reverse('assessments:preview', args=(assessment2.pk, ))
-        )
-        self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(6) a')
-            .attr('href'),
             reverse('assessments:delete', args=(assessment2.pk, ))
         )
 
@@ -119,7 +105,7 @@ class AssessmentsAdd(HSWebTest):
         form = self.resp.forms[0]
         form['title'] = 'a'
         resp = form.submit()
-        self.assertRedirects(resp, reverse('assessments:preview', args=(1, )))
+        self.assertRedirects(resp, reverse('assessments:detail', args=(1, )))
 
 
 class AssessmentsPreview(HSWebTest):
@@ -135,12 +121,12 @@ class AssessmentsPreview(HSWebTest):
             assessment=self.assessment, source=self.driver1,
             destination=self.driver2
         )
-        url = reverse('assessments:preview', args=(self.assessment.pk, ))
+        url = reverse('assessments:detail', args=(self.assessment.pk, ))
         self.resp = self.app.get(url=url, user=user)
 
     def test_one_relation(self):
         self.assertEqual(self.resp.status_code, 200)
-        self.assertTemplateUsed(self.resp, 'tool/assessments_preview.html')
+        self.assertTemplateUsed(self.resp, 'tool/assessments_detail.html')
         self.assertEqual(self.resp.pyquery('.page-header').text(),
                          self.assessment.title)
         self.assertEqual(self.resp.pyquery('.assessment-content p').text(),
@@ -190,7 +176,7 @@ class AssessmentsUpdate(HSWebTest):
         self.form['title'] = 'a'
         self.form['description'] = 'b'
         resp = self.form.submit()
-        self.assertRedirects(resp, reverse('assessments:preview',
+        self.assertRedirects(resp, reverse('assessments:detail',
                                            args=(self.assessment.pk, )))
         self.assertEqual(len(Assessment.objects.all()), 1)
         assessment = Assessment.objects.first()
