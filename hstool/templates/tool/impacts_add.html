@@ -1,0 +1,113 @@
+{% extends '_layout.html' %}
+{% load custom_filters %}
+{% load widget_tweaks %}
+
+{% block title %}Add/Edit Impact{% endblock %}
+
+{% block content %}
+  <div class="container-fluid" id="view">
+
+    <h2 class="page-header">Add/Edit Impact</h2>
+
+    <form method="POST" class="form-horizontal" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <fieldset class="well">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">{{ form.impact_type|label }}
+          </label>
+          <div class="controls col-sm-4">
+            {% render_field form.impact_type class='form-control' %}
+            {{ form.impact_type.errors }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">{{ form.geographical_scope|label }}
+          </label>
+          <div class="controls col-sm-4">
+            {% url 'settings:geo_scopes_required' as required_url %}
+            {% render_field form.geographical_scope class='form-control' id="geo_scope" href=required_url %}
+            {{ form.geographical_scope.errors }}
+          </div>
+        </div>
+
+        <div class="form-group" id={% if not required %}"invisible"{% else %}"visible"{% endif %}>
+          <label class="col-sm-2 control-label">{{ form.country|label:"True" }}
+          </label>
+          <div class="controls col-sm-4">
+            {% render_field form.country class='form-control' %}
+            {{ form.country.errors }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">{{ form.steep_category|label }}
+          </label>
+          <div class="controls col-sm-4">
+            {% render_field form.steep_category class='form-control' %}
+            {{ form.steep_category.errors }}
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="well">
+        <legend>Describe impact</legend>
+        <div class="form-group">
+          <span title="{{ form.short_name.help_text }}">
+            <label class="col-sm-2 control-label">{{ form.short_name|label }}</label>
+          </span>
+          <div class="controls col-sm-10">
+            {% render_field form.short_name class='form-control' %}
+            {{ form.short_name.errors }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <span title="{{ form.name.help_text }}">
+            <label class="col-sm-2 control-label">{{ form.name|label }}</label>
+          </span>
+          <div class="controls col-sm-10">
+            {% render_field form.name class='form-control' %}
+            {{ form.name.errors }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">{{ form.description|label }}
+          </label>
+          <div class="controls col-sm-10">
+            {% render_field form.description class='form-control' %}
+            {{ form.description.errors }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <span title="{{ form.sources.help_text }}">
+            <label class="col-sm-2 control-label">{{ form.sources|label }}</label>
+          </span>
+          <div class="controls col-sm-4">
+            {% render_field form.sources class='form-control' %}
+            {{ form.sources.errors }}
+          </div>
+          <div class="col-sm-2">
+            <a class="btn btn-primary launch-modal" data-toggle="modal"
+                 data-target="#myModal"
+                 data-action="{% url 'modals:add' 'sources'%}"
+                 data-title="Add new Source"
+                 data-backdrop="static">
+              <span class="glyphicon glyphicon-plus"></span>  &nbsp;
+              Add new source
+            </a>
+          </div>
+        </div>
+      </fieldset>
+
+      {% include '_footer.html' with cancel_url='impacts:list' %}
+
+    </form>
+  </div>
+
+  {% include 'modals/_form.html' %}
+
+{% endblock %}

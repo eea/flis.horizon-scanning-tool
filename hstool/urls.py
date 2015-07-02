@@ -59,6 +59,14 @@ figures_urls = patterns(
     url(r'^delete/(?P<pk>\d+)/$', views.FiguresDelete.as_view(), name='delete'),
 )
 
+impacts_urls = patterns(
+    '',
+    url(r'^list/$', views.ImpactsList.as_view(), name='list'),
+    url(r'^add/$', views.ImpactsAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.ImpactsUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.ImpactsDelete.as_view(), name='delete'),
+)
+
 assessments_urls = patterns(
     '',
     url(r'^add/$', views.AssessmentsAdd.as_view(), name='add'),
@@ -114,6 +122,8 @@ urlpatterns = patterns(
     url(r'^implications/', include(implications_urls, namespace='implications')),
 
     url(r'^figures/', include(figures_urls, namespace='figures')),
+
+    url(r'^impacts/', include(impacts_urls, namespace='impacts')),
 
     url(r'^modals/', include(modals_urls, namespace='modals')),
 

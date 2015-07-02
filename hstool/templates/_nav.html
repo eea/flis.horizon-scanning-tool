@@ -22,6 +22,9 @@
     <li class="{% active 'figures/(.*)$' %}">
       <a href="{% url 'figures:list' %}">Facts & Figures</a>
     </li>
+    <li class="{% active 'impacts/(.*)$' %}">
+      <a href="{% url 'impacts:list' %}">Impacts</a>
+    </li>
   {% endif %}
 
   {% get_metadata_url as metadata_url %}
