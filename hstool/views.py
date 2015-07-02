@@ -82,7 +82,7 @@ class AssessmentsList(ListMixin):
     context_object_name = 'assessments'
 
 
-class AssessmentsDetail(LoginRequiredMixin, DetailView):
+class AssessmentsDetail(OwnerRequiredMixin, LoginRequiredMixin, DetailView):
     template_name = 'tool/assessments_detail.html'
     model = Assessment
     context_object_name = 'assessment'
@@ -146,16 +146,12 @@ def assessments_relations(request, pk):
     return HttpResponse(data, content_type='application/json')
 
 
-class AssessmentsPreview(OwnerRequiredMixin, AssessmentsDetail):
-    template_name = 'tool/assessments_preview.html'
-
-
 class AssessmentsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/assessments_add.html'
     form_class = AssessmentForm
 
     def get_success_url(self):
-        return reverse('assessments:preview', kwargs={'pk': self.object.pk})
+        return reverse('assessments:detail', kwargs={'pk': self.object.pk})
 
 
 class AssessmentsUpdate(OwnerRequiredMixin, UpdateView):
@@ -165,7 +161,7 @@ class AssessmentsUpdate(OwnerRequiredMixin, UpdateView):
     context_object_name = 'assessment'
 
     def get_success_url(self):
-        return reverse('assessments:preview', kwargs={'pk': self.object.pk})
+        return reverse('assessments:detail', kwargs={'pk': self.object.pk})
 
 
 class AssessmentsDelete(OwnerRequiredMixin, DeleteView):
@@ -208,7 +204,7 @@ class RelationsAdd(RelationsMixin, CreateView):
         return data
 
     def get_success_url(self):
-        return reverse('assessments:preview', kwargs={'pk': self.assessment.id})
+        return reverse('assessments:detail', kwargs={'pk': self.assessment.id})
 
 
 class RelationsUpdate(RelationsMixin, UpdateView):
@@ -217,7 +213,7 @@ class RelationsUpdate(RelationsMixin, UpdateView):
     form_class = RelationForm
 
     def get_success_url(self):
-        return reverse('assessments:preview',
+        return reverse('assessments:detail',
                        kwargs={'pk': self.object.assessment.pk})
 
     def get_context_data(self, **kwargs):
@@ -238,7 +234,7 @@ class RelationsDelete(RelationsMixin, DeleteView):
     model = Relation
 
     def get_success_url(self):
-        return reverse('assessments:preview',
+        return reverse('assessments:detail',
                        kwargs={'pk': self.object.assessment.id})
 
 

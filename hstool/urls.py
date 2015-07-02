@@ -74,8 +74,6 @@ assessments_urls = patterns(
         name='detail'),
     url(r'^detail/(?P<pk>\d+)/relations$', views.assessments_relations,
         name='relations'),
-    url(r'^preview/(?P<pk>\d+)/$', views.AssessmentsPreview.as_view(),
-        name='preview'),
     url(r'^update/(?P<pk>\d+)/$', views.AssessmentsUpdate.as_view(),
         name='update'),
     url(r'^delete/(?P<pk>\d+)/$', views.AssessmentsDelete.as_view(),
