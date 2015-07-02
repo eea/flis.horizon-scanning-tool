@@ -24,7 +24,6 @@
           <th>Added at</th>
           <th>Status</th>
           <th></th>
-          <th></th>
         </tr>
         </thead>
         <tbody>
@@ -37,11 +36,6 @@
             <td>{{ assessment.author_id }}</td>
             <td>{{ assessment.added }}</td>
             <td>{{ assessment.draft|yesno:"Draft,Published" }}</td>
-            <td>
-              <a href="{% url 'assessments:preview' assessment.id %}">
-                <span class="glyphicon glyphicon-pencil"></span>&nbsp;Change
-              </a>
-            </td>
             <td>
               <a id="delete" href="{% url 'assessments:delete' assessment.id %}">
                 <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
