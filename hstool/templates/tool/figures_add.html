@@ -2,16 +2,17 @@
 {% load custom_filters %}
 {% load widget_tweaks %}
 
-{% block title %}Add/Edit Fact & Figure{% endblock %}
+{% block title %}Add/Edit Indicator, Fact and Figure{% endblock %}
 
 {% block content %}
 	<div class="container-fluid" id="view">
 
-		<h2 class="page-header">Add/Edit Fact and Figure</h2>
+		<h2 class="page-header">Add/Edit Indicator, Fact and Figure</h2>
+
+		{{ form.errors }}
 
 		<form method="POST" class="form-horizontal" enctype="multipart/form-data">
 			{% csrf_token %}
-
 			<div class="form-group">
 				<label class="col-sm-2 control-label">{{ form.title|label }}
 				</label>
@@ -20,6 +21,43 @@
 					{{ form.title.errors }}
 				</div>
 			</div>
+
+            <div class="form-group">
+                 <input type="checkbox" name="is_indicator" value="is_indicator">
+                    <label class="col-sm-2 control-label">{{ form.is_indicator|label }}
+				    </label>
+            </div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.theme|label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.theme class='form-control' %}
+					{{ form.theme.errors }}
+				</div>
+			</div>
+
+			<div class="form-group">
+
+          <div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.sources|label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.sources class='form-control' %}
+					{{ form.sources.errors }}
+				</div>
+				<div class="col-sm-2">
+					<a class="btn btn-primary launch-modal" data-toggle="modal"
+							 data-target="#myModal"
+							 data-action="{% url 'modals:add' 'sources'%}"
+							 data-title="Add new Source"
+							 data-backdrop="static">
+						<span class="glyphicon glyphicon-plus"></span>  &nbsp;
+						Add new source
+					</a>
+				</div>
+			</div>
+
 
 			<div class="form-group">
 				<label class="col-sm-2 control-label">{{ form.file|label }}
@@ -31,6 +69,15 @@
 				</div>
 			</div>
 
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.url|label }}
+				</label>
+				<div class="controls col-sm-10">
+					{% render_field form.url class='form-control' %}
+					{{ form.url.errors }}
+				</div>
+			</div>
+
 			<div class="controls hidden">
 				{% render_field form.draft %}
 			</div>
@@ -39,5 +86,5 @@
 
 		</form>
 	</div>
-
+{% include 'modals/_form.html' %}
 {% endblock %}

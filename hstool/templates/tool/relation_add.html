@@ -7,28 +7,28 @@
     $(window).load(function() {
       $(':checkbox').change(function () {
           var driver_checkbox = document.getElementById("id_check_driver");
-          var indicator_checkbox = document.getElementById("id_check_indicator");
+          var figureindicator_checkbox = document.getElementById("id_check_figureindicator");
 
           $(':checkbox').not(this).prop('checked', false);
           if (driver_checkbox.checked) {
               $('[data-show-if=show-drivers]').removeClass('hide');
-              $('[data-show-if=show-indicators]').addClass('hide');
-              $('#id_indicator').prop('selectedIndex', 0);
+              $('[data-show-if=show-figureindicators]').addClass('hide');
+              $('#id_figureindicator').prop('selectedIndex', 0);
           }
-          else if (indicator_checkbox.checked) {
-              $('[data-show-if=show-indicators]').removeClass('hide');
+          else if (figureindicator_checkbox.checked) {
+              $('[data-show-if=show-figureindicators]').removeClass('hide');
               $('[data-show-if=show-drivers]').addClass('hide');
               $('#id_driver').prop('selectedIndex', 0);
           }
           else {
               $('[data-show-if=show-drivers]').addClass('hide');
-              $('[data-show-if=show-indicators]').addClass('hide');
+              $('[data-show-if=show-figureindicators]').addClass('hide');
           }
       }).change();
 
-      if ({{ show_indicator_check }}) {
-        document.getElementById("id_check_indicator").checked = true;
-        $('[data-show-if=show-indicators]').removeClass('hide');
+      if ({{ show_figureindicator_check }}) {
+        document.getElementById("id_check_figureindicator").checked = true;
+        $('[data-show-if=show-figureindicators]').removeClass('hide');
       }
 
       if ({{ show_driver_of_change_check }}) {
@@ -104,6 +104,8 @@
                id="id_check_{{ dest_type }}"
                name="check_{{ dest_type }}"
                value="{{ dest_type }}">
+            {{ name }}
+            {{ value }}
             {{ dest_type_label }}
           </div>
           {% endfor %}
@@ -126,22 +128,23 @@
           </div>
         </div>
 
-        <div data-show-if="show-indicators">
+        <div data-show-if="show-figureindicators">
           <div class="form-group">
             <div class="col-sm-6">
-              {% render_field form.indicator class='form-control' %}
-              {{ form.indicator.errors }}
+              {% render_field form.figureindicator class='form-control' %}
+              {{ form.figureindicator.errors }}
             </div>
           </div>
           <div class="form-group">
             <p class="col-sm-4">
-              Is your indicator missing from the list?
+              Is your indicator, fact or figure missing from the list?
             </p>
-            <a class="btn btn-primary" href="{% url 'indicators:add' %}" target="_blank">
-              Add new indicator
+            <a class="btn btn-primary" href="{% url 'figures:add' %}" target="_blank">
+              Add new indicator, fact and figure
             </a>
           </div>
         </div>
+
       </fieldset>
 
       <fieldset class="well">
@@ -166,35 +169,6 @@
           <div class="col-sm-6">
             {% render_field form.description class='form-control' %}
             {{ form.description.errors}}
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset class="well">
-        <div class="form-group">
-          <label class="col-sm-6">{{ form.figures|label }}
-          </label>
-        </div>
-        <div class="form-group">
-          <div class="col-sm-6">
-            {% render_field form.figures class='form-control' %}
-            {{ form.figures.errors}}
-          </div>
-        </div>
-
-        <div class="form-group">
-          <p class="col-sm-4">
-            Is your driver missing from the list?
-          </p>
-          <div class="col-sm-2">
-            <a class="btn btn-primary launch-modal" data-toggle="modal"
-               data-target="#myModal"
-               data-action="{% url 'modals:add' 'figures'%}"
-               data-title="Add new Figure"
-               data-backdrop="static">
-              <span class="glyphicon glyphicon-plus"></span> &nbsp;
-              Add new fact & figure
-            </a>
           </div>
         </div>
       </fieldset>
