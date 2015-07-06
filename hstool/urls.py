@@ -23,16 +23,6 @@ sources_urls = patterns(
     url(r'^delete/(?P<pk>\d+)/$', views.SourcesDelete.as_view(), name='delete'),
 )
 
-indicators_urls = patterns(
-    '',
-    url(r'^list/$', views.IndicatorsList.as_view(), name='list'),
-    url(r'^add/$', views.IndicatorsAdd.as_view(), name='add'),
-    url(r'^update/(?P<pk>\d+)/$', views.IndicatorsUpdate.as_view(),
-        name='update'),
-    url(r'^delete/(?P<pk>\d+)/$', views.IndicatorsDelete.as_view(),
-        name='delete'),
-)
-
 drivers_urls = patterns(
     '',
     url(r'^list/$', views.DriversList.as_view(), name='list'),
@@ -112,8 +102,6 @@ urlpatterns = patterns(
         include(relations_urls, namespace='relations')),
 
     url(r'^sources/', include(sources_urls, namespace='sources')),
-
-    url(r'^indicators/', include(indicators_urls, namespace='indicators')),
 
     url(r'^docs/', include(drivers_urls, namespace='drivers')),
 
