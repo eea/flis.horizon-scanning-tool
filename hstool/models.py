@@ -8,7 +8,7 @@ from django.conf import settings
 
 from hstool.definitions import (
     DOC_TYPE_CHOICES, DOC_TREND_TYPE_CHOICES, DOC_STEEP_CHOICES,
-    DOC_TIME_HORIZON_CHOICES, IND_TIMELINE_CHOICES,
+    DOC_TIME_HORIZON_CHOICES,
     RELATION_TYPE_CHOICES, DOC_UNCERTAINTIES_TYPE_CHOICES,
     IMPACT_TYPES,
 )
@@ -52,20 +52,6 @@ class ContentTypeRestrictedFileField(FileField):
         )
 
 
-class Figure(Model):
-    draft = BooleanField(default=True)
-    author_id = CharField(max_length=64)
-    title = CharField(max_length=512, default='')
-    file = ContentTypeRestrictedFileField(
-        upload_to=path_and_rename_figures,
-        content_types=settings.SUPPORTED_FILES_FACTS_AND_FIGURES,
-    )
-    added = DateTimeField(auto_now_add=True, editable=False,
-                          default=datetime.now)
-
-    def __unicode__(self):
-        return self.title
-
 
 class Source(Model):
     draft = BooleanField(default=True)
@@ -97,16 +83,15 @@ class GenericElement(Model):
                           default=datetime.now)
 
     sources = ManyToManyField('Source', blank=True, null=True)
-    figures = ManyToManyField('Figure', blank=True, null=True)
 
     def __unicode__(self):
         return self.name
 
     def is_indicator(self):
         try:
-            if self.indicator:
+            if self.is_indicator:
                 return True
-        except Indicator.DoesNotExist:
+        except FigureIndicator.DoesNotExist:
             return False
         return False
 
@@ -119,6 +104,18 @@ class GenericElement(Model):
         return False
 
 
+class FigureIndicator(GenericElement):
+    is_indicator = BooleanField(default=False)
+    title = CharField(max_length=512, default='')
+    file = ContentTypeRestrictedFileField(
+        upload_to=path_and_rename_figures,
+        content_types=settings.SUPPORTED_FILES_FACTS_AND_FIGURES,
+    )
+    theme = ForeignKey('common.EnvironmentalTheme')
+
+    def __unicode__(self):
+        return self.title
+
 class DriverOfChange(GenericElement):
     type = IntegerField(choices=DOC_TYPE_CHOICES)
     trend_type = IntegerField(choices=DOC_TREND_TYPE_CHOICES,
@@ -129,12 +126,9 @@ class DriverOfChange(GenericElement):
     time_horizon = IntegerField(choices=DOC_TIME_HORIZON_CHOICES)
     summary = TextField(null=True, blank=True)
 
+    figures = ManyToManyField('FigureIndicator', blank=True, null=True)
 
-class Indicator(GenericElement):
-    theme = ForeignKey('common.EnvironmentalTheme')
-    year_base = IntegerField()
-    year_end = IntegerField()
-    timeline = IntegerField(choices=IND_TIMELINE_CHOICES)
+
 
 
 class Relation(Model):
@@ -145,7 +139,7 @@ class Relation(Model):
     relationship_type = IntegerField(choices=RELATION_TYPE_CHOICES)
     description = TextField(max_length=2048)
 
-    figures = ManyToManyField('Figure', blank=True, null=True)
+    figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
 
     def __unicode__(self):
         return u"%s -> %s" % (self.source, self.destination)
@@ -188,6 +182,8 @@ class Implication(GenericElement):
     )
     description = TextField(max_length=2048)
 
+    figures = ManyToManyField('FigureIndicator', blank=True, null=True)
+
     def __unicode__(self):
         return self.title
 
@@ -210,3 +206,5 @@ class Impact(GenericElement):
     )
 
     description = TextField()
+
+    figures = ManyToManyField('FigureIndicator', blank=True, null=True)
