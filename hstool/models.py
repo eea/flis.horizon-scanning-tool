@@ -87,9 +87,9 @@ class GenericElement(Model):
     def __unicode__(self):
         return self.name
 
-    def is_indicator(self):
+    def is_figureindicator(self):
         try:
-            if self.is_indicator:
+            if self.figureindicator:
                 return True
         except FigureIndicator.DoesNotExist:
             return False
@@ -126,9 +126,7 @@ class DriverOfChange(GenericElement):
     time_horizon = IntegerField(choices=DOC_TIME_HORIZON_CHOICES)
     summary = TextField(null=True, blank=True)
 
-    figures = ManyToManyField('FigureIndicator', blank=True, null=True)
-
-
+    figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
 
 
 class Relation(Model):
@@ -182,7 +180,7 @@ class Implication(GenericElement):
     )
     description = TextField(max_length=2048)
 
-    figures = ManyToManyField('FigureIndicator', blank=True, null=True)
+    figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
 
     def __unicode__(self):
         return self.title
@@ -207,4 +205,4 @@ class Impact(GenericElement):
 
     description = TextField()
 
-    figures = ManyToManyField('FigureIndicator', blank=True, null=True)
+    figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
