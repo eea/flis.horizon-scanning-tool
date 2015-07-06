@@ -1,7 +1,7 @@
 {% load custom_filters %}
 <strong>Source</strong>: {{ object.source.name }}<br/>
 <strong>Relationship type</strong>: {{ object.get_relationship_type_display }}<br/>
-<strong>Destination:</strong> {{ object.destination.name }}
+<strong>Destination:</strong> {{ object.destination }}
 <hr/>
 {{ object.description }}
-{% include 'modals/_view_footer_figures.html' with figures=object.figureindicators.all %}
+{% include 'modals/_view_footer_figures.html' with figureindicators=object.figureindicators.all %}

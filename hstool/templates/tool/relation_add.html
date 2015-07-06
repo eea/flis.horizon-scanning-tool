@@ -26,7 +26,7 @@
           }
       }).change();
 
-      if ({{ show_figureindicator_check }}) {
+      if ({{ show_figure_indicator_check }}) {
         document.getElementById("id_check_figureindicator").checked = true;
         $('[data-show-if=show-figureindicators]').removeClass('hide');
       }
@@ -169,6 +169,31 @@
           <div class="col-sm-6">
             {% render_field form.description class='form-control' %}
             {{ form.description.errors}}
+          </div>
+        </div>
+      </fieldset>
+
+       <fieldset class="well">
+        <div class="form-group">
+          <label class="col-sm-6">{{ form.figureindicators|label }}
+          </label>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-6">
+            {% render_field form.figureindicators class='form-control' %}
+            {{ form.figureindicators.errors}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <p class="col-sm-4">
+            Is your indicator, fact or figure missing from the list?
+          </p>
+          <div class="col-sm-2">
+            <a class="btn btn-primary" href="{% url 'figures:add' %}" target="_blank">
+              <span class="glyphicon glyphicon-plus"></span> &nbsp;
+              Add new indicator, fact or figure
+            </a>
           </div>
         </div>
       </fieldset>
