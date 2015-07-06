@@ -100,7 +100,7 @@ def assessments_relations(request, pk):
     data = {'nodes': [], 'links': []}
     for node in nodes:
         (model, subtitle, subtitle_color) = (
-            ('figureindicators', 'Indicator', 0) if hasattr(node, 'figureindicator') else
+            ('figureindicators', 'FigureIndicator', 0) if hasattr(node, 'figureindicator') else
             ('drivers', node.driverofchange.get_trend_type_display(),
              node.driverofchange.trend_type)
         )
@@ -113,7 +113,7 @@ def assessments_relations(request, pk):
             'title': node.name,
             'subtitle': subtitle,
             'subtitle_color': subtitle_color,
-            'figures': [figure.title for figure in node.figureindicators.all()],
+            'figureindicators': [figure.title for figure in node.figureindicators.all()],
         })
     ids_map = {}
     for (d3_id, db_id) in enumerate([node.id for node in nodes]):
@@ -195,7 +195,7 @@ class RelationsAdd(RelationsMixin, CreateView):
         context['assessment'] = self.assessment
         context['destination_types'] = self.DESTINATION_TYPE_OPTIONS
         context['show_driver_of_change_check'] = "false"
-        context['show_figureindicator_check'] = "false"
+        context['show_figure_indicator_check'] = "false"
         return context
 
     def get_form_kwargs(self):
@@ -221,9 +221,9 @@ class RelationsUpdate(RelationsMixin, UpdateView):
         context['assessment'] = self.object.assessment
         context['destination_types'] = self.DESTINATION_TYPE_OPTIONS
         context['show_driver_of_change_check'] = "false"
-        context['show_figureindicator_check'] = "false"
-        if self.object.destination.is_indicator():
-            context['show_figureindicator_check'] = "true"
+        context['show_figure_indicator_check'] = "false"
+        if self.object.destination.is_figureindicator():
+            context['show_figure_indicator_check'] = "true"
         if self.object.destination.is_driver():
             context['show_driver_of_change_check'] = "true"
         return context
@@ -353,7 +353,7 @@ class ImplicationsDelete(OwnerRequiredMixin, DeleteView):
 class FiguresList(LoginRequiredMixin, ListMixin):
     template_name = 'tool/figures_list.html'
     model = FigureIndicator
-    context_object_name = 'figures'
+    context_object_name = 'figureindicators'
 
 
 class FiguresAdd(AuthorMixin, LoginRequiredMixin, CreateView):
@@ -449,12 +449,12 @@ class AddModal(ModelMixin, AuthorMixin, LoginRequiredMixin, CreateView):
 
     url_to_models = {
         'sources': Source,
-        'figures': FigureIndicator,
+        'figureindicators': FigureIndicator,
     }
 
     urls_to_forms = {
         'sources': SourceForm,
-        'figures': FigureIndicatorForm,
+        'figureindicators': FigureIndicatorForm,
     }
 
     def get_form_class(self):
@@ -472,7 +472,7 @@ class AddModalSuccess(ModelMixin, AuthorMixin, LoginRequiredMixin, DetailView):
 
     url_to_models = {
         'sources': Source,
-        'figures': FigureIndicator,
+        'figureindicators': FigureIndicator,
     }
 
     def get_context_data(self, **kwargs):
@@ -513,4 +513,4 @@ class ViewModal(DetailView):
 class ViewFigureModal(LoginRequiredMixin, DetailView):
     template_name = 'modals/view_figure.html'
     model = FigureIndicator
-    context_object_name = 'figure'
+    context_object_name = 'figureindicator'
