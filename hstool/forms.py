@@ -12,6 +12,7 @@ from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
 )
 
+
 class GeoScopeForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(GeoScopeForm, self).__init__(*args, **kwargs)
@@ -83,7 +84,7 @@ class RelationForm(ModelForm):
             "destination": _("Select the end item"),
             "relationship_type": _("Select type of relation"),
             "description": _("Relation description"),
-            "figureindicator": _("Append facts, indicators and/or figures to illustrate relation")
+            "figureindicators": _("Append facts, indicators and/or figures to illustrate relation")
         }
 
     def __init__(self, *args, **kwargs):
@@ -91,7 +92,7 @@ class RelationForm(ModelForm):
         super(RelationForm, self).__init__(*args, **kwargs)
         self.fields['description'].widget.attrs["rows"] = 6
         try:
-            if self.instance.destination.is_indicator():
+            if self.instance.destination.is_figureindicator():
                 self.fields['figureindicator'].initial = FigureIndicator.objects.get(
                     pk=self.instance.destination.figureindicator.pk)
             if self.instance.destination.is_driver():
@@ -129,7 +130,7 @@ class DriverForm(ModelForm):
         self.fields['summary'].widget.attrs["cols"] = 70
         self.fields['summary'].widget.attrs["rows"] = 6
         self.fields['sources'].widget.attrs["size"] = 6
-        self.fields['figures'].widget.attrs["size"] = 6
+        self.fields['figureindicators'].widget.attrs["size"] = 6
         self.fields['short_name'].widget.attrs["size"] = 30
         self.fields['name'].widget.attrs["size"] = 60
         self.fields['url'].widget.attrs["size"] = 100
@@ -140,7 +141,6 @@ class DriverForm(ModelForm):
         self.fields['geographical_scope'].queryset = (
             GeographicalScope.objects.filter(is_deleted=False)
         )
-
 
     class Meta:
         model = DriverOfChange
@@ -153,8 +153,8 @@ class DriverForm(ModelForm):
             "geographical_scope": _("Geographical scale"),
             "name": _("Long name"),
             "url": _("URL"),
+            "figureindicators" : _("Indicators, facts and figures"),
         }
-
 
     def clean(self):
         cleaned_data = super(DriverForm, self).clean()
@@ -206,7 +206,7 @@ class FigureIndicatorForm(ModelForm):
 class ImplicationForm(GeoScopeForm):
     class Meta:
         model = Implication
-        exclude = ['author_id', 'short_name', 'name', 'url', 'figures']
+        exclude = ['author_id', 'short_name', 'name', 'url', 'figureindicators']
         labels = {
             "policy_area": _("Area of policy"),
             "geographical_scope": _("Geographical scale"),
@@ -222,7 +222,7 @@ class ImplicationForm(GeoScopeForm):
 class ImpactForm(GeoScopeForm):
     class Meta:
         model = Impact
-        exclude = ['author_id', 'url', 'figures']
+        exclude = ['author_id', 'url', 'figureindicators']
         labels = {
             'impact_type': _("Type of impact"),
             'geographical_scope': _("Geographical scale"),
