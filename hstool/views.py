@@ -90,7 +90,6 @@ class AssessmentsDetail(OwnerRequiredMixin, LoginRequiredMixin, DetailView):
 
 def assessments_relations(request, pk):
     relations = get_object_or_404(Assessment, pk=pk).relations.all()
-
     nodes = []
     for relation in relations:
         nodes.append(relation.source)
@@ -113,7 +112,7 @@ def assessments_relations(request, pk):
             'title': node.name,
             'subtitle': subtitle,
             'subtitle_color': subtitle_color,
-            'figureindicators': [figure.title for figure in node.figureindicators.all()],
+            'figureindicators': [figure.name for figure in node.figureindicators.all()],
         })
     ids_map = {}
     for (d3_id, db_id) in enumerate([node.id for node in nodes]):
@@ -251,7 +250,7 @@ class RelationsList(LoginRequiredMixin, ListView):
     def get_queryset(self, queryset=None):
         is_admin = self.request.user.has_perm('hstool.config')
         queryset = self.model._default_manager.all()
-
+        print "Here"
         if not is_admin:
             queryset = queryset.filter(
                 Q(draft=False) | Q(author_id=self.request.user.username) &
