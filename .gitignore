@@ -55,3 +55,6 @@ target/
 *.sqlite3
 hstool/local_settings.py
 fabfile/env.ini
+
+#Media file
+media/

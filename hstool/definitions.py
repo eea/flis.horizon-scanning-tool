@@ -33,16 +33,6 @@ DOC_TIME_HORIZON_CHOICES = (
     (200, 'more than 100 years'),
 )
 
-IND_TIMELINE_CHOICES = (
-    (5, '5-year intermediate'),
-    (0, 'continuous'),
-    (1, 'daily'),
-    (2, 'monthly'),
-    (3, 'point'),
-    (4, 'weekly'),
-    (6, 'yearly'),
-)
-
 RELATION_TYPE_CHOICES = (
     (1, 'Cause-effect relationship'),
     (2, 'Neutral relationship'),

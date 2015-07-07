@@ -41,13 +41,13 @@ $(function () {
 
     $('.view-figure-modal').on('click', function () {
         var url = $(this).data('action');
-        var title = $(this).data('title');
+        var name = $(this).data('name');
         $.ajax({
             type: "GET",
             url: url,
             success: function (data) {
                 $('.modal-body').html(data);
-                $('h4.modal-title').html(title);
+                $('h4.modal-title').html(name);
             },
             error: function (data) {
                 alert('Error launching the modal')

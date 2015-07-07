@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from hstool.models import Relation
 from .factories import (
     UserFactory, RelationFactory, AssessmentFactory, DriverFactory,
-    IndicatorFactory, EnvironmentalThemeFactory,
+    FigureFactory, EnvironmentalThemeFactory,
 )
 from . import HSWebTest
 
@@ -14,7 +14,7 @@ class RelationsAdd(HSWebTest):
     def setUp(self):
         user = UserFactory()
         self.driver = DriverFactory()
-        self.indicator = IndicatorFactory()
+        self.figureindicator = FigureFactory()
         self.assessment = AssessmentFactory(author_id=user.username)
         url = reverse('relations:add', args=(self.assessment.pk, ))
         self.resp = self.app.get(url, user=user)
@@ -26,14 +26,14 @@ class RelationsAdd(HSWebTest):
         self.assertFormError(resp, 'form', 'destination', REQUIRED)
         self.assertFormError(resp, 'form', 'relationship_type', REQUIRED)
         self.assertFormError(resp, 'form', 'description', REQUIRED)
-        self.assertFormError(resp, 'form', 'figures', [])
+        self.assertFormError(resp, 'form', 'figureindicators', [])
 
     def test_successfully_added(self):
         form = self.resp.forms[0]
         form['source'].select(text=self.driver.name)
         form['relationship_type'].select(text='Neutral relationship')
         form['description'] = 'description'
-        form['indicator'] = '2'
+        form['figureindicator'] = '2'
         resp = form.submit()
         self.assertRedirects(resp, reverse('assessments:detail',
                                            args=(self.assessment.pk, )))
@@ -44,7 +44,7 @@ class RelationsUpdate(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
         driver1 = DriverFactory()
-        indicator1 = IndicatorFactory()
+        indicator1 = FigureFactory()
         self.assessment = AssessmentFactory(author_id=self.user.username)
         self.relation = RelationFactory(
             assessment=self.assessment, source=driver1, destination=indicator1
@@ -62,21 +62,20 @@ class RelationsUpdate(HSWebTest):
                          self.relation.description)
 
     def test_successfully_updated(self):
-        theme = EnvironmentalThemeFactory(title='title 2')
+        theme = EnvironmentalThemeFactory()
         driver2 = DriverFactory(
             author_id='a', name='longy d', short_name='shorty d', type=2,
             trend_type=2, steep_category='T', time_horizon=5,
         )
-        indicator2 = IndicatorFactory(
-            author_id='a', name='longy i', short_name='shorty i', theme=theme,
-            year_base=1111, year_end=2222, timeline=5,
+        indicator2 = FigureFactory(
+            author_id='a', name='title1', theme=theme, is_indicator=True, file="file1", url='url1'
         )
         resp = self.app.get(self.url, user=self.user)
         form = resp.forms[0]
         form['source'].select(text=driver2.name)
         form['relationship_type'].select(text='Neutral relationship')
         form['description'] = 'description 2'
-        form['indicator'] = '4'
+        form['figureindicator'] = '4'
         resp = form.submit()
         self.assertRedirects(resp, reverse('assessments:detail',
                                            args=(self.assessment.pk, )))
@@ -92,7 +91,7 @@ class RelationsDelete(HSWebTest):
     def setUp(self):
         user = UserFactory()
         driver1 = DriverFactory()
-        indicator1 = IndicatorFactory()
+        indicator1 = FigureFactory()
         self.assessment = AssessmentFactory(author_id=user.username)
         relation = RelationFactory(
             assessment=self.assessment, source=driver1, destination=indicator1

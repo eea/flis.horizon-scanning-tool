@@ -1,12 +1,12 @@
 {% extends 'tool/_list_as_table.html' %}
 {% load custom_filters %}
 
-{% block title %}Facts and Figures list{% endblock %}
+{% block title %}Indicators, Facts and Figures list{% endblock %}
 
 {% block content %}
 	<div class="container-fluid">
 		</br>
-		<a class="btn btn-primary" href="{% url 'figures:add' %}">Add Fact & Figure</a>
+		<a class="btn btn-primary" href="{% url 'figures:add' %}">Add Indicator, Fact and Figure</a>
 		</br>
 
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
@@ -16,29 +16,37 @@
 				<th>Attached file</th>
 				<th>Added by</th>
 				<th>Added at</th>
+				<th>Thematic Category</th>
+				<th>URL</th>
+				<th>Source</th>
 				<th>Status</th>
+				<th>Indicator</th>
 				<th></th>
 			</tr>
 			</thead>
 			<tbody>
-			{% for figure in figures %}
+			{% for figure in figureindicators %}
 				<tr>
 					<td>
 						<a href="{% url 'figures:update' figure.id %}">
-						{{ figure.title }}</a></td>
+						{{ figure.name }}</a></td>
 					<td>
 						<a class="view-figure-modal" href=''
 							 data-toggle="modal"
 							 data-target="#myModal"
 							 data-action="{% url 'modals:view_figure' figure.pk %}"
-							 data-title="{{ figure.title }}"
+							 data-title="{{ figure.name }}"
 							 data-backdrop="static">
 						{{ figure.file|file_name }}
 						</a>
 					</td>
 					<td>{{ figure.author_id }}</td>
 					<td>{{ figure.added }}</td>
+					<td>{{ figure.theme }}</td>
+					<td>{{ figure.url }}</td>
+					<td>{{ figure.source }}</td>
 					<td>{{ figure.draft|yesno:"Draft,Published" }}</td>
+					<td>{{ figure.is_indicator|yesno }}</td>
 					<td>
 						<a id="delete" href="{% url 'figures:delete' figure.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete

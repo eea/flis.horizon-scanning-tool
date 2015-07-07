@@ -4,7 +4,7 @@ from factory import SubFactory
 from django.contrib.auth.models import User
 
 from hstool.models import (
-    Assessment, DriverOfChange, Indicator, Source, Figure, Relation,
+    Assessment, DriverOfChange, FigureIndicator, Source, Relation,
     Implication, Impact,
 )
 from flis_metadata.common.models import (
@@ -14,7 +14,6 @@ from flis_metadata.common.models import (
 
 class UserFactory(DjangoModelFactory):
     FACTORY_FOR = User
-
     username = 'username'
 
 
@@ -55,18 +54,6 @@ class DriverFactory(DjangoModelFactory):
     time_horizon = 1
 
 
-class IndicatorFactory(DjangoModelFactory):
-    FACTORY_FOR = Indicator
-
-    author_id = 'author_id'
-    name = 'long name'
-    short_name = 'short name'
-    theme = SubFactory(EnvironmentalThemeFactory)
-    year_base = 1000
-    year_end = 2000
-    timeline = 1
-
-
 class SourceFactory(DjangoModelFactory):
     FACTORY_FOR = Source
 
@@ -81,11 +68,14 @@ class SourceFactory(DjangoModelFactory):
 
 
 class FigureFactory(DjangoModelFactory):
-    FACTORY_FOR = Figure
+    FACTORY_FOR = FigureIndicator
 
-    title = 'figure title'
-    file = 'figure file'
-
+    author_id = 'author_id'
+    is_indicator = 'yes'
+    name = 'name'
+    file = 'file'
+    theme = SubFactory(EnvironmentalThemeFactory)
+    url = 'url'
 
 class RelationFactory(DjangoModelFactory):
     FACTORY_FOR = Relation

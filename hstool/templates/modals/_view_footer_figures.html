@@ -1,9 +1,9 @@
 {% load custom_filters %}
 
 <hr/>
-{% if figures %}
-  {% for figure in figures %}
-    <strong>{{ forloop.counter }}. {{ figure.title }}</strong>
+{% if figureindicators %}
+  {% for figure in figureindicators %}
+    <strong>{{ forloop.counter }}. {{ figure.name }}</strong>
     <br/>
     {% include 'modals/view_figure.html' %}
     <br/>

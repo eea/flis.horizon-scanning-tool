@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 
 from .factories import (
     UserFactory, AssessmentFactory, DriverFactory, FigureFactory,
-    IndicatorFactory, SourceFactory, GeoScopeFactory, CountryFactory,
+    SourceFactory, GeoScopeFactory, CountryFactory,
     EnvironmentalThemeFactory, RelationFactory,
 )
 from . import HSWebTest
@@ -138,10 +138,10 @@ class RelationsUpdateViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
         assessment = AssessmentFactory(author_id=self.user.username)
-        indicator = IndicatorFactory()
+        figureindicator = FigureFactory()
         driver = DriverFactory()
         relation = RelationFactory(
-            assessment=assessment, source=driver, destination=indicator
+            assessment=assessment, source=driver, destination=figureindicator
         )
         self.url = reverse('relations:update',
                            args=(assessment.pk, relation.pk))
@@ -169,10 +169,10 @@ class RelationsDeleteViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
         assessment = AssessmentFactory(author_id=self.user.username)
-        indicator = IndicatorFactory()
+        figureindicator = FigureFactory()
         driver = DriverFactory()
         relation = RelationFactory(
-            assessment=assessment, source=driver, destination=indicator
+            assessment=assessment, source=driver, destination=figureindicator
         )
         self.url = reverse('relations:delete',
                            args=(assessment.pk, relation.pk))
@@ -270,83 +270,6 @@ class DriversDeleteViewTests(HSWebTest):
         admin = UserFactory(username='admin', is_superuser=True)
         resp = self.app.get(self.url, user=admin)
         self.assertEqual(resp.status_code, 200)
-
-
-class IndicatorsListViewTests(HSWebTest):
-    def test_list_anonymous(self):
-        url = reverse('indicators:list')
-        resp = self.app.get(url, expect_errors=True)
-        self.assertEqual(resp.status_code, 403)
-
-    def test_list_authenticated(self):
-        url = reverse('indicators:list')
-        user = UserFactory()
-        resp = self.app.get(url, user=user)
-        self.assertEqual(resp.status_code, 200)
-
-
-class IndicatorsAddViewTests(HSWebTest):
-    def test_add_anonymous(self):
-        url = reverse('indicators:add')
-        resp = self.app.get(url, expect_errors=True)
-        self.assertEqual(resp.status_code, 403)
-
-    def test_add_authenticated(self):
-        url = reverse('indicators:add')
-        user = UserFactory()
-        resp = self.app.get(url, user=user)
-        self.assertEqual(resp.status_code, 200)
-
-
-class IndicatorsUpdateViewTests(HSWebTest):
-    def setUp(self):
-        self.user = UserFactory()
-        self.indicator = IndicatorFactory(author_id=self.user.username)
-        self.url = reverse('indicators:update', args=(self.indicator.pk, ))
-
-    def test_update_anonymous(self):
-        resp = self.app.get(self.url, expect_errors=True)
-        self.assertEqual(resp.status_code, 403)
-
-    def test_update_authenticated_author(self):
-        resp = self.app.get(self.url, user=self.user)
-        self.assertEqual(resp.status_code, 200)
-
-    def test_update_authenticated_other(self):
-        user2 = UserFactory(username="username2")
-        resp = self.app.get(self.url, expect_errors=True, user=user2)
-        self.assertEqual(resp.status_code, 403)
-
-    def test_update_admin(self):
-        admin = UserFactory(username='admin', is_superuser=True)
-        resp = self.app.get(self.url, user=admin)
-        self.assertEqual(resp.status_code, 200)
-
-
-class IndicatorsDeleteViewTests(HSWebTest):
-    def setUp(self):
-        self.user = UserFactory()
-        self.indicator = IndicatorFactory(author_id=self.user.username)
-        self.url = reverse('indicators:delete', args=(self.indicator.pk, ))
-
-    def test_delete_anonymous(self):
-        resp = self.app.get(self.url, expect_errors=True)
-        self.assertEqual(resp.status_code, 403)
-
-    def test_delete_authenticated_author(self):
-        resp = self.app.get(self.url, user=self.user)
-        self.assertEqual(resp.status_code, 200)
-
-    def test_delete_authenticated_other(self):
-        user2 = UserFactory(username="username2")
-        resp = self.app.get(self.url, expect_errors=True, user=user2)
-        self.assertEqual(resp.status_code, 403)
-
-    def test_delete_admin(self):
-        admin = UserFactory(username='admin', is_superuser=True)
-        resp = self.app.get(self.url, user=admin)
-        self.assertEqual(resp.status_code, 200)
-
 
 class SourcesListViewTests(HSWebTest):
     def test_list_anonymous(self):

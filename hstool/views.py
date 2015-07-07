@@ -15,14 +15,14 @@ from braces.views import JSONResponseMixin, AjaxResponseMixin
 from hstool.definitions import CANONICAL_ROLES
 
 from hstool.models import (
-    Source, Indicator, DriverOfChange, Figure,
+    Source, DriverOfChange, FigureIndicator,
     Assessment, Relation, Implication, Impact,
 )
 from flis_metadata.common.models import GeographicalScope
 
 from hstool.forms import (
-    SourceForm, IndicatorForm, DriverForm,
-    FigureForm, AssessmentForm, RelationForm,
+    SourceForm, DriverForm,
+    FigureIndicatorForm, AssessmentForm, RelationForm,
     ImplicationForm, ImpactForm,
 )
 from hstool.utils import get_nodes_from_components
@@ -90,7 +90,6 @@ class AssessmentsDetail(OwnerRequiredMixin, LoginRequiredMixin, DetailView):
 
 def assessments_relations(request, pk):
     relations = get_object_or_404(Assessment, pk=pk).relations.all()
-
     nodes = []
     for relation in relations:
         nodes.append(relation.source)
@@ -100,7 +99,7 @@ def assessments_relations(request, pk):
     data = {'nodes': [], 'links': []}
     for node in nodes:
         (model, subtitle, subtitle_color) = (
-            ('indicators', 'Indicator', 0) if hasattr(node, 'indicator') else
+            ('figureindicators', 'FigureIndicator', 0) if hasattr(node, 'figureindicator') else
             ('drivers', node.driverofchange.get_trend_type_display(),
              node.driverofchange.trend_type)
         )
@@ -113,7 +112,7 @@ def assessments_relations(request, pk):
             'title': node.name,
             'subtitle': subtitle,
             'subtitle_color': subtitle_color,
-            'figures': [figure.title for figure in node.figures.all()],
+            'figureindicators': [figure.name for figure in node.figureindicators.all()],
         })
     ids_map = {}
     for (d3_id, db_id) in enumerate([node.id for node in nodes]):
@@ -173,7 +172,7 @@ class AssessmentsDelete(OwnerRequiredMixin, DeleteView):
 class RelationsMixin(object):
     DESTINATION_TYPE_OPTIONS = {
         "driver": "Driver of change",
-        "indicator": "Indicator",
+        "figureindicator": "Indicator, fact or figure",
     }
 
     def dispatch(self, request, *args, **kwargs):
@@ -195,7 +194,7 @@ class RelationsAdd(RelationsMixin, CreateView):
         context['assessment'] = self.assessment
         context['destination_types'] = self.DESTINATION_TYPE_OPTIONS
         context['show_driver_of_change_check'] = "false"
-        context['show_indicator_check'] = "false"
+        context['show_figure_indicator_check'] = "false"
         return context
 
     def get_form_kwargs(self):
@@ -221,9 +220,9 @@ class RelationsUpdate(RelationsMixin, UpdateView):
         context['assessment'] = self.object.assessment
         context['destination_types'] = self.DESTINATION_TYPE_OPTIONS
         context['show_driver_of_change_check'] = "false"
-        context['show_indicator_check'] = "false"
-        if self.object.destination.is_indicator():
-            context['show_indicator_check'] = "true"
+        context['show_figure_indicator_check'] = "false"
+        if self.object.destination.is_figureindicator():
+            context['show_figure_indicator_check'] = "true"
         if self.object.destination.is_driver():
             context['show_driver_of_change_check'] = "true"
         return context
@@ -251,7 +250,6 @@ class RelationsList(LoginRequiredMixin, ListView):
     def get_queryset(self, queryset=None):
         is_admin = self.request.user.has_perm('hstool.config')
         queryset = self.model._default_manager.all()
-
         if not is_admin:
             queryset = queryset.filter(
                 Q(draft=False) | Q(author_id=self.request.user.username) &
@@ -284,38 +282,6 @@ class SourcesDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'object_delete.html'
     model = Source
     success_url = reverse_lazy('sources:list')
-
-
-class IndicatorsList(LoginRequiredMixin, ListMixin):
-    template_name = 'tool/indicators_list.html'
-    model = Indicator
-    context_object_name = 'indicators'
-
-
-class IndicatorsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
-    template_name = 'tool/indicators_add.html'
-    form_class = IndicatorForm
-    success_url = reverse_lazy('indicators:list')
-
-
-class IndicatorsUpdate(OwnerRequiredMixin, UpdateView):
-    template_name = 'tool/indicators_add.html'
-    model = Indicator
-    form_class = IndicatorForm
-    success_url = reverse_lazy('indicators:list')
-
-    def get_context_data(self, **kwargs):
-        context = super(IndicatorsUpdate, self).get_context_data(**kwargs)
-        geographical_scope = self.object.geographical_scope
-        context['required'] = (
-            geographical_scope.require_country if geographical_scope else None)
-        return context
-
-
-class IndicatorsDelete(OwnerRequiredMixin, DeleteView):
-    template_name = 'object_delete.html'
-    model = Indicator
-    success_url = reverse_lazy('indicators:list')
 
 
 class DriversList(LoginRequiredMixin, ListMixin):
@@ -384,26 +350,26 @@ class ImplicationsDelete(OwnerRequiredMixin, DeleteView):
 
 class FiguresList(LoginRequiredMixin, ListMixin):
     template_name = 'tool/figures_list.html'
-    model = Figure
-    context_object_name = 'figures'
+    model = FigureIndicator
+    context_object_name = 'figureindicators'
 
 
 class FiguresAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/figures_add.html'
-    form_class = FigureForm
+    form_class = FigureIndicatorForm
     success_url = reverse_lazy('figures:list')
 
 
 class FiguresUpdate(OwnerRequiredMixin, UpdateView):
     template_name = 'tool/figures_add.html'
-    model = Figure
-    form_class = FigureForm
+    model = FigureIndicator
+    form_class = FigureIndicatorForm
     success_url = reverse_lazy('figures:list')
 
 
 class FiguresDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'object_delete.html'
-    model = Figure
+    model = FigureIndicator
     success_url = reverse_lazy('figures:list')
 
 
@@ -481,12 +447,12 @@ class AddModal(ModelMixin, AuthorMixin, LoginRequiredMixin, CreateView):
 
     url_to_models = {
         'sources': Source,
-        'figures': Figure,
+        'figureindicators': FigureIndicator,
     }
 
     urls_to_forms = {
         'sources': SourceForm,
-        'figures': FigureForm,
+        'figureindicators': FigureIndicatorForm,
     }
 
     def get_form_class(self):
@@ -504,7 +470,7 @@ class AddModalSuccess(ModelMixin, AuthorMixin, LoginRequiredMixin, DetailView):
 
     url_to_models = {
         'sources': Source,
-        'figures': Figure,
+        'figureindicators': FigureIndicator,
     }
 
     def get_context_data(self, **kwargs):
@@ -515,7 +481,7 @@ class AddModalSuccess(ModelMixin, AuthorMixin, LoginRequiredMixin, DetailView):
 
 class ViewModal(DetailView):
     url_to_models = {
-        'indicators': Indicator,
+        'figureindicators': FigureIndicator,
         'drivers': DriverOfChange,
         'relations': Relation,
     }
@@ -523,8 +489,8 @@ class ViewModal(DetailView):
     def dispatch(self, request, *args, **kwargs):
         self.model_name = kwargs.pop('model', None)
         self.model = self.url_to_models.get(self.model_name)
-        if self.model is Indicator:
-            self.template_name = 'modals/view_indicator.html'
+        if self.model is FigureIndicator:
+            self.template_name = 'modals/view_figure.html'
         elif self.model is DriverOfChange:
             self.template_name = 'modals/view_driver.html'
         else:
@@ -544,5 +510,5 @@ class ViewModal(DetailView):
 
 class ViewFigureModal(LoginRequiredMixin, DetailView):
     template_name = 'modals/view_figure.html'
-    model = Figure
-    context_object_name = 'figure'
+    model = FigureIndicator
+    context_object_name = 'figureindicator'
