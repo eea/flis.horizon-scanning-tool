@@ -130,6 +130,8 @@ class DriverForm(ModelForm):
         self.fields['summary'].widget.attrs["rows"] = 6
         self.fields['sources'].widget.attrs["size"] = 6
         self.fields['figureindicators'].widget.attrs["size"] = 6
+        self.fields['impacts'].widget.attrs["size"] = 6
+        self.fields['implications'].widget.attrs["size"] = 6
         self.fields['short_name'].widget.attrs["size"] = 30
         self.fields['name'].widget.attrs["size"] = 60
         self.fields['url'].widget.attrs["size"] = 100
@@ -153,6 +155,8 @@ class DriverForm(ModelForm):
             "name": _("Long name"),
             "url": _("URL"),
             "figureindicators" : _("Indicators, facts and figures"),
+            "implications" : _("Implications"),
+            "impacts" : _("Impacts")
         }
 
     def clean(self):

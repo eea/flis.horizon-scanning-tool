@@ -125,6 +125,8 @@ class DriverOfChange(GenericElement):
     summary = TextField(null=True, blank=True)
 
     figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
+    impacts = ManyToManyField('Impact', blank=True, null=True)
+    implications = ManyToManyField('Implication', blank=True, null=True)
 
 
 
