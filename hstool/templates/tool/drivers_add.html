@@ -161,7 +161,11 @@
 					{{ form.figureindicators.errors }}
 				</div>
 				<div class="col-sm-2">
-					<a class="btn btn-primary" href="{% url 'figures:add' %}" target="_blank">
+					<a class="btn btn-primary launch-modal" data-toggle="modal"
+							 data-target="#myModal"
+							 data-action="{% url 'modals:add' 'figureindicators'%}"
+ 							 data-title="Add new Indicator, Fact and Figure"
+							 data-backdrop="static">
 						<span class="glyphicon glyphicon-plus"></span>  &nbsp;
 						Add new indicator, fact and figure
 					</a>

@@ -29,13 +29,13 @@
 				<tr>
 					<td>
 						<a href="{% url 'figures:update' figure.id %}">
-						{{ figure.title }}</a></td>
+						{{ figure.name }}</a></td>
 					<td>
 						<a class="view-figure-modal" href=''
 							 data-toggle="modal"
 							 data-target="#myModal"
 							 data-action="{% url 'modals:view_figure' figure.pk %}"
-							 data-title="{{ figure.title }}"
+							 data-title="{{ figure.name }}"
 							 data-backdrop="static">
 						{{ figure.file|file_name }}
 						</a>
@@ -46,7 +46,7 @@
                     <td>{{ figure.url }}</td>
                     <td>{{ figure.source }}</td>
 					<td>{{ figure.draft|yesno:"Draft,Published" }}</td>
-                    <td>{{ figure.is_indicator|yesno }}</td>
+					<td>{{ figure.is_indicator|yesno }}</td>
 					<td>
 						<a id="delete" href="{% url 'figures:delete' figure.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete

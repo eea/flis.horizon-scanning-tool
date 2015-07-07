@@ -3,9 +3,9 @@
 <div class="row">
 	{% ifequal figureindicator.file|file_type 'pdf' %}
 		<object data="{{ figureindicator.file.url }}" type="application/pdf" width="800" height="600">
-			<a href="{{ figureindicator.file.url }}">{{ figureindicator.title }}</a>
+			<a href="{{ figureindicator.file.url }}">{{ figureindicator.name }}</a>
 		</object>
 		{% else %}
-		<img src="{{ figureindicator.file.url }}" alt="{{ figureindicator.title }}"/>
+		<img src="{{ figureindicator.file.url }}" alt="{{ figureindicator.name }}"/>
 	{% endifequal %}
 </div>

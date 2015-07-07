@@ -3,7 +3,7 @@
 <hr/>
 {% if figureindicators %}
   {% for figure in figureindicators %}
-    <strong>{{ forloop.counter }}. {{ figure.title }}</strong>
+    <strong>{{ forloop.counter }}. {{ figure.name }}</strong>
     <br/>
     {% include 'modals/view_figure.html' %}
     <br/>
