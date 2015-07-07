@@ -72,7 +72,7 @@ class FigureFactory(DjangoModelFactory):
 
     author_id = 'author_id'
     is_indicator = 'yes'
-    title = 'title'
+    name = 'name'
     file = 'file'
     theme = SubFactory(EnvironmentalThemeFactory)
     url = 'url'

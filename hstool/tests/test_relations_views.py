@@ -68,7 +68,7 @@ class RelationsUpdate(HSWebTest):
             trend_type=2, steep_category='T', time_horizon=5,
         )
         indicator2 = FigureFactory(
-            author_id='a', title='title1', theme=theme, is_indicator=True, file="file1", url='url1'
+            author_id='a', name='title1', theme=theme, is_indicator=True, file="file1", url='url1'
         )
         resp = self.app.get(self.url, user=self.user)
         form = resp.forms[0]

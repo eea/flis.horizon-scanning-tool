@@ -26,7 +26,7 @@ class FiguresList(HSWebTest):
         self.assertEqual(resp.pyquery('#objects_listing tbody tr').size(), 1)
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(0) a').text(),
-            figure.title
+            figure.name
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(0) a').attr('href'),
@@ -60,12 +60,13 @@ class FiguresList(HSWebTest):
     def test_two_figures(self):
         figure1 = FigureFactory()
         theme = EnvironmentalThemeFactory(title='title')
-        figure2 = FigureFactory(author_id='a2', title='title2', theme=theme, is_indicator='yes', file='file2', url='url2')
+        figure2 = FigureFactory(author_id='a2', name='title2', theme=theme,
+                                is_indicator='yes', file='file2', url='url2')
         resp = self.app.get(self.url, user=self.admin)
         self.assertEqual(resp.pyquery('#objects_listing tbody tr').size(), 2)
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(0) a').text(),
-            figure1.title
+            figure1.name
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(0) a').attr('href'),
@@ -97,7 +98,7 @@ class FiguresList(HSWebTest):
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(0) a').text(),
-            figure2.title
+            figure2.name
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(0) a').attr('href'),
@@ -140,13 +141,13 @@ class FiguresAdd(HSWebTest):
 
     def test_fields_required(self):
         resp = self.form.submit()
-        self.assertFormError(resp, 'form', 'title', REQUIRED)
+        self.assertFormError(resp, 'form', 'name', REQUIRED)
         self.assertFormError(resp, 'form', 'file', REQUIRED)
         self.assertFormError(resp, 'form', 'theme', REQUIRED)
 
     @override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
     def test_pdf_file(self):
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         self.form['file'] = Upload('b.pdf', b'data', 'application/pdf')
         theme = EnvironmentalThemeFactory()
         self.form['theme'].select(text=theme.title)
@@ -155,7 +156,7 @@ class FiguresAdd(HSWebTest):
 
     @override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
     def test_jpg_file(self):
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         self.form['file'] = Upload('b.jpg', b'data', 'image/jpg')
         theme = EnvironmentalThemeFactory()
         self.form['theme'].select(text=theme.title)
@@ -165,7 +166,7 @@ class FiguresAdd(HSWebTest):
 
     @override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
     def test_jpeg_file(self):
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         self.form['file'] = Upload('b.jpeg', b'data', 'image/jpeg')
         theme = EnvironmentalThemeFactory()
         self.form['theme'].select(text=theme.title)
@@ -174,7 +175,7 @@ class FiguresAdd(HSWebTest):
 
     @override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
     def test_fallback_pdf_file(self):
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         self.form['file'] = Upload('b.pdf', b'data', 'application/unknown')
         theme = EnvironmentalThemeFactory()
         self.form['theme'].select(text=theme.title)
@@ -182,7 +183,7 @@ class FiguresAdd(HSWebTest):
         self.assertEqual(resp.status_code, 200)
 
     def test_unknown_file(self):
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         self.form['file'] = Upload('b.rst', b'data', 'text/x-rst')
         theme = EnvironmentalThemeFactory(title='title')
         self.form['theme'].select(text=theme.title)
@@ -195,14 +196,14 @@ class FiguresAdd(HSWebTest):
         url = reverse('figures:add')
         resp = self.app.get(url)
         form = resp.forms[0]
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         self.form['file'] = Upload('b.pdf', b'data', 'application/pdf')
         theme = EnvironmentalThemeFactory(title='title')
         self.form['theme'].select(text=theme.title)
         self.form.submit()
         self.assertEqual(len(FigureIndicator.objects.all()), 1)
         figure = FigureIndicator.objects.first()
-        self.assertEqual(figure.title, 'a')
+        self.assertEqual(figure.name, 'a')
         self.assertEqual(figure.file.name.split('/')[-1], 'b.pdf')
 
     def tearDown(self):
@@ -219,11 +220,11 @@ class FiguresUpdate(HSWebTest):
         self.form = resp.forms[0]
 
     def test_existing_field_values(self):
-        self.assertEqual(self.form['title'].value, self.figure.title)
+        self.assertEqual(self.form['name'].value, self.figure.name)
 
     @override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
     def test_pdf_file(self):
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         self.form['file'] = Upload('b.pdf', b'data', 'application/pdf')
         theme = EnvironmentalThemeFactory()
         self.form['theme'].select(text=theme.title)
@@ -232,7 +233,7 @@ class FiguresUpdate(HSWebTest):
 
     @override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
     def test_jpg_file(self):
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         self.form['file'] = Upload('b.jpg', b'data', 'image/jpg')
         theme = EnvironmentalThemeFactory()
         self.form['theme'].select(text=theme.title)
@@ -241,7 +242,7 @@ class FiguresUpdate(HSWebTest):
 
     @override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
     def test_jpeg_file(self):
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         self.form['file'] = Upload('b.jpeg', b'data', 'image/jpeg')
         theme = EnvironmentalThemeFactory()
         self.form['theme'].select(text=theme.title)
@@ -250,7 +251,7 @@ class FiguresUpdate(HSWebTest):
 
     @override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
     def test_fallback_pdf_file(self):
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         self.form['file'] = Upload('b.pdf', b'data', 'application/unknown')
         theme = EnvironmentalThemeFactory()
         self.form['theme'].select(text=theme.title)
@@ -259,7 +260,7 @@ class FiguresUpdate(HSWebTest):
 
     def test_unknown_file(self):
         self.form['file'] = Upload('b.rst', b'data', 'text/x-rst')
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         theme = EnvironmentalThemeFactory()
         self.form['theme'].select(text=theme.title)
         resp = self.form.submit()
@@ -268,14 +269,14 @@ class FiguresUpdate(HSWebTest):
 
     @override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
     def test_successfully_updated(self):
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         theme = EnvironmentalThemeFactory()
         self.form['theme'].select(text=theme.title)
         self.form['file'] = Upload('b.pdf', b'data', 'application/pdf')
         self.form.submit()
         self.assertEqual(len(FigureIndicator.objects.all()), 1)
         figure = FigureIndicator.objects.first()
-        self.assertEqual(figure.title, 'a')
+        self.assertEqual(figure.name, 'a')
         self.assertEqual(figure.file.name.split('/')[-1], 'b.pdf')
 
     def tearDown(self):
