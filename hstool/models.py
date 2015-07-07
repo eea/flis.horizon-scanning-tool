@@ -84,8 +84,6 @@ class GenericElement(Model):
 
     sources = ManyToManyField('Source', blank=True, null=True)
 
-    def __unicode__(self):
-        return self.name
 
     def is_figureindicator(self):
         try:
@@ -103,18 +101,18 @@ class GenericElement(Model):
             return False
         return False
 
+    def __unicode__(self):
+        return self.name
+
 
 class FigureIndicator(GenericElement):
     is_indicator = BooleanField(default=False)
-    title = CharField(max_length=512, default='')
     file = ContentTypeRestrictedFileField(
         upload_to=path_and_rename_figures,
         content_types=settings.SUPPORTED_FILES_FACTS_AND_FIGURES,
     )
     theme = ForeignKey('common.EnvironmentalTheme')
 
-    def __unicode__(self):
-        return self.title
 
 class DriverOfChange(GenericElement):
     type = IntegerField(choices=DOC_TYPE_CHOICES)
@@ -127,6 +125,7 @@ class DriverOfChange(GenericElement):
     summary = TextField(null=True, blank=True)
 
     figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
+
 
 
 class Relation(Model):
