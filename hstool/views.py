@@ -250,7 +250,6 @@ class RelationsList(LoginRequiredMixin, ListView):
     def get_queryset(self, queryset=None):
         is_admin = self.request.user.has_perm('hstool.config')
         queryset = self.model._default_manager.all()
-        print "Here"
         if not is_admin:
             queryset = queryset.filter(
                 Q(draft=False) | Q(author_id=self.request.user.username) &
