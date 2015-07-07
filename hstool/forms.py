@@ -112,7 +112,6 @@ class RelationForm(ModelForm):
                 'This field is required.'
             ])
             del cleaned_data["destination"]
-
         return cleaned_data
 
     def save(self):
@@ -179,28 +178,28 @@ def _file_help_text():
     return text + (', '.join(map(_get_extension, file_types)) or
                    'any type')
 
-
 class FigureIndicatorForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(FigureIndicatorForm, self).__init__(*args, **kwargs)
         self.fields['sources'].widget.attrs["size"] = 6
         self.fields['url'].widget.attrs["size"] = 100
-        self.fields['theme'].queryset = (
-            EnvironmentalTheme.objects.filter(is_deleted=False)
-            )
+        self.fields['theme'].queryset = (EnvironmentalTheme.objects.filter(is_deleted=False))
 
     class Meta:
         model = FigureIndicator
-        exclude = ['author_id', 'name', 'short_name']
+        exclude = ['author_id', 'short_name', 'geographical_scope', 'country']
+        fields = ['name', 'is_indicator', 'theme', 'sources', 'file', 'url']
         labels = {
             "theme": _("Thematic category"),
             "url": _("URL"),
             "sources": _("Source"),
+            "name": _("Title"),
         }
         help_texts = {
             'file': _(_file_help_text()),
             'sources': _("Choose from list of sources. "),
         }
+
 
 
 class ImplicationForm(GeoScopeForm):
