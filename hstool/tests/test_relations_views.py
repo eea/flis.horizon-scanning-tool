@@ -73,7 +73,7 @@ class RelationsUpdate(HSWebTest):
         resp = self.app.get(self.url, user=self.user)
         form = resp.forms[0]
         form['source'].select(text=driver2.name)
-        form['relationship_type'].select(text='Neutral relationship')
+        form['relationship_type'].select(text='')
         form['description'] = 'description 2'
         form['figureindicator'] = '4'
         resp = form.submit()
@@ -83,7 +83,7 @@ class RelationsUpdate(HSWebTest):
         relation = Relation.objects.first()
         self.assertEqual(relation.source.pk, driver2.pk)
         self.assertEqual(relation.destination.pk, indicator2.pk)
-        self.assertEqual(relation.relationship_type, 2)
+        self.assertEqual(relation.relationship_type, 0)
         self.assertEqual(relation.description, 'description 2')
 
 
