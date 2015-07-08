@@ -5,22 +5,25 @@
 {% block scripts %}
   <script>
     function add_hide_all() {
-     $('[data-show-if=show-impacts]').addClass('hide');
-     $('[data-show-if=show-figureindicators]').addClass('hide');
-     $('[data-show-if=show-drivers]').addClass('hide');
+      $('[data-show-if=show-impacts]').addClass('hide');
+      $('[data-show-if=show-figureindicators]').addClass('hide');
+      $('[data-show-if=show-drivers]').addClass('hide');
     }
+
     function deselect(type) {
       var list = ['figureindicator', 'driver', 'impact'];
-      for (i = 0; i < 2; i++) {
+      for (i = 0; i < len(list); i++) {
         if (list[i] != type) {
           $('#id_'+list[i]).prop('selectedIndex', 0);
         }
       }
     }
+    
     function clean_fields() {
       $('#id_relationship_type').prop('selectedIndex', 0);
       document.getElementById("id_description").value = '';
     }
+
     $(window).load(function() {
       $(':checkbox').change(function () {
         var driver_checkbox = document.getElementById("id_check_driver");
@@ -29,35 +32,38 @@
 
         $(':checkbox').not(this).prop('checked', false);
         add_hide_all();
+
         if (driver_checkbox.checked) {
           $('[data-show-if=show-drivers]').removeClass('hide');
           deselect('driver');
-          }
+        }
+
         if (figureindicator_checkbox.checked) {
           $('[data-show-if=show-figureindicators]').removeClass('hide');
           deselect('figureindicator');
           clean_fields();
-          }
+        }
+
         if (impact_checkbox.checked) {
           $('[data-show-if=show-impacts]').removeClass('hide');
           deselect('impact');
           clean_fields();
-          }
+        }
       }).change();
 
       if ({{ show_figure_indicator_check }}) {
-          document.getElementById("id_check_figureindicator").checked = true;
-          $('[data-show-if=show-figureindicators]').removeClass('hide');
+        document.getElementById("id_check_figureindicator").checked = true;
+        $('[data-show-if=show-figureindicators]').removeClass('hide');
       }
 
       if ({{ show_driver_of_change_check }}) {
-          document.getElementById("id_check_driver").checked = true;
-          $('[data-show-if=show-drivers]').removeClass('hide');
+        document.getElementById("id_check_driver").checked = true;
+        $('[data-show-if=show-drivers]').removeClass('hide');
       }
 
       if ({{ show_impact_check }}) {
-          document.getElementById("id_check_impact").checked = true;
-          $('[data-show-if=show-impacts]').removeClass('hide');
+        document.getElementById("id_check_impact").checked = true;
+        $('[data-show-if=show-impacts]').removeClass('hide');
       }
     });
   </script>
