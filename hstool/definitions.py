@@ -34,6 +34,7 @@ DOC_TIME_HORIZON_CHOICES = (
 )
 
 RELATION_TYPE_CHOICES = (
+    (0, ''),
     (1, 'Cause-effect relationship'),
     (2, 'Neutral relationship'),
 )

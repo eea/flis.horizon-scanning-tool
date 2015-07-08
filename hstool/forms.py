@@ -74,7 +74,9 @@ class RelationForm(ModelForm):
     driver = ModelChoiceField(queryset=DriverOfChange.objects.all(),
                               required=False)
     figureindicator = ModelChoiceField(queryset=FigureIndicator.objects.all(),
-                                 required=False)
+                              required=False)
+    impact = ModelChoiceField(queryset=Impact.objects.all(),
+                              required=False)
 
     class Meta:
         model = Relation
@@ -98,6 +100,9 @@ class RelationForm(ModelForm):
             if self.instance.destination.is_driver():
                 self.fields['driver'].initial = DriverOfChange.objects.get(
                     pk=self.instance.destination.driverofchange.pk)
+            if self.instance.destination.is_impact():
+                self.fields['impact'].initial = Impact.objects.get(
+                    pk=self.instance.destination.impact.pk)
         except GenericElement.DoesNotExist:
             return
 
@@ -107,6 +112,10 @@ class RelationForm(ModelForm):
             self.cleaned_data['destination'] = self.cleaned_data['driver']
         elif self.cleaned_data['figureindicator']:
             self.cleaned_data['destination'] = self.cleaned_data['figureindicator']
+            self.cleaned_data['relationship_type'] = 0
+        elif self.cleaned_data['impact']:
+            self.cleaned_data['destination'] = self.cleaned_data['impact']
+            self.cleaned_data['relationship_type'] = 0
         else:
             self._errors["destination"] = self.error_class([
                 'This field is required.'
@@ -154,9 +163,9 @@ class DriverForm(ModelForm):
             "geographical_scope": _("Geographical scale"),
             "name": _("Long name"),
             "url": _("URL"),
-            "figureindicators" : _("Indicators, facts and figures"),
-            "implications" : _("Implications"),
-            "impacts" : _("Impacts")
+            "figureindicators": _("Indicators, facts and figures"),
+            "implications": _("Implications"),
+            "impacts": _("Impacts")
         }
 
     def clean(self):
@@ -182,6 +191,7 @@ def _file_help_text():
     return text + (', '.join(map(_get_extension, file_types)) or
                    'any type')
 
+
 class FigureIndicatorForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(FigureIndicatorForm, self).__init__(*args, **kwargs)
@@ -203,7 +213,6 @@ class FigureIndicatorForm(ModelForm):
             'file': _(_file_help_text()),
             'sources': _("Choose from list of sources. "),
         }
-
 
 
 class ImplicationForm(GeoScopeForm):
