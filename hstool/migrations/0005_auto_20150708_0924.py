@@ -28,4 +28,14 @@ class Migration(migrations.Migration):
             name='steep_category',
             field=models.CharField(default=0, max_length=64, null=True, blank=True, choices=[(b'Ec', b'Economic'), (b'Env', b'Environmental'), (b'P', b'Political'), (b'S', b'Social'), (b'T', b'Technological')]),
         ),
+        migrations.AlterField(
+            model_name='relation',
+            name='description',
+            field=models.TextField(max_length=2048, null=True, blank=True),
+        ),
+        migrations.AlterField(
+            model_name='relation',
+            name='relationship_type',
+            field=models.IntegerField(blank=True, null=True, choices=[(1, b'Cause-effect relationship'), (2, b'Neutral relationship')]),
+        ),
     ]

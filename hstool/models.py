@@ -140,8 +140,8 @@ class Relation(Model):
     assessment = ForeignKey('Assessment', related_name='relations')
     source = ForeignKey('DriverOfChange', related_name='source_relations')
     destination = ForeignKey('GenericElement', related_name='dest_relations', blank=True)
-    relationship_type = IntegerField(choices=RELATION_TYPE_CHOICES)
-    description = TextField(max_length=2048)
+    relationship_type = IntegerField(choices=RELATION_TYPE_CHOICES, null=True, blank=True)
+    description = TextField(max_length=2048, null=True, blank=True)
 
     figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
 
