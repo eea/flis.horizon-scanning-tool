@@ -52,7 +52,6 @@ class ContentTypeRestrictedFileField(FileField):
         )
 
 
-
 class Source(Model):
     draft = BooleanField(default=True)
     author_id = CharField(max_length=64)
@@ -84,7 +83,6 @@ class GenericElement(Model):
 
     sources = ManyToManyField('Source', blank=True, null=True)
 
-
     def is_figureindicator(self):
         try:
             if self.figureindicator:
@@ -98,6 +96,14 @@ class GenericElement(Model):
             if self.driverofchange:
                 return True
         except DriverOfChange.DoesNotExist:
+            return False
+        return False
+
+    def is_impact(self):
+        try:
+            if self.impact:
+                return True
+        except Impact.DoesNotExist:
             return False
         return False
 
@@ -127,7 +133,6 @@ class DriverOfChange(GenericElement):
     figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
     impacts = ManyToManyField('Impact', blank=True, null=True)
     implications = ManyToManyField('Implication', blank=True, null=True)
-
 
 
 class Relation(Model):
