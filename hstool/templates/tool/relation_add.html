@@ -4,38 +4,59 @@
 
 {% block scripts %}
   <script>
-    $(window).load(function() {
-      $(':checkbox').change(function () {
-          var driver_checkbox = document.getElementById("id_check_driver");
-          var figureindicator_checkbox = document.getElementById("id_check_figureindicator");
+	$(window).load(function() {
+	  $(':checkbox').change(function () {
+		  var driver_checkbox = document.getElementById("id_check_driver");
+		  var figureindicator_checkbox = document.getElementById("id_check_figureindicator");
+		  var impact_checkbox = document.getElementById("id_check_impact");
 
-          $(':checkbox').not(this).prop('checked', false);
-          if (driver_checkbox.checked) {
-              $('[data-show-if=show-drivers]').removeClass('hide');
-              $('[data-show-if=show-figureindicators]').addClass('hide');
-              $('#id_figureindicator').prop('selectedIndex', 0);
-          }
-          else if (figureindicator_checkbox.checked) {
-              $('[data-show-if=show-figureindicators]').removeClass('hide');
-              $('[data-show-if=show-drivers]').addClass('hide');
-              $('#id_driver').prop('selectedIndex', 0);
-          }
-          else {
-              $('[data-show-if=show-drivers]').addClass('hide');
-              $('[data-show-if=show-figureindicators]').addClass('hide');
-          }
-      }).change();
+		  $(':checkbox').not(this).prop('checked', false);
+		  if (driver_checkbox.checked) {
+			  $('[data-show-if=show-drivers]').removeClass('hide');
+			  $('[data-show-if=show-impacts]').addClass('hide');
+			  $('[data-show-if=show-figureindicators]').addClass('hide');
+			  $('#id_figureindicator').prop('selectedIndex', 0);
+			  $('#id_impact').prop('selectedIndex', 0);
+		  }
+		  else if (figureindicator_checkbox.checked) {
+			  $('[data-show-if=show-figureindicators]').removeClass('hide');
+			  $('[data-show-if=show-impacts]').addClass('hide');
+			  $('[data-show-if=show-drivers]').addClass('hide');
+			  $('#id_driver').prop('selectedIndex', 0);
+			  $('#id_impact').prop('selectedIndex', 0);
+			  $relationship_type = 0;
+		  }
+		  else if (impact_checkbox.checked) {
+			  $('[data-show-if=show-impacts]').removeClass('hide');
+			  $('[data-show-if=show-figureindicators]').addClass('hide');
+			  $('[data-show-if=show-drivers]').addClass('hide');
+			  $('#id_driver').prop('selectedIndex', 0);
+			  $('#id_figureindicator').prop('selectedIndex', 0);
+			  $relationship_type = 0;
+		  }
+		  else {
+			  $('[data-show-if=show-drivers]').addClass('hide');
+			  $('[data-show-if=show-figureindicators]').addClass('hide');
+			  $('[data-show-if=show-impacts]').addClass('hide');
 
-      if ({{ show_figure_indicator_check }}) {
-        document.getElementById("id_check_figureindicator").checked = true;
-        $('[data-show-if=show-figureindicators]').removeClass('hide');
-      }
+		  }
+	  }).change();
 
-      if ({{ show_driver_of_change_check }}) {
-        document.getElementById("id_check_driver").checked = true;
-        $('[data-show-if=show-drivers]').removeClass('hide');
-      }
-    });
+	  if ({{ show_figure_indicator_check }}) {
+		document.getElementById("id_check_figureindicator").checked = true;
+		$('[data-show-if=show-figureindicators]').removeClass('hide');
+	  }
+
+	  if ({{ show_driver_of_change_check }}) {
+		document.getElementById("id_check_driver").checked = true;
+		$('[data-show-if=show-drivers]').removeClass('hide');
+	  }
+
+	  if ({{ show_impact_check }}) {
+		document.getElementById("id_check_impact").checked = true;
+		$('[data-show-if=show-impacts]').removeClass('hide');
+	  }
+	});
   </script>
 {% endblock %}
 
@@ -43,172 +64,190 @@
 {% block content %}
   <div class="container-fluid" id="view">
 
-    {% if object %}
-      <h2 class="page-header">Edit relation</h2>
-    {% else %}
-      <h2 class="page-header">Add a new relation</h2>
-    {% endif %}
+	{% if object %}
+	  <h2 class="page-header">Edit relation</h2>
+	{% else %}
+	  <h2 class="page-header">Add a new relation</h2>
+	{% endif %}
 
-    <form method="POST" class="form-horizontal">
-      {% csrf_token %}
-      <p>
-        A relation is a link between a driver of change and another item, which can be another driver of change, an impact, an implication, or a supporting item (indicator, fact, figure).
-      </p>
+	<form method="POST" class="form-horizontal">
+	  {% csrf_token %}
+	  <p>
+		A relation is a link between a driver of change and another item, which can be another driver of change, an impact or a supporting item (indicator, fact, figure).
+	  </p>
 
-      <fieldset class="well">
-        <div class="form-group">
-          <label class="col-sm-6">{{ form.source|label }}
-          </label>
-        </div>
+	  <fieldset class="well">
+		<div class="form-group">
+		  <label class="col-sm-6">{{ form.source|label }}
+		  </label>
+		</div>
 
-        <div class="form-group">
-          <div class="col-sm-6">
-            {% render_field form.source class='form-control' %}
-            {{ form.source.errors }}
-          </div>
-        </div>
+		<div class="form-group">
+		  <div class="col-sm-6">
+			{% render_field form.source class='form-control' %}
+			{{ form.source.errors }}
+		  </div>
+		</div>
 
-        <div class="form-group">
-          <p class="col-sm-4">
-            Is your driver missing from the list?
-          </p>
-          <a class="btn btn-primary" href="{% url 'drivers:add' %}" target="_blank">
-            Add new driver of change
-          </a>
-        </div>
-      </fieldset>
+		<div class="form-group">
+		  <p class="col-sm-4">
+			Is your driver missing from the list?
+		  </p>
+		  <a class="btn btn-primary" href="{% url 'drivers:add' %}" target="_blank">
+			Add new driver of change
+		  </a>
+		</div>
+	  </fieldset>
 
-      <fieldset class="well">
-        <div class="form-group">
-          <label class="col-sm-4">
-            {{ form.destination|label:"True" }}
-          </label>
-        </div>
+	  <fieldset class="well">
+		<div class="form-group">
+		  <label class="col-sm-4">
+			{{ form.destination|label:"True" }}
+		  </label>
+		</div>
 
-        <div class="form-group">
-          <div class="col-sm-4">
-            {{ form.destination.errors }}
-          </div>
-        </div>
+		<div class="form-group">
+		  <div class="col-sm-4">
+			{{ form.destination.errors }}
+		  </div>
+		</div>
 
-        <div class="form-group">
-          <p class="col-sm-6">
-            Type of item:
-          </p>
-        </div>
+		<div class="form-group">
+		  <p class="col-sm-6">
+			Type of item:
+		  </p>
+		</div>
 
-        <div class="form-group">
-          {% for dest_type, dest_type_label in destination_types.items %}
-          <div class="col-sm-2">
-            <input type="checkbox"
-               id="id_check_{{ dest_type }}"
-               name="check_{{ dest_type }}"
-               value="{{ dest_type }}">
-            {{ name }}
-            {{ value }}
-            {{ dest_type_label }}
-          </div>
-          {% endfor %}
-        </div>
+		<div class="form-group">
+		  {% for dest_type, dest_type_label in destination_types.items %}
+		  <div class="col-sm-2">
+			<input type="checkbox"
+			   id="id_check_{{ dest_type }}"
+			   name="check_{{ dest_type }}"
+			   value="{{ dest_type }}">
+			{{ name }}
+			{{ value }}
+			{{ dest_type_label }}
+		  </div>
+		  {% endfor %}
+		</div>
 
-        <div data-show-if="show-drivers">
-          <div class="form-group">
-            <div class="col-sm-6">
-              {% render_field form.driver class='form-control' %}
-              {{ form.driver.errors }}
-            </div>
-          </div>
-          <div class="form-group">
-            <p class="col-sm-4">
-              Is your driver missing from the list?
-            </p>
-            <a class="btn btn-primary" href="{% url 'drivers:add' %}" target="_blank">
-              Add new driver of change
-            </a>
-          </div>
-        </div>
+		<div data-show-if="show-drivers">
+		  <div class="form-group">
+			<div class="col-sm-6">
+			  {% render_field form.driver class='form-control' %}
+			  {{ form.driver.errors }}
+			</div>
+		  </div>
+		  <div class="form-group">
+			<p class="col-sm-4">
+			  Is your driver missing from the list?
+			</p>
+			<a class="btn btn-primary" href="{% url 'drivers:add' %}" target="_blank">
+			  Add new driver of change
+			</a>
+		  </div>
+		</div>
 
-        <div data-show-if="show-figureindicators">
-          <div class="form-group">
-            <div class="col-sm-6">
-              {% render_field form.figureindicator class='form-control' %}
-              {{ form.figureindicator.errors }}
-            </div>
-          </div>
-          <div class="form-group">
-            <p class="col-sm-4">
-              Is your indicator, fact or figure missing from the list?
-            </p>
-            <a class="btn btn-primary" href="{% url 'figures:add' %}" target="_blank">
-              Add new indicator, fact and figure
-            </a>
-          </div>
-        </div>
+		<div data-show-if="show-figureindicators">
+		  <div class="form-group">
+			<div class="col-sm-6">
+			  {% render_field form.figureindicator class='form-control' %}
+			  {{ form.figureindicator.errors }}
+			</div>
+		  </div>
+		  <div class="form-group">
+			<p class="col-sm-4">
+			  Is your indicator, fact or figure missing from the list?
+			</p>
+			<a class="btn btn-primary" href="{% url 'figures:add' %}" target="_blank">
+			  Add new indicator, fact and figure
+			</a>
+		  </div>
+		</div>
 
-      </fieldset>
+		<div data-show-if="show-impacts">
+		  <div class="form-group">
+			<div class="col-sm-6">
+			  {% render_field form.impact class='form-control' %}
+			  {{ form.impact.errors }}
+			</div>
+		  </div>
+		  <div class="form-group">
+			<p class="col-sm-4">
+			  Is your impact missing from the list?
+			</p>
+			<a class="btn btn-primary" href="{% url 'impacts:add' %}" target="_blank">
+			  Add new impact
+			</a>
+		  </div>
+		</div>
 
-      <fieldset class="well">
-        <div class="form-group">
-          <label class="col-sm-6">{{ form.relationship_type|label }}
-          </label>
-        </div>
+	  </fieldset>
 
-        <div class="form-group">
-          <div class="col-sm-6">
-            {% render_field form.relationship_type class='form-control' %}
-            {{ form.relationship_type.errors }}
-          </div>
-        </div>
+		<div data-show-if="show-drivers">
+			<fieldset class="well">
+				<div class="form-group">
+					<label class="col-sm-6">{{ form.relationship_type|label }}
+					</label>
+				</div>
 
-        <div class="form-group">
-          <label class="col-sm-6"> {{ form.description|label }}
-          </label>
-        </div>
+				<div class="form-group">
+					<div class="col-sm-6">
+					{% render_field form.relationship_type class='form-control' %}
+					{{ form.relationship_type.errors }}
+					</div>
+				</div>
+				  <div class="form-group">
+					  <label class="col-sm-6"> {{ form.description|label }}
+						</label>
+				  </div>
 
-        <div class="form-group">
-          <div class="col-sm-6">
-            {% render_field form.description class='form-control' %}
-            {{ form.description.errors}}
-          </div>
-        </div>
-      </fieldset>
+				<div class="form-group">
+				  <div class="col-sm-6">
+					{% render_field form.description class='form-control' %}
+					{{ form.description.errors}}
+				  </div>
+				</div>
+			 </fieldset>
+		</div>
 
-       <fieldset class="well">
-        <div class="form-group">
-          <label class="col-sm-6">{{ form.figureindicators|label }}
-          </label>
-        </div>
-        <div class="form-group">
-          <div class="col-sm-6">
-            {% render_field form.figureindicators class='form-control' %}
-            {{ form.figureindicators.errors}}
-          </div>
-        </div>
+	   <fieldset class="well">
+		<div class="form-group">
+		  <label class="col-sm-6">{{ form.figureindicators|label }}
+		  </label>
+		</div>
+		<div class="form-group">
+		  <div class="col-sm-6">
+			{% render_field form.figureindicators class='form-control' %}
+			{{ form.figureindicators.errors}}
+		  </div>
+		</div>
 
-        <div class="form-group">
-          <p class="col-sm-4">
-            Is your indicator, fact or figure missing from the list?
-          </p>
-          <div class="col-sm-2">
-            <a class="btn btn-primary" href="{% url 'figures:add' %}" target="_blank">
-              <span class="glyphicon glyphicon-plus"></span> &nbsp;
-              Add new indicator, fact or figure
-            </a>
-          </div>
-        </div>
-      </fieldset>
+		<div class="form-group">
+		  <p class="col-sm-4">
+			Is your indicator, fact or figure missing from the list?
+		  </p>
+		  <div class="col-sm-2">
+			<a class="btn btn-primary" href="{% url 'figures:add' %}" target="_blank">
+			  <span class="glyphicon glyphicon-plus"></span> &nbsp;
+			  Add new indicator, fact or figure
+			</a>
+		  </div>
+		</div>
+	  </fieldset>
 
-      <div class="form-actions">
-        <div class="col-sm-offset-2">
-          <button type="submit" name="draft" value="false"
-                  class="btn btn-primary">Publish</button>
-          <button type="submit" name="draft" value="true"
-                  class="btn btn-default">Save as draft</button>
-          <a href="{% url 'assessments:detail' assessment.id %}"
-             class="btn btn-link" role="button">Cancel</a>
-        </div>
-      </div>
-    </form>
+	  <div class="form-actions">
+		<div class="col-sm-offset-2">
+		  <button type="submit" name="draft" value="false"
+				  class="btn btn-primary">Publish</button>
+		  <button type="submit" name="draft" value="true"
+				  class="btn btn-default">Save as draft</button>
+		  <a href="{% url 'assessments:detail' assessment.id %}"
+			 class="btn btn-link" role="button">Cancel</a>
+		</div>
+	  </div>
+	</form>
 
   </div>
   {% include 'modals/_form.html' %}
