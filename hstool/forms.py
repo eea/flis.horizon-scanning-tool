@@ -112,10 +112,8 @@ class RelationForm(ModelForm):
             self.cleaned_data['destination'] = self.cleaned_data['driver']
         elif self.cleaned_data['figureindicator']:
             self.cleaned_data['destination'] = self.cleaned_data['figureindicator']
-            self.cleaned_data['relationship_type'] = 0
         elif self.cleaned_data['impact']:
             self.cleaned_data['destination'] = self.cleaned_data['impact']
-            self.cleaned_data['relationship_type'] = 0
         else:
             self._errors["destination"] = self.error_class([
                 'This field is required.'
