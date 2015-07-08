@@ -4,6 +4,23 @@
 
 {% block scripts %}
   <script>
+    function add_hide_all() {
+     $('[data-show-if=show-impacts]').addClass('hide');
+     $('[data-show-if=show-figureindicators]').addClass('hide');
+     $('[data-show-if=show-drivers]').addClass('hide');
+    }
+    function deselect(type) {
+      var list = ['figureindicator', 'driver', 'impact'];
+      for (i = 0; i < 2; i++) {
+        if (list[i] != type) {
+          $('#id_'+list[i]).prop('selectedIndex', 0);
+        }
+      }
+    }
+    function clean_fields() {
+      $('#id_relationship_type').prop('selectedIndex', 0);
+      document.getElementById("id_description").value = '';
+    }
     $(window).load(function() {
       $(':checkbox').change(function () {
         var driver_checkbox = document.getElementById("id_check_driver");
@@ -11,34 +28,21 @@
         var impact_checkbox = document.getElementById("id_check_impact");
 
         $(':checkbox').not(this).prop('checked', false);
+        add_hide_all();
         if (driver_checkbox.checked) {
           $('[data-show-if=show-drivers]').removeClass('hide');
-          $('[data-show-if=show-impacts]').addClass('hide');
-          $('[data-show-if=show-figureindicators]').addClass('hide');
-          $('#id_figureindicator').prop('selectedIndex', 0);
-          $('#id_impact').prop('selectedIndex', 0);
+          deselect('driver');
           }
-        else if (figureindicator_checkbox.checked) {
-            $('[data-show-if=show-figureindicators]').removeClass('hide');
-            $('[data-show-if=show-impacts]').addClass('hide');
-            $('[data-show-if=show-drivers]').addClass('hide')
-            $('#id_driver').prop('selectedIndex', 0);
-            $('#id_impact').prop('selectedIndex', 0);
-            $('#id_relationship_type').prop('selectedIndex', 0);
-            }
-        else if (impact_checkbox.checked) {
-            $('[data-show-if=show-impacts]').removeClass('hide');
-            $('[data-show-if=show-figureindicators]').addClass('hide');
-            $('[data-show-if=show-drivers]').addClass('hide');
-            $('#id_driver').prop('selectedIndex', 0);
-            $('#id_figureindicator').prop('selectedIndex', 0);
-            $('#id_relationship_type').prop('selectedIndex', 0);
-            }
-            else {
-              $('[data-show-if=show-drivers]').addClass('hide');
-              $('[data-show-if=show-figureindicators]').addClass('hide');
-              $('[data-show-if=show-impacts]').addClass('hide');
-              }
+        if (figureindicator_checkbox.checked) {
+          $('[data-show-if=show-figureindicators]').removeClass('hide');
+          deselect('figureindicator');
+          clean_fields();
+          }
+        if (impact_checkbox.checked) {
+          $('[data-show-if=show-impacts]').removeClass('hide');
+          deselect('impact');
+          clean_fields();
+          }
       }).change();
 
       if ({{ show_figure_indicator_check }}) {
