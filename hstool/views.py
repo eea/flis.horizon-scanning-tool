@@ -173,6 +173,7 @@ class RelationsMixin(object):
     DESTINATION_TYPE_OPTIONS = {
         "driver": "Driver of change",
         "figureindicator": "Indicator, fact or figure",
+        "impact": "Impact",
     }
 
     def dispatch(self, request, *args, **kwargs):
@@ -195,6 +196,7 @@ class RelationsAdd(RelationsMixin, CreateView):
         context['destination_types'] = self.DESTINATION_TYPE_OPTIONS
         context['show_driver_of_change_check'] = "false"
         context['show_figure_indicator_check'] = "false"
+        context['show_impact_check'] = "false"
         return context
 
     def get_form_kwargs(self):
@@ -221,10 +223,13 @@ class RelationsUpdate(RelationsMixin, UpdateView):
         context['destination_types'] = self.DESTINATION_TYPE_OPTIONS
         context['show_driver_of_change_check'] = "false"
         context['show_figure_indicator_check'] = "false"
+        context['show_impact_check'] = "false"
         if self.object.destination.is_figureindicator():
             context['show_figure_indicator_check'] = "true"
         if self.object.destination.is_driver():
             context['show_driver_of_change_check'] = "true"
+        if self.object.destination.is_impact():
+            context['show_impact_check'] = "true"
         return context
 
 

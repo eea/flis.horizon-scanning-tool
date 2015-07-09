@@ -4,26 +4,51 @@
 
 {% block scripts %}
   <script>
+    function add_hide_all() {
+      $('[data-show-if=show-impacts]').addClass('hide');
+      $('[data-show-if=show-figureindicators]').addClass('hide');
+      $('[data-show-if=show-drivers]').addClass('hide');
+    }
+
+    function deselect(type) {
+      var list = ['figureindicator', 'driver', 'impact'];
+      for (i = 0; i < len(list); i++) {
+        if (list[i] != type) {
+          $('#id_'+list[i]).prop('selectedIndex', 0);
+        }
+      }
+    }
+    
+    function clean_fields() {
+      $('#id_relationship_type').prop('selectedIndex', 0);
+      document.getElementById("id_description").value = '';
+    }
+
     $(window).load(function() {
       $(':checkbox').change(function () {
-          var driver_checkbox = document.getElementById("id_check_driver");
-          var figureindicator_checkbox = document.getElementById("id_check_figureindicator");
+        var driver_checkbox = document.getElementById("id_check_driver");
+        var figureindicator_checkbox = document.getElementById("id_check_figureindicator");
+        var impact_checkbox = document.getElementById("id_check_impact");
 
-          $(':checkbox').not(this).prop('checked', false);
-          if (driver_checkbox.checked) {
-              $('[data-show-if=show-drivers]').removeClass('hide');
-              $('[data-show-if=show-figureindicators]').addClass('hide');
-              $('#id_figureindicator').prop('selectedIndex', 0);
-          }
-          else if (figureindicator_checkbox.checked) {
-              $('[data-show-if=show-figureindicators]').removeClass('hide');
-              $('[data-show-if=show-drivers]').addClass('hide');
-              $('#id_driver').prop('selectedIndex', 0);
-          }
-          else {
-              $('[data-show-if=show-drivers]').addClass('hide');
-              $('[data-show-if=show-figureindicators]').addClass('hide');
-          }
+        $(':checkbox').not(this).prop('checked', false);
+        add_hide_all();
+
+        if (driver_checkbox.checked) {
+          $('[data-show-if=show-drivers]').removeClass('hide');
+          deselect('driver');
+        }
+
+        if (figureindicator_checkbox.checked) {
+          $('[data-show-if=show-figureindicators]').removeClass('hide');
+          deselect('figureindicator');
+          clean_fields();
+        }
+
+        if (impact_checkbox.checked) {
+          $('[data-show-if=show-impacts]').removeClass('hide');
+          deselect('impact');
+          clean_fields();
+        }
       }).change();
 
       if ({{ show_figure_indicator_check }}) {
@@ -34,6 +59,11 @@
       if ({{ show_driver_of_change_check }}) {
         document.getElementById("id_check_driver").checked = true;
         $('[data-show-if=show-drivers]').removeClass('hide');
+      }
+
+      if ({{ show_impact_check }}) {
+        document.getElementById("id_check_impact").checked = true;
+        $('[data-show-if=show-impacts]').removeClass('hide');
       }
     });
   </script>
@@ -52,7 +82,7 @@
     <form method="POST" class="form-horizontal">
       {% csrf_token %}
       <p>
-        A relation is a link between a driver of change and another item, which can be another driver of change, an impact, an implication, or a supporting item (indicator, fact, figure).
+        A relation is a link between a driver of change and another item, which can be another driver of change, an impact or a supporting item (indicator, fact, figure).
       </p>
 
       <fieldset class="well">
@@ -145,33 +175,51 @@
           </div>
         </div>
 
-      </fieldset>
-
-      <fieldset class="well">
-        <div class="form-group">
-          <label class="col-sm-6">{{ form.relationship_type|label }}
-          </label>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-6">
-            {% render_field form.relationship_type class='form-control' %}
-            {{ form.relationship_type.errors }}
+        <div data-show-if="show-impacts">
+          <div class="form-group">
+            <div class="col-sm-6">
+              {% render_field form.impact class='form-control' %}
+              {{ form.impact.errors }}
+            </div>
+          </div>
+          <div class="form-group">
+            <p class="col-sm-4">
+              Is your impact missing from the list?
+            </p>
+            <a class="btn btn-primary" href="{% url 'impacts:add' %}" target="_blank">
+              Add new impact
+            </a>
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="col-sm-6"> {{ form.description|label }}
-          </label>
-        </div>
-
-        <div class="form-group">
-          <div class="col-sm-6">
-            {% render_field form.description class='form-control' %}
-            {{ form.description.errors}}
-          </div>
-        </div>
       </fieldset>
+
+        <div data-show-if="show-drivers">
+            <fieldset class="well">
+                <div class="form-group">
+                    <label class="col-sm-6">{{ form.relationship_type|label }}
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-6">
+                    {% render_field form.relationship_type class='form-control' %}
+                    {{ form.relationship_type.errors }}
+                    </div>
+                </div>
+                  <div class="form-group">
+                      <label class="col-sm-6"> {{ form.description|label }}
+                        </label>
+                  </div>
+
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    {% render_field form.description class='form-control' %}
+                    {{ form.description.errors}}
+                  </div>
+                </div>
+             </fieldset>
+        </div>
 
        <fieldset class="well">
         <div class="form-group">

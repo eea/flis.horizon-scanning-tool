@@ -41,7 +41,9 @@
           {% for relation in assessment.relations.all %}
             <tr>
               <td>{{ relation.source }}</td>
-              <td>{{ relation.relationship_type|verbose }}</td>
+              <td>{% if relation.relationship_type %}
+                    {{ relation.relationship_type|verbose }}
+                  {% endif %}</td>
               <td>{{ relation.destination }}</td>
               <td>{{ relation.draft|yesno:"Draft,Published" }}</td>
               <td>
