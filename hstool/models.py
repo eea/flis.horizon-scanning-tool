@@ -120,7 +120,14 @@ class FigureIndicator(GenericElement):
     theme = ForeignKey('common.EnvironmentalTheme')
 
 
-class DriverOfChange(GenericElement):
+class FigureIndicatorsMixin(Model):
+    figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
+class DriverOfChange(GenericElement, FigureIndicatorsMixin):
     type = IntegerField(choices=DOC_TYPE_CHOICES)
     trend_type = IntegerField(choices=DOC_TREND_TYPE_CHOICES,
                               default=1)
@@ -130,20 +137,17 @@ class DriverOfChange(GenericElement):
     time_horizon = IntegerField(choices=DOC_TIME_HORIZON_CHOICES)
     summary = TextField(null=True, blank=True)
 
-    figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
     impacts = ManyToManyField('Impact', blank=True, null=True)
     implications = ManyToManyField('Implication', blank=True, null=True)
 
 
-class Relation(Model):
+class Relation(FigureIndicatorsMixin, Model):
     draft = BooleanField(default=True)
     assessment = ForeignKey('Assessment', related_name='relations')
     source = ForeignKey('DriverOfChange', related_name='source_relations')
     destination = ForeignKey('GenericElement', related_name='dest_relations', blank=True)
     relationship_type = IntegerField(choices=RELATION_TYPE_CHOICES, null=True, blank=True)
     description = TextField(max_length=2048, null=True, blank=True)
-
-    figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
 
     def __unicode__(self):
         return u"%s -> %s" % (self.source, self.destination)
@@ -186,8 +190,6 @@ class Implication(GenericElement):
     )
     description = TextField(max_length=2048)
 
-    figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
-
     def __unicode__(self):
         return self.title
 
@@ -210,5 +212,3 @@ class Impact(GenericElement):
     )
 
     description = TextField()
-
-    figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
