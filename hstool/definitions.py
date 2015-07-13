@@ -47,6 +47,7 @@ CANONICAL_ROLES = (
 )
 
 IMPACT_TYPES = (
+    ('risk', 'Risk'),
     ('opportunity', 'Opportunity'),
     ('other', 'Other'),
 )
