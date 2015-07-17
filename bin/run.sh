@@ -1,6 +1,6 @@
 #!/bin/bash
 
-django-admin collectstatic
+./manage.py collectstatic
 
 ./manage.py syncdb
 
