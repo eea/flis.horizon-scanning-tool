@@ -26,7 +26,7 @@ COPY hstool/local_settings.py.example hstool/local_settings.py
 
 # Expose needed port
 
-EXPOSE 8000
+EXPOSE ${APP_PORT}
 
 #Default command
 

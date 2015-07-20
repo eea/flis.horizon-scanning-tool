@@ -1,12 +1,13 @@
 #!/bin/bash
 
-./manage.py collectstatic
+echo "yes" | ./manage.py collectstatic
 
-./manage.py syncdb
+echo "no" | ./manage.py syncdb
 
 ./manage.py migrate
 
 ./manage.py loadfixtures
+
 ./manage.py load_metadata_fixtures
 
-./manage.py runserver
+python manage.py runserver 0.0.0.0:${APP_PORT}
