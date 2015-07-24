@@ -27,11 +27,17 @@ WORKDIR horizon-scanning-tool
 RUN pip install -U setuptools
 RUN pip install -r requirements-dev.txt
 COPY hstool/local_settings.py.example hstool/local_settings.py
+RUN ./manage.py collectstatic --noinput
 
 # Expose needed port
 
-EXPOSE ${APP_PORT}
+EXPOSE 8003
+
+# Expose static volume 
+
+VOLUME ./hstool/static 
 
 #Default command
 
-CMD python ./manage.py runserver 0.0.0.0:${APP_PORT}
+CMD python ./manage.py runserver 0.0.0.0:8003
+
