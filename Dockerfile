@@ -1,5 +1,3 @@
-# Pyhton image
-
 FROM eeacms/python:2.7-slim
 
 # Copy code into image
