@@ -2,9 +2,10 @@ from django.forms.models import ModelForm
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.forms import ModelChoiceField
+from django.forms.extras.widgets import SelectDateWidget
 
 from hstool.models import (
-    Source, DriverOfChange, FigureIndicator,
+    Source, DriverOfChange, Figure, Indicator,
     Assessment, Relation, Implication, GenericElement,
     Impact,
 )
@@ -33,7 +34,6 @@ class GeoScopeForm(ModelForm):
                 'The selected Geographical Scale requires a country.'
             ])
             del cleaned_data["country"]
-
         return cleaned_data
 
 
@@ -54,16 +54,16 @@ class SourceForm(ModelForm):
         super(SourceForm, self).__init__(*args, **kwargs)
         self.fields['summary'].widget.attrs["cols"] = 70
         self.fields['summary'].widget.attrs["rows"] = 6
-        self.fields['title'].widget.attrs["size"] = 30
+        self.fields['name'].widget.attrs["size"] = 30
         self.fields['title_original'].widget.attrs["size"] = 60
         self.fields['author'].widget.attrs["size"] = 30
         self.fields['url'].widget.attrs["size"] = 60
 
     class Meta:
         model = Source
-        exclude = ['author_id']
+        exclude = ['author_id', 'short_name']
         labels = {
-            "title": _("Title in English"),
+            "name": _("Title in English"),
             "title_original": _("Title in original language"),
             "published_year": _("Year of publication"),
             "url": _("URL"),
@@ -72,8 +72,6 @@ class SourceForm(ModelForm):
 
 class RelationForm(ModelForm):
     driver = ModelChoiceField(queryset=DriverOfChange.objects.all(),
-                              required=False)
-    figureindicator = ModelChoiceField(queryset=FigureIndicator.objects.all(),
                               required=False)
     impact = ModelChoiceField(queryset=Impact.objects.all(),
                               required=False)
@@ -86,7 +84,8 @@ class RelationForm(ModelForm):
             "destination": _("Select the end item"),
             "relationship_type": _("Select type of relation"),
             "description": _("Relation description"),
-            "figureindicators": _("Append facts, indicators and/or figures to illustrate relation")
+            "figures": _("Append facts and/or figures to illustrate relation"),
+            "indicators": _("Indicators"),
         }
 
     def __init__(self, *args, **kwargs):
@@ -94,9 +93,6 @@ class RelationForm(ModelForm):
         super(RelationForm, self).__init__(*args, **kwargs)
         self.fields['description'].widget.attrs["rows"] = 6
         try:
-            if self.instance.destination.is_figureindicator():
-                self.fields['figureindicator'].initial = FigureIndicator.objects.get(
-                    pk=self.instance.destination.figureindicator.pk)
             if self.instance.destination.is_driver():
                 self.fields['driver'].initial = DriverOfChange.objects.get(
                     pk=self.instance.destination.driverofchange.pk)
@@ -110,8 +106,6 @@ class RelationForm(ModelForm):
         cleaned_data = super(RelationForm, self).clean()
         if self.cleaned_data['driver']:
             self.cleaned_data['destination'] = self.cleaned_data['driver']
-        elif self.cleaned_data['figureindicator']:
-            self.cleaned_data['destination'] = self.cleaned_data['figureindicator']
         elif self.cleaned_data['impact']:
             self.cleaned_data['destination'] = self.cleaned_data['impact']
         else:
@@ -136,7 +130,8 @@ class DriverForm(ModelForm):
         self.fields['summary'].widget.attrs["cols"] = 70
         self.fields['summary'].widget.attrs["rows"] = 6
         self.fields['sources'].widget.attrs["size"] = 6
-        self.fields['figureindicators'].widget.attrs["size"] = 6
+        self.fields['figures'].widget.attrs["size"] = 6
+        self.fields['indicators'].widget.attrs["size"] = 6
         self.fields['impacts'].widget.attrs["size"] = 6
         self.fields['implications'].widget.attrs["size"] = 6
         self.fields['short_name'].widget.attrs["size"] = 30
@@ -161,9 +156,10 @@ class DriverForm(ModelForm):
             "geographical_scope": _("Geographical scale"),
             "name": _("Long name"),
             "url": _("URL"),
-            "figureindicators": _("Indicators, facts and figures"),
+            "figures": _("Facts and figures"),
             "implications": _("Implications"),
-            "impacts": _("Impacts")
+            "impacts": _("Impacts"),
+            "indicators": _("Indicators"),
         }
 
     def clean(self):
@@ -190,17 +186,17 @@ def _file_help_text():
                    'any type')
 
 
-class FigureIndicatorForm(ModelForm):
+class FigureForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(FigureIndicatorForm, self).__init__(*args, **kwargs)
+        super(FigureForm, self).__init__(*args, **kwargs)
         self.fields['sources'].widget.attrs["size"] = 6
         self.fields['url'].widget.attrs["size"] = 100
         self.fields['theme'].queryset = (EnvironmentalTheme.objects.filter(is_deleted=False))
 
     class Meta:
-        model = FigureIndicator
+        model = Figure
         exclude = ['author_id', 'short_name', 'geographical_scope', 'country']
-        fields = ['name', 'is_indicator', 'theme', 'sources', 'file', 'url']
+        fields = ['name', 'theme', 'sources', 'file', 'url']
         labels = {
             "theme": _("Thematic category"),
             "url": _("URL"),
@@ -216,15 +212,16 @@ class FigureIndicatorForm(ModelForm):
 class ImplicationForm(GeoScopeForm):
     class Meta:
         model = Implication
-        exclude = ['author_id', 'short_name', 'name', 'url', 'figureindicators']
+        exclude = ['author_id', 'short_name', 'url', 'figures']
         labels = {
             "policy_area": _("Area of policy"),
             "geographical_scope": _("Geographical scale"),
+            "name": _("Title"),
         }
 
     def __init__(self, *args, **kwargs):
         super(ImplicationForm, self).__init__(*args, **kwargs)
-        self.fields['title'].widget.attrs["size"] = 30
+        self.fields['name'].widget.attrs["size"] = 30
         self.fields['description'].widget.attrs["cols"] = 70
         self.fields['description'].widget.attrs["rows"] = 6
 
@@ -232,7 +229,7 @@ class ImplicationForm(GeoScopeForm):
 class ImpactForm(GeoScopeForm):
     class Meta:
         model = Impact
-        exclude = ['author_id', 'url', 'figureindicators']
+        exclude = ['author_id', 'url', 'figures']
         labels = {
             'impact_type': _("Type of impact"),
             'geographical_scope': _("Geographical scale"),
@@ -253,3 +250,37 @@ class ImpactForm(GeoScopeForm):
         self.fields['short_name'].widget.attrs["size"] = 30
         self.fields['name'].widget.attrs["size"] = 60
         self.fields['sources'].required = True
+
+
+class IndicatorForm(GeoScopeForm):
+    def __init__(self, *args, **kwargs):
+        super(IndicatorForm, self).__init__(*args, **kwargs)
+        self.fields['sources'].widget.attrs["size"] = 6
+        self.fields['name'].widget.attrs["size"] = 60
+        self.fields['theme'].queryset = (
+            EnvironmentalTheme.objects.filter(is_deleted=False)
+        )
+        self.fields['start_date'].widget = SelectDateWidget()
+        self.fields['end_date'].widget = SelectDateWidget()
+        self.fields['country'].queryset = (
+            Country.objects.filter(is_deleted=False)
+        )
+        self.fields['geographical_scope'].queryset = (
+            GeographicalScope.objects.filter(is_deleted=False)
+        )
+
+    class Meta:
+        model = Indicator
+        exclude = ['short_name', 'url', 'author_id']
+        labels = {
+            "theme": _("Thematic category"),
+            "start_date": _("Start date"),
+            "end_date": _("End date"),
+            "geographical_scope": _("Georgaphical scale"),
+            "name": _("Title"),
+            "assessment": _("Assessment"),
+            "assessment_author": _("Assessment author"),
+        }
+        help_texts = {
+            'file': _(_file_help_text()),
+        }
