@@ -21,7 +21,7 @@ class ImplicationsAdd(HSWebTest):
     def test_default_fields_required(self):
         form = self.resp.forms[0]
         resp = form.submit()
-        self.assertFormError(resp, 'form', 'title', REQUIRED)
+        self.assertFormError(resp, 'form', 'name', REQUIRED)
         self.assertFormError(resp, 'form', 'policy_area', [])
         self.assertFormError(resp, 'form', 'description', REQUIRED)
         self.assertFormError(resp, 'form', 'geographical_scope', [])
@@ -29,7 +29,7 @@ class ImplicationsAdd(HSWebTest):
 
     def test_successfully_added_no_country_required(self):
         form = self.resp.forms[0]
-        form['title'] = 'title'
+        form['name'] = 'title'
         form['policy_area'].select(text='Mock policy')
         form['description'] = 'description'
         form['geographical_scope'].select(text='Beyond Europe')
@@ -40,7 +40,7 @@ class ImplicationsAdd(HSWebTest):
 
     def test_successfully_added_country_required(self):
         form = self.resp.forms[0]
-        form['title'] = 'title'
+        form['name'] = 'title'
         form['policy_area'].select(text='Mock policy')
         form['description'] = 'description'
         form['geographical_scope'].select(text='EU Country')
@@ -57,13 +57,13 @@ class ImplicationsUpdate(HSWebTest):
     def test_existing_field_values(self):
         resp = self.app.get(self.url, user=self.user)
         form = resp.forms[0]
-        self.assertEqual(form['title'].value, self.implication.title)
+        self.assertEqual(form['name'].value, self.implication.name)
         self.assertEqual(form['description'].value, self.implication.description)
 
     def test_successfully_updated(self):
         resp = self.app.get(self.url, user=self.user)
         form = resp.forms[0]
-        form['title'] = 'new_title'
+        form['name'] = 'new_title'
         form['policy_area'].select(text='Mock policy')
         form['description'] = 'new_description'
         resp = form.submit()
@@ -71,7 +71,7 @@ class ImplicationsUpdate(HSWebTest):
         self.assertEqual(len(Implication.objects.all()), 1)
         implication = Implication.objects.first()
         self.assertEqual(implication.author_id, self.user.username)
-        self.assertEqual(implication.title, 'new_title')
+        self.assertEqual(implication.name, 'new_title')
         self.assertEqual(implication.policy_area, 'mock_policy')
         self.assertEqual(implication.description, 'new_description')
 

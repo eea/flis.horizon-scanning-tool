@@ -1,8 +1,9 @@
 from django.core.urlresolvers import reverse
+from datetime import datetime, date
 
-from hstool.models import DriverOfChange
+from hstool.models import Indicator
 from .factories import (
-    UserFactory, DriverFactory, GeoScopeFactory,
+    UserFactory, IndicatorFactory, GeoScopeFactory, EnvironmentalThemeFactory,
 )
 from . import HSWebTest
 
@@ -12,131 +13,129 @@ FILETYPE = ['File type not supported: text/x-rst. Please upload only '
 REQUIRED_COUNTRY = ['The selected Geographical Scale requires a country.']
 
 
-class DriversList(HSWebTest):
+class IndicatorsList(HSWebTest):
     def setUp(self):
         self.admin = UserFactory(is_superuser=True)
-        self.url = reverse('drivers:list')
+        self.url = reverse('indicators:list')
 
-    def test_one_driver(self):
-        driver1 = DriverFactory()
+    def test_one_indicator(self):
+        indicator1 = IndicatorFactory()
         resp = self.app.get(self.url, user=self.admin)
         self.assertEqual(resp.pyquery('#objects_listing tbody tr').size(), 1)
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(0) a').text(),
-            driver1.name
+            indicator1.name
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(0) a').attr('href'),
-            reverse('drivers:update', args=(driver1.pk, ))
+            reverse('indicators:update', args=(indicator1.pk, ))
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(1)').text(),
-            driver1.get_type_display()
+            indicator1.theme.__unicode__()
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(2)').text(),
-            driver1.get_steep_category_display()
+            '11 Nov. 2015'
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(3)').text(),
-            driver1.get_time_horizon_display()
+            '11 Nov. 2015'
         )
+
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(4)').text(),
-            str(driver1.author_id)
+            str(indicator1.author_id)
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(6) a').attr('href'),
-            reverse('drivers:delete', args=(driver1.pk, ))
+            reverse('indicators:delete', args=(indicator1.pk, ))
         )
 
-    def test_two_drivers(self):
-        driver1 = DriverFactory()
-        driver2 = DriverFactory(
-            author_id='a', name='', short_name='shorty', type=2, trend_type=2,
-            steep_category='T', time_horizon=5,
-        )
+    def test_two_indicators(self):
+        indicator1 = IndicatorFactory()
+        theme = EnvironmentalThemeFactory(title="title2")
+        indicator2 = IndicatorFactory(
+            name='', theme=theme)
         resp = self.app.get(self.url, user=self.admin)
         self.assertEqual(resp.pyquery('#objects_listing tbody tr').size(), 2)
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(0) a').text(),
-            driver1.name
+            indicator1.name
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(0) a')
             .attr('href'),
-            reverse('drivers:update', args=(driver1.pk, ))
+            reverse('indicators:update', args=(indicator1.pk, ))
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(1)').text(),
-            driver1.get_type_display()
+            indicator1.theme.__unicode__()
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(2)').text(),
-            driver1.get_steep_category_display()
+            '11 Nov. 2015'
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(3)').text(),
-            driver1.get_time_horizon_display()
+            '11 Nov. 2015'
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(4)').text(),
-            str(driver1.author_id)
+            str(indicator1.author_id)
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(6) a').attr('href'),
-            reverse('drivers:delete', args=(driver1.pk, ))
+            reverse('indicators:delete', args=(indicator1.pk, ))
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(0) a').text(),
-            driver2.name
+            indicator2.name
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(0) a')
             .attr('href'),
-            reverse('drivers:update', args=(driver2.pk, ))
+            reverse('indicators:update', args=(indicator2.pk, ))
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(1)').text(),
-            driver2.get_type_display()
+            indicator2.theme.__unicode__()
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(2)').text(),
-            driver2.get_steep_category_display()
+            '11 Nov. 2015'
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(3)').text(),
-            driver2.get_time_horizon_display()
+            '11 Nov. 2015'
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(4)').text(),
-            str(driver2.author_id)
+            str(indicator2.author_id)
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(6) a')
             .attr('href'),
-            reverse('drivers:delete', args=(driver2.pk, ))
+            reverse('indicators:delete', args=(indicator2.pk, ))
         )
 
 
-class DriversAdd(HSWebTest):
+class IndicatorsAdd(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
 
     def test_default_fields_required(self):
-        url = reverse('drivers:add')
+        url = reverse('indicators:add')
         resp = self.app.get(url, user=self.user)
         form = resp.forms[0]
         resp = form.submit()
+        self.assertFormError(resp, 'form', 'theme', REQUIRED)
         self.assertFormError(resp, 'form', 'name', REQUIRED)
-        self.assertFormError(resp, 'form', 'short_name', REQUIRED)
-        self.assertFormError(resp, 'form', 'type', REQUIRED)
-        self.assertFormError(resp, 'form', 'steep_category', REQUIRED)
-        self.assertFormError(resp, 'form', 'time_horizon', REQUIRED)
+        self.assertFormError(resp, 'form', 'end_date', REQUIRED)
 
     def test_geo_scope_with_country_required(self):
         geo_scope = GeoScopeFactory(title="a", require_country=True)
-        url = reverse('drivers:add')
+        url = reverse('indicators:add')
         resp = self.app.get(url, user=self.user)
         form = resp.forms[0]
         form['geographical_scope'].select(text=geo_scope.title)
@@ -144,67 +143,60 @@ class DriversAdd(HSWebTest):
         self.assertFormError(resp, 'form', 'country', REQUIRED_COUNTRY)
 
     def test_successfully_added(self):
-        url = reverse('drivers:add')
+        theme = EnvironmentalThemeFactory()
+        url = reverse('indicators:add')
         resp = self.app.get(url, user=self.user)
         form = resp.forms[0]
+        form['theme'].select(text=theme.title)
         form['name'] = 'a'
-        form['short_name'] = 'b'
-        form['type'].select(text='Trends')
-        form['trend_type'].select(text='Trend')
-        form['steep_category'].select(text='Political')
-        form['time_horizon'].select(text='1 year')
+        form['end_date_year'].select(text='2015')
+        form['end_date_month'].select(text='November')
+        form['end_date_day'].select(text='11')
         resp = form.submit()
-        self.assertRedirects(resp, reverse('drivers:list'))
+        self.assertRedirects(resp, reverse('indicators:list'))
 
 
-class DriversUpdate(HSWebTest):
+class IndicatorsUpdate(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
-        self.driver = DriverFactory(author_id=self.user.username)
-        url = reverse('drivers:update', args=(self.driver.pk, ))
+        self.indicator = IndicatorFactory(author_id=self.user.username)
+        self.theme_pk = str(self.indicator.theme.pk)
+        url = reverse('indicators:update', args=(self.indicator.pk, ))
         resp = self.app.get(url, user=self.user)
         self.form = resp.forms[0]
 
     def test_existing_field_values(self):
-        self.assertEqual(self.form['name'].value, self.driver.name)
-        self.assertEqual(self.form['short_name'].value, self.driver.short_name)
-        self.assertEqual(self.form['type'].value, str(self.driver.type))
-        self.assertEqual(self.form['trend_type'].value,
-                         str(self.driver.trend_type))
-        self.assertEqual(self.form['steep_category'].value,
-                         str(self.driver.steep_category))
-        self.assertEqual(self.form['time_horizon'].value,
-                         str(self.driver.time_horizon))
+        self.assertEqual(self.form['theme'].value, self.theme_pk)
+        self.assertEqual(self.form['name'].value, self.indicator.name)
+        form_date = self.indicator.end_date
+        self.assertEqual(form_date,
+                         str(self.indicator.end_date))
 
     def test_successfully_updated(self):
+        theme = EnvironmentalThemeFactory()
+        self.form['theme'].select(text=theme.title)
         self.form['name'] = 'a'
-        self.form['short_name'] = 'b'
-        self.form['type'].select(text='Uncertainties')
-        self.form['trend_type'].select(text='Megatrend')
-        self.form['steep_category'].select(text='Social')
-        self.form['time_horizon'].select(text='5 years')
+        self.form['end_date_year'].select(text='2015')
+        self.form['end_date_month'].select(text='November')
+        self.form['end_date_day'].select(text='11')
         resp = self.form.submit()
-        self.assertRedirects(resp, reverse('drivers:list'))
-        self.assertEqual(len(DriverOfChange.objects.all()), 1)
-        driver = DriverOfChange.objects.first()
-        self.assertEqual(driver.author_id, self.user.username)
-        self.assertEqual(driver.name, 'a')
-        self.assertEqual(driver.short_name, 'b')
-        self.assertEqual(driver.type, 2)
-        self.assertEqual(driver.trend_type, 2)
-        self.assertEqual(driver.steep_category, 'S')
-        self.assertEqual(driver.time_horizon, 5)
+        self.assertRedirects(resp, reverse('indicators:list'))
+        self.assertEqual(len(Indicator.objects.all()), 1)
+        indicator = Indicator.objects.first()
+        self.assertEqual(indicator.author_id, self.user.username)
+        self.assertEqual(indicator.name, 'a')
+        self.assertEqual(indicator.end_date, date(2015, 11, 11))
 
 
-class DriversDelete(HSWebTest):
+class IndicatorsDelete(HSWebTest):
     def setUp(self):
         user = UserFactory()
-        driver = DriverFactory(author_id=user.username)
-        url = reverse('drivers:delete', args=(driver.pk, ))
+        indicator = IndicatorFactory(author_id=user.username)
+        url = reverse('indicators:delete', args=(indicator.pk, ))
         resp = self.app.get(url, user=user)
         self.form = resp.forms[0]
 
     def test_deletion(self):
         resp = self.form.submit()
-        self.assertRedirects(resp, reverse('drivers:list'))
-        self.assertQuerysetEqual(DriverOfChange.objects.all(), [])
+        self.assertRedirects(resp, reverse('indicators:list'))
+        self.assertQuerysetEqual(Indicator.objects.all(), [])
