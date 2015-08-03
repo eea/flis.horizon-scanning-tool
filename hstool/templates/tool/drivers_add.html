@@ -154,20 +154,40 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.figureindicators|label }}
+				<label class="col-sm-2 control-label">{{ form.figures|label }}
 				</label>
 				<div class="controls col-sm-4">
-					{% render_field form.figureindicators class='form-control' %}
-					{{ form.figureindicators.errors }}
+					{% render_field form.figures class='form-control' %}
+					{{ form.figures.errors }}
 				</div>
 				<div class="col-sm-2">
 					<a class="btn btn-primary launch-modal" data-toggle="modal"
 							 data-target="#myModal"
-							 data-action="{% url 'modals:add' 'figureindicators'%}"
- 							 data-title="Add new Indicator, Fact and Figure"
+							 data-action="{% url 'modals:add' 'figures'%}"
+ 							 data-title="Add new Fact or Figure"
 							 data-backdrop="static">
 						<span class="glyphicon glyphicon-plus"></span>  &nbsp;
-						Add new indicator, fact and figure
+						Add new fact or figure
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.indicators|label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.indicators class='form-control' %}
+					{{ form.indicators.errors }}
+				</div>
+
+				<div class="col-sm-2">
+					<a class="btn btn-primary launch-modal" data-toggle="modal"
+							 data-target="#myModal"
+							 data-action="{% url 'modals:add' 'indicators'%}"
+ 							 data-title="Add new Indicator"
+							 data-backdrop="static">
+						<span class="glyphicon glyphicon-plus"></span>  &nbsp;
+						Add new indicator
 					</a>
 				</div>
 			</div>

@@ -24,7 +24,7 @@
 			{% for source in sources %}
 				<tr>
 					<td><a href="{% url 'sources:update' source.id %}">
-						{{ source.title }}</a></td>
+						{{ source.name }}</a></td>
 					<td>{{ source.published_year }}</td>
 					<td>{{ source.author }}</td>
 					<td>{{ source.author_id }}</td>

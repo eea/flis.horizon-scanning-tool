@@ -5,6 +5,8 @@
 {% block title %}Add/Edit Source{% endblock %}
 
 {% block content %}
+
+<script>console.log({{form.errors}});</script>
 	<div class="container-fluid" id="view">
 
 		<h2 class="page-header">Add/Edit Source</h2>
@@ -13,11 +15,11 @@
 			{% csrf_token %}
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.title|label }}
+				<label class="col-sm-2 control-label">{{ form.name|label }}
 				</label>
 				<div class="controls col-sm-10">
-					{% render_field form.title class='form-control' %}
-					{{ form.title.errors }}
+					{% render_field form.name class='form-control' %}
+					{{ form.name.errors }}
 				</div>
 			</div>
 

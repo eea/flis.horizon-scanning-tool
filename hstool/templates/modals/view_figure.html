@@ -1,11 +1,11 @@
 {% load custom_filters %}
 
 <div class="row">
-	{% ifequal figureindicator.file|file_type 'pdf' %}
-		<object data="{{ figureindicator.file.url }}" type="application/pdf" width="800" height="600">
-			<a href="{{ figureindicator.file.url }}">{{ figureindicator.name }}</a>
+	{% ifequal figure.file|file_type 'pdf' %}
+		<object data="{{ figure.file.url }}" type="application/pdf" width="800" height="600">
+			<a href="{{ figure.file.url }}">{{ figure.name }}</a>
 		</object>
 		{% else %}
-		<img src="{{ figureindicator.file.url }}" alt="{{ figureindicator.name }}"/>
+		<img src="{{ figure.file.url }}" alt="{{ figure.name }}"/>
 	{% endifequal %}
 </div>

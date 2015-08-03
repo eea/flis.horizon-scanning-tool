@@ -1,12 +1,12 @@
 {% extends 'tool/_list_as_table.html' %}
 {% load custom_filters %}
 
-{% block title %}Indicators, Facts and Figures list{% endblock %}
+{% block title %}Facts and Figures list{% endblock %}
 
 {% block content %}
 	<div class="container-fluid">
 		</br>
-		<a class="btn btn-primary" href="{% url 'figures:add' %}">Add Indicator, Fact and Figure</a>
+		<a class="btn btn-primary" href="{% url 'figures:add' %}">Add Fact or Figure</a>
 		</br>
 
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
@@ -20,12 +20,11 @@
 				<th>URL</th>
 				<th>Source</th>
 				<th>Status</th>
-				<th>Indicator</th>
 				<th></th>
 			</tr>
 			</thead>
 			<tbody>
-			{% for figure in figureindicators %}
+			{% for figure in figures %}
 				<tr>
 					<td>
 						<a href="{% url 'figures:update' figure.id %}">
@@ -46,7 +45,6 @@
 					<td>{{ figure.url }}</td>
 					<td>{{ figure.source }}</td>
 					<td>{{ figure.draft|yesno:"Draft,Published" }}</td>
-					<td>{{ figure.is_indicator|yesno }}</td>
 					<td>
 						<a id="delete" href="{% url 'figures:delete' figure.id %}">
 							<span class="glyphicon glyphicon-remove"></span> Delete

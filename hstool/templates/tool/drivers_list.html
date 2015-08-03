@@ -3,6 +3,17 @@
 {% block title %}Drivers list{% endblock %}
 
 {% block content %}
+
+  <div class="container-fluid">
+    <div class="page-header">
+      <p> About drivers of change </p>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <img src="/static/dummy.png"/>
+  </div>
+
 	<div class="container-fluid">
 		</br>
 	  <a class="btn btn-primary" href="{% url 'drivers:add' %}">Add Driver of Change</a>
@@ -11,10 +22,8 @@
 		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
 			<thead>
 			<tr>
-				<th>Name</th>
+				<th>Driver of change</th>
 				<th>Type of driver of change</th>
-				<th>Type of trend</th>
-				<th>Type of uncertainty</th>
 				<th>STEEP category</th>
 				<th>Time horizon</th>
 				<th>Added by</th>
@@ -29,16 +38,6 @@
 						<a href="{% url 'drivers:update' driver.id %}">{{ driver.name }}</a>
 					</td>
 					<td>{{ driver.get_type_display }}</td>
-					{% if driver.get_type_display == 'Trends' %}
-						<td>{{ driver.get_trend_type_display }}</td>
-					{% else %}
-						<td>-</td>
-					{% endif %}
-					{% if driver.get_type_display == 'Uncertainties' %}
-						<td>{{ driver.get_uncertainty_type_display }}</td>
-					{% else %}
-						<td>-</td>
-					{% endif %}
 					<td>{{ driver.get_steep_category_display }}</td>
 					<td>{{ driver.get_time_horizon_display }}</td>
 					<td>{{ driver.author_id }}</td>
