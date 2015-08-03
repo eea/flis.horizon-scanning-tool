@@ -407,8 +407,6 @@ class IndicatorsList(LoginRequiredMixin, ListMixin):
     template_name = 'tool/indicators_list.html'
     model = Indicator
     context_object_name = 'indicators'
-    import pdb
-    pdb.set_trace()
 
 
 class IndicatorsAdd(AuthorMixin, LoginRequiredMixin, CreateView):

@@ -19,13 +19,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('genericelement_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='hstool.GenericElement')),
                 ('file', hstool.models.ContentTypeRestrictedFileField(upload_to=hstool.utils.path_and_rename_figures)),
-                ('sources', models.ManyToManyField(to='hstool.Source', null=True, blank=True)),
                 ('theme', models.ForeignKey(to='common.EnvironmentalTheme')),
             ],
             options={
-                'abstract': False,
             },
-            bases=('hstool.genericelement', models.Model),
+            bases=('hstool.genericelement',),
         ),
         migrations.CreateModel(
             name='Indicator',
@@ -36,13 +34,11 @@ class Migration(migrations.Migration):
                 ('assessment', models.TextField(null=True, blank=True)),
                 ('assessment_author', models.CharField(max_length=64, null=True, blank=True)),
                 ('file', hstool.models.ContentTypeRestrictedFileField(null=True, upload_to=hstool.utils.path_and_rename_indicators, blank=True)),
-                ('sources', models.ManyToManyField(to='hstool.Source', null=True, blank=True)),
                 ('theme', models.ForeignKey(to='common.EnvironmentalTheme')),
             ],
             options={
-                'abstract': False,
             },
-            bases=('hstool.genericelement', models.Model),
+            bases=('hstool.genericelement',),
         ),
         migrations.RemoveField(
             model_name='figureindicator',
@@ -105,24 +101,6 @@ class Migration(migrations.Migration):
             model_name='driverofchange',
             name='indicators',
             field=models.ManyToManyField(to='hstool.Indicator', null=True, blank=True),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='driverofchange',
-            name='sources',
-            field=models.ManyToManyField(to='hstool.Source', null=True, blank=True),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='impact',
-            name='sources',
-            field=models.ManyToManyField(to='hstool.Source', null=True, blank=True),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='implication',
-            name='sources',
-            field=models.ManyToManyField(to='hstool.Source', null=True, blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
