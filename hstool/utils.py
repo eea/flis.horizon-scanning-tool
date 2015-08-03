@@ -16,6 +16,9 @@ def path_and_rename_figures(instance, filename):
     return wrapper('files/figures', instance, filename)
 
 
+def path_and_rename_indicators(instance, filename):
+    return wrapper('files/indicators', instance, filename)
+
 def connected_components(neighbors):
     seen = set()
 
