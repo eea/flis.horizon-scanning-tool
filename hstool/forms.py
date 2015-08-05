@@ -133,7 +133,6 @@ class DriverForm(ModelForm):
         self.fields['figures'].widget.attrs["size"] = 6
         self.fields['indicators'].widget.attrs["size"] = 6
         self.fields['impacts'].widget.attrs["size"] = 6
-        self.fields['implications'].widget.attrs["size"] = 6
         self.fields['short_name'].widget.attrs["size"] = 30
         self.fields['name'].widget.attrs["size"] = 60
         self.fields['url'].widget.attrs["size"] = 100
@@ -147,7 +146,7 @@ class DriverForm(ModelForm):
 
     class Meta:
         model = DriverOfChange
-        exclude = ['author_id']
+        exclude = ['author_id', 'implications']
         labels = {
             "type": _("Type of Driver of Change"),
             "trend_type": _("Type of trend"),
@@ -157,7 +156,6 @@ class DriverForm(ModelForm):
             "name": _("Long name"),
             "url": _("URL"),
             "figures": _("Facts and figures"),
-            "implications": _("Implications"),
             "impacts": _("Impacts"),
             "indicators": _("Indicators"),
         }

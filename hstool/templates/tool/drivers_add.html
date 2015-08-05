@@ -43,6 +43,7 @@
 		<form method="POST" class="form-horizontal">
 			{% csrf_token %}
 
+		<fieldset class="well">
 			<div class="form-group">
 				<label class="col-sm-2 control-label">{{ form.type|label }}
 				</label>
@@ -125,31 +126,16 @@
 				</div>
 			</div>
 
+		</fieldset>
+
+		<fieldset class="well">
+				<legend>Description</legend>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">{{ form.summary|label }}
 				</label>
 				<div class="controls col-sm-10">
 					{% render_field form.summary class='form-control' %}
 					{{ form.summary.errors }}
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.sources|label }}
-				</label>
-				<div class="controls col-sm-4">
-					{% render_field form.sources class='form-control' %}
-					{{ form.sources.errors }}
-				</div>
-				<div class="col-sm-2">
-					<a class="btn btn-primary launch-modal" data-toggle="modal"
-							 data-target="#myModal"
-							 data-action="{% url 'modals:add' 'sources'%}"
-							 data-title="Add new Source"
-							 data-backdrop="static">
-						<span class="glyphicon glyphicon-plus"></span>  &nbsp;
-						Add new source
-					</a>
 				</div>
 			</div>
 
@@ -193,21 +179,6 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.implications|label }}
-				</label>
-				<div class="controls col-sm-4">
-					{% render_field form.implications class='form-control' %}
-					{{ form.implications.errors }}
-				</div>
-				<div class="col-sm-2">
-					<a class="btn btn-primary" href="{% url 'implications:add' %}" target="_blank">
-						<span class="glyphicon glyphicon-plus"></span> &nbsp;
-						Add new implication
-					</a>
-				</div>
-			</div>
-
-			<div class="form-group">
 				<label class="col-sm-2 control-label">{{ form.impacts|label }}
 				</label>
 				<div class="controls col-sm-4">
@@ -228,6 +199,26 @@
 				<div class="controls col-sm-10">
 					{% render_field form.url class='form-control' %}
 					{{ form.url.errors }}
+				</div>
+			</div>
+			</fieldset>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ form.sources|label }}
+				</label>
+				<div class="controls col-sm-4">
+					{% render_field form.sources class='form-control' %}
+					{{ form.sources.errors }}
+				</div>
+				<div class="col-sm-2">
+					<a class="btn btn-primary launch-modal" data-toggle="modal"
+							 data-target="#myModal"
+							 data-action="{% url 'modals:add' 'sources'%}"
+							 data-title="Add new Source"
+							 data-backdrop="static">
+						<span class="glyphicon glyphicon-plus"></span>  &nbsp;
+						Add new source
+					</a>
 				</div>
 			</div>
 
