@@ -3,52 +3,49 @@
 {% block title %}My entries{% endblock %}
 
 {% block content %}
-
-	<div class="container-fluid">
-		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
-			<thead>
-			<tr>
-				<th>Last edited</th>
-				<th>Title</th>
-				<th>Status</th>
-				<th></th>
-			</tr>
-			</thead>
-			<tbody>
-			{% for element in elements %}
-				{% if not element.is_driver %}
-				<tr>
-                    <td>{{ element.added }}</td>
-					<td>{% if element.impact %}
-						<a href="{% url 'impacts:update' element.id %}">
-            			{{ element.name }}</a>
-						{% elif element.implication %}
-						<a href="{% url 'implications:update' element.id %}">
-						{{ element.name }}</a>
-						{% elif element.source %}
-						<a href="{% url 'sources:update' element.id %}">
-						{{ element.name }}</a>
-						{% elif element.figure %}
-						<a href="{% url 'figures:update' element.id %}">
-						{{ element.name }}</a>
-						{% elif element.indicator %}
-						<a href="{% url 'indicators:update' element.id %}">
-						{{ element.name }}</a>
-						{%endif%}
-					</td>
-					<td>{{ element.draft|yesno:"Draft,Published" }}</td>
-					<td nowrap>
-						<script>
-							console.log({{element.id}});
-						</script>
-						<a id="delete" href="{% url 'entries:delete' element.id %}">
-							<span class="glyphicon glyphicon-remove"></span> Delete
-						</a>
-					</td>
-				</tr>
-				{%endif%}
-			{% endfor %}
-			</tbody>
-		</table>
-	</div>
+  <div class="container-fluid">
+    <table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+      <thead>
+      <tr>
+        <th>Last edited</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        {% for element in elements %}
+          {% if not element.is_driver %}
+          <tr>
+            <td>{{ element.added }}</td>
+            <td>
+              {% if element.impact %}
+                <a href="{% url 'impacts:update' element.id %}">
+                  {{ element.name }}</a>
+              {% elif element.implication %}
+                <a href="{% url 'implications:update' element.id %}">
+                  {{ element.name }}</a>
+              {% elif element.source %}
+                <a href="{% url 'sources:update' element.id %}">
+                  {{ element.name }}</a>
+              {% elif element.figure %}
+                <a href="{% url 'figures:update' element.id %}">
+                  {{ element.name }}</a>
+              {% elif element.indicator %}
+                <a href="{% url 'indicators:update' element.id %}">
+                  {{ element.name }}</a>
+              {%endif%}
+            </td>
+            <td>{{ element.draft|yesno:"Draft,Published" }}</td>
+            <td nowrap>
+              <a id="delete" href="{% url 'entries:delete' element.id %}">
+                <span class="glyphicon glyphicon-remove"></span> Delete
+              </a>
+            </td>
+          </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
