@@ -2,17 +2,46 @@
 {% load custom_filters %}
 {% load widget_tweaks %}
 
+{% block scripts %}
+<script>
+  var formset = {};
+  $(function() {
+    $('#extra_form').click(function() {
+      formset.$total = $('#id_indicatorfiles_set-TOTAL_FORMS');
+      formset.$initial = $('#id_indicatorfiles_set-INITIAL_FORMS');
+      formset.templateRowStr = $('#form-template').html();
+
+      formset.newTotal = parseInt(formset.$total.val());
+      formset.appendRowStr = formset.templateRowStr.replace(/__prefix__/g, formset.newTotal);
+      formset.$total.val(formset.newTotal + 1);
+      if (formset.newTotal >= 4) {
+      	document.getElementById('extra_form').style.visibility = 'hidden';
+      }
+      if (formset.newTotal < 5) {
+      	$('#form_set').append(formset.appendRowStr);
+      }
+    });
+  });
+</script>
+
+<script type="text/template" id="form-template">
+	<label class="col-sm-2 control-label">New file</label>
+	<p class="controls col-sm-10">
+    	{{ empty_form.file }}
+  	</p>
+</script>
+
+{% endblock %}
+
 {% block title %}Add/Edit Indicator{% endblock %}
 
 {% block content %}
 
 	<div class="container-fluid" id="view">
 
-		{{ form.errors }}
-
 		<h2 class="page-header">Add/Edit Indicator</h2>
 
-		<form method="POST" class="form-horizontal">
+		<form method="POST" class="form-horizontal" enctype="multipart/form-data">
 			{% csrf_token %}
 
 		<fieldset class="well">
@@ -113,12 +142,24 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-sm-2 control-label">{{ form.file|label }}
-				</label>
-				<div class="controls col-sm-4">
-					{% render_field form.file %}
-					{{ form.file.help_text }}
-					<div class="error">{{ form.file.errors }}</div>
+				{{ files_form.management_form }}
+                {{ files_form.non_form_errors }}
+				<div id="form_set">
+                {% for form_elem in files_form.forms %}
+					<label class="col-sm-2 control-label"> File {{ forloop.counter }}</label>
+                    <p class="controls col-sm-10">
+                        {{ form_elem.file }}
+						{{ form_elem.errors }}
+                    </p>
+					{% for hidden in form_elem.hidden_fields %}
+        				{{ hidden }}
+    				{% endfor %}
+				{% endfor %}
+				</div>
+				<label class="col-sm-2 control-label"></label>
+				<input type="button" id="extra_form" value="Add more"
+					   class="btn btn-primary">
+
 				</div>
 			</div>
 

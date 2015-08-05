@@ -2,7 +2,7 @@ import json
 
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import (
     ListView, CreateView, DetailView, DeleteView, UpdateView,
     TemplateView)
@@ -23,7 +23,8 @@ from flis_metadata.common.models import GeographicalScope
 from hstool.forms import (
     SourceForm, DriverForm,
     FigureForm, AssessmentForm, RelationForm,
-    ImplicationForm, ImpactForm, IndicatorForm
+    ImplicationForm, ImpactForm, IndicatorForm,
+    IndicatorFilesFormset
 )
 from hstool.utils import get_nodes_from_components
 
@@ -411,8 +412,31 @@ class IndicatorsList(LoginRequiredMixin, ListMixin):
 
 class IndicatorsAdd(AuthorMixin, LoginRequiredMixin, CreateView):
     template_name = 'tool/indicators_add.html'
+    model = Indicator
     form_class = IndicatorForm
     success_url = reverse_lazy('indicators:list')
+
+    def get_context_data(self, **kwargs):
+        context = super(IndicatorsAdd, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['files_form'] = IndicatorFilesFormset(self.request.POST,
+                                                          self.request.FILES)
+            context['empty_form'] = context['files_form'].empty_form
+        else:
+            context['files_form'] = IndicatorFilesFormset()
+            context['empty_form'] = context['files_form'].empty_form
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        files_form = context['files_form']
+        if form.is_valid() and files_form.is_valid():
+            self.object = form.save()
+            files_form.instance = self.object
+            files_form.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
 
 class IndicatorsUpdate(OwnerRequiredMixin, UpdateView):
@@ -426,7 +450,27 @@ class IndicatorsUpdate(OwnerRequiredMixin, UpdateView):
         geographical_scope = self.object.geographical_scope
         context['required'] = (
             geographical_scope.require_country if geographical_scope else None)
+
+        if self.request.POST:
+            context['files_form'] = IndicatorFilesFormset(self.request.POST,
+                                                          self.request.FILES,
+                                                          instance=self.object)
+            context['empty_form'] = context['files_form'].empty_form
+
+        else:
+            context['files_form'] = IndicatorFilesFormset(instance=self.object)
+            context['empty_form'] = context['files_form'].empty_form
         return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        files_form = context['files_form']
+        if form.is_valid() and files_form.is_valid():
+            self.object = form.save()
+            files_form.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
 
 class IndicatorsDelete(OwnerRequiredMixin, DeleteView):

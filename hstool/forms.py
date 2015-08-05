@@ -1,4 +1,4 @@
-from django.forms.models import ModelForm
+from django.forms.models import ModelForm, inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.forms import ModelChoiceField
@@ -7,7 +7,7 @@ from django.forms.extras.widgets import SelectDateWidget
 from hstool.models import (
     Source, DriverOfChange, Figure, Indicator,
     Assessment, Relation, Implication, GenericElement,
-    Impact,
+    Impact, IndicatorFiles
 )
 from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
@@ -262,16 +262,13 @@ class IndicatorForm(GeoScopeForm):
         )
         self.fields['start_date'].widget = SelectDateWidget()
         self.fields['end_date'].widget = SelectDateWidget()
-        self.fields['country'].queryset = (
-            Country.objects.filter(is_deleted=False)
-        )
-        self.fields['geographical_scope'].queryset = (
-            GeographicalScope.objects.filter(is_deleted=False)
-        )
 
     class Meta:
         model = Indicator
         exclude = ['short_name', 'url', 'author_id']
+        fields = ['name', 'theme', 'geographical_scope', 'country',
+                  'start_date', 'end_date', 'sources', 'assessment',
+                  'assessment_author']
         labels = {
             "theme": _("Thematic category"),
             "start_date": _("Start date"),
@@ -281,6 +278,6 @@ class IndicatorForm(GeoScopeForm):
             "assessment": _("Assessment"),
             "assessment_author": _("Assessment author"),
         }
-        help_texts = {
-            'file': _(_file_help_text()),
-        }
+
+IndicatorFilesFormset = inlineformset_factory(Indicator, IndicatorFiles, extra=1,
+                                              max_num=5)
