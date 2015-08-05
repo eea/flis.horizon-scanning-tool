@@ -609,9 +609,3 @@ class UserEntriesDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'object_delete.html'
     model = GenericElement
     success_url = reverse_lazy('entries:list')
-
-
-
-
-
-
