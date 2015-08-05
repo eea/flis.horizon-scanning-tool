@@ -126,11 +126,14 @@ class Indicator(GenericElement, SourcesMixin):
     end_date = DateField(editable=True)
     assessment = TextField(null=True, blank=True)
     assessment_author = CharField(max_length=64, null=True, blank=True)
-    file = ContentTypeRestrictedFileField(
+
+
+class IndicatorFiles (Model):
+    file = FileField(
         upload_to=path_and_rename_indicators,
-        content_types=settings.SUPPORTED_FILES_FACTS_AND_FIGURES,
         null=True, blank=True
     )
+    indicator = ForeignKey(Indicator)
 
 
 class DriverOfChange(GenericElement, FiguresMixin, SourcesMixin):
