@@ -52,7 +52,7 @@ class ImpactsUpdate(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
         self.impact = ImpactFactory(author_id=self.user.username)
-        SourceFactory(author_id=self.user.username)
+        self.source = SourceFactory(author_id=self.user.username)
         self.url = reverse('impacts:update', args=(self.impact.pk, ))
 
     def test_existing_field_values(self):
@@ -68,7 +68,7 @@ class ImpactsUpdate(HSWebTest):
         form['name'] = 'new_name'
         form['short_name'] = 'new_short_name'
         form['description'] = 'new_description'
-        form['sources'].select_multiple('1')
+        form['sources'].select_multiple([self.source.pk])
         resp = form.submit()
         self.assertRedirects(resp, reverse('impacts:list'))
         self.assertEqual(len(Impact.objects.all()), 1)

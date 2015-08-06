@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.db.models import (
     Model, CharField, IntegerField, TextField, ForeignKey, BooleanField,
-    ManyToManyField, FileField,
+    ManyToManyField, FileField, DateField,
     DateTimeField)
 from django.forms.forms import ValidationError
 from django.conf import settings
@@ -12,7 +12,10 @@ from hstool.definitions import (
     RELATION_TYPE_CHOICES, DOC_UNCERTAINTIES_TYPE_CHOICES,
     IMPACT_TYPES,
 )
-from hstool.utils import path_and_rename_sources, path_and_rename_figures
+from hstool.utils import (
+    path_and_rename_sources, path_and_rename_figures,
+    path_and_rename_indicators
+)
 
 
 class ContentTypeRestrictedFileField(FileField):
@@ -52,44 +55,31 @@ class ContentTypeRestrictedFileField(FileField):
         )
 
 
-class Source(Model):
-    draft = BooleanField(default=True)
-    author_id = CharField(max_length=64)
-    title = CharField(max_length=512)
-    title_original = CharField(max_length=512)
-    published_year = IntegerField()
-    author = CharField(max_length=512)
-    url = CharField(max_length=256)
-    file = FileField(upload_to=path_and_rename_sources)
-    summary = TextField(max_length=2048)
-    added = DateTimeField(auto_now_add=True, editable=False,
-                          default=datetime.now)
+class SourcesMixin(Model):
+    sources = ManyToManyField('Source', blank=True, null=True)
 
-    def __unicode__(self):
-        return self.title
+    class Meta:
+        abstract = True
+
+
+class FiguresMixin(Model):
+    figures = ManyToManyField('Figure', blank=True, null=True)
+
+    class Meta:
+        abstract = True
 
 
 class GenericElement(Model):
     draft = BooleanField(default=True)
     author_id = CharField(max_length=64)
     short_name = CharField(max_length=64)
-    name = CharField(max_length=255)
+    name = CharField(max_length=512)
     geographical_scope = ForeignKey('common.GeographicalScope',
                                     null=True, blank=True)
     country = ForeignKey('common.Country', null=True, blank=True)
     url = CharField(max_length=256, blank=True, null=True)
     added = DateTimeField(auto_now_add=True, editable=False,
                           default=datetime.now)
-
-    sources = ManyToManyField('Source', blank=True, null=True)
-
-    def is_figureindicator(self):
-        try:
-            if self.figureindicator:
-                return True
-        except FigureIndicator.DoesNotExist:
-            return False
-        return False
 
     def is_driver(self):
         try:
@@ -111,8 +101,18 @@ class GenericElement(Model):
         return self.name
 
 
-class FigureIndicator(GenericElement):
-    is_indicator = BooleanField(default=False)
+class Source(GenericElement):
+    title_original = CharField(max_length=512)
+    published_year = IntegerField()
+    author = CharField(max_length=512)
+    file = FileField(upload_to=path_and_rename_sources)
+    summary = TextField(max_length=2048)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Figure(GenericElement, SourcesMixin):
     file = ContentTypeRestrictedFileField(
         upload_to=path_and_rename_figures,
         content_types=settings.SUPPORTED_FILES_FACTS_AND_FIGURES,
@@ -120,14 +120,23 @@ class FigureIndicator(GenericElement):
     theme = ForeignKey('common.EnvironmentalTheme')
 
 
-class FigureIndicatorsMixin(Model):
-    figureindicators = ManyToManyField('FigureIndicator', blank=True, null=True)
+class Indicator(GenericElement, SourcesMixin):
+    theme = ForeignKey('common.EnvironmentalTheme')
+    start_date = DateField(editable=True, null=True, blank=True)
+    end_date = DateField(editable=True)
+    assessment = TextField(null=True, blank=True)
+    assessment_author = CharField(max_length=64, null=True, blank=True)
 
-    class Meta:
-        abstract = True
+
+class IndicatorFiles (Model):
+    file = FileField(
+        upload_to=path_and_rename_indicators,
+        null=True, blank=True
+    )
+    indicator = ForeignKey(Indicator)
 
 
-class DriverOfChange(GenericElement, FigureIndicatorsMixin):
+class DriverOfChange(GenericElement, FiguresMixin, SourcesMixin):
     type = IntegerField(choices=DOC_TYPE_CHOICES)
     trend_type = IntegerField(choices=DOC_TREND_TYPE_CHOICES,
                               default=1)
@@ -139,15 +148,18 @@ class DriverOfChange(GenericElement, FigureIndicatorsMixin):
 
     impacts = ManyToManyField('Impact', blank=True, null=True)
     implications = ManyToManyField('Implication', blank=True, null=True)
+    indicators = ManyToManyField('Indicator', blank=True, null=True)
 
 
-class Relation(FigureIndicatorsMixin, Model):
+class Relation(FiguresMixin, Model):
     draft = BooleanField(default=True)
     assessment = ForeignKey('Assessment', related_name='relations')
     source = ForeignKey('DriverOfChange', related_name='source_relations')
     destination = ForeignKey('GenericElement', related_name='dest_relations', blank=True)
     relationship_type = IntegerField(choices=RELATION_TYPE_CHOICES, null=True, blank=True)
     description = TextField(max_length=2048, null=True, blank=True)
+
+    indicators = ManyToManyField('Indicator', blank=True, null=True)
 
     def __unicode__(self):
         return u"%s -> %s" % (self.source, self.destination)
@@ -175,12 +187,11 @@ class Assessment(Model):
         return self.title
 
 
-class Implication(GenericElement):
+class Implication(GenericElement, SourcesMixin):
     AREA_POLICY = (
         ('mock_policy', 'Mock policy'),
     )
 
-    title = CharField(max_length=512)
     policy_area = CharField(
         max_length=64,
         choices=AREA_POLICY,
@@ -191,10 +202,10 @@ class Implication(GenericElement):
     description = TextField(max_length=2048)
 
     def __unicode__(self):
-        return self.title
+        return self.name
 
 
-class Impact(GenericElement):
+class Impact(GenericElement, SourcesMixin):
     impact_type = CharField(
         max_length=64,
         choices=IMPACT_TYPES,

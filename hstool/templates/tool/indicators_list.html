@@ -1,0 +1,42 @@
+{% extends 'tool/_list_as_table.html' %}
+
+{% block title %}Indicators list{% endblock %}
+
+{% block content %}
+	<div class="container-fluid">
+		</br>
+		<a class="btn btn-primary" href="{% url 'indicators:add' %}">Add Indicator</a>
+		</br>
+
+		<table id ="objects_listing" class="table table-condensed table-bordered table-hover">
+			<thead>
+			<tr>
+				<th>Title</th>
+				<th>Thematic category</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th>Added by</th>
+				<th>Status</th>
+				<th></th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for indicator in indicators %}
+				<tr>
+					<td><a href="{% url 'indicators:update' indicator.id %}">{{ indicator.name }}</a></td>
+					<td>{{ indicator.theme }}</td>
+					<td>{{ indicator.start_date }}</td>
+					<td>{{ indicator.end_date }}</td>
+					<td>{{ indicator.author_id }}</td>
+					<td>{{ indicator.draft|yesno:"Draft,Published" }}</td>
+					<td>
+						<a id="delete" href="{% url 'indicators:delete' indicator.id %}">
+							<span class="glyphicon glyphicon-remove"></span> Delete
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

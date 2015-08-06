@@ -140,7 +140,7 @@ d3.json("relations", function(error, graph) {
         .attr("x", function(d) { return node_x(d) })
         .attr("y", function(d) { return node_y(d) });
 
-    var insertFigures = function (d) {
+    /*var insertFigures = function (d) {
         var el = d3.select(this);
         if (d.figures.length > 0) {
             d.figures.slice(0, 4).forEach( function(figure) {
@@ -170,7 +170,7 @@ d3.json("relations", function(error, graph) {
         .style("font-size", title_font_size)
         .attr("x", function(d) { return node_x(d) + 5 })
         .attr("y", function(d) { return node_y(d) + ge_height/12 + ge_height/3 })
-        .each(insertFigures);
+        .each(insertFigures);*/
 
     var title_tooltip = false;
     var nodes_title = nodes
@@ -300,10 +300,10 @@ d3.json("relations", function(error, graph) {
             .attr("y", function(d) { return node_y(d) + ge_height/12 + 5 });
 
         svg.selectAll("tspan").remove();
-        nodes_figures
+        /*nodes_figures
             .attr("x", function(d) { return node_x(d) + 5 })
             .attr("y", function(d) { return node_y(d) + ge_height/12 + ge_height/3 })
-            .each(insertFigures);
+            .each(insertFigures);*/
         nodes_subtitle_rect
             .attr("x", function(d) { return node_x(d) })
             .attr("y", function(d) { return node_y(d) + ge_height/6 });

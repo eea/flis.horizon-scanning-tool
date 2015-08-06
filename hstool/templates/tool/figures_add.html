@@ -2,14 +2,12 @@
 {% load custom_filters %}
 {% load widget_tweaks %}
 
-{% block title %}Add/Edit Indicator, Fact and Figure{% endblock %}
+{% block title %}Add/Edit Fact or Figure{% endblock %}
 
 {% block content %}
 	<div class="container-fluid" id="view">
 
-		<h2 class="page-header">Add/Edit Indicator, Fact and Figure</h2>
-
-		{{ form.errors }}
+		<h2 class="page-header">Add/Edit Fact or Figure</h2>
 
 		<form method="POST" class="form-horizontal" enctype="multipart/form-data">
 			{% csrf_token %}
@@ -22,11 +20,6 @@
 				</div>
 			</div>
 
-			<div class="form-group">
-				 <input type="checkbox" name="is_indicator" value="is_indicator">
-					<label class="col-sm-2 control-label">{{ form.is_indicator|label }}
-					</label>
-			</div>
 
 			<div class="form-group">
 				<label class="col-sm-2 control-label">{{ form.theme|label }}

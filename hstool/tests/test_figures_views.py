@@ -9,7 +9,7 @@ from .factories import (
     UserFactory, FigureFactory, EnvironmentalThemeFactory
 )
 from . import HSWebTest, MEDIA_ROOT_TEST
-from hstool.models import FigureIndicator
+from hstool.models import Figure
 
 REQUIRED = ['This field is required.']
 FILETYPE = ['File type not supported: text/x-rst']
@@ -49,11 +49,7 @@ class FiguresList(HSWebTest):
             figure.url
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(8)').text(),
-            figure.is_indicator
-        )
-        self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(9) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(8) a').attr('href'),
             reverse('figures:delete', args=(figure.pk, ))
         )
 
@@ -61,7 +57,7 @@ class FiguresList(HSWebTest):
         figure1 = FigureFactory()
         theme = EnvironmentalThemeFactory(title='title')
         figure2 = FigureFactory(author_id='a2', name='title2', theme=theme,
-                                is_indicator='yes', file='file2', url='url2')
+                                file='file2', url='url2')
         resp = self.app.get(self.url, user=self.admin)
         self.assertEqual(resp.pyquery('#objects_listing tbody tr').size(), 2)
         self.assertEqual(
@@ -89,11 +85,7 @@ class FiguresList(HSWebTest):
             figure1.url
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(8)').text(),
-            figure1.is_indicator
-        )
-        self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(9) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(8) a').attr('href'),
             reverse('figures:delete', args=(figure1.pk, ))
         )
         self.assertEqual(
@@ -121,11 +113,7 @@ class FiguresList(HSWebTest):
             figure2.url
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(8)').text(),
-            figure2.is_indicator
-        )
-        self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(9) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(8) a').attr('href'),
             reverse('figures:delete', args=(figure2.pk, ))
         )
 
@@ -201,8 +189,8 @@ class FiguresAdd(HSWebTest):
         theme = EnvironmentalThemeFactory(title='title')
         self.form['theme'].select(text=theme.title)
         self.form.submit()
-        self.assertEqual(len(FigureIndicator.objects.all()), 1)
-        figure = FigureIndicator.objects.first()
+        self.assertEqual(len(Figure.objects.all()), 1)
+        figure = Figure.objects.first()
         self.assertEqual(figure.name, 'a')
         self.assertEqual(figure.file.name.split('/')[-1], 'b.pdf')
 
@@ -274,8 +262,8 @@ class FiguresUpdate(HSWebTest):
         self.form['theme'].select(text=theme.title)
         self.form['file'] = Upload('b.pdf', b'data', 'application/pdf')
         self.form.submit()
-        self.assertEqual(len(FigureIndicator.objects.all()), 1)
-        figure = FigureIndicator.objects.first()
+        self.assertEqual(len(Figure.objects.all()), 1)
+        figure = Figure.objects.first()
         self.assertEqual(figure.name, 'a')
         self.assertEqual(figure.file.name.split('/')[-1], 'b.pdf')
 
@@ -295,4 +283,4 @@ class FiguresDelete(HSWebTest):
     def test_deletion(self):
         resp = self.form.submit().follow()
         self.assertEqual(resp.status_code, 200)
-        self.assertQuerysetEqual(FigureIndicator.objects.all(), [])
+        self.assertQuerysetEqual(Figure.objects.all(), [])

@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 
 from .factories import (
     UserFactory, AssessmentFactory, DriverFactory, FigureFactory,
-    SourceFactory, GeoScopeFactory, CountryFactory,
+    SourceFactory, GeoScopeFactory, CountryFactory, ImpactFactory,
     EnvironmentalThemeFactory, RelationFactory,
 )
 from . import HSWebTest
@@ -138,10 +138,10 @@ class RelationsUpdateViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
         assessment = AssessmentFactory(author_id=self.user.username)
-        figureindicator = FigureFactory()
+        impact = ImpactFactory()
         driver = DriverFactory()
         relation = RelationFactory(
-            assessment=assessment, source=driver, destination=figureindicator
+            assessment=assessment, source=driver, destination=impact
         )
         self.url = reverse('relations:update',
                            args=(assessment.pk, relation.pk))
@@ -169,10 +169,10 @@ class RelationsDeleteViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
         assessment = AssessmentFactory(author_id=self.user.username)
-        figureindicator = FigureFactory()
+        impact = ImpactFactory()
         driver = DriverFactory()
         relation = RelationFactory(
-            assessment=assessment, source=driver, destination=figureindicator
+            assessment=assessment, source=driver, destination=impact
         )
         self.url = reverse('relations:delete',
                            args=(assessment.pk, relation.pk))

@@ -23,7 +23,7 @@
 			{% for implication in implications %}
 				<tr>
 					<td>
-						<a href="{% url 'implications:update' implication.id %}">{{ implication.title }}</a>
+						<a href="{% url 'implications:update' implication.id %}">{{ implication.name }}</a>
 					</td>
 					<td>{{ implication.policy_area|default_if_none:'' }}</td>
 					<td>{{ implication.author_id }}</td>

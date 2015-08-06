@@ -31,6 +31,16 @@ drivers_urls = patterns(
     url(r'^delete/(?P<pk>\d+)/$', views.DriversDelete.as_view(), name='delete'),
 )
 
+indicators_urls = patterns(
+    '',
+    url(r'^list/$', views.IndicatorsList.as_view(), name='list'),
+    url(r'^add/$', views.IndicatorsAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.IndicatorsUpdate.as_view(),
+        name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.IndicatorsDelete.as_view(),
+        name='delete'),
+)
+
 implications_urls = patterns(
     '',
     url(r'^list/$', views.ImplicationsList.as_view(), name='list'),
@@ -59,6 +69,7 @@ impacts_urls = patterns(
 
 assessments_urls = patterns(
     '',
+    url(r'^list/$', views.AssessmentsList.as_view(), name='list'),
     url(r'^add/$', views.AssessmentsAdd.as_view(), name='add'),
     url(r'^detail/(?P<pk>\d+)/$', views.AssessmentsDetail.as_view(),
         name='detail'),
@@ -90,9 +101,16 @@ modals_urls = patterns(
         name='view_figure'),
 )
 
+entries_urls = patterns(
+    '',
+    url(r'$', views.UserEntriesView.as_view(), name='list'),
+
+    url(r'^delete/(?P<pk>\d+)/$', views.UserEntriesDelete.as_view(), name='delete'),
+)
+
 urlpatterns = patterns(
     '',
-    url(r'^$', views.AssessmentsList.as_view(), name='home_view'),
+    url(r'^$', views.HomeView.as_view(), name='home_view'),
 
     url(r'^assessments/', include(assessments_urls, namespace='assessments')),
 
@@ -107,6 +125,8 @@ urlpatterns = patterns(
 
     url(r'^implications/', include(implications_urls, namespace='implications')),
 
+    url(r'^indicators/', include(indicators_urls, namespace='indicators')),
+
     url(r'^figures/', include(figures_urls, namespace='figures')),
 
     url(r'^impacts/', include(impacts_urls, namespace='impacts')),
@@ -114,6 +134,8 @@ urlpatterns = patterns(
     url(r'^modals/', include(modals_urls, namespace='modals')),
 
     url(r'^_lastseencount/$', 'frame.utils.get_objects_from_last_seen_count'),
+
+    url(r'^entries/', include(entries_urls, namespace='entries')),
 
     url(r'^admin/', include(admin.site.urls)),
 

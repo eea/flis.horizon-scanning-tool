@@ -1,10 +1,11 @@
 from factory.django import DjangoModelFactory
 from factory import SubFactory
+from datetime import  date
 
 from django.contrib.auth.models import User
 
 from hstool.models import (
-    Assessment, DriverOfChange, FigureIndicator, Source, Relation,
+    Assessment, DriverOfChange, Figure, Indicator, Source, Relation,
     Implication, Impact,
 )
 from flis_metadata.common.models import (
@@ -49,7 +50,6 @@ class DriverFactory(DjangoModelFactory):
     short_name = 'short name'
     name = 'long name'
     type = 1
-    trend_type = 1
     steep_category = 'P'
     time_horizon = 1
 
@@ -58,7 +58,7 @@ class SourceFactory(DjangoModelFactory):
     FACTORY_FOR = Source
 
     author_id = 'author_id'
-    title = 'title'
+    name = 'title'
     title_original = 'title_original'
     published_year = 1000
     author = 'author'
@@ -68,14 +68,14 @@ class SourceFactory(DjangoModelFactory):
 
 
 class FigureFactory(DjangoModelFactory):
-    FACTORY_FOR = FigureIndicator
+    FACTORY_FOR = Figure
 
     author_id = 'author_id'
-    is_indicator = 'yes'
     name = 'name'
     file = 'file'
     theme = SubFactory(EnvironmentalThemeFactory)
     url = 'url'
+
 
 class RelationFactory(DjangoModelFactory):
     FACTORY_FOR = Relation
@@ -88,7 +88,7 @@ class ImplicationFactory(DjangoModelFactory):
     FACTORY_FOR = Implication
 
     author_id = 'author_id'
-    title = 'title'
+    name = 'title'
     description = 'description'
 
 
@@ -98,3 +98,12 @@ class ImpactFactory(DjangoModelFactory):
     short_name = 'short name'
     name = 'long name'
     description = 'description'
+
+
+class IndicatorFactory(DjangoModelFactory):
+    FACTORY_FOR = Indicator
+
+    name = 'title'
+    theme = SubFactory(EnvironmentalThemeFactory)
+    end_date = '2015-11-11'
+    start_date = '2015-11-11'

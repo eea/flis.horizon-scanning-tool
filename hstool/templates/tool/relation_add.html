@@ -6,13 +6,12 @@
   <script>
     function add_hide_all() {
       $('[data-show-if=show-impacts]').addClass('hide');
-      $('[data-show-if=show-figureindicators]').addClass('hide');
       $('[data-show-if=show-drivers]').addClass('hide');
     }
 
     function deselect(type) {
-      var list = ['figureindicator', 'driver', 'impact'];
-      for (i = 0; i < len(list); i++) {
+      var list = ['driver', 'impact'];
+      for (i = 0; i < list.length; i++) {
         if (list[i] != type) {
           $('#id_'+list[i]).prop('selectedIndex', 0);
         }
@@ -27,7 +26,6 @@
     $(window).load(function() {
       $(':checkbox').change(function () {
         var driver_checkbox = document.getElementById("id_check_driver");
-        var figureindicator_checkbox = document.getElementById("id_check_figureindicator");
         var impact_checkbox = document.getElementById("id_check_impact");
 
         $(':checkbox').not(this).prop('checked', false);
@@ -36,11 +34,6 @@
         if (driver_checkbox.checked) {
           $('[data-show-if=show-drivers]').removeClass('hide');
           deselect('driver');
-        }
-
-        if (figureindicator_checkbox.checked) {
-          $('[data-show-if=show-figureindicators]').removeClass('hide');
-          deselect('figureindicator');
           clean_fields();
         }
 
@@ -50,11 +43,6 @@
           clean_fields();
         }
       }).change();
-
-      if ({{ show_figure_indicator_check }}) {
-        document.getElementById("id_check_figureindicator").checked = true;
-        $('[data-show-if=show-figureindicators]').removeClass('hide');
-      }
 
       if ({{ show_driver_of_change_check }}) {
         document.getElementById("id_check_driver").checked = true;
@@ -82,7 +70,7 @@
     <form method="POST" class="form-horizontal">
       {% csrf_token %}
       <p>
-        A relation is a link between a driver of change and another item, which can be another driver of change, an impact or a supporting item (indicator, fact, figure).
+        A relation is a link between a driver of change and another item, which can be another driver of change or an impact.
       </p>
 
       <fieldset class="well">
@@ -158,23 +146,6 @@
           </div>
         </div>
 
-        <div data-show-if="show-figureindicators">
-          <div class="form-group">
-            <div class="col-sm-6">
-              {% render_field form.figureindicator class='form-control' %}
-              {{ form.figureindicator.errors }}
-            </div>
-          </div>
-          <div class="form-group">
-            <p class="col-sm-4">
-              Is your indicator, fact or figure missing from the list?
-            </p>
-            <a class="btn btn-primary" href="{% url 'figures:add' %}" target="_blank">
-              Add new indicator, fact and figure
-            </a>
-          </div>
-        </div>
-
         <div data-show-if="show-impacts">
           <div class="form-group">
             <div class="col-sm-6">
@@ -194,57 +165,80 @@
 
       </fieldset>
 
-        <div data-show-if="show-drivers">
-            <fieldset class="well">
-                <div class="form-group">
-                    <label class="col-sm-6">{{ form.relationship_type|label }}
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-6">
-                    {% render_field form.relationship_type class='form-control' %}
-                    {{ form.relationship_type.errors }}
-                    </div>
-                </div>
-                  <div class="form-group">
-                      <label class="col-sm-6"> {{ form.description|label }}
-                        </label>
-                  </div>
-
-                <div class="form-group">
-                  <div class="col-sm-6">
-                    {% render_field form.description class='form-control' %}
-                    {{ form.description.errors}}
-                  </div>
-                </div>
-             </fieldset>
+      <fieldset class="well">
+        <legend>Description</legend>
+        <div class="form-group">
+          <label class="col-sm-6">{{ form.relationship_type|label }}
+          </label>
         </div>
 
-       <fieldset class="well">
         <div class="form-group">
-          <label class="col-sm-6">{{ form.figureindicators|label }}
+          <div class="col-sm-6">
+            {% render_field form.relationship_type class='form-control' %}
+            {{ form.relationship_type.errors }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-6"> {{ form.description|label }}
+          </label>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-6">
+            {% render_field form.description class='form-control' %}
+            {{ form.description.errors}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-6">{{ form.figures|label }}
           </label>
         </div>
         <div class="form-group">
           <div class="col-sm-6">
-            {% render_field form.figureindicators class='form-control' %}
-            {{ form.figureindicators.errors}}
+            {% render_field form.figures class='form-control' %}
+            {{ form.figures.errors}}
           </div>
         </div>
 
         <div class="form-group">
           <p class="col-sm-4">
-            Is your indicator, fact or figure missing from the list?
+            Is your fact or figure missing from the list?
           </p>
           <div class="col-sm-2">
             <a class="btn btn-primary" href="{% url 'figures:add' %}" target="_blank">
               <span class="glyphicon glyphicon-plus"></span> &nbsp;
-              Add new indicator, fact or figure
+              Add new fact or figure
             </a>
           </div>
         </div>
       </fieldset>
+
+      <fieldset class="well">
+        <div class="form-group">
+          <label class="col-sm-6">{{ form.indicators|label }}
+          </label>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-6">
+            {% render_field form.indicators class='form-control' %}
+            {{ form.indicators.errors}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <p class="col-sm-4">
+            Is your indicator from the list?
+          </p>
+          <div class="col-sm-2">
+            <a class="btn btn-primary" href="{% url 'indicators:add' %}" target="_blank">
+              <span class="glyphicon glyphicon-plus"></span> &nbsp;
+              Add new indicator
+            </a>
+          </div>
+        </div>
+      </fieldset>
+
 
       <div class="form-actions">
         <div class="col-sm-offset-2">

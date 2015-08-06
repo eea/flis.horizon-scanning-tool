@@ -3,16 +3,22 @@
 {% block title %}Assessments list{% endblock %}
 
 {% block content %}
+
+  <div class="container-fluid">
+    <div class="page-header">
+      <p> About assessments </p>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <img src="/static/dummy.png"/>
+  </div>
+
   <div class="container-fluid">
     </br>
-    {% if not user.is_authenticated %}
-      <p>The application is not available to anonymous users, please login.</p>
-    {% else %}
-      {% if perms.hstool.create %}
       <a class="btn btn-primary" href="{% url 'assessments:add' %}">
         Add Assessment</a>
-      </br>
-      {% endif %}
+    </br>
 
       <table id="objects_listing"
              class="table table-condensed table-bordered table-hover">
@@ -45,6 +51,5 @@
         {% endfor %}
         </tbody>
       </table>
-    {% endif %}
   </div>
 {% endblock %}

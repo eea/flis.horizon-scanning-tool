@@ -25,7 +25,7 @@ class SourcesList(HSWebTest):
         self.assertEqual(resp.pyquery('#objects_listing tbody tr').size(), 1)
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(0) a').text(),
-            source1.title
+            source1.name
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(0) a').attr('href'),
@@ -50,14 +50,14 @@ class SourcesList(HSWebTest):
 
     def test_two_sources(self):
         source1 = SourceFactory()
-        source2 = SourceFactory(author_id='a', title='b', title_original='c',
+        source2 = SourceFactory(author_id='a', name='b', title_original='c',
                                 published_year=2000, author='d', url='e',
                                 file='f', summary='g')
         resp = self.app.get(self.url, user=self.admin)
         self.assertEqual(resp.pyquery('#objects_listing tbody tr').size(), 2)
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(0) a').text(),
-            source1.title
+            source1.name
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(0) a')
@@ -83,7 +83,7 @@ class SourcesList(HSWebTest):
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(0) a').text(),
-            source2.title
+            source2.name
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(0) a')
@@ -118,17 +118,16 @@ class SourcesAdd(HSWebTest):
 
     def test_fields_required(self):
         resp = self.form.submit()
-        self.assertFormError(resp, 'form', 'title', REQUIRED)
+        self.assertFormError(resp, 'form', 'name', REQUIRED)
         self.assertFormError(resp, 'form', 'title_original', REQUIRED)
         self.assertFormError(resp, 'form', 'published_year', REQUIRED)
         self.assertFormError(resp, 'form', 'author', REQUIRED)
-        self.assertFormError(resp, 'form', 'url', REQUIRED)
         self.assertFormError(resp, 'form', 'file', REQUIRED)
         self.assertFormError(resp, 'form', 'summary', REQUIRED)
 
     @override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
     def test_successfully_added(self):
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         self.form['title_original'] = 'b'
         self.form['published_year'] = '2000'
         self.form['author'] = 'd'
@@ -140,7 +139,7 @@ class SourcesAdd(HSWebTest):
         self.assertEqual(len(Source.objects.all()), 1)
         source = Source.objects.first()
         self.assertEqual(source.author_id, self.user.username)
-        self.assertEqual(source.title, 'a')
+        self.assertEqual(source.name, 'a')
         self.assertEqual(source.title_original, 'b')
         self.assertEqual(source.published_year, 2000)
         self.assertEqual(source.author, 'd')
@@ -162,7 +161,7 @@ class SourcesUpdate(HSWebTest):
         self.form = resp.forms[0]
 
     def test_existing_field_values(self):
-        self.assertEqual(self.form['title'].value, self.source.title)
+        self.assertEqual(self.form['name'].value, self.source.name)
         self.assertEqual(self.form['title_original'].value,
                          self.source.title_original)
         self.assertEqual(self.form['published_year'].value,
@@ -173,7 +172,7 @@ class SourcesUpdate(HSWebTest):
 
     @override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
     def test_successfully_updated(self):
-        self.form['title'] = 'a'
+        self.form['name'] = 'a'
         self.form['title_original'] = 'b'
         self.form['published_year'] = '2000'
         self.form['author'] = 'd'
@@ -185,7 +184,7 @@ class SourcesUpdate(HSWebTest):
         self.assertEqual(len(Source.objects.all()), 1)
         source = Source.objects.first()
         self.assertEqual(source.author_id, self.user.username)
-        self.assertEqual(source.title, 'a')
+        self.assertEqual(source.name, 'a')
         self.assertEqual(source.title_original, 'b')
         self.assertEqual(source.published_year, 2000)
         self.assertEqual(source.author, 'd')

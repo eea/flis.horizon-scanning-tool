@@ -12,7 +12,7 @@ REQUIRED = ['This field is required.']
 class AssessmentsList(HSWebTest):
     def setUp(self):
         self.admin = UserFactory(is_superuser=True)
-        self.url = reverse('home_view')
+        self.url = reverse('assessments:list')
 
     def test_one_assessment(self):
         assessment1 = AssessmentFactory()
