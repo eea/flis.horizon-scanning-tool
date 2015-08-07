@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.forms import ModelChoiceField
 from django.forms.extras.widgets import SelectDateWidget
+from datetime import datetime
 
 from hstool.models import (
     Source, DriverOfChange, Figure, Indicator,
@@ -258,8 +259,6 @@ class IndicatorForm(GeoScopeForm):
         self.fields['theme'].queryset = (
             EnvironmentalTheme.objects.filter(is_deleted=False)
         )
-        self.fields['start_date'].widget = SelectDateWidget()
-        self.fields['end_date'].widget = SelectDateWidget()
 
     class Meta:
         model = Indicator
