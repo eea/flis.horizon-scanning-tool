@@ -36,11 +36,11 @@ class IndicatorsList(HSWebTest):
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(2)').text(),
-            '11 Nov. 2015'
+            '11 November 2015'
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(3)').text(),
-            '11 Nov. 2015'
+            '11 November 2015'
         )
 
         self.assertEqual(
@@ -74,11 +74,11 @@ class IndicatorsList(HSWebTest):
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(2)').text(),
-            '11 Nov. 2015'
+            '11 November 2015'
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(3)').text(),
-            '11 Nov. 2015'
+            '11 November 2015'
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(4)').text(),
@@ -103,11 +103,11 @@ class IndicatorsList(HSWebTest):
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(2)').text(),
-            '11 Nov. 2015'
+            '11 November 2015'
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(3)').text(),
-            '11 Nov. 2015'
+            '11 November 2015'
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(4)').text(),
@@ -149,9 +149,7 @@ class IndicatorsAdd(HSWebTest):
         form = resp.forms[0]
         form['theme'].select(text=theme.title)
         form['name'] = 'a'
-        form['end_date_year'].select(text='2015')
-        form['end_date_month'].select(text='November')
-        form['end_date_day'].select(text='11')
+        form['end_date'] = '11 November 2015'
         resp = form.submit()
         self.assertRedirects(resp, reverse('indicators:list'))
 
@@ -176,9 +174,7 @@ class IndicatorsUpdate(HSWebTest):
         theme = EnvironmentalThemeFactory()
         self.form['theme'].select(text=theme.title)
         self.form['name'] = 'a'
-        self.form['end_date_year'].select(text='2015')
-        self.form['end_date_month'].select(text='November')
-        self.form['end_date_day'].select(text='11')
+        self.form['end_date'] = '11 November 2015'
         resp = self.form.submit()
         self.assertRedirects(resp, reverse('indicators:list'))
         self.assertEqual(len(Indicator.objects.all()), 1)
