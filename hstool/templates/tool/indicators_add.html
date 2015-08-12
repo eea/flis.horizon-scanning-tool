@@ -24,15 +24,7 @@
   });
 
   $(function() {
-    $('#datetimepicker1').datetimepicker({
-      language: 'en',
-      pickTime: false,
-      format: 'DD MMMM YYYY',
-	});
-  });
-
-  $(function() {
-    $('#datetimepicker2').datetimepicker({
+    $('.datetimepicker').datetimepicker({
       language: 'en',
       pickTime: false,
       format: 'DD MMMM YYYY',
@@ -101,7 +93,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">{{ form.start_date|label }}
           </label>
-            <div class="controls col-sm-4" id="datetimepicker1">
+            <div class="controls col-sm-4 datetimepicker">
               {% render_field form.start_date class='form-control' %}
               {{ form.start_date.errors }}
             </div>
@@ -110,7 +102,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">{{ form.end_date|label }}
           </label>
-          <div class="controls col-sm-4" id="datetimepicker2">
+          <div class="controls col-sm-4 datetimepicker">
             {% render_field form.end_date class='form-control' %}
             {{ form.end_date.errors }}
           </div>
