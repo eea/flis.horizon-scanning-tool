@@ -73,13 +73,16 @@ class SourceForm(ModelForm):
     def clean(self):
         cleaned_data = super(SourceForm, self).clean()
         try:
-            year = int(self.cleaned_data['published_year'])
-            if not year in range(1000, 9999):
+            self._errors['published_year']
+        except KeyError:
+            try:
+                year = int(cleaned_data['published_year'])
+                if year not in range(1000, 9999):
+                    self._errors['published_year'] = "This field must be an year."
+                    del cleaned_data['published_year']
+            except ValueError:
                 self._errors['published_year'] = "This field must be an year."
                 del cleaned_data['published_year']
-        except ValueError:
-            self._errors['published_year'] = "This field must be an year."
-            del cleaned_data['published_year']
         return cleaned_data
 
 

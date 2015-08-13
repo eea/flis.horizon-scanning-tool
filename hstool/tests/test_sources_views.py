@@ -51,7 +51,7 @@ class SourcesList(HSWebTest):
     def test_two_sources(self):
         source1 = SourceFactory()
         source2 = SourceFactory(author_id='a', name='b', title_original='c',
-                                published_year=2000, author='d', url='e',
+                                published_year='2000', author='d', url='e',
                                 file='f', summary='g')
         resp = self.app.get(self.url, user=self.admin)
         self.assertEqual(resp.pyquery('#objects_listing tbody tr').size(), 2)
@@ -119,11 +119,8 @@ class SourcesAdd(HSWebTest):
     def test_fields_required(self):
         resp = self.form.submit()
         self.assertFormError(resp, 'form', 'name', REQUIRED)
-        self.assertFormError(resp, 'form', 'title_original', REQUIRED)
         self.assertFormError(resp, 'form', 'published_year', REQUIRED)
         self.assertFormError(resp, 'form', 'author', REQUIRED)
-        self.assertFormError(resp, 'form', 'file', REQUIRED)
-        self.assertFormError(resp, 'form', 'summary', REQUIRED)
 
     @override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
     def test_successfully_added(self):
@@ -141,7 +138,7 @@ class SourcesAdd(HSWebTest):
         self.assertEqual(source.author_id, self.user.username)
         self.assertEqual(source.name, 'a')
         self.assertEqual(source.title_original, 'b')
-        self.assertEqual(source.published_year, 2000)
+        self.assertEqual(source.published_year, '2000')
         self.assertEqual(source.author, 'd')
         self.assertEqual(source.url, 'e')
         self.assertEqual(source.file.name.split('/')[-1], 'b.pdf')
@@ -186,7 +183,7 @@ class SourcesUpdate(HSWebTest):
         self.assertEqual(source.author_id, self.user.username)
         self.assertEqual(source.name, 'a')
         self.assertEqual(source.title_original, 'b')
-        self.assertEqual(source.published_year, 2000)
+        self.assertEqual(source.published_year, '2000')
         self.assertEqual(source.author, 'd')
         self.assertEqual(source.url, 'e')
         self.assertEqual(source.file.name.split('/')[-1], 'b.pdf')
