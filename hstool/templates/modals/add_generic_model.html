@@ -14,12 +14,12 @@
 				</div>
 			{% else %}
 				<div class="col-sm-6">
-        		{% if field|is_filefield %}
-            		{{ field }}
-        		{% else %}
-            		{% render_field field class="form-control" %}
-        		{% endif %}
-        		{{ field.errors }}
+        				{% if field|is_filefield %}
+	            				{{ field }}
+        				{% else %}
+        	    				{% render_field field class="form-control" %}
+        				{% endif %}
+        				{{ field.errors }}
 				</div>
 			{% endif %}
 		</div>
