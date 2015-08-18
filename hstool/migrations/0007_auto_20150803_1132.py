@@ -42,10 +42,6 @@ class Migration(migrations.Migration):
         ),
         migrations.RemoveField(
             model_name='figureindicator',
-            name='genericelement_ptr',
-        ),
-        migrations.RemoveField(
-            model_name='figureindicator',
             name='theme',
         ),
         migrations.RemoveField(
@@ -63,6 +59,10 @@ class Migration(migrations.Migration):
         migrations.RemoveField(
             model_name='relation',
             name='figureindicators',
+        ),
+        migrations.RemoveField(
+            model_name='figureindicator',
+            name='genericelement_ptr',
         ),
         migrations.DeleteModel(
             name='FigureIndicator',

@@ -102,11 +102,11 @@ class GenericElement(Model):
 
 
 class Source(GenericElement):
-    title_original = CharField(max_length=512)
-    published_year = IntegerField()
+    title_original = CharField(max_length=512, null=True, blank=True)
+    published_year = CharField(max_length=4)
     author = CharField(max_length=512)
-    file = FileField(upload_to=path_and_rename_sources)
-    summary = TextField(max_length=2048)
+    file = FileField(upload_to=path_and_rename_sources, null=True, blank=True)
+    summary = TextField(max_length=2048, null=True, blank=True)
 
     def __unicode__(self):
         return self.name
