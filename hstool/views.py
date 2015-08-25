@@ -16,7 +16,8 @@ from hstool.definitions import CANONICAL_ROLES
 
 from hstool.models import (
     Source, DriverOfChange, Figure, Indicator,
-    Assessment, Relation, Implication, Impact, GenericElement,SteepCategory,
+    Assessment, Relation, Implication, Impact, GenericElement, SteepCategory,
+    DriverOfChangeType
 )
 from flis_metadata.common.models import GeographicalScope
 
@@ -24,7 +25,7 @@ from hstool.forms import (
     SourceForm, DriverForm,
     FigureForm, AssessmentForm, RelationForm,
     ImplicationForm, ImpactForm, IndicatorForm,
-    IndicatorFilesFormset, SteepCategoryForm
+    IndicatorFilesFormset, SteepCategoryForm, DriverTypeForm
 )
 from hstool.utils import get_nodes_from_components
 
@@ -634,3 +635,28 @@ class SteepCategoryDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'object_delete.html'
     model = SteepCategory
     success_url = reverse_lazy('settings:metadata:steep_category:list')
+
+
+class DriverTypeView(LoginRequiredMixin, ListView):
+    template_name = 'settings/doc_list.html'
+    model = DriverOfChangeType
+    context_object_name = 'doc_types'
+
+
+class DriverTypeAdd(AuthorMixin, LoginRequiredMixin, CreateView):
+    template_name = 'settings/doc_add.html'
+    form_class = DriverTypeForm
+    success_url = reverse_lazy('settings:metadata:doc_type:list')
+
+
+class DriverTypeUpdate(OwnerRequiredMixin, UpdateView):
+    template_name = 'settings/doc_add.html'
+    model = DriverOfChangeType
+    form_class = DriverTypeForm
+    success_url = reverse_lazy('settings:metadata:doc_type:list')
+
+
+class DriverTypeDelete(OwnerRequiredMixin, DeleteView):
+    template_name = 'object_delete.html'
+    model = DriverOfChangeType
+    success_url = reverse_lazy('settings:metadata:doc_type:list')

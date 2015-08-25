@@ -8,17 +8,26 @@ from hstool import views
 
 admin.autodiscover()
 
+doc_type_urls = patterns(
+    '',
+    url(r'^list/$', views.DriverTypeView.as_view(), name='list'),
+    url(r'^add/$', views.DriverTypeAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.DriverTypeUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.DriverTypeDelete.as_view(), name='delete'),
+)
+
 steep_category_urls = patterns(
     '',
     url(r'^list/$', views.SteepCategoryView.as_view(), name='list'),
     url(r'^add/$', views.SteepCategoryAdd.as_view(), name='add'),
     url(r'^update/(?P<pk>\d+)/$', views.SteepCategoryUpdate.as_view(), name='update'),
-    url(r'^delete/(?P<pk>\d+)/$', views.SteepCategoryDelete.as_view(), name='delete')
+    url(r'^delete/(?P<pk>\d+)/$', views.SteepCategoryDelete.as_view(), name='delete'),
 )
 
 metadata_urls = patterns(
     '',
     url(r'^steep_category/', include(steep_category_urls, namespace='steep_category')),
+    url(r'^doc_type/', include(doc_type_urls, namespace='doc_type')),
 )
 
 settings_urls = patterns(

@@ -1,0 +1,30 @@
+[
+  {
+    "model": "hstool.driverofchangetype",
+    "pk": 1,
+    "fields": {
+      "title": "Trends"
+    }
+  },
+  {
+    "model": "hstool.driverofchangetype",
+    "pk": 2,
+    "fields": {
+      "title": "Uncertainties"
+    }
+  },
+  {
+    "model": "hstool.driverofchangetype",
+    "pk": 3,
+    "fields": {
+      "title": "Wild Cards"
+    }
+  },
+  {
+    "model": "hstool.driverofchangetype",
+    "pk": 4,
+    "fields": {
+      "title": "Weak signals"
+    }
+  }
+]

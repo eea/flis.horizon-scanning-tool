@@ -2,12 +2,12 @@
 {% load custom_filters %}
 {% load widget_tweaks %}
 
-{% block title %}Add/Edit STEEP Category{% endblock %}
+{% block title %}Add/Edit Driver of Change type{% endblock %}
 
 {% block content %}
   <div class="container-fluid" id="view">
 
-    <h2 class="page-header">Add/Edit STEEP Category</h2>
+    <h2 class="page-header">Add/Edit Driver of Change type</h2>
 
     <form method="POST" class="form-horizontal" enctype="multipart/form-data">
       {% csrf_token %}
@@ -22,14 +22,6 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="col-sm-2 control-label">{{ form.short_title|label }}
-          </label>
-          <div class="controls col-sm-4">
-            {% render_field form.short_title class='form-control' %}
-            {{ form.short_title.errors }}
-          </div>
-        </div>
 	  </fieldset>
 
 	  <div class="form-actions">
@@ -37,7 +29,7 @@
 		  <button type="submit" name="draft" value="false" class="btn btn-primary">
 			  Save</button>
 
-		  <a href="{% url 'settings:metadata:steep_category:list' %}"
+		  <a href="{% url 'settings:metadata:doc_type:list' %}"
 		    class="btn btn-link" role="button">Cancel</a>
 	    </div>
       </div>

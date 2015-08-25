@@ -1,0 +1,38 @@
+{% extends 'settings/metadata.html' %}
+
+{% block content %}
+
+  <h3>Driver of Change types</h3>
+
+   </br>
+     <a class="btn btn-primary" href="{% url 'settings:metadata:doc_type:add' %}">
+       Add new Driver of Change type</a>
+   </br>
+
+  <table id="objects_listing"
+             class="table table-condensed table-bordered table-hover">
+        <thead>
+        <tr>
+          <th>Title</th>
+		  <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for doc_type in doc_types %}
+          <tr>
+            <td>
+			  <a href="{% url 'settings:metadata:doc_type:update' doc_type.id %}">
+			    {{doc_type.title }} </a>
+			</td>
+			<td>
+			  <a id="delete"
+			    href="{% url 'settings:metadata:doc_type:delete' doc_type.id %}">
+                <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+              </a>
+			</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+{% endblock %}

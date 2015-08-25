@@ -7,7 +7,7 @@ from django.forms.forms import ValidationError
 from django.conf import settings
 
 from hstool.definitions import (
-    DOC_TYPE_CHOICES, DOC_TREND_TYPE_CHOICES,
+    DOC_TREND_TYPE_CHOICES,
     DOC_TIME_HORIZON_CHOICES,
     RELATION_TYPE_CHOICES, DOC_UNCERTAINTIES_TYPE_CHOICES,
     IMPACT_TYPES,
@@ -72,6 +72,14 @@ class FiguresMixin(Model):
 class SteepCategory(Model):
     title = CharField(max_length=64)
     short_title = CharField(max_length=5)
+    author_id = CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.title
+
+
+class DriverOfChangeType(Model):
+    title = CharField(max_length=64)
     author_id = CharField(max_length=64)
 
     def __unicode__(self):
@@ -146,7 +154,7 @@ class IndicatorFiles (Model):
 
 
 class DriverOfChange(GenericElement, FiguresMixin, SourcesMixin):
-    type = IntegerField(choices=DOC_TYPE_CHOICES)
+    type = ForeignKey('DriverOfChangeType', related_name='doc_type')
     trend_type = IntegerField(choices=DOC_TREND_TYPE_CHOICES,
                               default=1)
     uncertainty_type = IntegerField(choices=DOC_UNCERTAINTIES_TYPE_CHOICES,

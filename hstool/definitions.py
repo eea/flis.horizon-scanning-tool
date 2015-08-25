@@ -1,10 +1,3 @@
-DOC_TYPE_CHOICES = (
-    (1, 'Trends'),
-    (2, 'Uncertainties'),
-    (3, 'Wild Cards'),
-    (4, 'Weak signals')
-)
-
 DOC_TREND_TYPE_CHOICES = (
     (1, 'Trend'),
     (2, 'Megatrend'),
