@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 
 from hstool.models import DriverOfChange
 from .factories import (
-    UserFactory, DriverFactory, GeoScopeFactory, SteepCatFactory
+    UserFactory, DriverFactory, GeoScopeFactory, SteepCatFactory, DriverTypeFactory
 )
 from . import HSWebTest
 
@@ -31,7 +31,7 @@ class DriversList(HSWebTest):
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(1)').text(),
-            driver1.get_type_display()
+            driver1.type.title
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(2)').text(),
@@ -53,7 +53,7 @@ class DriversList(HSWebTest):
     def test_two_drivers(self):
         driver1 = DriverFactory(steep_category=SteepCatFactory())
         driver2 = DriverFactory(
-            author_id='a', name='', short_name='shorty', type=2, trend_type=2,
+            author_id='a', name='', short_name='shorty', trend_type=2,
             steep_category=SteepCatFactory(), time_horizon=5,
         )
         resp = self.app.get(self.url, user=self.admin)
@@ -69,7 +69,7 @@ class DriversList(HSWebTest):
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(1)').text(),
-            driver1.get_type_display()
+            driver1.type.title
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(2)').text(),
@@ -98,7 +98,7 @@ class DriversList(HSWebTest):
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(1)').text(),
-            driver2.get_type_display()
+            driver2.type.title
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(2)').text(),
@@ -123,6 +123,7 @@ class DriversAdd(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
         self.steep_category = SteepCatFactory()
+        self.type = DriverTypeFactory()
 
     def test_default_fields_required(self):
         url = reverse('drivers:add')
@@ -150,7 +151,7 @@ class DriversAdd(HSWebTest):
         form = resp.forms[0]
         form['name'] = 'a'
         form['short_name'] = 'b'
-        form['type'].select(text='Trends')
+        form['type'].select(text=self.type.title)
         form['trend_type'].select(text='Trend')
         form['steep_category'].select(text=self.steep_category.title)
         form['time_horizon'].select(text='1 year')
@@ -164,6 +165,7 @@ class DriversUpdate(HSWebTest):
         self.driver = DriverFactory(author_id=self.user.username,
                                     steep_category=SteepCatFactory())
         self.steep_category = SteepCatFactory(title='Political', short_title='P')
+        self.type = DriverTypeFactory(title='Uncertainties')
         url = reverse('drivers:update', args=(self.driver.pk, ))
         resp = self.app.get(url, user=self.user)
         self.form = resp.forms[0]
@@ -171,7 +173,7 @@ class DriversUpdate(HSWebTest):
     def test_existing_field_values(self):
         self.assertEqual(self.form['name'].value, self.driver.name)
         self.assertEqual(self.form['short_name'].value, self.driver.short_name)
-        self.assertEqual(self.form['type'].value, str(self.driver.type))
+        self.assertEqual(self.form['type'].value, str(self.driver.type.id))
         self.assertEqual(self.form['trend_type'].value,
                          str(self.driver.trend_type))
         self.assertEqual(self.form['steep_category'].value,
@@ -182,7 +184,7 @@ class DriversUpdate(HSWebTest):
     def test_successfully_updated(self):
         self.form['name'] = 'a'
         self.form['short_name'] = 'b'
-        self.form['type'].select(text='Uncertainties')
+        self.form['type'].select(text=self.type.title)
         self.form['trend_type'].select(text='Megatrend')
         self.form['steep_category'].select(text=self.steep_category.title)
         self.form['time_horizon'].select(text='5 years')
@@ -193,7 +195,7 @@ class DriversUpdate(HSWebTest):
         self.assertEqual(driver.author_id, self.user.username)
         self.assertEqual(driver.name, 'a')
         self.assertEqual(driver.short_name, 'b')
-        self.assertEqual(driver.type, 2)
+        self.assertEqual(driver.type.id, self.type.id)
         self.assertEqual(driver.trend_type, 2)
         self.assertEqual(driver.steep_category.id, self.steep_category.id)
         self.assertEqual(driver.time_horizon, 5)

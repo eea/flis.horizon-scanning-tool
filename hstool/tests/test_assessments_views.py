@@ -114,7 +114,7 @@ class AssessmentsPreview(HSWebTest):
         self.assessment = AssessmentFactory(author_id=user.username)
         self.driver1 = DriverFactory(steep_category=SteepCatFactory())
         self.driver2 = DriverFactory(
-            author_id='a', name='b', short_name='shorty', type=2, trend_type=2,
+            author_id='a', name='b', short_name='shorty', trend_type=2,
             steep_category=SteepCatFactory(), time_horizon=5,
         )
         self.relation = RelationFactory(
