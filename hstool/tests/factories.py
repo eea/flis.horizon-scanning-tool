@@ -65,6 +65,7 @@ class DriverFactory(DjangoModelFactory):
     short_name = 'short name'
     name = 'long name'
     type = SubFactory(DriverTypeFactory)
+    steep_category = SubFactory(SteepCatFactory)
     time_horizon = 1
 
 

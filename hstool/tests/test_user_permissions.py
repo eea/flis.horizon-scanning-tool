@@ -139,7 +139,7 @@ class RelationsUpdateViewTests(HSWebTest):
         self.user = UserFactory()
         assessment = AssessmentFactory(author_id=self.user.username)
         impact = ImpactFactory()
-        driver = DriverFactory(steep_category= SteepCatFactory())
+        driver = DriverFactory()
         relation = RelationFactory(
             assessment=assessment, source=driver, destination=impact
         )
@@ -170,7 +170,7 @@ class RelationsDeleteViewTests(HSWebTest):
         self.user = UserFactory()
         assessment = AssessmentFactory(author_id=self.user.username)
         impact = ImpactFactory()
-        driver = DriverFactory(steep_category= SteepCatFactory())
+        driver = DriverFactory()
         relation = RelationFactory(
             assessment=assessment, source=driver, destination=impact
         )

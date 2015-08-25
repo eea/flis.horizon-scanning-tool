@@ -18,7 +18,7 @@ class DriversList(HSWebTest):
         self.url = reverse('drivers:list')
 
     def test_one_driver(self):
-        driver1 = DriverFactory(steep_category=SteepCatFactory())
+        driver1 = DriverFactory()
         resp = self.app.get(self.url, user=self.admin)
         self.assertEqual(resp.pyquery('#objects_listing tbody tr').size(), 1)
         self.assertEqual(
@@ -51,10 +51,10 @@ class DriversList(HSWebTest):
         )
 
     def test_two_drivers(self):
-        driver1 = DriverFactory(steep_category=SteepCatFactory())
+        driver1 = DriverFactory()
         driver2 = DriverFactory(
             author_id='a', name='', short_name='shorty', trend_type=2,
-            steep_category=SteepCatFactory(), time_horizon=5,
+            time_horizon=5,
         )
         resp = self.app.get(self.url, user=self.admin)
         self.assertEqual(resp.pyquery('#objects_listing tbody tr').size(), 2)
