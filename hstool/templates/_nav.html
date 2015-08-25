@@ -43,11 +43,13 @@
 
       <li class="divider"></li>
 
-      <li>
+      <li class="{% active 'settings/roles(.*)$' %}">
         <a href="{% url 'settings:roles' %}">Settings - Roles</a>
       </li>
-      <li>
-        <a href="{{ metadata_url }}">Settings - Common metadata</a>
+
+      <li  class="{% active 'settings/metadata(.*)$' %}">
+        <a href="{% url 'settings:metadata:steep_category:list' %}">Settings - Common
+		  metadata</a>
       </li>
     </ul>
   </li>
