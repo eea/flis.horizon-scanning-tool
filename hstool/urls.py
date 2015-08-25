@@ -8,11 +8,25 @@ from hstool import views
 
 admin.autodiscover()
 
+steep_category_urls = patterns(
+    '',
+    url(r'^list/$', views.SteepCategoryView.as_view(), name='list'),
+    url(r'^add/$', views.SteepCategoryAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.SteepCategoryUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.SteepCategoryDelete.as_view(), name='delete')
+)
+
+metadata_urls = patterns(
+    '',
+    url(r'^steep_category/', include(steep_category_urls, namespace='steep_category')),
+)
+
 settings_urls = patterns(
     '',
     url(r'^geographic_scopes/required/$',
         views.GeoScopesRequired.as_view(), name='geo_scopes_required'),
     url(r'^roles/$', views.RolesOverview.as_view(), name='roles'),
+    url(r'^metadata/', include(metadata_urls, namespace='metadata')),
 )
 
 sources_urls = patterns(

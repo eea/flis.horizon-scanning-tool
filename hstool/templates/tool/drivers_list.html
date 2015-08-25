@@ -38,7 +38,7 @@
 						<a href="{% url 'drivers:update' driver.id %}">{{ driver.name }}</a>
 					</td>
 					<td>{{ driver.get_type_display }}</td>
-					<td>{{ driver.get_steep_category_display }}</td>
+					<td>{{ driver.steep_category }}</td>
 					<td>{{ driver.get_time_horizon_display }}</td>
 					<td>{{ driver.author_id }}</td>
 					<td>{{ driver.draft|yesno:"Draft,Published" }}</td>

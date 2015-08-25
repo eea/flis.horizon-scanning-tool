@@ -7,7 +7,7 @@ from django.forms.forms import ValidationError
 from django.conf import settings
 
 from hstool.definitions import (
-    DOC_TYPE_CHOICES, DOC_TREND_TYPE_CHOICES, DOC_STEEP_CHOICES,
+    DOC_TYPE_CHOICES, DOC_TREND_TYPE_CHOICES,
     DOC_TIME_HORIZON_CHOICES,
     RELATION_TYPE_CHOICES, DOC_UNCERTAINTIES_TYPE_CHOICES,
     IMPACT_TYPES,
@@ -67,6 +67,15 @@ class FiguresMixin(Model):
 
     class Meta:
         abstract = True
+
+
+class SteepCategory(Model):
+    title = CharField(max_length=64)
+    short_title = CharField(max_length=5)
+    author_id = CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.title
 
 
 class GenericElement(Model):
@@ -142,7 +151,7 @@ class DriverOfChange(GenericElement, FiguresMixin, SourcesMixin):
                               default=1)
     uncertainty_type = IntegerField(choices=DOC_UNCERTAINTIES_TYPE_CHOICES,
                                     default=1)
-    steep_category = CharField(max_length=5, choices=DOC_STEEP_CHOICES)
+    steep_category = ForeignKey('SteepCategory', related_name='driver_category')
     time_horizon = IntegerField(choices=DOC_TIME_HORIZON_CHOICES)
     summary = TextField(null=True, blank=True)
 
@@ -214,12 +223,6 @@ class Impact(GenericElement, SourcesMixin):
         null=True,
     )
 
-    steep_category = CharField(
-        max_length=64,
-        choices=DOC_STEEP_CHOICES,
-        default=0,
-        blank=True,
-        null=True,
-    )
-
+    steep_category = ForeignKey('SteepCategory', related_name='impact_category',
+                                blank=True, null=True)
     description = TextField()

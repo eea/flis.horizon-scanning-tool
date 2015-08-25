@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 from hstool.models import (
     Assessment, DriverOfChange, Figure, Indicator, Source, Relation,
-    Implication, Impact,
+    Implication, Impact, SteepCategory
 )
 from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
@@ -35,6 +35,14 @@ class EnvironmentalThemeFactory(DjangoModelFactory):
     title = 'title'
 
 
+class SteepCatFactory(DjangoModelFactory):
+    FACTORY_FOR = SteepCategory
+
+    author_id = 'author_id'
+    title = 'Economical'
+    short_title = 'Ec'
+
+
 class AssessmentFactory(DjangoModelFactory):
     FACTORY_FOR = Assessment
 
@@ -50,7 +58,6 @@ class DriverFactory(DjangoModelFactory):
     short_name = 'short name'
     name = 'long name'
     type = 1
-    steep_category = 'P'
     time_horizon = 1
 
 

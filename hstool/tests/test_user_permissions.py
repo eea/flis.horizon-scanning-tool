@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from .factories import (
     UserFactory, AssessmentFactory, DriverFactory, FigureFactory,
     SourceFactory, GeoScopeFactory, CountryFactory, ImpactFactory,
-    EnvironmentalThemeFactory, RelationFactory,
+    EnvironmentalThemeFactory, RelationFactory, SteepCatFactory
 )
 from . import HSWebTest
 
@@ -139,7 +139,7 @@ class RelationsUpdateViewTests(HSWebTest):
         self.user = UserFactory()
         assessment = AssessmentFactory(author_id=self.user.username)
         impact = ImpactFactory()
-        driver = DriverFactory()
+        driver = DriverFactory(steep_category= SteepCatFactory())
         relation = RelationFactory(
             assessment=assessment, source=driver, destination=impact
         )
@@ -170,7 +170,7 @@ class RelationsDeleteViewTests(HSWebTest):
         self.user = UserFactory()
         assessment = AssessmentFactory(author_id=self.user.username)
         impact = ImpactFactory()
-        driver = DriverFactory()
+        driver = DriverFactory(steep_category= SteepCatFactory())
         relation = RelationFactory(
             assessment=assessment, source=driver, destination=impact
         )
@@ -225,7 +225,8 @@ class DriversAddViewTests(HSWebTest):
 class DriversUpdateViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
-        self.driver = DriverFactory(author_id=self.user.username)
+        self.driver = DriverFactory(author_id=self.user.username,
+                                    steep_category=SteepCatFactory())
         self.url = reverse('drivers:update', args=(self.driver.pk, ))
 
     def test_update_anonymous(self):
@@ -250,7 +251,8 @@ class DriversUpdateViewTests(HSWebTest):
 class DriversDeleteViewTests(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
-        self.driver = DriverFactory(author_id=self.user.username)
+        self.driver = DriverFactory(author_id=self.user.username,
+                                    steep_category = SteepCatFactory())
         self.url = reverse('drivers:delete', args=(self.driver.pk, ))
 
     def test_delete_anonymous(self):
@@ -270,6 +272,7 @@ class DriversDeleteViewTests(HSWebTest):
         admin = UserFactory(username='admin', is_superuser=True)
         resp = self.app.get(self.url, user=admin)
         self.assertEqual(resp.status_code, 200)
+
 
 class SourcesListViewTests(HSWebTest):
     def test_list_anonymous(self):

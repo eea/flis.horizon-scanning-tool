@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from hstool.models import Relation
 from .factories import (
     UserFactory, RelationFactory, AssessmentFactory, DriverFactory,
-    FigureFactory, EnvironmentalThemeFactory, ImpactFactory
+    FigureFactory, EnvironmentalThemeFactory, ImpactFactory, SteepCatFactory
 )
 from . import HSWebTest
 
@@ -13,7 +13,7 @@ REQUIRED = ['This field is required.']
 class RelationsAdd(HSWebTest):
     def setUp(self):
         user = UserFactory()
-        self.driver = DriverFactory()
+        self.driver = DriverFactory(steep_category=SteepCatFactory())
         self.figures = FigureFactory()
         self.impact = ImpactFactory()
         self.assessment = AssessmentFactory(author_id=user.username)
@@ -43,7 +43,7 @@ class RelationsAdd(HSWebTest):
 class RelationsUpdate(HSWebTest):
     def setUp(self):
         self.user = UserFactory()
-        driver1 = DriverFactory()
+        driver1 = DriverFactory(steep_category=SteepCatFactory())
         impact1 = ImpactFactory()
         self.assessment = AssessmentFactory(author_id=self.user.username)
         self.relation = RelationFactory(
@@ -65,7 +65,7 @@ class RelationsUpdate(HSWebTest):
         theme = EnvironmentalThemeFactory()
         driver2 = DriverFactory(
             author_id='a', name='longy d', short_name='shorty d', type=2,
-            trend_type=2, steep_category='T', time_horizon=5,
+            trend_type=2, time_horizon=5, steep_category=SteepCatFactory()
         )
         impact2 = ImpactFactory(short_name='a', name='longy i', description='desc')
         figure = FigureFactory()
@@ -86,7 +86,7 @@ class RelationsUpdate(HSWebTest):
 class RelationsDelete(HSWebTest):
     def setUp(self):
         user = UserFactory()
-        driver1 = DriverFactory()
+        driver1 = DriverFactory(steep_category=SteepCatFactory())
         impact1 = ImpactFactory()
         self.assessment = AssessmentFactory(author_id=user.username)
         relation = RelationFactory(

@@ -1,0 +1,42 @@
+[
+  {
+    "model": "hstool.steepcategory",
+    "pk": 1,
+    "fields": {
+      "title": "Economic",
+      "short_title": "Ec"
+    }
+  },
+  {
+    "model": "hstool.steepcategory",
+    "pk": 2,
+    "fields": {
+      "title": "Environmental",
+      "short_title": "Env"
+    }
+  },
+  {
+    "model": "hstool.steepcategory",
+    "pk": 3,
+    "fields": {
+      "title": "Political",
+      "short_title": "P"
+    }
+  },
+  {
+    "model": "hstool.steepcategory",
+    "pk": 4,
+    "fields": {
+      "title": "Social",
+      "short_title": "S"
+    }
+  },
+  {
+    "model": "hstool.steepcategory",
+    "pk": 5,
+    "fields": {
+      "title": "Technological",
+      "short_title": "T"
+    }
+  }
+  ]

@@ -4,6 +4,5 @@ from django.core.management import call_command
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        for fixture in [
-        ]:
+        for fixture in ('initial_steepcat',):
             call_command('loaddata', fixture)

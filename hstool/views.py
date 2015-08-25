@@ -16,7 +16,7 @@ from hstool.definitions import CANONICAL_ROLES
 
 from hstool.models import (
     Source, DriverOfChange, Figure, Indicator,
-    Assessment, Relation, Implication, Impact, GenericElement
+    Assessment, Relation, Implication, Impact, GenericElement,SteepCategory,
 )
 from flis_metadata.common.models import GeographicalScope
 
@@ -24,7 +24,7 @@ from hstool.forms import (
     SourceForm, DriverForm,
     FigureForm, AssessmentForm, RelationForm,
     ImplicationForm, ImpactForm, IndicatorForm,
-    IndicatorFilesFormset
+    IndicatorFilesFormset, SteepCategoryForm
 )
 from hstool.utils import get_nodes_from_components
 
@@ -609,3 +609,28 @@ class UserEntriesDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'object_delete.html'
     model = GenericElement
     success_url = reverse_lazy('entries:list')
+
+
+class SteepCategoryView(LoginRequiredMixin, ListView):
+    template_name = 'settings/steep_list.html'
+    model = SteepCategory
+    context_object_name = 'steep_categories'
+
+
+class SteepCategoryAdd(AuthorMixin, LoginRequiredMixin, CreateView):
+    template_name = 'settings/steep_add.html'
+    form_class = SteepCategoryForm
+    success_url = reverse_lazy('settings:metadata:steep_category:list')
+
+
+class SteepCategoryUpdate(OwnerRequiredMixin, UpdateView):
+    template_name = 'settings/steep_add.html'
+    model = SteepCategory
+    form_class = SteepCategoryForm
+    success_url = reverse_lazy('settings:metadata:steep_category:list')
+
+
+class SteepCategoryDelete(OwnerRequiredMixin, DeleteView):
+    template_name = 'object_delete.html'
+    model = SteepCategory
+    success_url = reverse_lazy('settings:metadata:steep_category:list')

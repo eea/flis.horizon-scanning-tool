@@ -16,14 +16,6 @@ DOC_UNCERTAINTIES_TYPE_CHOICES = (
     (3, 'Methodology (related to the model)'),
 )
 
-DOC_STEEP_CHOICES = (
-    ('Ec', 'Economic'),
-    ('Env', 'Environmental'),
-    ('P', 'Political'),
-    ('S', 'Social'),
-    ('T', 'Technological'),
-)
-
 DOC_TIME_HORIZON_CHOICES = (
     (1, '1 year'),
     (5, '5 years'),

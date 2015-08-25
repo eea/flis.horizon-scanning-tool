@@ -1,0 +1,41 @@
+{% extends '_layout.html' %}
+
+
+{% block content %}
+
+  <h3>STEEP Categories</h3>
+
+   </br>
+     <a class="btn btn-primary" href="{% url 'settings:metadata:steep_category:add' %}">
+       Add new STEEP category</a>
+   </br>
+
+  <table id="objects_listing"
+             class="table table-condensed table-bordered table-hover">
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th>Short title</th>
+		  <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for steep_category in steep_categories %}
+          <tr>
+            <td>
+			  <a href="{% url 'settings:metadata:steep_category:update' steep_category.id %}">
+			    {{steep_category.title }} </a>
+			</td>
+            <td>{{ steep_category.short_title }}</td>
+			<td>
+			  <a id="delete"
+			    href="{% url 'settings:metadata:steep_category:delete' steep_category.id %}">
+                <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+              </a>
+			</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+{% endblock %}
