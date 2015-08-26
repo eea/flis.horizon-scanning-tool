@@ -65,7 +65,7 @@ class RelationsUpdate(HSWebTest):
         theme = EnvironmentalThemeFactory()
         driver2 = DriverFactory(
             author_id='a', name='longy d', short_name='shorty d',
-            trend_type=2, time_horizon=5
+            trend_type=2
         )
         impact2 = ImpactFactory(short_name='a', name='longy i', description='desc')
         figure = FigureFactory()

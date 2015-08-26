@@ -1,8 +1,9 @@
 from django.core.urlresolvers import reverse
 
-from hstool.models import SteepCategory, DriverOfChangeType, ImpactType
+from hstool.models import SteepCategory, DriverOfChangeType, ImpactType, TimeHorizon
 from .factories import (
-    UserFactory, SteepCatFactory, DriverTypeFactory, ImpactTypeFactory
+    UserFactory, SteepCatFactory, DriverTypeFactory, ImpactTypeFactory,
+    TimeHorizonFactory
 )
 from . import HSWebTest
 
@@ -19,12 +20,10 @@ class SteepCatAdd(HSWebTest):
         form = self.resp.forms[0]
         resp = form.submit()
         self.assertFormError(resp, 'form', 'title', REQUIRED)
-        self.assertFormError(resp, 'form', 'short_title', REQUIRED)
 
     def test_successfully_added(self):
         form = self.resp.forms[0]
         form['title'] = 'title'
-        form['short_title'] = 'sh'
         resp = form.submit()
         self.assertRedirects(resp, reverse('settings:metadata:steep_category:list'))
         self.assertEqual(len(SteepCategory.objects.all()), 1)
@@ -41,19 +40,16 @@ class SteepCatUpdate(HSWebTest):
         resp = self.app.get(self.url, user=self.user)
         form = resp.forms[0]
         self.assertEqual(form['title'].value, self.steep_cat.title)
-        self.assertEqual(form['short_title'].value, self.steep_cat.short_title)
 
     def test_successfully_updated(self):
         resp = self.app.get(self.url, user=self.user)
         form = resp.forms[0]
         form['title'] = 'new_title'
-        form['short_title'] = 'nsh'
         resp = form.submit()
         self.assertRedirects(resp, reverse('settings:metadata:steep_category:list'))
         self.assertEqual(len(SteepCategory.objects.all()), 1)
         steep_cat = SteepCategory.objects.first()
         self.assertEqual(steep_cat.title, 'new_title')
-        self.assertEqual(steep_cat.short_title, 'nsh')
 
 
 class SteepCatDelete(HSWebTest):
@@ -183,3 +179,60 @@ class ImpactTypeDelete(HSWebTest):
         resp = self.form.submit()
         self.assertRedirects(resp, reverse('settings:metadata:impact_type:list'))
         self.assertQuerysetEqual(ImpactType.objects.all(), [])
+
+
+class TimeHorizonAdd(HSWebTest):
+    def setUp(self):
+        self.user = UserFactory(is_superuser=True)
+        url = reverse('settings:metadata:time_horizon:add')
+        self.resp = self.app.get(url, user=self.user)
+
+    def test_default_fields_required(self):
+        form = self.resp.forms[0]
+        resp = form.submit()
+        self.assertFormError(resp, 'form', 'title', REQUIRED)
+
+    def test_successfully_added(self):
+        form = self.resp.forms[0]
+        form['title'] = 'title'
+        resp = form.submit()
+        self.assertRedirects(resp, reverse('settings:metadata:time_horizon:list'))
+        self.assertEqual(len(TimeHorizon.objects.all()), 1)
+
+
+class TimeHorizonUpdate(HSWebTest):
+    def setUp(self):
+        self.time = TimeHorizonFactory()
+        self.user = UserFactory(is_superuser=True)
+        self.url = reverse('settings:metadata:time_horizon:update',
+                           args=(self.time.pk, ))
+
+    def test_existing_field_values(self):
+        resp = self.app.get(self.url, user=self.user)
+        form = resp.forms[0]
+        self.assertEqual(form['title'].value, self.time.title)
+
+    def test_successfully_updates(self):
+        resp = self.app.get(self.url, user=self.user)
+        form = resp.forms[0]
+        form['title'] = 'new_title'
+        resp = form.submit()
+        self.assertRedirects(resp, reverse('settings:metadata:time_horizon:list'))
+        self.assertEqual(len(TimeHorizon.objects.all()), 1)
+        time = TimeHorizon.objects.first()
+        self.assertEqual(time.title, 'new_title')
+
+
+class TimeHorizonDelete(HSWebTest):
+    def setUp(self):
+        time = TimeHorizonFactory()
+        self.user = UserFactory(is_superuser=True)
+        self.url = reverse('settings:metadata:time_horizon:delete',
+                           args=(time.pk, ))
+
+    def test_deletion(self):
+        resp = self.app.get(self.url, user=self.user)
+        self.form = resp.forms[0]
+        resp = self.form.submit()
+        self.assertRedirects(resp, reverse('settings:metadata:time_horizon:list'))
+        self.assertQuerysetEqual(TimeHorizon.objects.all(), [])

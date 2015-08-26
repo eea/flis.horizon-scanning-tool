@@ -115,7 +115,6 @@ class AssessmentsPreview(HSWebTest):
         self.driver1 = DriverFactory()
         self.driver2 = DriverFactory(
             author_id='a', name='b', short_name='shorty', trend_type=2,
-            time_horizon=5,
         )
         self.relation = RelationFactory(
             assessment=self.assessment, source=self.driver1,

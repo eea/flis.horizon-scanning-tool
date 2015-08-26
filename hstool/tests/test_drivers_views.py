@@ -2,7 +2,8 @@ from django.core.urlresolvers import reverse
 
 from hstool.models import DriverOfChange
 from .factories import (
-    UserFactory, DriverFactory, GeoScopeFactory, SteepCatFactory, DriverTypeFactory
+    UserFactory, DriverFactory, GeoScopeFactory, SteepCatFactory, DriverTypeFactory,
+    TimeHorizonFactory
 )
 from . import HSWebTest
 
@@ -39,7 +40,7 @@ class DriversList(HSWebTest):
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(3)').text(),
-            driver1.get_time_horizon_display()
+            driver1.time_horizon.title
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr td:eq(4)').text(),
@@ -54,7 +55,6 @@ class DriversList(HSWebTest):
         driver1 = DriverFactory()
         driver2 = DriverFactory(
             author_id='a', name='', short_name='shorty', trend_type=2,
-            time_horizon=5,
         )
         resp = self.app.get(self.url, user=self.admin)
         self.assertEqual(resp.pyquery('#objects_listing tbody tr').size(), 2)
@@ -77,7 +77,7 @@ class DriversList(HSWebTest):
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(3)').text(),
-            driver1.get_time_horizon_display()
+            driver1.time_horizon.title
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(4)').text(),
@@ -106,7 +106,7 @@ class DriversList(HSWebTest):
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(3)').text(),
-            driver2.get_time_horizon_display()
+            driver2.time_horizon.title
         )
         self.assertEqual(
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(4)').text(),
@@ -124,6 +124,7 @@ class DriversAdd(HSWebTest):
         self.user = UserFactory()
         self.steep_category = SteepCatFactory()
         self.type = DriverTypeFactory()
+        self.time = TimeHorizonFactory()
 
     def test_default_fields_required(self):
         url = reverse('drivers:add')
@@ -154,7 +155,7 @@ class DriversAdd(HSWebTest):
         form['type'].select(text=self.type.title)
         form['trend_type'].select(text='Trend')
         form['steep_category'].select(text=self.steep_category.title)
-        form['time_horizon'].select(text='1 year')
+        form['time_horizon'].select(text=self.time.title)
         resp = form.submit()
         self.assertRedirects(resp, reverse('drivers:list'))
 
@@ -164,8 +165,9 @@ class DriversUpdate(HSWebTest):
         self.user = UserFactory()
         self.driver = DriverFactory(author_id=self.user.username,
                                     steep_category=SteepCatFactory())
-        self.steep_category = SteepCatFactory(title='Political', short_title='P')
+        self.steep_category = SteepCatFactory(title='Political')
         self.type = DriverTypeFactory(title='Uncertainties')
+        self.time = TimeHorizonFactory(title='5 years')
         url = reverse('drivers:update', args=(self.driver.pk, ))
         resp = self.app.get(url, user=self.user)
         self.form = resp.forms[0]
@@ -179,7 +181,7 @@ class DriversUpdate(HSWebTest):
         self.assertEqual(self.form['steep_category'].value,
                          str(self.driver.steep_category.id))
         self.assertEqual(self.form['time_horizon'].value,
-                         str(self.driver.time_horizon))
+                         str(self.driver.time_horizon.id))
 
     def test_successfully_updated(self):
         self.form['name'] = 'a'
@@ -187,7 +189,7 @@ class DriversUpdate(HSWebTest):
         self.form['type'].select(text=self.type.title)
         self.form['trend_type'].select(text='Megatrend')
         self.form['steep_category'].select(text=self.steep_category.title)
-        self.form['time_horizon'].select(text='5 years')
+        self.form['time_horizon'].select(text=self.time.title)
         resp = self.form.submit()
         self.assertRedirects(resp, reverse('drivers:list'))
         self.assertEqual(len(DriverOfChange.objects.all()), 1)
@@ -198,7 +200,7 @@ class DriversUpdate(HSWebTest):
         self.assertEqual(driver.type.id, self.type.id)
         self.assertEqual(driver.trend_type, 2)
         self.assertEqual(driver.steep_category.id, self.steep_category.id)
-        self.assertEqual(driver.time_horizon, 5)
+        self.assertEqual(driver.time_horizon.id, self.time.id)
 
 
 class DriversDelete(HSWebTest):
