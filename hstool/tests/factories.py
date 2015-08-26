@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 from hstool.models import (
     Assessment, DriverOfChange, Figure, Indicator, Source, Relation,
-    Implication, Impact, SteepCategory, DriverOfChangeType
+    Implication, Impact, SteepCategory, DriverOfChangeType, ImpactType
 )
 from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
@@ -48,6 +48,13 @@ class DriverTypeFactory(DjangoModelFactory):
 
     author_id = 'author_id'
     title = 'Trends'
+
+
+class ImpactTypeFactory(DjangoModelFactory):
+    FACTORY_FOR = ImpactType
+
+    author_id = 'author_id'
+    title = 'Risk'
 
 
 class AssessmentFactory(DjangoModelFactory):

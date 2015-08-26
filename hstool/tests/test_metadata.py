@@ -1,8 +1,8 @@
 from django.core.urlresolvers import reverse
 
-from hstool.models import SteepCategory, DriverOfChangeType
+from hstool.models import SteepCategory, DriverOfChangeType, ImpactType
 from .factories import (
-    UserFactory, SteepCatFactory, DriverTypeFactory
+    UserFactory, SteepCatFactory, DriverTypeFactory, ImpactTypeFactory
 )
 from . import HSWebTest
 
@@ -90,7 +90,7 @@ class DriverTypeAdd(HSWebTest):
         self.assertEqual(len(DriverOfChangeType.objects.all()), 1)
 
 
-class DriverTypeUpdayr(HSWebTest):
+class DriverTypeUpdate(HSWebTest):
     def setUp(self):
         self.doc_type = DriverTypeFactory()
         self.user = UserFactory(is_superuser=True)
@@ -126,3 +126,60 @@ class DriverTypeDelete(HSWebTest):
         resp = self.form.submit()
         self.assertRedirects(resp, reverse('settings:metadata:doc_type:list'))
         self.assertQuerysetEqual(DriverOfChangeType.objects.all(), [])
+
+
+class ImpactTypeAdd(HSWebTest):
+    def setUp(self):
+        self.user = UserFactory(is_superuser=True)
+        url = reverse('settings:metadata:impact_type:add')
+        self.resp = self.app.get(url, user=self.user)
+
+    def test_default_fields_required(self):
+        form = self.resp.forms[0]
+        resp = form.submit()
+        self.assertFormError(resp, 'form', 'title', REQUIRED)
+
+    def test_successfully_added(self):
+        form = self.resp.forms[0]
+        form['title'] = 'title'
+        resp = form.submit()
+        self.assertRedirects(resp, reverse('settings:metadata:impact_type:list'))
+        self.assertEqual(len(ImpactType.objects.all()), 1)
+
+
+class ImpactTypeUpdate(HSWebTest):
+    def setUp(self):
+        self.impact_type = ImpactTypeFactory()
+        self.user = UserFactory(is_superuser=True)
+        self.url = reverse('settings:metadata:impact_type:update',
+                           args=(self.impact_type.pk, ))
+
+    def test_existing_field_values(self):
+        resp = self.app.get(self.url, user=self.user)
+        form = resp.forms[0]
+        self.assertEqual(form['title'].value, self.impact_type.title)
+
+    def test_successfully_updates(self):
+        resp = self.app.get(self.url, user=self.user)
+        form = resp.forms[0]
+        form['title'] = 'new_title'
+        resp = form.submit()
+        self.assertRedirects(resp, reverse('settings:metadata:impact_type:list'))
+        self.assertEqual(len(ImpactType.objects.all()), 1)
+        impact_type = ImpactType.objects.first()
+        self.assertEqual(impact_type.title, 'new_title')
+
+
+class ImpactTypeDelete(HSWebTest):
+    def setUp(self):
+        impact_type = ImpactTypeFactory()
+        self.user = UserFactory(is_superuser=True)
+        self.url = reverse('settings:metadata:impact_type:delete',
+                           args=(impact_type.pk, ))
+
+    def test_deletion(self):
+        resp = self.app.get(self.url, user=self.user)
+        self.form = resp.forms[0]
+        resp = self.form.submit()
+        self.assertRedirects(resp, reverse('settings:metadata:impact_type:list'))
+        self.assertQuerysetEqual(ImpactType.objects.all(), [])
