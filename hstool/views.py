@@ -17,7 +17,7 @@ from hstool.definitions import CANONICAL_ROLES
 from hstool.models import (
     Source, DriverOfChange, Figure, Indicator,
     Assessment, Relation, Implication, Impact, GenericElement, SteepCategory,
-    DriverOfChangeType, ImpactType
+    DriverOfChangeType, ImpactType, TimeHorizon
 )
 from flis_metadata.common.models import GeographicalScope
 
@@ -26,7 +26,7 @@ from hstool.forms import (
     FigureForm, AssessmentForm, RelationForm,
     ImplicationForm, ImpactForm, IndicatorForm,
     IndicatorFilesFormset, SteepCategoryForm, DriverTypeForm,
-    ImpactTypeForm
+    ImpactTypeForm, TimeHorizonForm
 )
 from hstool.utils import get_nodes_from_components
 
@@ -686,3 +686,28 @@ class ImpactTypeDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'object_delete.html'
     model = ImpactType
     success_url = reverse_lazy('settings:metadata:impact_type:list')
+
+
+class TimeHorizonView(LoginRequiredMixin, ListView):
+    template_name = 'settings/time_list.html'
+    model = TimeHorizon
+    context_object_name = 'time_horizons'
+
+
+class TimeHorizonAdd(AuthorMixin, LoginRequiredMixin, CreateView):
+    template_name = 'settings/time_add.html'
+    form_class = TimeHorizonForm
+    success_url = reverse_lazy('settings:metadata:time_horizon:list')
+
+
+class TimeHorizonUpdate(OwnerRequiredMixin, UpdateView):
+    template_name = 'settings/time_add.html'
+    model = TimeHorizon
+    form_class = TimeHorizonForm
+    success_url = reverse_lazy('settings:metadata:time_horizon:list')
+
+
+class TimeHorizonDelete(OwnerRequiredMixin, DeleteView):
+    template_name = 'object_delete.html'
+    model = TimeHorizon
+    success_url = reverse_lazy('settings:metadata:time_horizon:list')

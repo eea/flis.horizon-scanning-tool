@@ -70,7 +70,6 @@ class FiguresMixin(Model):
 
 class SteepCategory(Model):
     title = CharField(max_length=64)
-    short_title = CharField(max_length=5)
     author_id = CharField(max_length=64)
 
     def __unicode__(self):
@@ -86,6 +85,14 @@ class DriverOfChangeType(Model):
 
 
 class ImpactType(Model):
+    title = CharField(max_length=64)
+    author_id = CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.title
+
+
+class TimeHorizon(Model):
     title = CharField(max_length=64)
     author_id = CharField(max_length=64)
 
@@ -167,7 +174,7 @@ class DriverOfChange(GenericElement, FiguresMixin, SourcesMixin):
     uncertainty_type = IntegerField(choices=DOC_UNCERTAINTIES_TYPE_CHOICES,
                                     default=1)
     steep_category = ForeignKey('SteepCategory', related_name='driver_category')
-    time_horizon = IntegerField(choices=DOC_TIME_HORIZON_CHOICES)
+    time_horizon = ForeignKey('TimeHorizon', related_name='driver_time')
     summary = TextField(null=True, blank=True)
 
     impacts = ManyToManyField('Impact', blank=True, null=True)

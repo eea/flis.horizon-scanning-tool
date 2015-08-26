@@ -1,0 +1,44 @@
+[
+  {
+    "model": "hstool.timehorizon",
+    "pk": 1,
+    "fields": {
+      "title": "1 year"
+    }
+  },
+  {
+    "model": "hstool.timehorizon",
+    "pk": 2,
+    "fields": {
+      "title": "5 years"
+    }
+  },
+  {
+    "model": "hstool.timehorizon",
+    "pk": 3,
+    "fields": {
+      "title": "10 years"
+    }
+  },
+  {
+    "model": "hstool.timehorizon",
+    "pk": 4,
+    "fields": {
+      "title": "50 years"
+    }
+  },
+  {
+    "model": "hstool.timehorizon",
+    "pk": 5,
+    "fields": {
+      "title": "100 years"
+    }
+  },
+  {
+    "model": "hstool.timehorizon",
+    "pk": 6,
+    "fields": {
+      "title": "more than 100 years"
+    }
+  }
+]

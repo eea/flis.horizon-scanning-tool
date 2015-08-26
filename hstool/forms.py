@@ -8,7 +8,7 @@ from hstool.models import (
     Source, DriverOfChange, Figure, Indicator,
     Assessment, Relation, Implication, GenericElement,
     Impact, IndicatorFiles, SteepCategory, DriverOfChangeType,
-    ImpactType
+    ImpactType, TimeHorizon
 )
 from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
@@ -286,14 +286,12 @@ class SteepCategoryForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(SteepCategoryForm, self).__init__(*args, **kwargs)
         self.fields['title'].widget.attrs["size"] = 60
-        self.fields['short_title'].widget.attrs["size"] = 10
 
     class Meta:
         model = SteepCategory
-        fields = ['title', 'short_title']
+        fields = ['title']
         labels = {
             "title": _("Title"),
-            "short_title": _("Short title"),
         }
 
 
@@ -317,6 +315,19 @@ class ImpactTypeForm(ModelForm):
 
     class Meta:
         model = ImpactType
+        fields = ['title']
+        labels = {
+            "title": _("Title"),
+        }
+
+
+class TimeHorizonForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(TimeHorizonForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs["size"] = 60
+
+    class Meta:
+        model = TimeHorizon
         fields = ['title']
         labels = {
             "title": _("Title"),

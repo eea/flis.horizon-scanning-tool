@@ -32,11 +32,19 @@ impact_type_urls = patterns(
     url(r'^delete/(?P<pk>\d+)/$', views.ImpactTypeDelete.as_view(), name='delete'),
 )
 
+time_horizon_urls = patterns(
+    '',
+    url(r'^list/$', views.TimeHorizonView.as_view(), name='list'),
+    url(r'^add/$', views.TimeHorizonAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.TimeHorizonUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.TimeHorizonDelete.as_view(), name='delete'),
+)
 metadata_urls = patterns(
     '',
     url(r'^steep_category/', include(steep_category_urls, namespace='steep_category')),
     url(r'^doc_type/', include(doc_type_urls, namespace='doc_type')),
     url(r'^impact_type/', include(impact_type_urls, namespace='impact_type')),
+    url(r'^time_horizon/', include(time_horizon_urls, namespace='time_horizon')),
 )
 
 settings_urls = patterns(
