@@ -1,0 +1,23 @@
+[
+  {
+    "model": "hstool.impacttype",
+    "pk": 1,
+    "fields": {
+      "title": "Risk"
+    }
+  },
+  {
+    "model": "hstool.impacttype",
+    "pk": 2,
+    "fields": {
+      "title": "Opportunity"
+    }
+  },
+  {
+    "model": "hstool.impacttype",
+    "pk": 3,
+    "fields": {
+      "title": "Other"
+    }
+  }
+]

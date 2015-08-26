@@ -10,7 +10,6 @@ from hstool.definitions import (
     DOC_TREND_TYPE_CHOICES,
     DOC_TIME_HORIZON_CHOICES,
     RELATION_TYPE_CHOICES, DOC_UNCERTAINTIES_TYPE_CHOICES,
-    IMPACT_TYPES,
 )
 from hstool.utils import (
     path_and_rename_sources, path_and_rename_figures,
@@ -79,6 +78,14 @@ class SteepCategory(Model):
 
 
 class DriverOfChangeType(Model):
+    title = CharField(max_length=64)
+    author_id = CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.title
+
+
+class ImpactType(Model):
     title = CharField(max_length=64)
     author_id = CharField(max_length=64)
 
@@ -223,13 +230,8 @@ class Implication(GenericElement, SourcesMixin):
 
 
 class Impact(GenericElement, SourcesMixin):
-    impact_type = CharField(
-        max_length=64,
-        choices=IMPACT_TYPES,
-        default=0,
-        blank=True,
-        null=True,
-    )
+    impact_type = ForeignKey('ImpactType', related_name='impact_type', blank=True,
+                             null=True)
 
     steep_category = ForeignKey('SteepCategory', related_name='impact_category',
                                 blank=True, null=True)

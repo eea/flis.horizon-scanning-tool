@@ -30,9 +30,3 @@ CANONICAL_ROLES = (
     'Viewer',
     'Reviewer',
 )
-
-IMPACT_TYPES = (
-    ('risk', 'Risk'),
-    ('opportunity', 'Opportunity'),
-    ('other', 'Other'),
-)

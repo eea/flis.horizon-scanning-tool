@@ -7,7 +7,8 @@ from django.forms.extras.widgets import SelectDateWidget
 from hstool.models import (
     Source, DriverOfChange, Figure, Indicator,
     Assessment, Relation, Implication, GenericElement,
-    Impact, IndicatorFiles, SteepCategory, DriverOfChangeType
+    Impact, IndicatorFiles, SteepCategory, DriverOfChangeType,
+    ImpactType
 )
 from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
@@ -303,6 +304,19 @@ class DriverTypeForm(ModelForm):
 
     class Meta:
         model = DriverOfChangeType
+        fields = ['title']
+        labels = {
+            "title": _("Title"),
+        }
+
+
+class ImpactTypeForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ImpactTypeForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs["size"] = 60
+
+    class Meta:
+        model = ImpactType
         fields = ['title']
         labels = {
             "title": _("Title"),

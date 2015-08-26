@@ -17,7 +17,7 @@ from hstool.definitions import CANONICAL_ROLES
 from hstool.models import (
     Source, DriverOfChange, Figure, Indicator,
     Assessment, Relation, Implication, Impact, GenericElement, SteepCategory,
-    DriverOfChangeType
+    DriverOfChangeType, ImpactType
 )
 from flis_metadata.common.models import GeographicalScope
 
@@ -25,7 +25,8 @@ from hstool.forms import (
     SourceForm, DriverForm,
     FigureForm, AssessmentForm, RelationForm,
     ImplicationForm, ImpactForm, IndicatorForm,
-    IndicatorFilesFormset, SteepCategoryForm, DriverTypeForm
+    IndicatorFilesFormset, SteepCategoryForm, DriverTypeForm,
+    ImpactTypeForm
 )
 from hstool.utils import get_nodes_from_components
 
@@ -660,3 +661,28 @@ class DriverTypeDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'object_delete.html'
     model = DriverOfChangeType
     success_url = reverse_lazy('settings:metadata:doc_type:list')
+
+
+class ImpactTypeView(LoginRequiredMixin, ListView):
+    template_name = 'settings/impact_list.html'
+    model = ImpactType
+    context_object_name = 'impact_types'
+
+
+class ImpactTypeAdd(AuthorMixin, LoginRequiredMixin, CreateView):
+    template_name = 'settings/impact_add.html'
+    form_class = ImpactTypeForm
+    success_url = reverse_lazy('settings:metadata:impact_type:list')
+
+
+class ImpactTypeUpdate(OwnerRequiredMixin, UpdateView):
+    template_name = 'settings/impact_add.html'
+    model = ImpactType
+    form_class = ImpactTypeForm
+    success_url = reverse_lazy('settings:metadata:impact_type:list')
+
+
+class ImpactTypeDelete(OwnerRequiredMixin, DeleteView):
+    template_name = 'object_delete.html'
+    model = ImpactType
+    success_url = reverse_lazy('settings:metadata:impact_type:list')
