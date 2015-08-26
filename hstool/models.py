@@ -8,7 +8,6 @@ from django.conf import settings
 
 from hstool.definitions import (
     DOC_TREND_TYPE_CHOICES,
-    DOC_TIME_HORIZON_CHOICES,
     RELATION_TYPE_CHOICES, DOC_UNCERTAINTIES_TYPE_CHOICES,
 )
 from hstool.utils import (
