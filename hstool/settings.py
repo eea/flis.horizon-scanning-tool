@@ -95,7 +95,9 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-DATE_FORMAT = 'j N Y'
+DATE_FORMAT = 'j F Y'
+
+DATE_INPUT_FORMATS = ('%d %B %Y',)
 
 TIME_ZONE = 'UTC'
 

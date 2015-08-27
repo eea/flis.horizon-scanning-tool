@@ -11,8 +11,8 @@ RUN pip install -r requirements-dev.txt
 
 # Copy code
 COPY . /horizon-scanning-tool
-COPY hstool/local_settings.py.example hstool/local_settings.py
 RUN ./manage.py collectstatic --noinput
+COPY hstool/local_settings.py.docker hstool/local_settings.py
 
 # Expose needed port
 EXPOSE 8003

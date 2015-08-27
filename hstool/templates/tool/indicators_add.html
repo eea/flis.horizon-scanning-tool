@@ -22,6 +22,14 @@
       }
     });
   });
+
+  $(function() {
+    $('.datetimepicker').datetimepicker({
+      language: 'en',
+      pickTime: false,
+      format: 'DD MMMM YYYY',
+	});
+  });
 </script>
 
 <script type="text/template" id="form-template">
@@ -85,7 +93,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">{{ form.start_date|label }}
           </label>
-            <div class="controls col-sm-4">
+            <div class="controls col-sm-4 datetimepicker">
               {% render_field form.start_date class='form-control' %}
               {{ form.start_date.errors }}
             </div>
@@ -94,7 +102,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">{{ form.end_date|label }}
           </label>
-          <div class="controls col-sm-4">
+          <div class="controls col-sm-4 datetimepicker">
             {% render_field form.end_date class='form-control' %}
             {{ form.end_date.errors }}
           </div>

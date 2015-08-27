@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.forms import ModelChoiceField
 from django.forms.extras.widgets import SelectDateWidget
+from datetime import datetime
 
 from hstool.models import (
     Source, DriverOfChange, Figure, Indicator,
@@ -69,6 +70,21 @@ class SourceForm(ModelForm):
             "published_year": _("Year of publication"),
             "url": _("URL"),
         }
+
+    def clean(self):
+        cleaned_data = super(SourceForm, self).clean()
+        try:
+            self._errors['published_year']
+        except KeyError:
+            try:
+                year = int(cleaned_data['published_year'])
+                if year not in range(1000, 9999):
+                    self._errors['published_year'] = "This field must be an year."
+                    del cleaned_data['published_year']
+            except ValueError:
+                self._errors['published_year'] = "This field must be an year."
+                del cleaned_data['published_year']
+        return cleaned_data
 
 
 class RelationForm(ModelForm):
@@ -259,8 +275,6 @@ class IndicatorForm(GeoScopeForm):
         self.fields['theme'].queryset = (
             EnvironmentalTheme.objects.filter(is_deleted=False)
         )
-        self.fields['start_date'].widget = SelectDateWidget()
-        self.fields['end_date'].widget = SelectDateWidget()
 
     class Meta:
         model = Indicator
