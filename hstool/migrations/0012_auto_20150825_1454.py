@@ -7,12 +7,12 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hstool', '0011_auto_20150825_1454'),
+        ('hstool', '0011_auto_20150825_1247'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ImpactType',
+            name='DriverOfChangeType',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=64)),
@@ -23,8 +23,8 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.AlterField(
-            model_name='impact',
-            name='impact_type',
-            field=models.ForeignKey(related_name=b'impact_type', blank=True, to='hstool.ImpactType', null=True),
+            model_name='driverofchange',
+            name='type',
+            field=models.ForeignKey(related_name=b'doc_type', to='hstool.DriverOfChangeType'),
         ),
     ]

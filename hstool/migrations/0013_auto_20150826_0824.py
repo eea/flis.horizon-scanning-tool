@@ -7,16 +7,15 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hstool', '0009_auto_20150805_0908'),
+        ('hstool', '0012_auto_20150825_1454'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='SteepCategory',
+            name='ImpactType',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=64)),
-                ('short_title', models.CharField(max_length=5)),
                 ('author_id', models.CharField(max_length=64)),
             ],
             options={
@@ -24,13 +23,8 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.AlterField(
-            model_name='driverofchange',
-            name='steep_category',
-            field=models.ForeignKey(related_name=b'driver_category', to='hstool.SteepCategory'),
-        ),
-        migrations.AlterField(
             model_name='impact',
-            name='steep_category',
-            field=models.ForeignKey(related_name=b'impact_category', blank=True, to='hstool.SteepCategory', null=True),
+            name='impact_type',
+            field=models.ForeignKey(related_name=b'impact_type', blank=True, to='hstool.ImpactType', null=True),
         ),
     ]
