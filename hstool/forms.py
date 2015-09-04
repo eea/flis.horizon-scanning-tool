@@ -8,7 +8,8 @@ from datetime import datetime
 from hstool.models import (
     Source, DriverOfChange, Figure, Indicator,
     Assessment, Relation, Implication, GenericElement,
-    Impact, IndicatorFiles
+    Impact, IndicatorFiles, SteepCategory, DriverOfChangeType,
+    ImpactType, TimeHorizon
 )
 from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
@@ -293,3 +294,55 @@ class IndicatorForm(GeoScopeForm):
 
 IndicatorFilesFormset = inlineformset_factory(Indicator, IndicatorFiles, extra=1,
                                               max_num=5)
+
+
+class SteepCategoryForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(SteepCategoryForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs["size"] = 60
+
+    class Meta:
+        model = SteepCategory
+        fields = ['title']
+        labels = {
+            "title": _("Title"),
+        }
+
+
+class DriverTypeForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(DriverTypeForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs["size"] = 60
+
+    class Meta:
+        model = DriverOfChangeType
+        fields = ['title']
+        labels = {
+            "title": _("Title"),
+        }
+
+
+class ImpactTypeForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ImpactTypeForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs["size"] = 60
+
+    class Meta:
+        model = ImpactType
+        fields = ['title']
+        labels = {
+            "title": _("Title"),
+        }
+
+
+class TimeHorizonForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(TimeHorizonForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs["size"] = 60
+
+    class Meta:
+        model = TimeHorizon
+        fields = ['title']
+        labels = {
+            "title": _("Title"),
+        }

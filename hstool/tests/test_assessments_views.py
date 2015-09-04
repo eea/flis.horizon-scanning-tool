@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 
 from hstool.models import Assessment
 from .factories import (
-    UserFactory, AssessmentFactory, RelationFactory, DriverFactory,
+    UserFactory, AssessmentFactory, RelationFactory, DriverFactory, SteepCatFactory
 )
 from . import HSWebTest
 
@@ -114,8 +114,7 @@ class AssessmentsPreview(HSWebTest):
         self.assessment = AssessmentFactory(author_id=user.username)
         self.driver1 = DriverFactory()
         self.driver2 = DriverFactory(
-            author_id='a', name='b', short_name='shorty', type=2, trend_type=2,
-            steep_category='T', time_horizon=5,
+            author_id='a', name='b', short_name='shorty', trend_type=2,
         )
         self.relation = RelationFactory(
             assessment=self.assessment, source=self.driver1,

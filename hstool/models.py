@@ -7,10 +7,8 @@ from django.forms.forms import ValidationError
 from django.conf import settings
 
 from hstool.definitions import (
-    DOC_TYPE_CHOICES, DOC_TREND_TYPE_CHOICES, DOC_STEEP_CHOICES,
-    DOC_TIME_HORIZON_CHOICES,
+    DOC_TREND_TYPE_CHOICES,
     RELATION_TYPE_CHOICES, DOC_UNCERTAINTIES_TYPE_CHOICES,
-    IMPACT_TYPES,
 )
 from hstool.utils import (
     path_and_rename_sources, path_and_rename_figures,
@@ -67,6 +65,38 @@ class FiguresMixin(Model):
 
     class Meta:
         abstract = True
+
+
+class SteepCategory(Model):
+    title = CharField(max_length=64)
+    author_id = CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.title
+
+
+class DriverOfChangeType(Model):
+    title = CharField(max_length=64)
+    author_id = CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.title
+
+
+class ImpactType(Model):
+    title = CharField(max_length=64)
+    author_id = CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.title
+
+
+class TimeHorizon(Model):
+    title = CharField(max_length=64)
+    author_id = CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.title
 
 
 class GenericElement(Model):
@@ -137,13 +167,13 @@ class IndicatorFiles (Model):
 
 
 class DriverOfChange(GenericElement, FiguresMixin, SourcesMixin):
-    type = IntegerField(choices=DOC_TYPE_CHOICES)
+    type = ForeignKey('DriverOfChangeType', related_name='doc_type')
     trend_type = IntegerField(choices=DOC_TREND_TYPE_CHOICES,
                               default=1)
     uncertainty_type = IntegerField(choices=DOC_UNCERTAINTIES_TYPE_CHOICES,
                                     default=1)
-    steep_category = CharField(max_length=5, choices=DOC_STEEP_CHOICES)
-    time_horizon = IntegerField(choices=DOC_TIME_HORIZON_CHOICES)
+    steep_category = ForeignKey('SteepCategory', related_name='driver_category')
+    time_horizon = ForeignKey('TimeHorizon', related_name='driver_time')
     summary = TextField(null=True, blank=True)
 
     impacts = ManyToManyField('Impact', blank=True, null=True)
@@ -206,20 +236,9 @@ class Implication(GenericElement, SourcesMixin):
 
 
 class Impact(GenericElement, SourcesMixin):
-    impact_type = CharField(
-        max_length=64,
-        choices=IMPACT_TYPES,
-        default=0,
-        blank=True,
-        null=True,
-    )
+    impact_type = ForeignKey('ImpactType', related_name='impact_type', blank=True,
+                             null=True)
 
-    steep_category = CharField(
-        max_length=64,
-        choices=DOC_STEEP_CHOICES,
-        default=0,
-        blank=True,
-        null=True,
-    )
-
+    steep_category = ForeignKey('SteepCategory', related_name='impact_category',
+                                blank=True, null=True)
     description = TextField()

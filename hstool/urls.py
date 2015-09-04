@@ -8,11 +8,51 @@ from hstool import views
 
 admin.autodiscover()
 
+doc_type_urls = patterns(
+    '',
+    url(r'^list/$', views.DriverTypeView.as_view(), name='list'),
+    url(r'^add/$', views.DriverTypeAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.DriverTypeUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.DriverTypeDelete.as_view(), name='delete'),
+)
+
+steep_category_urls = patterns(
+    '',
+    url(r'^list/$', views.SteepCategoryView.as_view(), name='list'),
+    url(r'^add/$', views.SteepCategoryAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.SteepCategoryUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.SteepCategoryDelete.as_view(), name='delete'),
+)
+
+impact_type_urls = patterns(
+    '',
+    url(r'^list/$', views.ImpactTypeView.as_view(), name='list'),
+    url(r'^add/$', views.ImpactTypeAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.ImpactTypeUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.ImpactTypeDelete.as_view(), name='delete'),
+)
+
+time_horizon_urls = patterns(
+    '',
+    url(r'^list/$', views.TimeHorizonView.as_view(), name='list'),
+    url(r'^add/$', views.TimeHorizonAdd.as_view(), name='add'),
+    url(r'^update/(?P<pk>\d+)/$', views.TimeHorizonUpdate.as_view(), name='update'),
+    url(r'^delete/(?P<pk>\d+)/$', views.TimeHorizonDelete.as_view(), name='delete'),
+)
+metadata_urls = patterns(
+    '',
+    url(r'^steep_category/', include(steep_category_urls, namespace='steep_category')),
+    url(r'^doc_type/', include(doc_type_urls, namespace='doc_type')),
+    url(r'^impact_type/', include(impact_type_urls, namespace='impact_type')),
+    url(r'^time_horizon/', include(time_horizon_urls, namespace='time_horizon')),
+)
+
 settings_urls = patterns(
     '',
     url(r'^geographic_scopes/required/$',
         views.GeoScopesRequired.as_view(), name='geo_scopes_required'),
     url(r'^roles/$', views.RolesOverview.as_view(), name='roles'),
+    url(r'^metadata/', include(metadata_urls, namespace='metadata')),
 )
 
 sources_urls = patterns(

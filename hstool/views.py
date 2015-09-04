@@ -16,7 +16,8 @@ from hstool.definitions import CANONICAL_ROLES
 
 from hstool.models import (
     Source, DriverOfChange, Figure, Indicator,
-    Assessment, Relation, Implication, Impact, GenericElement
+    Assessment, Relation, Implication, Impact, GenericElement, SteepCategory,
+    DriverOfChangeType, ImpactType, TimeHorizon
 )
 from flis_metadata.common.models import GeographicalScope
 
@@ -24,7 +25,8 @@ from hstool.forms import (
     SourceForm, DriverForm,
     FigureForm, AssessmentForm, RelationForm,
     ImplicationForm, ImpactForm, IndicatorForm,
-    IndicatorFilesFormset
+    IndicatorFilesFormset, SteepCategoryForm, DriverTypeForm,
+    ImpactTypeForm, TimeHorizonForm
 )
 from hstool.utils import get_nodes_from_components
 
@@ -609,3 +611,103 @@ class UserEntriesDelete(OwnerRequiredMixin, DeleteView):
     template_name = 'object_delete.html'
     model = GenericElement
     success_url = reverse_lazy('entries:list')
+
+
+class SteepCategoryView(LoginRequiredMixin, ListView):
+    template_name = 'settings/steep_list.html'
+    model = SteepCategory
+    context_object_name = 'steep_categories'
+
+
+class SteepCategoryAdd(AuthorMixin, LoginRequiredMixin, CreateView):
+    template_name = 'settings/steep_add.html'
+    form_class = SteepCategoryForm
+    success_url = reverse_lazy('settings:metadata:steep_category:list')
+
+
+class SteepCategoryUpdate(OwnerRequiredMixin, UpdateView):
+    template_name = 'settings/steep_add.html'
+    model = SteepCategory
+    form_class = SteepCategoryForm
+    success_url = reverse_lazy('settings:metadata:steep_category:list')
+
+
+class SteepCategoryDelete(OwnerRequiredMixin, DeleteView):
+    template_name = 'object_delete.html'
+    model = SteepCategory
+    success_url = reverse_lazy('settings:metadata:steep_category:list')
+
+
+class DriverTypeView(LoginRequiredMixin, ListView):
+    template_name = 'settings/doc_list.html'
+    model = DriverOfChangeType
+    context_object_name = 'doc_types'
+
+
+class DriverTypeAdd(AuthorMixin, LoginRequiredMixin, CreateView):
+    template_name = 'settings/doc_add.html'
+    form_class = DriverTypeForm
+    success_url = reverse_lazy('settings:metadata:doc_type:list')
+
+
+class DriverTypeUpdate(OwnerRequiredMixin, UpdateView):
+    template_name = 'settings/doc_add.html'
+    model = DriverOfChangeType
+    form_class = DriverTypeForm
+    success_url = reverse_lazy('settings:metadata:doc_type:list')
+
+
+class DriverTypeDelete(OwnerRequiredMixin, DeleteView):
+    template_name = 'object_delete.html'
+    model = DriverOfChangeType
+    success_url = reverse_lazy('settings:metadata:doc_type:list')
+
+
+class ImpactTypeView(LoginRequiredMixin, ListView):
+    template_name = 'settings/impact_list.html'
+    model = ImpactType
+    context_object_name = 'impact_types'
+
+
+class ImpactTypeAdd(AuthorMixin, LoginRequiredMixin, CreateView):
+    template_name = 'settings/impact_add.html'
+    form_class = ImpactTypeForm
+    success_url = reverse_lazy('settings:metadata:impact_type:list')
+
+
+class ImpactTypeUpdate(OwnerRequiredMixin, UpdateView):
+    template_name = 'settings/impact_add.html'
+    model = ImpactType
+    form_class = ImpactTypeForm
+    success_url = reverse_lazy('settings:metadata:impact_type:list')
+
+
+class ImpactTypeDelete(OwnerRequiredMixin, DeleteView):
+    template_name = 'object_delete.html'
+    model = ImpactType
+    success_url = reverse_lazy('settings:metadata:impact_type:list')
+
+
+class TimeHorizonView(LoginRequiredMixin, ListView):
+    template_name = 'settings/time_list.html'
+    model = TimeHorizon
+    context_object_name = 'time_horizons'
+
+
+class TimeHorizonAdd(AuthorMixin, LoginRequiredMixin, CreateView):
+    template_name = 'settings/time_add.html'
+    form_class = TimeHorizonForm
+    success_url = reverse_lazy('settings:metadata:time_horizon:list')
+
+
+class TimeHorizonUpdate(OwnerRequiredMixin, UpdateView):
+    template_name = 'settings/time_add.html'
+    model = TimeHorizon
+    form_class = TimeHorizonForm
+    success_url = reverse_lazy('settings:metadata:time_horizon:list')
+
+
+class TimeHorizonDelete(OwnerRequiredMixin, DeleteView):
+    template_name = 'object_delete.html'
+    model = TimeHorizon
+    success_url = reverse_lazy('settings:metadata:time_horizon:list')

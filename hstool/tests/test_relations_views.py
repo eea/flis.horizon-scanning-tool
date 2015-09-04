@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from hstool.models import Relation
 from .factories import (
     UserFactory, RelationFactory, AssessmentFactory, DriverFactory,
-    FigureFactory, EnvironmentalThemeFactory, ImpactFactory
+    FigureFactory, EnvironmentalThemeFactory, ImpactFactory, SteepCatFactory
 )
 from . import HSWebTest
 
@@ -64,8 +64,8 @@ class RelationsUpdate(HSWebTest):
     def test_successfully_updated(self):
         theme = EnvironmentalThemeFactory()
         driver2 = DriverFactory(
-            author_id='a', name='longy d', short_name='shorty d', type=2,
-            trend_type=2, steep_category='T', time_horizon=5,
+            author_id='a', name='longy d', short_name='shorty d',
+            trend_type=2
         )
         impact2 = ImpactFactory(short_name='a', name='longy i', description='desc')
         figure = FigureFactory()

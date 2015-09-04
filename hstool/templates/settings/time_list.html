@@ -1,0 +1,38 @@
+{% extends 'settings/metadata.html' %}
+
+{% block content %}
+
+  <h3>Time horizons</h3>
+
+   </br>
+     <a class="btn btn-primary" href="{% url 'settings:metadata:time_horizon:add' %}">
+       Add new Time horizon</a>
+   </br>
+
+  <table id="objects_listing"
+             class="table table-condensed table-bordered table-hover">
+        <thead>
+        <tr>
+          <th>Title</th>
+		  <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for time_horizon in time_horizons %}
+          <tr>
+            <td>
+			  <a href="{% url 'settings:metadata:time_horizon:update' time_horizon.id %}">
+			    {{time_horizon.title }} </a>
+			</td>
+			<td>
+			  <a id="delete"
+			    href="{% url 'settings:metadata:time_horizon:delete' time_horizon.id %}">
+                <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+              </a>
+			</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+{% endblock %}

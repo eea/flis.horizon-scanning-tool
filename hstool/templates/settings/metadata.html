@@ -1,0 +1,19 @@
+{% extends '_layout.html' %}
+
+{% block group-content %}
+</br>
+<div class="btn-group" role="group">
+
+  <a href="{% url 'settings:metadata:doc_type:list' %}"
+	        class="btn btn-default" role="button">Driver of Change types</a>
+  <a href="{% url 'settings:metadata:steep_category:list' %}"
+		    class="btn btn-default" role="button">STEEP Categories</a>
+
+  <a href="{% url 'settings:metadata:impact_type:list' %}"
+	        class="btn btn-default" role="button">Impact types</a>
+
+  <a href="{% url 'settings:metadata:time_horizon:list' %}"
+	        class="btn btn-default" role="button">Time horizons</a>
+
+</div>
+{% endblock %}
