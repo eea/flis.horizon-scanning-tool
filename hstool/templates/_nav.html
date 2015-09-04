@@ -7,13 +7,12 @@
   </li>
 
   {% if user.is_authenticated %}
-    <li class="{% active 'assessments/(.*)$' %} {% active 'assessments/(.*)$' %}">
-      <a href="{% url 'assessments:list' %}">Assessments</a>
-     </li>
     <li class="{% active 'docs/(.*)$' %}">
       <a href="{% url 'drivers:list' %}">Drivers of Change</a>
     </li>
-
+    <li class="{% active 'assessments/(.*)$' %} {% active 'assessments/(.*)$' %}">
+      <a href="{% url 'assessments:list' %}">Drivers of Change Assessments</a>
+    </li>
   {% endif %}
 
   {% get_metadata_url as metadata_url %}
