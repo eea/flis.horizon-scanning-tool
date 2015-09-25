@@ -101,7 +101,7 @@ def assessments_relations(request, pk):
     nodes = []
     for relation in relations:
         nodes.append(relation.source)
-        nodes.append(relation.destination)
+        nodes.append(relation.destination.get_real_element())
     nodes = sorted(set(nodes), key=lambda el: el.id)
 
     data = {'nodes': [], 'links': []}

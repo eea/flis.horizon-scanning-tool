@@ -127,6 +127,17 @@ class GenericElement(Model):
             return False
         return False
 
+    def get_real_element(self):
+        if self.is_driver():
+            return self.driverofchange
+        if self.is_impact():
+            return self.impact
+        OTHER_TYPES = ('source', 'figure', 'indicator', 'implication')
+        for t in OTHER_TYPES:
+            if hasattr(self, t):
+                return getattr(self, t)
+        return self
+
     def __unicode__(self):
         return self.name
 
