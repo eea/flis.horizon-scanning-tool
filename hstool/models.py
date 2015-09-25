@@ -134,8 +134,10 @@ class GenericElement(Model):
             return self.impact
         OTHER_TYPES = ('source', 'figure', 'indicator', 'implication')
         for t in OTHER_TYPES:
-            if hasattr(self, t):
+            try:
                 return getattr(self, t)
+            except:
+                pass
         return self
 
     def __unicode__(self):
