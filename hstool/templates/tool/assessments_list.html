@@ -43,7 +43,7 @@
             <td>{{ assessment.author_id }}</td>
             <!--<td>{{ assessment.added }}</td>-->
             <td>{{ assessment.draft|yesno:"Draft,Published" }}</td>
-            <td>
+            <td nowrap>
               <a href="{% url 'assessments:detail' assessment.id %}">
                   <span class="glyphicon glyphicon-pencil"></span>&nbsp;Edit
               </a>
