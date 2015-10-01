@@ -166,7 +166,7 @@ class Figure(GenericElement, SourcesMixin):
 class Indicator(GenericElement, SourcesMixin):
     theme = ForeignKey('common.EnvironmentalTheme')
     start_date = DateField(editable=True, null=True, blank=True)
-    end_date = DateField(editable=True)
+    end_date = DateField(editable=True, null=True, blank=True)
     assessment = TextField(null=True, blank=True)
     assessment_author = CharField(max_length=64, null=True, blank=True)
 
