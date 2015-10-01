@@ -1,28 +1,22 @@
 {% extends '_layout.html' %}
+{% load staticfiles %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
 
  <div class="container-fluid">
-    </br>
+   <div class="page-header">
     {% if not user.is_authenticated %}
       <p>The application is not available to anonymous users, please login.</p>
     {% else %}
-     </br>
-     <div class="page-header">
+       <img src="{% static "home.png" %}" width="460" align="left" />
        <p>Horizon Scanning is an intelligence-gathering method aimed at exploring new and unexpected as well as known and persistent challenges and trends that drive environmental change.</p>
        <p>The aim of this tool is to identify and provide a framework for reporting on external drivers of change that can have a significant impact on the European environment. Knowledge is gathered through EIONET (link to the web site: http://www.eionet.europa.eu/partners) and EEA common intelligence. Results can be used in strategic policy making and forward-looking environmental assessments, and as an input for other foresight activities, for example scenarios building.</p>
        <p>With this tool users are able to identify drivers of change (trends, megatrends, uncertainties, wild card, weak signals), describe them in textual form, by indicators or by other facts and figures, and identify their impacts. Users can, on the basis of their expert knowledge, also create their own assessments of the relationships between these elements.</p>
        <p>The tool is still in development, which will continue through 2016. Testing by users at this stage will help to sharpen and steer its evolution.</p>
-    </div>
+   {% endif %}
   </div>
-
-  <div class="container-fluid">
-    <img src="/static/dummy.png"/>
-  </div>
-{% endif %}
-
  </div>
 
 {% endblock %}
