@@ -17,7 +17,11 @@
         				{% if field|is_filefield %}
 	            				{{ field }}
         				{% else %}
-        	    				{% render_field field class="form-control" %}
+                      {% if field.name|slice:"-4:" == "date" %}
+        	    				  {% render_field field class="form-control datetimepicker" %}
+                      {% else %}
+        	    	  			{% render_field field class="form-control" %}
+        				      {% endif %}
         				{% endif %}
         				{{ field.errors }}
 				</div>
@@ -25,3 +29,13 @@
 		</div>
 	{% endfor %}
 </form>
+
+<script type="text/javascript">
+  $(function () {
+    $('.datetimepicker').datetimepicker({
+      language: 'en',
+      pickTime: false,
+      format: 'DD MMMM YYYY',
+    });
+  });
+</script>
