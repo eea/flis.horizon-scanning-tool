@@ -1,0 +1,29 @@
+{% extends 'frame.html' %}
+{% load assets %}
+
+{% block head %}
+  {% assets "css" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+  {% assets "js" %}
+    <script src="{{ ASSET_URL }}"></script>
+  {% endassets %}
+
+  <title>
+    {% block title %}
+      Horizon Scanning Tool
+    {% endblock %}
+  </title>
+{% endblock %}
+
+
+{% block zope_content %}
+
+  <div class="content clearfix">
+  	{% block group-content %}{% endblock %}
+    {% block content %}{% endblock %}
+  </div>
+
+  {% block scripts %}{% endblock %}
+
+{% endblock %}

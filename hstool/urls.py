@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from django.contrib import admin
-from hstool import views
+from hstool import views, public
 
 
 admin.autodiscover()
@@ -148,6 +148,11 @@ entries_urls = patterns(
     url(r'^delete/(?P<pk>\d+)/$', views.UserEntriesDelete.as_view(), name='delete'),
 )
 
+public_urls = patterns(
+    '',
+    url(r'^drivers-change', public.DocList.as_view(), name='doc_list'),
+)
+
 urlpatterns = patterns(
     '',
     url(r'^$', views.HomeView.as_view(), name='home_view'),
@@ -176,6 +181,8 @@ urlpatterns = patterns(
     url(r'^_lastseencount/$', 'frame.utils.get_objects_from_last_seen_count'),
 
     url(r'^entries/', include(entries_urls, namespace='entries')),
+
+    url(r'^public/', include(public_urls, namespace='public')),
 
     url(r'^admin/', include(admin.site.urls)),
 
