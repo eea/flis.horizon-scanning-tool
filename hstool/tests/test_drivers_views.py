@@ -38,16 +38,16 @@ class DriversList(HSWebTest):
             resp.pyquery('#objects_listing tbody tr td:eq(2)').text(),
             driver1.steep_category.title
         )
+        # self.assertEqual(
+        #     resp.pyquery('#objects_listing tbody tr td:eq(3)').text(),
+        #     driver1.time_horizon.title
+        # )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(3)').text(),
-            driver1.time_horizon.title
-        )
-        self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(4)').text(),
+            resp.pyquery('#objects_listing tbody tr td:eq(5)').text(),
             str(driver1.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(6) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(7) a:eq(1)').attr('href'),
             reverse('drivers:delete', args=(driver1.pk, ))
         )
 
@@ -75,16 +75,16 @@ class DriversList(HSWebTest):
             resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(2)').text(),
             driver1.steep_category.title
         )
+        # self.assertEqual(
+        #     resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(3)').text(),
+        #     driver1.time_horizon.title
+        # )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(3)').text(),
-            driver1.time_horizon.title
-        )
-        self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(4)').text(),
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(5)').text(),
             str(driver1.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(6) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(7) a:eq(1)').attr('href'),
             reverse('drivers:delete', args=(driver1.pk, ))
         )
         self.assertEqual(
@@ -104,16 +104,16 @@ class DriversList(HSWebTest):
             resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(2)').text(),
             driver2.steep_category.title
         )
+        # self.assertEqual(
+        #     resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(3)').text(),
+        #     driver2.time_horizon.title
+        # )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(3)').text(),
-            driver2.time_horizon.title
-        )
-        self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(4)').text(),
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(5)').text(),
             str(driver2.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(6) a')
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(7) a:eq(1)')
             .attr('href'),
             reverse('drivers:delete', args=(driver2.pk, ))
         )

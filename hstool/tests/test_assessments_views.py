@@ -35,7 +35,7 @@ class AssessmentsList(HSWebTest):
             str(assessment1.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr td:eq(5) a').attr('href'),
+            resp.pyquery('#objects_listing tbody tr td:eq(4) a:eq(1)').attr('href'),
             reverse('assessments:delete', args=(assessment1.pk, ))
         )
 
@@ -62,7 +62,7 @@ class AssessmentsList(HSWebTest):
             str(assessment1.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(5) a')
+            resp.pyquery('#objects_listing tbody tr:eq(0) td:eq(4) a:eq(1)')
             .attr('href'),
             reverse('assessments:delete', args=(assessment1.pk, ))
         )
@@ -84,7 +84,7 @@ class AssessmentsList(HSWebTest):
             str(assessment2.author_id)
         )
         self.assertEqual(
-            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(5) a')
+            resp.pyquery('#objects_listing tbody tr:eq(1) td:eq(4) a:eq(1)')
             .attr('href'),
             reverse('assessments:delete', args=(assessment2.pk, ))
         )
