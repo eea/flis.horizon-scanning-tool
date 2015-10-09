@@ -482,7 +482,6 @@ class IndicatorsDelete(OwnerRequiredMixin, DeleteView):
 
 
 class GeoScopesRequired(JSONResponseMixin, AjaxResponseMixin, DetailView):
-
     model = GeographicalScope
 
     def get_object(self):
@@ -548,6 +547,38 @@ class AddModal(ModelMixin, AuthorMixin, LoginRequiredMixin, CreateView):
         return reverse(
             'modals:add_success', args=(self.model_name, self.object.id, )
         )
+
+
+class AddIndicatorsModal(AddModal):
+    def get_context_data(self, **kwargs):
+        context = super(AddIndicatorsModal, self).get_context_data(**kwargs)
+
+        if self.request.POST:
+            context['files_form'] = IndicatorFilesFormset(self.request.POST,
+                                                          self.request.FILES,
+                                                          instance=self.object)
+            context['empty_form'] = context['files_form'].empty_form
+        else:
+            context['files_form'] = IndicatorFilesFormset(instance=self.object)
+            context['empty_form'] = context['files_form'].empty_form
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        files_form = context['files_form']
+        if form.is_valid() and files_form.is_valid():
+            form.instance.author_id = self.author_id
+            self.object = form.save()
+            files_form.instance = self.object
+            files_form.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+    def dispatch(self, request, *args, **kwargs):
+        self.kwargs['model'] = 'indicators'
+        kwargs['model'] = 'indicators'
+        return super(AddIndicatorsModal, self).dispatch(request, *args, **kwargs)
 
 
 class AddModalSuccess(ModelMixin, AuthorMixin, LoginRequiredMixin, DetailView):

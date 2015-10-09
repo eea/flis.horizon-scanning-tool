@@ -206,7 +206,9 @@ class FigureForm(ModelForm):
         super(FigureForm, self).__init__(*args, **kwargs)
         self.fields['sources'].widget.attrs["size"] = 6
         self.fields['url'].widget.attrs["size"] = 100
-        self.fields['theme'].queryset = (EnvironmentalTheme.objects.filter(is_deleted=False))
+        self.fields['theme'].queryset = (
+            EnvironmentalTheme.objects.filter(is_deleted=False)
+        )
 
     class Meta:
         model = Figure
@@ -292,8 +294,9 @@ class IndicatorForm(GeoScopeForm):
             "assessment_author": _("Assessment author"),
         }
 
-IndicatorFilesFormset = inlineformset_factory(Indicator, IndicatorFiles, extra=1,
-                                              max_num=5)
+IndicatorFilesFormset = inlineformset_factory(
+    Indicator, IndicatorFiles, extra=1, max_num=5,
+)
 
 
 class SteepCategoryForm(ModelForm):

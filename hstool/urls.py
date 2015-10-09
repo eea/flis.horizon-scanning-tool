@@ -133,6 +133,7 @@ modals_urls = patterns(
     '',
     url(r'^detail/(?P<assessment_pk>\d+)/(?P<model>\w+)/(?P<pk>\d+)/$',
         views.ViewModal.as_view(), name='relations_detail'),
+    url(r'^add/indicators/$', views.AddIndicatorsModal.as_view(), name='add'),
     url(r'^add/(?P<model>\w+)/$', views.AddModal.as_view(), name='add'),
     url(r'^add/success/(?P<model>\w+)/(?P<pk>\d+)$',
         views.AddModalSuccess.as_view(),
