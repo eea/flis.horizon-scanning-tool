@@ -11,4 +11,4 @@ raven==5.1.1
 requests==2.2.1
 webassets==0.10
 wsgiref==0.1.2
-mysql==0.0.1
+psycopg2==2.6.1
