@@ -13,6 +13,7 @@
 				<th>STEEP category</th>
         <th>Indicators</th>
         <th>Impacts</th>
+        <th>Geographical coverage</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -36,6 +37,10 @@
               <li>{{ impact }}</li>
               {% endfor %}
             </ul>
+          </td>
+          <td>
+            {{ driver.geographical_scope }}
+            {% if driver.country %}({{ driver.country }}){% endif %}
           </td>
 				</tr>
 			{% endfor %}

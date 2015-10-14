@@ -29,6 +29,7 @@
 				<!--<th>Time horizon</th>-->
         <th>Indicators</th>
         <th>Impacts</th>
+        <th>Geographical coverage</th>
 				<th>Added by</th>
 				<th>Status</th>
 				<th></th>
@@ -56,6 +57,10 @@
               <li>{{ impact }}</li>
               {% endfor %}
             </ul>
+          </td>
+          <td>
+            {{ driver.geographical_scope }}
+            {% if driver.country %}({{ driver.country }}){% endif %}
           </td>
 					<td>{{ driver.author_id }}</td>
 					<td>{{ driver.draft|yesno:"Draft,Published" }}</td>
