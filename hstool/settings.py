@@ -133,7 +133,14 @@ FRAME_SEEN_EXCLUDE = ('/_lastseencount/', )
 
 # set this variable to the file types accepted when uploading facts and figures.
 # any type is accepted if it is set to be the empty list [].
-SUPPORTED_FILES_FACTS_AND_FIGURES = ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+SUPPORTED_FILES_FACTS_AND_FIGURES = [
+    'application/pdf', 'image/jpg', 'image/jpeg', 'image/png', 'image/gif',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/msword',
+    'application/vnd.ms-excel',
+    'application/vnd.ms-powerpoint',
+]
 
 METADATA_URL = ''
 

@@ -191,8 +191,18 @@ class DriverForm(ModelForm):
 
 
 def _file_help_text():
-    def _get_extension(file_name, separator='/'):
-        return '.' + file_name.split(separator)[1]
+    def _get_extension(content_type, separator='/'):
+        if content_type.endswith('msword'):
+            return '.doc'
+        if content_type.endswith('wordprocessingml.document'):
+            return '.docx'
+        if content_type.endswith('spreadsheetml.sheet'):
+            return '.xlsx'
+        if content_type.endswith('ms-excel'):
+            return '.xls'
+        if content_type.endswith('ms-powerpoint'):
+            return '.ppt'
+        return '.' + content_type.split(separator)[1]
 
     text = 'Supported file types: '
     file_types = settings.SUPPORTED_FILES_FACTS_AND_FIGURES
