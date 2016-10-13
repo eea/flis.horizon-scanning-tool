@@ -54,7 +54,11 @@ target/
 
 *.sqlite3
 hstool/local_settings.py
+hstool/test_settings.py
 fabfile/env.ini
+hstool/static/.webassets-cache/
+hstool/static/packed.css
+hstool/static/packed.js
 
 #Media file
 media/

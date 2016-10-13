@@ -2,8 +2,6 @@ from django.forms.models import ModelForm, inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.forms import ModelChoiceField
-from django.forms.extras.widgets import SelectDateWidget
-from datetime import datetime
 
 from hstool.models import (
     Source, DriverOfChange, Figure, Indicator,
@@ -73,16 +71,17 @@ class SourceForm(ModelForm):
 
     def clean(self):
         cleaned_data = super(SourceForm, self).clean()
+        error_msg = "This field must be an year."
         try:
             self._errors['published_year']
         except KeyError:
             try:
                 year = int(cleaned_data['published_year'])
                 if year not in range(1000, 9999):
-                    self._errors['published_year'] = "This field must be an year."
+                    self._errors['published_year'] = error_msg
                     del cleaned_data['published_year']
             except ValueError:
-                self._errors['published_year'] = "This field must be an year."
+                self._errors['published_year'] = error_msg
                 del cleaned_data['published_year']
         return cleaned_data
 
@@ -305,7 +304,7 @@ class IndicatorForm(GeoScopeForm):
         }
 
 IndicatorFilesFormset = inlineformset_factory(
-    Indicator, IndicatorFiles, extra=1, max_num=5,
+    Indicator, IndicatorFiles, extra=1, max_num=5, fields='__all__',
 )
 
 

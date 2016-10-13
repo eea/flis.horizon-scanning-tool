@@ -1,12 +1,12 @@
 from factory.django import DjangoModelFactory
 from factory import SubFactory
-from datetime import  date
 
 from django.contrib.auth.models import User
 
 from hstool.models import (
     Assessment, DriverOfChange, Figure, Indicator, Source, Relation,
-    Implication, Impact, SteepCategory, DriverOfChangeType, ImpactType, TimeHorizon
+    Implication, Impact, SteepCategory, DriverOfChangeType, ImpactType,
+    TimeHorizon,
 )
 from flis_metadata.common.models import (
     Country, EnvironmentalTheme, GeographicalScope
@@ -14,57 +14,75 @@ from flis_metadata.common.models import (
 
 
 class UserFactory(DjangoModelFactory):
-    FACTORY_FOR = User
+
+    class Meta:
+        model = User
     username = 'username'
 
 
 class GeoScopeFactory(DjangoModelFactory):
-    FACTORY_FOR = GeographicalScope
+
+    class Meta:
+        model = GeographicalScope
 
 
 class CountryFactory(DjangoModelFactory):
-    FACTORY_FOR = Country
+
+    class Meta:
+        model = Country
 
     iso = 'EN'
     name = 'England'
 
 
 class EnvironmentalThemeFactory(DjangoModelFactory):
-    FACTORY_FOR = EnvironmentalTheme
+
+    class Meta:
+        model = EnvironmentalTheme
 
     title = 'title'
 
 
 class SteepCatFactory(DjangoModelFactory):
-    FACTORY_FOR = SteepCategory
+
+    class Meta:
+        model = SteepCategory
 
     author_id = 'author_id'
     title = 'Economical'
 
 
 class DriverTypeFactory(DjangoModelFactory):
-    FACTORY_FOR = DriverOfChangeType
+
+    class Meta:
+        model = DriverOfChangeType
 
     author_id = 'author_id'
     title = 'Trends'
 
 
 class ImpactTypeFactory(DjangoModelFactory):
-    FACTORY_FOR = ImpactType
+
+    class Meta:
+        model = ImpactType
 
     author_id = 'author_id'
     title = 'Risk'
 
 
 class TimeHorizonFactory(DjangoModelFactory):
-    FACTORY_FOR = TimeHorizon
+
+    class Meta:
+        model = TimeHorizon
 
     author_id = 'author_id'
     title = '20 years'
 
 
 class AssessmentFactory(DjangoModelFactory):
-    FACTORY_FOR = Assessment
+
+    class Meta:
+        model = Assessment
 
     author_id = 'author_id'
     title = 'title'
@@ -72,7 +90,9 @@ class AssessmentFactory(DjangoModelFactory):
 
 
 class DriverFactory(DjangoModelFactory):
-    FACTORY_FOR = DriverOfChange
+
+    class Meta:
+        model = DriverOfChange
 
     author_id = 'author_id'
     short_name = 'short name'
@@ -83,7 +103,9 @@ class DriverFactory(DjangoModelFactory):
 
 
 class SourceFactory(DjangoModelFactory):
-    FACTORY_FOR = Source
+
+    class Meta:
+        model = Source
 
     author_id = 'author_id'
     name = 'title'
@@ -96,7 +118,9 @@ class SourceFactory(DjangoModelFactory):
 
 
 class FigureFactory(DjangoModelFactory):
-    FACTORY_FOR = Figure
+
+    class Meta:
+        model = Figure
 
     author_id = 'author_id'
     name = 'name'
@@ -106,14 +130,18 @@ class FigureFactory(DjangoModelFactory):
 
 
 class RelationFactory(DjangoModelFactory):
-    FACTORY_FOR = Relation
+
+    class Meta:
+        model = Relation
 
     description = 'relation description'
     relationship_type = 1
 
 
 class ImplicationFactory(DjangoModelFactory):
-    FACTORY_FOR = Implication
+
+    class Meta:
+        model = Implication
 
     author_id = 'author_id'
     name = 'title'
@@ -121,7 +149,9 @@ class ImplicationFactory(DjangoModelFactory):
 
 
 class ImpactFactory(DjangoModelFactory):
-    FACTORY_FOR = Impact
+
+    class Meta:
+        model = Impact
 
     short_name = 'short name'
     name = 'long name'
@@ -129,7 +159,9 @@ class ImpactFactory(DjangoModelFactory):
 
 
 class IndicatorFactory(DjangoModelFactory):
-    FACTORY_FOR = Indicator
+
+    class Meta:
+        model = Indicator
 
     name = 'title'
     theme = SubFactory(EnvironmentalThemeFactory)

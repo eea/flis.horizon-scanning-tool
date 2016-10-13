@@ -1,4 +1,3 @@
-from datetime import datetime
 from django.db.models import (
     Model, CharField, IntegerField, TextField, ForeignKey, BooleanField,
     ManyToManyField, FileField, DateField,
@@ -54,14 +53,14 @@ class ContentTypeRestrictedFileField(FileField):
 
 
 class SourcesMixin(Model):
-    sources = ManyToManyField('Source', blank=True, null=True)
+    sources = ManyToManyField('Source', blank=True)
 
     class Meta:
         abstract = True
 
 
 class FiguresMixin(Model):
-    figures = ManyToManyField('Figure', blank=True, null=True)
+    figures = ManyToManyField('Figure', blank=True)
 
     class Meta:
         abstract = True
@@ -108,8 +107,7 @@ class GenericElement(Model):
                                     null=True, blank=True)
     country = ForeignKey('common.Country', null=True, blank=True)
     url = CharField(max_length=256, blank=True, null=True)
-    added = DateTimeField(auto_now_add=True, editable=False,
-                          default=datetime.now)
+    added = DateTimeField(auto_now_add=True, editable=False)
 
     def is_driver(self):
         try:
@@ -189,20 +187,22 @@ class DriverOfChange(GenericElement, FiguresMixin, SourcesMixin):
     time_horizon = ForeignKey('TimeHorizon', related_name='driver_time')
     summary = TextField(null=True, blank=True)
 
-    impacts = ManyToManyField('Impact', blank=True, null=True)
-    implications = ManyToManyField('Implication', blank=True, null=True)
-    indicators = ManyToManyField('Indicator', blank=True, null=True)
+    impacts = ManyToManyField('Impact', blank=True)
+    implications = ManyToManyField('Implication', blank=True)
+    indicators = ManyToManyField('Indicator', blank=True)
 
 
 class Relation(FiguresMixin, Model):
     draft = BooleanField(default=True)
     assessment = ForeignKey('Assessment', related_name='relations')
     source = ForeignKey('DriverOfChange', related_name='source_relations')
-    destination = ForeignKey('GenericElement', related_name='dest_relations', blank=True)
-    relationship_type = IntegerField(choices=RELATION_TYPE_CHOICES, null=True, blank=True)
+    destination = ForeignKey('GenericElement', related_name='dest_relations',
+                             blank=True)
+    relationship_type = IntegerField(choices=RELATION_TYPE_CHOICES, null=True,
+                                     blank=True)
     description = TextField(max_length=2048, null=True, blank=True)
 
-    indicators = ManyToManyField('Indicator', blank=True, null=True)
+    indicators = ManyToManyField('Indicator', blank=True)
 
     def __unicode__(self):
         return u"%s -> %s" % (self.source, self.destination)
@@ -213,8 +213,7 @@ class Assessment(Model):
     author_id = CharField(max_length=64)
     title = CharField(max_length=512)
     description = TextField(null=True, blank=True)
-    added = DateTimeField(auto_now_add=True, editable=False,
-                          default=datetime.now)
+    added = DateTimeField(auto_now_add=True, editable=False)
     geographical_scope = ForeignKey('common.GeographicalScope',
                                     null=True, blank=True)
     country = ForeignKey('common.Country', null=True, blank=True)
@@ -249,8 +248,8 @@ class Implication(GenericElement, SourcesMixin):
 
 
 class Impact(GenericElement, SourcesMixin):
-    impact_type = ForeignKey('ImpactType', related_name='impact_type', blank=True,
-                             null=True)
+    impact_type = ForeignKey('ImpactType', related_name='impact_type',
+                             blank=True, null=True)
 
     steep_category = ForeignKey('SteepCategory', related_name='impact_category',
                                 blank=True, null=True)
