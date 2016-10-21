@@ -35,8 +35,8 @@ be run as an unprivileged user in the product directory:
 1.Clone the repository:
 
 
-    git clone git@github.com:eea/flis.horizon-scanning-tool.git -o origin horizon-scanning-tool
-    cd horizon-scanning-tool
+    git clone git@github.com:eea/flis.horizon-scanning-tool.git -o origin horizon-scanning
+    cd horizon-scanning
 
 2.1.Create & activate a virtual environment:
 
