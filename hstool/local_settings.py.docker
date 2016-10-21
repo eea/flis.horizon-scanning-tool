@@ -12,7 +12,7 @@ DATABASES = {
 }
 
 ALLOWED_HOSTS = eval(os.environ.get('ALLOWED_HOSTS', "['*']"))
-DEBUG = TEMPLATE_DEBUG = ASSETS_DEBUG = os.environ.get('DEBUG', '')
+DEBUG = TEMPLATE_DEBUG = ASSETS_DEBUG = eval(os.environ.get('DEBUG', 'False'))
 FORCE_SCRIPT_NAME = os.environ.get('FORCE_SCRIPT_NAME', '')
 FRAME_COOKIES = eval(os.environ.get('FRAME_COOKIES', '[]'))
 FRAME_URL = os.environ.get('FRAME_URL', '')
