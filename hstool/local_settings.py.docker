@@ -15,7 +15,7 @@ DATABASES = {
 HOST_NAME = METADATA_REMOTE_HOST = os.environ.get('HOST_NAME', '')
 SITE_ID = os.environ.get('SITE_ID', '')
 METADATA_ID = os.environ.get('METADATA_ID','')
-METADATA_REMOTE_PATH = os.path.join('/', SITE_ID, 'METADATA_ID')
+METADATA_REMOTE_PATH = os.path.join('/', SITE_ID, METADATA_ID)
 METADATA_URL = METADATA_REMOTE_HOST + METADATA_REMOTE_PATH
 APP_ID = os.environ.get('APP_ID', '')
 FRAME_PATH = os.environ.get('FRAME_PATH', '')
