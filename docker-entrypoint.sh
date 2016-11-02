@@ -2,7 +2,7 @@
 
 crontab ./crontab.cfg
 cron
-./manage.py migrate
+./manage.py migrate --fake-initial
 ./manage.py loadfixtures
 ./manage.py load_metadata_fixtures
 ./manage.py collectstatic --noinput
