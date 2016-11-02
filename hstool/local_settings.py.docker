@@ -19,7 +19,8 @@ METADATA_REMOTE_PATH = os.path.join('/', SITE_ID, METADATA_ID)
 METADATA_URL = METADATA_REMOTE_HOST + METADATA_REMOTE_PATH
 APP_ID = os.environ.get('APP_ID', '')
 FRAME_PATH = os.environ.get('FRAME_PATH', '')
-FRAME_URL = os.path.join(HOST_NAME, SITE_ID, FRAME_PATH, '')
+FRAME_URL = os.environ.get('FRAME_URL',
+                           os.path.join(HOST_NAME, SITE_ID, FRAME_PATH, ''))
 FORCE_SCRIPT_NAME = os.path.join('/', SITE_ID, APP_ID, '')
 STATIC_URL = os.path.join(HOST_NAME, SITE_ID, APP_ID, 'static', '')
 MEDIA_URL = os.path.join(HOST_NAME, SITE_ID, APP_ID, 'media', '')
