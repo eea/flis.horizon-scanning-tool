@@ -6,7 +6,8 @@ COPY requirements.txt requirements-dev.txt requirements-dep.txt /horizon_scannin
 WORKDIR horizon_scanning
 
 # Install requirements
-RUN apt-get -y install cron \
+RUN apt-get update -y\
+ && apt-get -y install --no-install-recommends cron \
  && pip install -U setuptools \
  && pip install -r requirements-dev.txt
 
