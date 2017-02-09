@@ -27,6 +27,7 @@ STATIC_URL = os.path.join(HOST_NAME, SITE_ID, APP_ID, 'static', '')
 MEDIA_URL = os.path.join(HOST_NAME, SITE_ID, APP_ID, 'media', '')
 MEDIA_ROOT = os.environ.get('MEDIA_ROOT', '/horizon-scanning/public/media/')
 STATIC_ROOT = os.environ.get('STATIC_ROOT', '')
+RAVEN_CONFIG = {'dsn': os.environ.get('DNS')}
 ALLOWED_HOSTS = ast.literal_eval(os.environ.get('ALLOWED_HOSTS', "['*']"))
 DEBUG = TEMPLATE_DEBUG = ASSETS_DEBUG = ast.literal_eval(os.environ.get('DEBUG', 'False'))
 FRAME_COOKIES = ast.literal_eval(os.environ.get('FRAME_COOKIES', '[]'))
