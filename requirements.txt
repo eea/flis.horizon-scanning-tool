@@ -1,5 +1,5 @@
 cssmin==0.2.0
-Django==1.10.2
+Django==1.11.29
 django-assets==0.12
 django-braces==1.9.0
 django-widget-tweaks==1.4.1
